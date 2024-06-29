@@ -12,3 +12,4 @@ __pycache__/
 unknown_errors.txt
 *.env
 venv/
+**/log.txt
