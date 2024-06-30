@@ -5,12 +5,12 @@ from pyrogram.enums import ChatMemberStatus, ParseMode
 
 from config import API_ID, API_HASH, BOT_TOKEN, LOGGER_GROUP_ID, LANGUAGE
 from strings import get_string
-from ..log import log
+from ..logger import log
 
 _ = get_string(LANGUAGE)
 
 
-class Tecna(Client):
+class Bot(Client):
     def __init__(self):
         super().__init__(
             f"{__name__}",

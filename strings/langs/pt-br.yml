@@ -3,3 +3,5 @@ name: 🇧🇷 Portuguese (Brazil)
 bot_1: "🟢 <b><u>{0}</u> foi iniciado(a).</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
 bot_2: "🔴 <b><u>{0}</u> foi parado(a).</b>"
 bot_3: "🟡 <b><u>{0}</u></b> não é <code>admin</code> do grupo <b>{1}</b>."
+
+assistant_1: "🟢 <b><u>{0}</u> foi iniciado(a).</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
