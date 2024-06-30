@@ -19,6 +19,7 @@ class Tecna(Client):
             bot_token=BOT_TOKEN,
             parse_mode=ParseMode.HTML,
             max_concurrent_transmissions=8,
+            in_memory=True,
         )
 
         self.id = None

@@ -10,6 +10,7 @@ def get_string(lang: str):
     return languages[lang]
 
 
+# load all languages present in the strings/langs folder
 for filename in os.listdir(r"./strings/langs/"):
     if "pt-br" not in languages:
         languages["pt-br"] = yaml.safe_load(
