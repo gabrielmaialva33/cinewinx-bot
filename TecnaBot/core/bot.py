@@ -1,17 +1,20 @@
 from pyrogram import Client, errors
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMemberStatus, ParseMode
 
 from config import API_ID, API_HASH, BOT_TOKEN, LOGGER_GROUP_ID
+from strings import get_string
 from ..log import log
 
 
-class Winx(Client):
+class Tecna(Client):
     def __init__(self):
         super().__init__(
-            "WinxBot",
+            f"{__name__}",
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
+            parse_mode=ParseMode.HTML,
+            max_concurrent_transmissions=8,
         )
 
         self.id = None
@@ -26,8 +29,11 @@ class Winx(Client):
         self.username = self.me.username
         self.mention = self.me.mention
 
+        _ = get_string("pt-br")
+
         try:
-            await self.send_message(chat_id=LOGGER_GROUP_ID, text="WinxBot has started.")
+            text = _["bot_1"].format(self.mention, self.id, self.name, self.username)
+            await self.send_message(chat_id=LOGGER_GROUP_ID, text=text)
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
             log(__name__).error("LOGGER_GROUP_ID is invalid.")
         except errors.FloodWait as e:
@@ -40,11 +46,11 @@ class Winx(Client):
         bot = await self.get_chat_member(chat_id=LOGGER_GROUP_ID, user_id=self.id)
         group = await self.get_chat(LOGGER_GROUP_ID)
         if bot.status != ChatMemberStatus.ADMINISTRATOR:
-            log(__name__).error(f"WinxBot is not an admin in {group.title}.")
+            log(__name__).error(f"{self.name} is not an admin in {group.title}.")
             return await self.stop()
 
-        log(__name__).info("WinxBot has started.")
+        log(__name__).info(f"{self.name} has started.")
 
     async def stop(self, *args):
         await super().stop()
-        log(__name__).info("WinxBot has stopped.")
+        log(__name__).info(f"{self.name} has stopped.")

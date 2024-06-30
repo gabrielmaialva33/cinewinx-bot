@@ -6,7 +6,7 @@ logging.basicConfig(
     format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
-        logging.FileHandler("winx-bot.log"),
+        logging.FileHandler(f"{__name__}.log"),
         logging.StreamHandler(),
     ],
 )

@@ -2,7 +2,7 @@ import asyncio
 
 from pyrogram import idle
 
-from WinxBot import app
+from TecnaBot import app
 
 
 async def init():

@@ -1,1 +1,1 @@
-### CINEWINX-BOT
+### TECNA-BOT
