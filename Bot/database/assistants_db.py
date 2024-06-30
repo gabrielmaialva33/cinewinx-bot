@@ -89,6 +89,12 @@ async def set_calls_assistant(chat_id) -> int:
 
 
 async def group_assistant(self, chat_id: int) -> int:
+    """
+    Get the assistant based on the chat_id
+    :param self:
+    :param chat_id:
+    :return int:
+    """
     from Bot.core.userbot import assistants
 
     assistant = assistant_dict.get(chat_id)
