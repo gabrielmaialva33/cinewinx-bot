@@ -2,7 +2,8 @@ import time
 
 from pyrogram import filters
 
-from config import OWNER_ID, MONGO_DB_URI
+from config import MONGO_DB_URI, OWNER_ID
+
 from .core.mongo import mongodb_sync
 from .logger import log
 

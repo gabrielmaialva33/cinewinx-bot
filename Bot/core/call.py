@@ -4,7 +4,7 @@ from pyrogram import Client
 from pytgcalls import PyTgCalls
 
 from Bot.database import group_assistant
-from config import STRING_SESSION_1, API_ID, API_HASH
+from config import API_HASH, API_ID, STRING_SESSION_1
 
 
 class Call(PyTgCalls):
@@ -17,6 +17,12 @@ class Call(PyTgCalls):
         )
         self.one = PyTgCalls(self.userbot1, cache_duration=100)
 
-    async def join_call(self, chat_id: int, original_chat_id: int, link: str, video: Union[bool, str] = None,
-                        image: Union[bool, str] = None):
+    async def join_call(
+        self,
+        chat_id: int,
+        original_chat_id: int,
+        link: str,
+        video: Union[bool, str] = None,
+        image: Union[bool, str] = None,
+    ):
         assistant = await group_assistant(self, chat_id)
