@@ -53,14 +53,14 @@ class UserBot(Client):
             except Exception as e:
                 log(__name__).error(f"An error occurred: {e}")
 
-            log(__name__).info(f"{self.name} has started.")
+            log(__name__).info(f"{self.name} assistant {assistants[-1]} has started.")
 
     async def stop(self):
         log(__name__).info("Stopping assistants.")
 
         try:
             if STRING_SESSION_1:
-                text = _["assistant_2"].format(self.one.name)
+                text = _["assistant_2"].format(self.one.mention)
                 await self.one.send_message(chat_id=LOGGER_GROUP_ID, text=text)
                 await self.one.stop()
         except Exception as e:

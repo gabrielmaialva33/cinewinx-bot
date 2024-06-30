@@ -4,3 +4,4 @@ from Bot.core.userbot import UserBot
 from .logger import log
 
 app = Bot()
+userbot = UserBot()

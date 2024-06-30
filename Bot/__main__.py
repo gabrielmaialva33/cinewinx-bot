@@ -2,14 +2,16 @@ import asyncio
 
 from pyrogram import idle
 
-from Bot import app
+from Bot import app, userbot
 
 
 async def init():
     await app.start()
+    await userbot.start()
 
     await idle()
 
+    await userbot.stop()
     await app.stop()
 
 

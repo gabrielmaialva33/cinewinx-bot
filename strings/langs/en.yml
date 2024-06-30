@@ -4,4 +4,5 @@ bot_1: "🟢 <b><u>{0}</u> has been started. </b>\n\n<b>ID</b>: <code>{1}</code>
 bot_2: "🔴 <b><u>{0}</u> has been stopped.</b>"
 bot_3: "🟡 <b><u>{0}</u></b> is not an <code>admin</code> of the group <b>{1}</b>."
 
-assistant_1: "🟢 <b><u>{0}</u> has been started. </b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Name</b>: {2}\n<b>Username</b>: @{3}"
+assistant_1: "👩🏻‍💼<b>The assistant <u>{0}</u> has been started.</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Name</b>: {2}\n<b>Username</b>: @{3}"
+assistant_2: "👩🏻‍💼<b>The assistant <u>{0}</u> has been stopped.</b>"
