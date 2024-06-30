@@ -1,9 +1,13 @@
+import os
+
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
 
-from config import API_ID, API_HASH, BOT_TOKEN, LOGGER_GROUP_ID
+from config import API_ID, API_HASH, BOT_TOKEN, LOGGER_GROUP_ID, LANGUAGE
 from strings import get_string
 from ..log import log
+
+_ = get_string(LANGUAGE)
 
 
 class Tecna(Client):
@@ -29,8 +33,6 @@ class Tecna(Client):
         self.username = self.me.username
         self.mention = self.me.mention
 
-        _ = get_string("pt-br")
-
         try:
             text = _["bot_1"].format(self.mention, self.id, self.name, self.username)
             await self.send_message(chat_id=LOGGER_GROUP_ID, text=text)
@@ -46,11 +48,14 @@ class Tecna(Client):
         bot = await self.get_chat_member(chat_id=LOGGER_GROUP_ID, user_id=self.id)
         group = await self.get_chat(LOGGER_GROUP_ID)
         if bot.status != ChatMemberStatus.ADMINISTRATOR:
+            await self.send_message(chat_id=LOGGER_GROUP_ID, text=_["bot_3"].format(self.mention, group.title))
             log(__name__).error(f"{self.name} is not an admin in {group.title}.")
             return await self.stop()
 
         log(__name__).info(f"{self.name} has started.")
 
     async def stop(self, *args):
+        await self.send_message(chat_id=LOGGER_GROUP_ID, text=_["bot_2"].format(self.mention))
         await super().stop()
         log(__name__).info(f"{self.name} has stopped.")
+        os.kill(os.getpid(), 9)

@@ -4,7 +4,7 @@ import logging
 logging.basicConfig(
     level=logging.DEBUG,
     format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
+    datefmt="%d/%m/%y %H:%M:%S",
     handlers=[
         logging.FileHandler(f"{__name__}.log"),
         logging.StreamHandler(),
