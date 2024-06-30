@@ -17,6 +17,7 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 # Bot settings
 LANGUAGE = getenv("LANGUAGE", "pt-br")
 LOGGER_GROUP_ID = int(getenv("LOGGER_GROUP_ID", None))
+OWNER_ID = int(getenv("OWNER_ID", None))
 
 # UserBot settings
 STRING_SESSION_1 = getenv("STRING_SESSION_1", None)

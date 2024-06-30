@@ -3,3 +3,7 @@ pyrogram
 tgcrypto
 asyncio
 pyyaml
+motor
+pymongo
+py-tgcalls
+ntgcalls

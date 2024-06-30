@@ -2,7 +2,6 @@ from pyrogram import Client, errors
 
 from config import API_HASH, API_ID, LANGUAGE, LOGGER_GROUP_ID, STRING_SESSION_1
 from strings import get_string
-
 from ..logger import log
 
 assistants = []
@@ -13,17 +12,20 @@ _ = get_string(LANGUAGE)
 
 class UserBot(Client):
     def __init__(self):
-        self.one = Client(
-            f"{__name__}Assistant1",
-            api_id=API_ID,
-            api_hash=API_HASH,
-            session_string=STRING_SESSION_1,
-            no_updates=True,
-        )
+        if STRING_SESSION_1:
+            self.one = Client(
+                f"{__name__}Assistant1",
+                api_id=API_ID,
+                api_hash=API_HASH,
+                session_string=STRING_SESSION_1,
+                no_updates=True,
+            )
 
-        self.one.id = None
-        self.one.username = None
-        self.one.mention = None
+            self.one.id = None
+            self.one.username = None
+            self.one.mention = None
+        else:
+            self.one = None
 
     async def start(self):
         log(__name__).info("Starting assistants.")

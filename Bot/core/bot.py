@@ -1,11 +1,11 @@
 import os
+import sys
 
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
 
 from config import API_HASH, API_ID, BOT_TOKEN, LANGUAGE, LOGGER_GROUP_ID
 from strings import get_string
-
 from ..logger import log
 
 _ = get_string(LANGUAGE)
@@ -40,12 +40,16 @@ class Bot(Client):
             await self.send_message(chat_id=LOGGER_GROUP_ID, text=text)
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
             log(__name__).error("LOGGER_GROUP_ID is invalid.")
+            sys.exit()
         except errors.FloodWait as e:
             log(__name__).error(f"FloodWait: {e.value} seconds.")
+            sys.exit()
         except errors.RPCError as e:
             log(__name__).error(f"RPCError: {e}")
+            sys.exit()
         except Exception as e:
             log(__name__).error(f"An error occurred: {e}")
+            sys.exit()
 
         bot = await self.get_chat_member(chat_id=LOGGER_GROUP_ID, user_id=self.id)
         group = await self.get_chat(LOGGER_GROUP_ID)
