@@ -3,13 +3,13 @@ from typing import Union
 
 from pyrogram import Client
 from pytgcalls import PyTgCalls
-from pytgcalls.exceptions import NoActiveGroupCall, AlreadyJoinedError
+from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import MediaStream
 
 from Bot.database import group_assistant
 from Bot.database.memory_db import get_audio_bitrate, get_video_bitrate
 from Bot.utils import AssistantErr
-from config import API_HASH, API_ID, STRING_SESSION_1, PRIVATE_BOT_MODE
+from config import API_HASH, API_ID, PRIVATE_BOT_MODE, STRING_SESSION_1
 
 
 class Call(PyTgCalls):
@@ -68,7 +68,7 @@ class Call(PyTgCalls):
                 logging.exception(e)
                 raise e
             try:
-                await assistant.play(chat_id,stream)
+                await assistant.play(chat_id, stream)
             except Exception as e:
                 logging.exception(e)
                 raise AssistantErr(f"Exception : {e}")
