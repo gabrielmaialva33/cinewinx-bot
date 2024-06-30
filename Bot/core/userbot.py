@@ -1,7 +1,8 @@
 from pyrogram import Client, errors
 
-from config import API_ID, API_HASH, STRING_SESSION_1, LOGGER_GROUP_ID, LANGUAGE
+from config import API_HASH, API_ID, LANGUAGE, LOGGER_GROUP_ID, STRING_SESSION_1
 from strings import get_string
+
 from ..logger import log
 
 assistants = []
@@ -39,7 +40,9 @@ class UserBot(Client):
             assistant_ids.append(self.one.id)
 
             try:
-                text = _["assistant_1"].format(self.one.mention, self.one.id, self.name, self.one.username)
+                text = _["assistant_1"].format(
+                    self.one.mention, self.one.id, self.name, self.one.username
+                )
                 await self.one.send_message(chat_id=LOGGER_GROUP_ID, text=text)
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 log(__name__).error("LOGGER_GROUP_ID is invalid.")
@@ -62,4 +65,3 @@ class UserBot(Client):
                 await self.one.stop()
         except Exception as e:
             log(__name__).error(f"An error occurred: {e}")
-            pass
