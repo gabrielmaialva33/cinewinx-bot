@@ -1,11 +1,15 @@
+import logging
 from typing import Union
 
 from pyrogram import Client
 from pytgcalls import PyTgCalls
+from pytgcalls.exceptions import NoActiveGroupCall, AlreadyJoinedError
+from pytgcalls.types import MediaStream
 
 from Bot.database import group_assistant
 from Bot.database.memory_db import get_audio_bitrate, get_video_bitrate
-from config import API_HASH, API_ID, STRING_SESSION_1
+from Bot.utils import AssistantErr
+from config import API_HASH, API_ID, STRING_SESSION_1, PRIVATE_BOT_MODE
 
 
 class Call(PyTgCalls):
@@ -29,3 +33,46 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, chat_id)
         audio_stream_quality = await get_audio_bitrate(chat_id)
         video_stream_quality = await get_video_bitrate(chat_id)
+
+        if video:
+            stream = MediaStream(
+                link,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
+            )
+        else:
+            if image and PRIVATE_BOT_MODE == str(True):
+                stream = MediaStream(
+                    link,
+                    image,
+                    audio_parameters=audio_stream_quality,
+                    video_parameters=video_stream_quality,
+                )
+            else:
+                stream = (
+                    MediaStream(
+                        link,
+                        audio_parameters=audio_stream_quality,
+                        video_parameters=video_stream_quality,
+                    )
+                    if video
+                    else MediaStream(link, audio_parameters=audio_stream_quality)
+                )
+
+        try:
+            await assistant.play(chat_id, stream)
+        except NoActiveGroupCall:
+            try:
+                await self.join_assistant(original_chat_id, chat_id)
+            except Exception as e:
+                logging.exception(e)
+                raise e
+            try:
+                await assistant.play(chat_id,stream)
+            except Exception as e:
+                logging.exception(e)
+                raise AssistantErr(f"Exception : {e}")
+
+        except AlreadyJoinedError as e:
+            logging.exception(e)
+            raise AssistantErr(f"Exception : {e}")
