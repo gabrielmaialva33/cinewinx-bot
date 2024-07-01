@@ -1,9 +1,9 @@
 import random
 
 from Bot import userbot
-from Bot.core.mongo import mongodb_async
+from Bot.core.mongo import mongodb
 
-db = mongodb_async.assistants
+db = mongodb.assistants
 assistant_dict = {}
 
 

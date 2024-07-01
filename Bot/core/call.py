@@ -1,15 +1,32 @@
 import logging
+from datetime import datetime, timedelta
 from typing import Union
 
+from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import MediaStream
 
-from Bot.database import group_assistant
-from Bot.database.memory_db import get_audio_bitrate, get_video_bitrate
+from Bot import app
+from Bot.database import group_assistant, get_assistant, get_audio_bitrate, get_video_bitrate, remove_active_video_chat, \
+    remove_active_chat, add_active_chat, music_on, add_active_video_chat, is_auto_end
+from Bot.misc import db
 from Bot.utils import AssistantErr
-from config import API_HASH, API_ID, PRIVATE_BOT_MODE, STRING_SESSION_1
+from config import API_HASH, API_ID, PRIVATE_BOT_MODE, STRING_SESSION_1, LANGUAGE
+from strings import get_string
+
+_ = get_string(LANGUAGE)
+
+auto_end = {}
+counter = {}
+AUTO_END_TIME = 1
+
+
+async def _clear_(chat_id: int):
+    db[chat_id] = []
+    await remove_active_video_chat(chat_id)
+    await remove_active_chat(chat_id)
 
 
 class Call(PyTgCalls):
@@ -23,14 +40,15 @@ class Call(PyTgCalls):
         self.one = PyTgCalls(self.userbot1, cache_duration=100)
 
     async def join_call(
-        self,
-        chat_id: int,
-        original_chat_id: int,
-        link: str,
-        video: Union[bool, str] = None,
-        image: Union[bool, str] = None,
+            self,
+            chat_id: int,
+            original_chat_id: int,
+            link: str,
+            video: Union[bool, str] = None,
+            image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
+        userbot = await get_assistant(chat_id)
         audio_stream_quality = await get_audio_bitrate(chat_id)
         video_stream_quality = await get_video_bitrate(chat_id)
 
@@ -72,7 +90,24 @@ class Call(PyTgCalls):
             except Exception as e:
                 logging.exception(e)
                 raise AssistantErr(f"Exception : {e}")
-
         except AlreadyJoinedError as e:
             logging.exception(e)
-            raise AssistantErr(f"Exception : {e}")
+            raise AssistantErr(_("assistant_3").format(userbot.mention))
+        except TelegramServerError as e:
+            logging.exception(e)
+            raise AssistantErr(_("tg_1"))
+        except Exception as e:
+            if "phone.CreateGroupCall" in str(e):
+                return await app.edit_text(_("call_2"))
+            else:
+                logging.exception(e)
+                raise AssistantErr(f"Exception : {e}")
+        await add_active_chat(chat_id)
+        await music_on(chat_id)
+        if video:
+            await add_active_video_chat(chat_id)
+        if await is_auto_end():
+            counter[chat_id] = {}
+            users = len(await assistant.get_participants(chat_id))
+            if users == 1:
+                auto_end[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)

@@ -6,3 +6,9 @@ bot_3: "🟡 <b><u>{0}</u></b> is not an <code>admin</code> of the group <b>{1}<
 
 assistant_1: "👩🏻‍💼<b>The assistant <u>{0}</u> has been started.</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Name</b>: {2}\n<b>Username</b>: @{3}"
 assistant_2: "👩🏻‍💼<b>The assistant <u>{0}</u> has been stopped.</b>"
+assistant_3: "👩🏻‍💼<b>The assistant <u>{0}</u></b> is already in the video call. If the problem persists, restart the call, or restart the bot."
+
+tg_1: "🔴 Telegram server error. Close the video call and try again."
+
+call_1: "📞 Video call started."
+call_2: "📞 No active video calls. Start a video call to use this command."

@@ -6,3 +6,9 @@ bot_3: "🟡 <b><u>{0}</u></b> não é <code>admin</code> do grupo <b>{1}</b>."
 
 assistant_1: "👩🏻‍💼<b>A assistente <u>{0}</u> foi iniciada.</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
 assistant_2: "👩🏻‍💼<b>A assistente <u>{0}</u> foi parada.</b>"
+assistant_3: "👩🏻‍💼<b>A assistente <u>{0}</u></b> já está na videochamada. Se o problema persistir, reinicie a chamada, ou reinicie a o bot."
+
+tg_1: "🔴 Erro no servidor do Telegram. Feche a videochamada e tente novamente."
+
+call_1: "📞 Chamada de vídeo iniciada."
+call_2: "📞 Sem chamadas de vídeo ativas. Inicie uma chamada de vídeo para usar este comando."

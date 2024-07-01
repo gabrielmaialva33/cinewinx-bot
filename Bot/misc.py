@@ -3,8 +3,7 @@ import time
 from pyrogram import filters
 
 from config import MONGO_DB_URI, OWNER_ID
-
-from .core.mongo import mongodb_sync
+from .core.mongo import py_mongodb
 from .logger import log
 
 SUDOERS = filters.user()
@@ -27,7 +26,7 @@ def sudo():
         for user_id in owner:
             SUDOERS.add(user_id)
     else:
-        sudoers_db = mongodb_sync.sudoers
+        sudoers_db = py_mongodb.sudoers
         sudoers = sudoers_db.find_one({"sudo": "sudo"})
         sudoers = [] if not sudoers else sudoers["sudoers"]
         for user_id in owner:
