@@ -9,11 +9,21 @@ from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import MediaStream
 
 from Bot import app
-from Bot.database import group_assistant, get_assistant, get_audio_bitrate, get_video_bitrate, remove_active_video_chat, \
-    remove_active_chat, add_active_chat, music_on, add_active_video_chat, is_auto_end
+from Bot.database import (
+    add_active_chat,
+    add_active_video_chat,
+    get_assistant,
+    get_audio_bitrate,
+    get_video_bitrate,
+    group_assistant,
+    is_auto_end,
+    music_on,
+    remove_active_chat,
+    remove_active_video_chat,
+)
 from Bot.misc import db
 from Bot.utils import AssistantErr
-from config import API_HASH, API_ID, PRIVATE_BOT_MODE, STRING_SESSION_1, LANGUAGE
+from config import API_HASH, API_ID, LANGUAGE, PRIVATE_BOT_MODE, STRING_SESSION_1
 from strings import get_string
 
 _ = get_string(LANGUAGE)
@@ -40,12 +50,12 @@ class Call(PyTgCalls):
         self.one = PyTgCalls(self.userbot1, cache_duration=100)
 
     async def join_call(
-            self,
-            chat_id: int,
-            original_chat_id: int,
-            link: str,
-            video: Union[bool, str] = None,
-            image: Union[bool, str] = None,
+        self,
+        chat_id: int,
+        original_chat_id: int,
+        link: str,
+        video: Union[bool, str] = None,
+        image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)
