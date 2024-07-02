@@ -1,9 +1,11 @@
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from typing import Union
 
 from ntgcalls import TelegramServerError
 from pyrogram import Client
+from pyrogram.errors import ChatAdminRequired, UserNotParticipant, UserAlreadyParticipant
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import MediaStream
@@ -30,6 +32,7 @@ _ = get_string(LANGUAGE)
 
 auto_end = {}
 counter = {}
+
 AUTO_END_TIME = 1
 
 
@@ -49,13 +52,64 @@ class Call(PyTgCalls):
         )
         self.one = PyTgCalls(self.userbot1, cache_duration=100)
 
+    async def join_assistant(self, original_chat_id: int, chat_id: int):
+        assistant = await get_assistant(chat_id)
+        try:
+            try:
+                get = await app.get_chat_member(chat_id, assistant.id)
+            except ChatAdminRequired:
+                raise AssistantErr(_["call_3"])
+            if get.status == "banned" or get.status == "kicked":
+                try:
+                    await app.unban_chat_member(chat_id, assistant.id)
+                except Exception as e:
+                    logging.exception(e)
+                    raise AssistantErr(_["call_4"].format(assistant.id, assistant.name, assistant.mention))
+        except UserNotParticipant:
+            chat = await app.get_chat(chat_id)
+            if chat.username:
+                try:
+                    await assistant.join_chat(chat.username)
+                except UserAlreadyParticipant:
+                    pass
+                except Exception as e:
+                    raise AssistantErr(_["call_5"].format(e))
+            else:
+                try:
+                    try:
+                        try:
+                            invite_link = chat.invite_link
+                            if invite_link is None:
+                                invite_link = await app.export_chat_invite_link(chat_id)
+                        except Exception as e:
+                            logging.exception(e)
+                            invite_link = await app.export_chat_invite_link(chat_id)
+                    except ChatAdminRequired:
+                        raise AssistantErr(_["call_6"])
+                    except Exception as e:
+                        raise AssistantErr(e)
+                    m = await app.send_message(
+                        original_chat_id, _["call_7"].format(assistant.name, chat.title)
+                    )
+                    if invite_link.startswith("https://t.me/+"):
+                        invite_link = invite_link.replace(
+                            "https://t.me/+", "https://t.me/joinchat/"
+                        )
+                    await asyncio.sleep(1)
+                    await assistant.join_chat(invite_link)
+                    await m.edit_text(_["call_8"].format(app.mention))
+                except UserAlreadyParticipant:
+                    pass
+                except Exception as e:
+                    raise AssistantErr(_["call_5"].format(e))
+
     async def join_call(
-        self,
-        chat_id: int,
-        original_chat_id: int,
-        link: str,
-        video: Union[bool, str] = None,
-        image: Union[bool, str] = None,
+            self,
+            chat_id: int,
+            original_chat_id: int,
+            link: str,
+            video: Union[bool, str] = None,
+            image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)

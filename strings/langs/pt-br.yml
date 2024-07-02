@@ -12,3 +12,9 @@ tg_1: "🔴 Erro no servidor do Telegram. Feche a videochamada e tente novamente
 
 call_1: "📞 Chamada de vídeo iniciada."
 call_2: "📞 Sem chamadas de vídeo ativas. Inicie uma chamada de vídeo para usar este comando."
+call_3: "📜 <b><u>{0}</u></b> precisa ser um <code>admin</code> do grupo para poder convidar a assistente para a chamada de vídeo."
+call_4: "🚫 A assistente foi banida do grupo ou canal. Por favor, desbanie a assistente para poder usá-la\n\n<b>ID</b>: <code>{0}</code>\n<b>Nome</b>: {1}\n<b>Usuário</b>: @{2}"
+call_5: "❌ Um error ocorreu ao tentar adicionar a assistente, por favor, tente novamente mais tarde. Motivo: <code>{0}</code>"
+call_6: "⛔ <b><u>{0}</u></b> precisa da permissão de <code>convidar usuários por link</code> para poder adicionar a assistente à chamada de vídeo."
+call_7: "👩🏻‍💼<b>A assistente entrará em 5 segundos. Aguarde...</b>"
+call_8: "👩🏻‍💼<b>A assistente <u>{0}</u> entrou no grupo. Iniciando a stream...</b>"

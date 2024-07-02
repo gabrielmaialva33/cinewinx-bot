@@ -7,3 +7,4 @@ motor
 pymongo
 py-tgcalls
 ntgcalls
+asyncio
