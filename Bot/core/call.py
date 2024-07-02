@@ -5,7 +5,11 @@ from typing import Union
 
 from ntgcalls import TelegramServerError
 from pyrogram import Client
-from pyrogram.errors import ChatAdminRequired, UserNotParticipant, UserAlreadyParticipant
+from pyrogram.errors import (
+    ChatAdminRequired,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import MediaStream
@@ -64,7 +68,11 @@ class Call(PyTgCalls):
                     await app.unban_chat_member(chat_id, assistant.id)
                 except Exception as e:
                     logging.exception(e)
-                    raise AssistantErr(_["call_4"].format(assistant.id, assistant.name, assistant.mention))
+                    raise AssistantErr(
+                        _["call_4"].format(
+                            assistant.id, assistant.name, assistant.mention
+                        )
+                    )
         except UserNotParticipant:
             chat = await app.get_chat(chat_id)
             if chat.username:
@@ -104,12 +112,12 @@ class Call(PyTgCalls):
                     raise AssistantErr(_["call_5"].format(e))
 
     async def join_call(
-            self,
-            chat_id: int,
-            original_chat_id: int,
-            link: str,
-            video: Union[bool, str] = None,
-            image: Union[bool, str] = None,
+        self,
+        chat_id: int,
+        original_chat_id: int,
+        link: str,
+        video: Union[bool, str] = None,
+        image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)
