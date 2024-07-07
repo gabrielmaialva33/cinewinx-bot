@@ -1,3 +1,4 @@
+import logging
 import os
 
 import yaml
@@ -30,6 +31,7 @@ for filename in os.listdir(r"./strings/langs/"):
                 languages[language_name][item] = languages["pt-br"][item]
     try:
         languages_present[language_name] = languages[language_name]["name"]
-    except:
+    except Exception as e:
+        logging.exception(e)
         print("There is some issue with the language file inside bot.")
         exit()
