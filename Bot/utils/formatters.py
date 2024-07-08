@@ -84,7 +84,7 @@ def time_to_seconds(time):
     :return:
     """
     string_time = str(time)
-    return sum(int(x) * 60 ** i for i, x in enumerate(reversed(string_time.split(":"))))
+    return sum(int(x) * 60**i for i, x in enumerate(reversed(string_time.split(":"))))
 
 
 def seconds_to_min(seconds):

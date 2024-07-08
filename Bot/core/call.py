@@ -12,7 +12,13 @@ from pyrogram.errors import (
 )
 from pytgcalls import PyTgCalls, filters
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
-from pytgcalls.types import MediaStream, ChatUpdate, GroupCallParticipant, Update, StreamAudioEnded
+from pytgcalls.types import (
+    ChatUpdate,
+    GroupCallParticipant,
+    MediaStream,
+    StreamAudioEnded,
+    Update,
+)
 
 from Bot import app
 from Bot.database import (
@@ -20,18 +26,30 @@ from Bot.database import (
     add_active_video_chat,
     get_assistant,
     get_audio_bitrate,
+    get_loop,
     get_video_bitrate,
     group_assistant,
     is_auto_end,
     music_on,
     remove_active_chat,
-    remove_active_video_chat, get_loop, set_loop,
+    remove_active_video_chat,
+    set_loop,
 )
 from Bot.misc import db
 from Bot.utils import AssistantErr
-from config import (API_HASH, API_ID, LANGUAGE, PRIVATE_BOT_MODE, STRING_SESSION_1, STRING_SESSION_2, STRING_SESSION_3,
-                    STRING_SESSION_4, STRING_SESSION_5)
+from config import (
+    API_HASH,
+    API_ID,
+    LANGUAGE,
+    PRIVATE_BOT_MODE,
+    STRING_SESSION_1,
+    STRING_SESSION_2,
+    STRING_SESSION_3,
+    STRING_SESSION_4,
+    STRING_SESSION_5,
+)
 from strings import get_string
+
 from ..logger import log
 from ..utils.stream.autoclear import auto_clean
 
@@ -147,12 +165,12 @@ class Call(PyTgCalls):
                     raise AssistantErr(_["call_5"].format(e))
 
     async def join_call(
-            self,
-            chat_id: int,
-            original_chat_id: int,
-            link: str,
-            video: Union[bool, str] = None,
-            image: Union[bool, str] = None,
+        self,
+        chat_id: int,
+        original_chat_id: int,
+        link: str,
+        video: Union[bool, str] = None,
+        image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)
@@ -538,7 +556,7 @@ class Call(PyTgCalls):
         @self.five.on_update(filters.chat_update(GroupCallParticipant.Action.UPDATED))
         async def participants_change_handler(client, update: Update):
             if not isinstance(
-                    update, GroupCallParticipant.Action.JOINED
+                update, GroupCallParticipant.Action.JOINED
             ) and not isinstance(update, GroupCallParticipant.Action.LEFT):
                 return
             chat_id = update.chat_id
@@ -551,7 +569,9 @@ class Call(PyTgCalls):
                     return
                 counter[chat_id] = got
                 if got == 1:
-                    auto_end[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)
+                    auto_end[chat_id] = datetime.now() + timedelta(
+                        minutes=AUTO_END_TIME
+                    )
                     return
                 auto_end[chat_id] = {}
             else:
@@ -562,7 +582,9 @@ class Call(PyTgCalls):
                 )
                 counter[chat_id] = final
                 if final == 1:
-                    auto_end[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)
+                    auto_end[chat_id] = datetime.now() + timedelta(
+                        minutes=AUTO_END_TIME
+                    )
                     return
                 auto_end[chat_id] = {}
 

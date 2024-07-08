@@ -25,7 +25,5 @@ async def auto_clean(popped):
                         os.remove(rem)
                 except Exception as e:
                     logging.error(f"Error in auto_clean: {e}")
-                    pass
     except Exception as e:
         logging.error(f"Error in auto_clean: {e}")
-        pass

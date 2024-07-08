@@ -16,6 +16,7 @@ from config import (
     STRING_SESSION_4,
     STRING_SESSION_5,
 )
+
 from .logger import log
 
 loop = asyncio.get_event_loop_policy().get_event_loop()
@@ -24,11 +25,11 @@ MODULES = []
 
 async def init():
     if (
-            not STRING_SESSION_1
-            and not STRING_SESSION_2
-            and not STRING_SESSION_3
-            and not STRING_SESSION_4
-            and not STRING_SESSION_5
+        not STRING_SESSION_1
+        and not STRING_SESSION_2
+        and not STRING_SESSION_3
+        and not STRING_SESSION_4
+        and not STRING_SESSION_5
     ):
         log(__name__).error("No string sessions found. Exiting...")
         return

@@ -82,7 +82,7 @@ class YouTubeAPI:
                         return entity.url
         if offset in (None,):
             return None
-        return text[offset: offset + length]
+        return text[offset : offset + length]
 
     async def details(self, link: str, video_id: Union[bool, str] = None) -> tuple:
         """
@@ -259,10 +259,10 @@ class YouTubeAPI:
         return formats_available, link
 
     async def slider(
-            self,
-            link: str,
-            query_type: int,
-            video_id: Union[bool, str] = None,
+        self,
+        link: str,
+        query_type: int,
+        video_id: Union[bool, str] = None,
     ):
         if video_id:
             link = self.base + link
