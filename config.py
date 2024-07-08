@@ -1,6 +1,7 @@
 from os import getenv
 
 from dotenv import load_dotenv
+from pyrogram import filters
 
 load_dotenv()
 
@@ -26,3 +27,5 @@ STRING_SESSION_2 = getenv("STRING_SESSION_2", None)
 STRING_SESSION_3 = getenv("STRING_SESSION_3", None)
 STRING_SESSION_4 = getenv("STRING_SESSION_4", None)
 STRING_SESSION_5 = getenv("STRING_SESSION_5", None)
+
+BANNED_USERS = filters.user()

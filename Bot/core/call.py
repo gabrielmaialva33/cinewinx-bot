@@ -31,6 +31,7 @@ from Bot.misc import db
 from Bot.utils import AssistantErr
 from config import API_HASH, API_ID, LANGUAGE, PRIVATE_BOT_MODE, STRING_SESSION_1
 from strings import get_string
+from ..logger import log
 
 _ = get_string(LANGUAGE)
 
@@ -55,6 +56,12 @@ class Call(PyTgCalls):
             session_string=str(STRING_SESSION_1),
         )
         self.one = PyTgCalls(self.userbot1, cache_duration=100)
+
+    async def start(self):
+        log(__name__).info("Starting PyTgCalls Assistants")
+        if STRING_SESSION_1:
+            await self.one.start()
+        log(__name__).info("PyTgCalls Assistants Started")
 
     async def join_assistant(self, original_chat_id: int, chat_id: int):
         assistant = await get_assistant(chat_id)
@@ -112,12 +119,12 @@ class Call(PyTgCalls):
                     raise AssistantErr(_["call_5"].format(e))
 
     async def join_call(
-        self,
-        chat_id: int,
-        original_chat_id: int,
-        link: str,
-        video: Union[bool, str] = None,
-        image: Union[bool, str] = None,
+            self,
+            chat_id: int,
+            original_chat_id: int,
+            link: str,
+            video: Union[bool, str] = None,
+            image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)
@@ -183,3 +190,6 @@ class Call(PyTgCalls):
             users = len(await assistant.get_participants(chat_id))
             if users == 1:
                 auto_end[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)
+
+
+call = Call()

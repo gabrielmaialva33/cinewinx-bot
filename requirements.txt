@@ -8,3 +8,4 @@ pymongo
 py-tgcalls
 ntgcalls
 asyncio
+telethon

@@ -4,21 +4,22 @@ import sys
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
 
-from config import API_HASH, API_ID, BOT_TOKEN, LANGUAGE, LOGGER_GROUP_ID
+import config
 from strings import get_string
-
 from ..logger import log
 
-_ = get_string(LANGUAGE)
+_ = get_string(config.LANGUAGE)
+
+LOGGER_GROUP_ID = config.LOGGER_GROUP_ID
 
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
             f"{__name__}",
-            api_id=API_ID,
-            api_hash=API_HASH,
-            bot_token=BOT_TOKEN,
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            bot_token=config.BOT_TOKEN,
             parse_mode=ParseMode.HTML,
             max_concurrent_transmissions=8,
             in_memory=True,

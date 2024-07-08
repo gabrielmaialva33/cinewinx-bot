@@ -1,15 +1,30 @@
 import logging
 import os
+from typing import List
 
 import yaml
 
 languages = {}
+commands = {}
+
 languages_present = {}
 
 
-def get_string(lang: str):
+def get_command(value: str) -> List:
+    return commands["command"][value]
+
+
+def get_string(lang: str) -> dict:
     return languages[lang]
 
+
+# load commands from the strings folder
+for filename in os.listdir(r"./strings"):
+    if filename.endswith(".yml"):
+        language_name = filename[:-4]
+        commands[language_name] = yaml.safe_load(
+            open(r"./strings/" + filename, encoding="utf8")
+        )
 
 # load all languages present in the strings/langs folder
 for filename in os.listdir(r"./strings/langs/"):
