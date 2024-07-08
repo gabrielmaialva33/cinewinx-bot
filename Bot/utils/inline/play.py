@@ -35,7 +35,8 @@ def telegram_markup(_, chat_id):
 #     ]
 #     return buttons
 
-def stream_markup(_, video_id: str , chat_id: int):
+
+def stream_markup(_, video_id: str, chat_id: int):
     buttons = [
         [
             InlineKeyboardButton(

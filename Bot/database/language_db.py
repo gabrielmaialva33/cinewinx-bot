@@ -29,4 +29,6 @@ async def set_lang(chat_id: int, lang: str):
     :return:
     """
     lang_m[chat_id] = lang
-    await lang_db.update_one({"chat_id": chat_id}, {"$set": {"lang": lang}}, upsert=True)
+    await lang_db.update_one(
+        {"chat_id": chat_id}, {"$set": {"lang": lang}}, upsert=True
+    )

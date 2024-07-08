@@ -201,7 +201,6 @@ async def command_delete_on(chat_id: int):
         command.remove(chat_id)
     except Exception as e:
         logging.error(e)
-        pass
 
 
 # channel play mode

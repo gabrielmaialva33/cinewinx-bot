@@ -1,14 +1,12 @@
-from youtubesearchpython.__future__ import VideosSearch
-
 import logging
 import os
 import re
 
 import aiofiles
 import aiohttp
-
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from unidecode import unidecode
+from youtubesearchpython.__future__ import VideosSearch
 
 from config import YOUTUBE_IMG_URL
 
@@ -127,7 +125,6 @@ async def get_thumb(video_id: str):
             os.remove(f"cache/thumb{video_id}.png")
         except Exception as e:
             logging.error(e)
-            pass
         background.save(f"cache/{video_id}.png")
         return f"cache/{video_id}.png"
     except Exception as e:

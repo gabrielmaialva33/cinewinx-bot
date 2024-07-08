@@ -37,18 +37,21 @@ from Bot.database import (
     set_loop,
 )
 from Bot.misc import db
-from Bot.utils import AssistantErr, telegram_markup, stream_markup
-
+from Bot.utils import AssistantErr, stream_markup, telegram_markup
 from config import (
     API_HASH,
     API_ID,
     LANGUAGE,
     PRIVATE_BOT_MODE,
+    SOUNCLOUD_IMG_URL,
+    STREAM_IMG_URL,
     STRING_SESSION_1,
     STRING_SESSION_2,
     STRING_SESSION_3,
     STRING_SESSION_4,
-    STRING_SESSION_5, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, SOUNCLOUD_IMG_URL,
+    STRING_SESSION_5,
+    TELEGRAM_AUDIO_URL,
+    TELEGRAM_VIDEO_URL,
 )
 from strings import get_string
 

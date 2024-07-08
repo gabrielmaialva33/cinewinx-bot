@@ -3,16 +3,28 @@ import logging
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import ChatAdminRequired, UserNotParticipant, InviteRequestSent, UserAlreadyParticipant
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import (
+    ChatAdminRequired,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+    UserNotParticipant,
+)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from Bot import YouTube, app
-from Bot.database import get_lang, is_served_private_chat, is_command_delete_on, get_cmode, get_playmode, get_playtype, \
-    is_active_chat, get_assistant
+from Bot.database import (
+    get_assistant,
+    get_cmode,
+    get_lang,
+    get_playmode,
+    get_playtype,
+    is_active_chat,
+    is_command_delete_on,
+    is_served_private_chat,
+)
 from Bot.misc import SUDOERS
 from Bot.utils import bot_playlist_markup
-
-from config import PRIVATE_BOT_MODE, PLAYLIST_IMG_URL, adminlist
+from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE, adminlist
 from strings import get_string
 
 links = {}
@@ -50,7 +62,6 @@ def play_wrapper(command):
                 await message.delete()
             except Exception as e:
                 logging.error(e)
-                pass
 
         audio_telegram = (
             (message.reply_to_message.audio or message.reply_to_message.voice)
@@ -120,8 +131,8 @@ def play_wrapper(command):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                        get.status == ChatMemberStatus.BANNED
-                        or get.status == ChatMemberStatus.RESTRICTED
+                    get.status == ChatMemberStatus.BANNED
+                    or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),
@@ -179,7 +190,6 @@ def play_wrapper(command):
                     await userbot.resolve_peer(chat_id)
                 except Exception as e:
                     logging.error(e)
-                    pass
 
         return await command(
             client,
