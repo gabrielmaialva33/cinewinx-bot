@@ -31,6 +31,10 @@ class Bot(Client):
         self.mention = None
 
     async def start(self):
+        """
+        Start the bot.
+        :return:
+        """
         await super().start()
 
         self.id = self.me.id
@@ -67,6 +71,11 @@ class Bot(Client):
         log(__name__).info(f"{self.name} has started.")
 
     async def stop(self, *args):
+        """
+        Stop the bot.
+        :param args:
+        :return:
+        """
         await self.send_message(
             chat_id=LOGGER_GROUP_ID, text=_["bot_2"].format(self.mention)
         )

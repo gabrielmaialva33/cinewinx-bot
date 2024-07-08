@@ -48,6 +48,7 @@ async def init():
     # start bot and import modules
     await app.start()
     for all_module in ALL_MODULES:
+
         imported_module = importlib.import_module("Bot.plugins" + all_module)
         if hasattr(imported_module, "__MODULE__") and imported_module.__MODULE__:
             imported_module.__MODULE__ = imported_module.__MODULE__

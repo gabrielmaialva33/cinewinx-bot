@@ -59,7 +59,10 @@ def play_wrapper(command):
 
         if await is_command_delete_on(message.chat.id):
             try:
-                await message.delete()
+                # check is admin has permission to delete messages
+                member = await client.get_chat_member(message.chat.id, app.me.id)
+                if member.status == ChatMemberStatus.ADMINISTRATOR:
+                    await message.delete()
             except Exception as e:
                 logging.error(e)
 
@@ -93,7 +96,8 @@ def play_wrapper(command):
                 return await message.reply_text(_["setting_12"])
             try:
                 chat = await app.get_chat(chat_id)
-            except:
+            except Exception as e:
+                logging.error(e)
                 return await message.reply_text(_["cplay_4"])
             channel = chat.title
         else:
@@ -139,35 +143,37 @@ def play_wrapper(command):
                     )
             except UserNotParticipant:
                 if chat_id in links:
-                    invitelink = links[chat_id]
+                    invite_link = links[chat_id]
                 else:
                     if message.chat.username:
-                        invitelink = message.chat.username
+                        invite_link = message.chat.username
                         try:
-                            await userbot.resolve_peer(invitelink)
-                        except:
+                            await userbot.resolve_peer(invite_link)
+                        except Exception as e:
+                            logging.error(e)
                             pass
                     else:
                         try:
                             await client.get_chat_member(message.chat.id, "me")
-                            invitelink = await client.export_chat_invite_link(
+                            invite_link = await client.export_chat_invite_link(
                                 message.chat.id
                             )
                         except ChatAdminRequired:
                             return await message.reply_text(_["call_1"])
                         except Exception as e:
+                            logging.error(e)
                             return await message.reply_text(
                                 _["call_3"].format(app.mention, type(e).__name__)
                             )
 
-                if invitelink.startswith("https://t.me/+"):
-                    invitelink = invitelink.replace(
+                if invite_link.startswith("https://t.me/+"):
+                    invite_link = invite_link.replace(
                         "https://t.me/+", "https://t.me/joinchat/"
                     )
-                myu = await message.reply_text(f"ᴀssɪsᴛᴀɴᴛ ɪs Jᴏɪɴɪɴɢ")
+                myu = await message.reply_text(_["call_17"])
                 try:
                     await asyncio.sleep(1)
-                    await userbot.join_chat(invitelink)
+                    await userbot.join_chat(invite_link)
                 except InviteRequestSent:
                     try:
                         await app.approve_chat_join_request(chat_id, userbot.id)
@@ -184,7 +190,7 @@ def play_wrapper(command):
                         _["call_3"].format(type(e).__name__)
                     )
 
-                links[chat_id] = invitelink
+                links[chat_id] = invite_link
 
                 try:
                     await userbot.resolve_peer(chat_id)

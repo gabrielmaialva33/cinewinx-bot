@@ -1,5 +1,7 @@
 name: 🇺🇸 English
 
+close_btn: "Close"
+
 bot_1: "🟢 <b><u>{0}</u> has been started. </b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Name</b>: {2}\n<b>Username</b>: @{3}"
 bot_2: "🔴 <b><u>{0}</u> has been stopped.</b>"
 bot_3: "🟡 <b><u>{0}</u></b> is not an <code>admin</code> of the group <b>{1}</b>."
@@ -26,3 +28,9 @@ play_1: "📥 Downloading the next song from the playlist..."
 
 anonymous_1: "How to fix? 🛠️"
 anonymous_2: "You are an `anonymous` admin, switch back to your account to use this command."
+
+pl_b_1: "🎵 <b>Play Playlist</b>"
+pl_b_2: "<b>Playlist</b>"
+pl_b_3: "More"
+pl_b_8: "🔢 Top 10 Songs"
+pl_b_12: "🏘 <b>Group Playlist</b>"

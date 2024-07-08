@@ -35,13 +35,13 @@ STRING_SESSION_5 = getenv("STRING_SESSION_5", None)
 BANNED_USERS = filters.user()
 
 # Assets
-STREAM_IMG_URL = getenv("STREAM_IMG_URL", None)
+STREAM_IMG_URL = getenv("STREAM_IMG_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
 
-TELEGRAM_AUDIO_URL = getenv("TELEGRAM_AUDIO_URL", None)
-TELEGRAM_VIDEO_URL = getenv("TELEGRAM_VIDEO_URL", None)
+YOUTUBE_IMG_URL = getenv("YOUTUBE_IMG_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
+SOUNCLOUD_IMG_URL = getenv("SOUNCLOUD_IMG_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
+PLAYLIST_IMG_URL = getenv("PLAYLIST_IMG_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
 
-YOUTUBE_IMG_URL = getenv("YOUTUBE_IMG_URL", None)
+TELEGRAM_AUDIO_URL = getenv("TELEGRAM_AUDIO_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
+TELEGRAM_VIDEO_URL = getenv("TELEGRAM_VIDEO_URL", "https://telegra.ph/file/fb8b2718c68c97e7b8706.png")
 
-SOUNCLOUD_IMG_URL = getenv("SOUNCLOUD_IMG_URL", None)
 
-PLAYLIST_IMG_URL = getenv("PLAYLIST_IMG_URL", None)

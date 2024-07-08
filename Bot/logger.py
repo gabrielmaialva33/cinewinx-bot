@@ -2,8 +2,8 @@ import logging
 
 # configure the logging
 logging.basicConfig(
-    level=logging.DEBUG,
-    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
+    level=logging.INFO,
+    format="[%(asctime)s - %(levelname)s] - %(module)s - %(filename)s:%(lineno)d - %(message)s",
     datefmt="%d/%m/%y %H:%M:%S",
     handlers=[
         logging.FileHandler(filename="bot.log", encoding="utf-8"),

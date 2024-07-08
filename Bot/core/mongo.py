@@ -14,7 +14,6 @@ if not MONGO_DB_URI:
 try:
     # extract the database name from the URI
     db_name = MONGO_DB_URI.split("/")[-1].split("?")[0]
-    print(db_name)
 
     _mongo_async_ = AsyncIOMotorClient(MONGO_DB_URI)
     _mongo_sync_ = MongoClient(MONGO_DB_URI)
