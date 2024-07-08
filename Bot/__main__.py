@@ -3,12 +3,20 @@ import importlib
 
 from pyrogram import idle
 
-from Bot import app, userbot, telethn
+from Bot import app, telethn, userbot
 from Bot.core.call import call
 from Bot.database import get_banned, get_blocked_users
 from Bot.plugins import ALL_MODULES
-from config import STRING_SESSION_1, STRING_SESSION_2, STRING_SESSION_3, STRING_SESSION_4, STRING_SESSION_5, \
-    BANNED_USERS, BOT_TOKEN
+from config import (
+    BANNED_USERS,
+    BOT_TOKEN,
+    STRING_SESSION_1,
+    STRING_SESSION_2,
+    STRING_SESSION_3,
+    STRING_SESSION_4,
+    STRING_SESSION_5,
+)
+
 from .logger import log
 
 loop = asyncio.get_event_loop_policy().get_event_loop()
@@ -16,7 +24,13 @@ MODULES = []
 
 
 async def init():
-    if not STRING_SESSION_1 and not STRING_SESSION_2 and not STRING_SESSION_3 and not STRING_SESSION_4 and not STRING_SESSION_5:
+    if (
+        not STRING_SESSION_1
+        and not STRING_SESSION_2
+        and not STRING_SESSION_3
+        and not STRING_SESSION_4
+        and not STRING_SESSION_5
+    ):
         log(__name__).error("No string sessions found. Exiting...")
         return
 
@@ -30,7 +44,6 @@ async def init():
             BANNED_USERS.add(user_id)
     except Exception as e:
         log(__name__).error(f"An error occurred: {e}")
-        pass
 
     # start bot and import modules
     await app.start()
