@@ -4,6 +4,7 @@ from Bot.core.mongo import mongodb
 
 auto_end_db = mongodb.autoend
 
+loop = {}
 audio = {}
 video = {}
 pause = {}
@@ -147,3 +148,15 @@ async def remove_active_chat(chat_id: int):
     """
     if chat_id in active:
         active.remove(chat_id)
+
+
+# loop
+async def get_loop(chat_id: int) -> int:
+    lop = loop.get(chat_id)
+    if not lop:
+        return 0
+    return lop
+
+
+async def set_loop(chat_id: int, mode: int):
+    loop[chat_id] = mode

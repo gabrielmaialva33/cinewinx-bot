@@ -6,7 +6,6 @@ from pyrogram.enums import ChatMemberStatus, ParseMode
 
 import config
 from strings import get_string
-
 from ..logger import log
 
 _ = get_string(config.LANGUAGE)

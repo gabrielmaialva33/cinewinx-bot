@@ -15,6 +15,6 @@ def __list_all_modules():
     return all_modules
 
 
-# This will list all the modules in the plugins directory
+# this will list all the modules in the plugins directory
 ALL_MODULES = sorted(__list_all_modules())
 __all__ = ALL_MODULES + ["ALL_MODULES"]

@@ -5,6 +5,8 @@ from pyrogram import filters
 
 load_dotenv()
 
+autoclean = []
+
 # Get this value from my.telegram.org/apps
 API_ID = int(getenv("API_ID"))
 API_HASH = getenv("API_HASH", None)
@@ -28,4 +30,5 @@ STRING_SESSION_3 = getenv("STRING_SESSION_3", None)
 STRING_SESSION_4 = getenv("STRING_SESSION_4", None)
 STRING_SESSION_5 = getenv("STRING_SESSION_5", None)
 
+# Filters
 BANNED_USERS = filters.user()

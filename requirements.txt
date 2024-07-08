@@ -9,3 +9,6 @@ py-tgcalls
 ntgcalls
 asyncio
 telethon
+youtube-search
+youtube-search-python
+yt_dlp
