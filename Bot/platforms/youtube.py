@@ -1,3 +1,5 @@
+from youtubesearchpython.__future__ import VideosSearch
+
 import asyncio
 import logging
 import re
@@ -5,7 +7,6 @@ from typing import Union
 
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
 from yt_dlp import YoutubeDL
 
 from Bot.utils import time_to_seconds
