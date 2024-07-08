@@ -7,6 +7,7 @@ from Bot import app, telethn, userbot
 from Bot.core.call import call
 from Bot.database import get_banned, get_blocked_users
 from Bot.plugins import ALL_MODULES
+
 from config import (
     BANNED_USERS,
     BOT_TOKEN,
@@ -56,7 +57,11 @@ async def init():
     log("Bot.plugins").info("Successfully Imported Modules ")
 
     await userbot.start()
+
     await call.start()
+    await call.decorators()
+
+    log(__name__).info("Bot Started Successfully")
 
     await idle()
 

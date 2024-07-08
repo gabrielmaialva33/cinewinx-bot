@@ -10,6 +10,7 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
+from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls, filters
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import (
@@ -20,7 +21,7 @@ from pytgcalls.types import (
     Update,
 )
 
-from Bot import app
+from Bot import YouTube, app
 from Bot.database import (
     add_active_chat,
     add_active_video_chat,
@@ -36,7 +37,8 @@ from Bot.database import (
     set_loop,
 )
 from Bot.misc import db
-from Bot.utils import AssistantErr
+from Bot.utils import AssistantErr, telegram_markup, stream_markup
+
 from config import (
     API_HASH,
     API_ID,
@@ -46,12 +48,13 @@ from config import (
     STRING_SESSION_2,
     STRING_SESSION_3,
     STRING_SESSION_4,
-    STRING_SESSION_5,
+    STRING_SESSION_5, STREAM_IMG_URL, TELEGRAM_AUDIO_URL, TELEGRAM_VIDEO_URL, SOUNCLOUD_IMG_URL,
 )
 from strings import get_string
 
 from ..logger import log
 from ..utils.stream.autoclear import auto_clean
+from ..utils.thumbnails import gen_thumb
 
 _ = get_string(LANGUAGE)
 
@@ -280,7 +283,7 @@ class Call(PyTgCalls):
                 if n == 0:
                     return await app.send_message(
                         original_chat_id,
-                        text=_["call_9"],
+                        text=_["stream_2"],
                     )
                 if video:
                     stream = MediaStream(
@@ -291,9 +294,10 @@ class Call(PyTgCalls):
                 else:
                     try:
                         image = await YouTube.thumbnail(videoid, True)
-                    except:
+                    except Exception as e:
+                        logging.exception(e)
                         image = None
-                    if image and config.PRIVATE_BOT_MODE == str(True):
+                    if image and PRIVATE_BOT_MODE == str(True):
                         stream = MediaStream(
                             link,
                             image,
@@ -307,10 +311,11 @@ class Call(PyTgCalls):
                         )
                 try:
                     await client.play(chat_id, stream)
-                except Exception:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
-                        text=_["call_9"],
+                        text=_["stream_2"],
                     )
                 img = await gen_thumb(videoid)
                 button = telegram_markup(_, chat_id)
@@ -328,7 +333,7 @@ class Call(PyTgCalls):
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
             elif "vid_" in queued:
-                mystic = await app.send_message(original_chat_id, _["call_10"])
+                mystic = await app.send_message(original_chat_id, _["play_1"])
                 try:
                     file_path, direct = await YouTube.download(
                         videoid,
@@ -336,9 +341,10 @@ class Call(PyTgCalls):
                         videoid=True,
                         video=True if str(streamtype) == "video" else False,
                     )
-                except:
+                except Exception as e:
+                    logging.exception(e)
                     return await mystic.edit_text(
-                        _["call_9"], disable_web_page_preview=True
+                        _["stream_2"], disable_web_page_preview=True
                     )
                 if video:
                     stream = MediaStream(
@@ -349,9 +355,10 @@ class Call(PyTgCalls):
                 else:
                     try:
                         image = await YouTube.thumbnail(videoid, True)
-                    except:
+                    except Exception as e:
+                        logging.exception(e)
                         image = None
-                    if image and config.PRIVATE_BOT_MODE == str(True):
+                    if image and PRIVATE_BOT_MODE == str(True):
                         stream = MediaStream(
                             file_path,
                             image,
@@ -365,10 +372,11 @@ class Call(PyTgCalls):
                         )
                 try:
                     await client.play(chat_id, stream)
-                except Exception:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
-                        text=_["call_9"],
+                        text=_["stream_2"],
                     )
                 img = await gen_thumb(videoid)
                 button = stream_markup(_, videoid, chat_id)
@@ -398,15 +406,16 @@ class Call(PyTgCalls):
                 )
                 try:
                     await client.play(chat_id, stream)
-                except Exception:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
-                        text=_["call_9"],
+                        text=_["stream_2"],
                     )
                 button = telegram_markup(_, chat_id)
                 run = await app.send_photo(
                     original_chat_id,
-                    photo=config.STREAM_IMG_URL,
+                    photo=STREAM_IMG_URL,
                     caption=_["stream_2"].format(user),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -420,7 +429,8 @@ class Call(PyTgCalls):
                 else:
                     try:
                         image = await YouTube.thumbnail(videoid, True)
-                    except:
+                    except Exception as e:
+                        logging.exception(e)
                         image = None
                 if video:
                     stream = MediaStream(
@@ -429,7 +439,7 @@ class Call(PyTgCalls):
                         video_parameters=video_stream_quality,
                     )
                 else:
-                    if image and config.PRIVATE_BOT_MODE == str(True):
+                    if image and PRIVATE_BOT_MODE == str(True):
                         stream = MediaStream(
                             queued,
                             image,
@@ -443,19 +453,20 @@ class Call(PyTgCalls):
                         )
                 try:
                     await client.play(chat_id, stream)
-                except Exception:
+                except Exception as e:
+                    logging.exception(e)
                     return await app.send_message(
                         original_chat_id,
-                        text=_["call_9"],
+                        text=_["stream_2"],
                     )
                 if videoid == "telegram":
                     button = telegram_markup(_, chat_id)
                     run = await app.send_photo(
                         original_chat_id,
                         photo=(
-                            config.TELEGRAM_AUDIO_URL
+                            TELEGRAM_AUDIO_URL
                             if str(streamtype) == "audio"
-                            else config.TELEGRAM_VIDEO_URL
+                            else TELEGRAM_VIDEO_URL
                         ),
                         caption=_["stream_3"].format(title, check[0]["dur"], user),
                         reply_markup=InlineKeyboardMarkup(button),
@@ -466,7 +477,7 @@ class Call(PyTgCalls):
                     button = telegram_markup(_, chat_id)
                     run = await app.send_photo(
                         original_chat_id,
-                        photo=config.SOUNCLOUD_IMG_URL,
+                        photo=SOUNCLOUD_IMG_URL,
                         caption=_["stream_3"].format(title, check[0]["dur"], user),
                         reply_markup=InlineKeyboardMarkup(button),
                     )

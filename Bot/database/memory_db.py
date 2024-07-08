@@ -1,17 +1,27 @@
+import logging
+from typing import Any
+
 from pytgcalls.types import AudioQuality, VideoQuality
 
 from Bot.core.mongo import mongodb
 
 auto_end_db = mongodb.autoend
+channel_db = mongodb.cplaymode
+playmode_db = mongodb.playmode
+playtype_db = mongodb.playtype
 
 loop = {}
 audio = {}
 video = {}
 pause = {}
 auto_end = {}
+play_mode = {}
+play_type = {}
+channel_connect = {}
 
 active = []
 active_video = []
+command = []
 
 
 # auto end stream
@@ -130,6 +140,17 @@ async def add_active_video_chat(chat_id: int):
         active_video.append(chat_id)
 
 
+async def get_active_chats() -> list:
+    return active
+
+
+async def is_active_chat(chat_id: int) -> bool:
+    if chat_id not in active:
+        return False
+    else:
+        return True
+
+
 async def remove_active_video_chat(chat_id: int):
     """
     Remove the chat_id from the active_video list
@@ -160,3 +181,93 @@ async def get_loop(chat_id: int) -> int:
 
 async def set_loop(chat_id: int, mode: int):
     loop[chat_id] = mode
+
+
+# delete command mode
+async def is_command_delete_on(chat_id: int) -> bool:
+    if chat_id not in command:
+        return True
+    else:
+        return False
+
+
+async def command_delete_off(chat_id: int):
+    if chat_id not in command:
+        command.append(chat_id)
+
+
+async def command_delete_on(chat_id: int):
+    try:
+        command.remove(chat_id)
+    except Exception as e:
+        logging.error(e)
+        pass
+
+
+# channel play mode
+async def get_cmode(chat_id: int) -> Any | None:
+    """
+    Get the channel play mode
+    :param chat_id:
+    :return:
+    """
+    mode = channel_connect.get(chat_id)
+    if not mode:
+        mode = await channel_db.find_one({"chat_id": chat_id})
+        if not mode:
+            return None
+        channel_connect[chat_id] = mode["mode"]
+        return mode["mode"]
+    return mode
+
+
+async def set_cmode(chat_id: int, mode: int):
+    """
+    Set the channel play mode
+    :param chat_id:
+    :param mode:
+    :return:
+    """
+    channel_connect[chat_id] = mode
+    await channel_db.update_one(
+        {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True
+    )
+
+
+# play mode and play type
+async def get_playmode(chat_id: int) -> str:
+    mode = play_mode.get(chat_id)
+    if not mode:
+        mode = await playmode_db.find_one({"chat_id": chat_id})
+        if not mode:
+            play_mode[chat_id] = "Direct"
+            return "Direct"
+        play_mode[chat_id] = mode["mode"]
+        return mode["mode"]
+    return mode
+
+
+async def set_playmode(chat_id: int, mode: str):
+    play_mode[chat_id] = mode
+    await playmode_db.update_one(
+        {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True
+    )
+
+
+async def get_playtype(chat_id: int) -> str:
+    mode = play_type.get(chat_id)
+    if not mode:
+        mode = await playtype_db.find_one({"chat_id": chat_id})
+        if not mode:
+            play_type[chat_id] = "Everyone"
+            return "Everyone"
+        play_type[chat_id] = mode["mode"]
+        return mode["mode"]
+    return mode
+
+
+async def set_playtype(chat_id: int, mode: str):
+    play_type[chat_id] = mode
+    await playtype_db.update_one(
+        {"chat_id": chat_id}, {"$set": {"mode": mode}}, upsert=True
+    )

@@ -5,6 +5,7 @@ from pyrogram import filters
 
 load_dotenv()
 
+adminlist = {}
 autoclean = []
 
 # Get this value from my.telegram.org/apps
@@ -32,3 +33,15 @@ STRING_SESSION_5 = getenv("STRING_SESSION_5", None)
 
 # Filters
 BANNED_USERS = filters.user()
+
+# Assets
+STREAM_IMG_URL = getenv("STREAM_IMG_URL", None)
+
+TELEGRAM_AUDIO_URL = getenv("TELEGRAM_AUDIO_URL", None)
+TELEGRAM_VIDEO_URL = getenv("TELEGRAM_VIDEO_URL", None)
+
+YOUTUBE_IMG_URL = getenv("YOUTUBE_IMG_URL", None)
+
+SOUNCLOUD_IMG_URL = getenv("SOUNCLOUD_IMG_URL", None)
+
+PLAYLIST_IMG_URL = getenv("PLAYLIST_IMG_URL", None)

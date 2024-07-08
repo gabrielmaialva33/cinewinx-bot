@@ -3,6 +3,7 @@ pyrogram
 tgcrypto
 asyncio
 pyyaml
+pillow
 motor
 pymongo
 py-tgcalls
@@ -12,3 +13,6 @@ telethon
 youtube-search
 youtube-search-python
 yt_dlp
+aiofiles
+aiohttp
+unidecode

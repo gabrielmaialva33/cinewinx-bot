@@ -18,3 +18,11 @@ call_5: "❌ Um error ocorreu ao tentar adicionar a assistente, por favor, tente
 call_6: "⛔ <b><u>{0}</u></b> precisa da permissão de <code>convidar usuários por link</code> para poder adicionar a assistente à chamada de vídeo."
 call_7: "👩🏻‍💼<b>A assistente entrará em 5 segundos. Aguarde...</b>"
 call_8: "👩🏻‍💼<b>A assistente <u>{0}</u> entrou no grupo. Iniciando a stream...</b>"
+
+stream_1: "📡 <b>A stream foi iniciada.</b>\n\n<b>Título</b>: <a href={0}>{1}</a>\n<b>\n<b>Duração</b>: {2}\n<b>Solicitado por</b>: {3}"
+stream_2: "❌ Falha ao mudar para a proxima musica.\nTente novamente com /skip."
+
+play_1: "📥Download da proxima musica da playlist..."
+
+anonymous_1: "Como corrigir? 🛠️"
+anonymous_2: "Você é um `admin` anonimo, volte para sua conta para usar este comando."

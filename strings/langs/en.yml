@@ -18,3 +18,11 @@ call_5: "❌ An error occurred while trying to add the assistant, please try aga
 call_6: "⛔ <b><u>{0}</u></b> needs the <code>invite users via link</code> permission to be able to add the assistant to the video call."
 call_7: "👩🏻‍💼<b>The assistant will join in 5 seconds. Please wait...</b>"
 call_8: "👩🏻‍💼<b>The assistant <u>{0}</u> has joined the group. Starting the stream...</b>"
+
+stream_1: "📡 <b>The stream has been started.</b>\n\n<b>Title</b>: <a href={0}>{1}</a>\n<b>\n<b>Duration</b>: {2}\n<b>Requested by</b>: {3}"
+stream_2: "❌ Failed to switch to the next song.\nTry again with /skip."
+
+play_1: "📥 Downloading the next song from the playlist..."
+
+anonymous_1: "How to fix? 🛠️"
+anonymous_2: "You are an `anonymous` admin, switch back to your account to use this command."
