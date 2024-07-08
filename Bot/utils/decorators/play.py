@@ -151,7 +151,6 @@ def play_wrapper(command):
                             await userbot.resolve_peer(invite_link)
                         except Exception as e:
                             logging.error(e)
-                            pass
                     else:
                         try:
                             await client.get_chat_member(message.chat.id, "me")
