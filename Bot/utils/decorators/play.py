@@ -57,9 +57,9 @@ def play_wrapper(command):
                 )
                 return await client.leave_chat(message.chat.id)
 
+        # delete the command message if the delete command is on
         if await is_command_delete_on(message.chat.id):
             try:
-                # check is admin has permission to delete messages
                 member = await client.get_chat_member(message.chat.id, app.me.id)
                 if member.status == ChatMemberStatus.ADMINISTRATOR:
                     await message.delete()
