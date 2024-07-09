@@ -22,7 +22,7 @@ from pytgcalls.types import (
 )
 
 from Bot import YouTube, app
-from Bot.database import (
+from Bot.utils.database import (
     add_active_chat,
     add_active_video_chat,
     get_assistant,
@@ -54,7 +54,6 @@ from config import (
     TELEGRAM_VIDEO_URL,
 )
 from strings import get_string
-
 from ..logger import log
 from ..utils.stream.autoclear import auto_clean
 from ..utils.thumbnails import gen_thumb
@@ -171,12 +170,12 @@ class Call(PyTgCalls):
                     raise AssistantErr(_["call_5"].format(e))
 
     async def join_call(
-        self,
-        chat_id: int,
-        original_chat_id: int,
-        link: str,
-        video: Union[bool, str] = None,
-        image: Union[bool, str] = None,
+            self,
+            chat_id: int,
+            original_chat_id: int,
+            link: str,
+            video: Union[bool, str] = None,
+            image: Union[bool, str] = None,
     ):
         assistant = await group_assistant(self, chat_id)
         userbot = await get_assistant(chat_id)
@@ -570,7 +569,7 @@ class Call(PyTgCalls):
         @self.five.on_update(filters.chat_update(GroupCallParticipant.Action.UPDATED))
         async def participants_change_handler(client, update: Update):
             if not isinstance(
-                update, GroupCallParticipant.Action.JOINED
+                    update, GroupCallParticipant.Action.JOINED
             ) and not isinstance(update, GroupCallParticipant.Action.LEFT):
                 return
             chat_id = update.chat_id
