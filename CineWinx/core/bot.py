@@ -1,3 +1,4 @@
+import os
 import sys
 
 from pyrogram import Client, errors
@@ -10,6 +11,7 @@ from strings import get_string
 from ..logging import LOGGER
 
 _ = get_string(config.LANGUAGE)
+
 
 class WinxBot(Client):
     def __init__(self):
@@ -84,7 +86,7 @@ class WinxBot(Client):
             a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
             if a.status != ChatMemberStatus.ADMINISTRATOR:
                 LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
-                sys.exit()
+                return await self.stop()
         except Exception:
             pass
 
@@ -93,3 +95,11 @@ class WinxBot(Client):
         else:
             self.name = get_me.first_name
         LOGGER(__name__).info(f"CineWinx Started as {self.name}")
+
+    async def stop(self, *args):
+        await self.send_message(
+            chat_id=config.LOG_GROUP_ID, text=_["bot_2"].format(self.mention)
+        )
+        await super().stop()
+        LOGGER(__name__).info(f"{self.name} has stopped.")
+        os.kill(os.getpid(), 9)

@@ -5,6 +5,9 @@ bot_1: "🟢 <b><u>{0}</u> foi iniciado(a).</b>\n\n<b>ID</b>: <code>{1}</code>\n
 bot_2: "🔴 <b><u>{0}</u> foi parado(a).</b>"
 bot_3: "🟡 <b><u>{0}</u></b> não é <code>admin</code> do grupo <b>{1}</b>."
 
+# Assistant
+assistant_1: "👩🏻‍💼<b>A assistente <u>{0}</u> foi iniciada.</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
+assistant_2: "👩🏻‍💼<b>A assistente <u>{0}</u> foi parada.</b>"
 
 # General Strings
 general_1: "Responda à mensagem de um usuário ou forneça o nome de usuário/ID de usuário."
@@ -88,7 +91,7 @@ help_1: "Clique nos botões abaixo para mais informações. Se você estiver enf
 help_2: "Entre em contato comigo no PM para ajuda."
 
 # Settings
-setting_1: "⚙️ **Configurações do Bot de Música**\n\n🖇**Grupo:** {0}\n🔖**ID do Grupo:** `{1}`\n\n💡**Escolha os botões de função abaixo que você deseja editar ou alterar.**"
+setting_1: "⚙️ **Configurações da CineWinxBot**\n\n🖇**Grupo:** {0}\n🔖**ID do Grupo:** `{1}`\n\n💡**Escolha os botões de função abaixo que você deseja editar ou alterar.**"
 setting_3: "⁉️ O que é isso?\n\n1) Direto: Reproduz consultas de pesquisa diretamente. Use -v para reproduzir vídeos no modo direto.\n\n2) Inline: Retorna botões de marcação inline para escolher entre vídeo e áudio."
 setting_4: "⁉️ O que é isso?\n\n👥 Todos: Qualquer pessoa pode usar comandos de administrador (pular, pausar, retomar, etc.) presentes neste grupo.\n\n🙍 Somente Administradores: Apenas administradores e usuários autorizados podem usar comandos de administrador."
 setting_5: "Nenhum Usuário Autorizado Encontrado\n\nVocê pode permitir que qualquer não-administrador use meus comandos de administrador com /auth e excluir usando /unauth"
