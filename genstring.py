@@ -5,7 +5,7 @@ from pyrogram import Client as c
 API_ID = input("\nEnter Your API_ID:\n > ")
 API_HASH = input("\nEnter Your API_HASH:\n > ")
 
-i = c("cinewinxstring", in_memory=True, api_id=API_ID, api_hash=API_HASH)
+i = c("cine_winx_string", in_memory=True, api_id=API_ID, api_hash=API_HASH)
 
 
 async def main():

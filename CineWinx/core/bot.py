@@ -1,7 +1,7 @@
 import os
 
 from pyrogram import Client, errors
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMemberStatus, ParseMode
 from pyrogram.types import BotCommand
 
 import config
@@ -16,7 +16,6 @@ class WinxBot(Client):
     """
     Bot client. Inherits from pyrogram.Client.
     """
-
     def __init__(self):
         LOGGER(__name__).info(f"Starting {config.BOT_NAME}.")
 
@@ -25,6 +24,9 @@ class WinxBot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
+            parse_mode=ParseMode.HTML,
+            max_concurrent_transmissions=8,
+            in_memory=True,
         )
 
         self.id = None
