@@ -16,6 +16,7 @@ class WinxBot(Client):
     """
     Bot client. Inherits from pyrogram.Client.
     """
+
     def __init__(self):
         LOGGER(__name__).info(f"Starting {config.BOT_NAME}.")
 
@@ -93,7 +94,6 @@ class WinxBot(Client):
                 return await self.stop()
         except Exception as e:
             LOGGER(__name__).error(f"An error occurred: {e}")
-            pass
 
         LOGGER(__name__).info(f"Bot Started as {self.name}")
 

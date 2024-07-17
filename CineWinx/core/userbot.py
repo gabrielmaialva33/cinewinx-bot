@@ -109,8 +109,8 @@ class Userbot(Client):
                 text = _["assistant_1"].format(
                     self.one.mention, self.one.id, self.one.name, self.one.username
                 )
-                #img = await self.one.download_media(self.one.me.photo.big_file_id)
-                #await self.one.send_photo(chat_id=config.LOG_GROUP_ID, photo=img, caption=text)
+                # img = await self.one.download_media(self.one.me.photo.big_file_id)
+                # await self.one.send_photo(chat_id=config.LOG_GROUP_ID, photo=img, caption=text)
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
