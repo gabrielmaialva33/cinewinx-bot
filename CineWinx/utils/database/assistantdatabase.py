@@ -5,7 +5,7 @@ from CineWinx.core.mongo import mongodb
 
 db = mongodb.assistants
 
-assistantdict = {}
+assistant_dict = {}
 
 
 async def get_client(assistant: int):
@@ -34,48 +34,48 @@ async def set_assistant(chat_id):
     from CineWinx.core.userbot import assistants
 
     ran_assistant = random.choice(assistants)
-    assistantdict[chat_id] = ran_assistant
+    assistant_dict[chat_id] = ran_assistant
     await db.update_one(
         {"chat_id": chat_id},
         {"$set": {"assistant": ran_assistant}},
         upsert=True,
     )
-    userbot = await get_client(ran_assistant)
-    return userbot
+    user_bot = await get_client(ran_assistant)
+    return user_bot
 
 
 async def get_assistant(chat_id: int) -> str:
     from CineWinx.core.userbot import assistants
 
-    assistant = assistantdict.get(chat_id)
+    assistant = assistant_dict.get(chat_id)
     if not assistant:
-        dbassistant = await db.find_one({"chat_id": chat_id})
-        if not dbassistant:
-            userbot = await set_assistant(chat_id)
-            return userbot
+        db_assistant = await db.find_one({"chat_id": chat_id})
+        if not db_assistant:
+            user_bot = await set_assistant(chat_id)
+            return user_bot
         else:
-            got_assis = dbassistant["assistant"]
+            got_assis = db_assistant["assistant"]
             if got_assis in assistants:
-                assistantdict[chat_id] = got_assis
-                userbot = await get_client(got_assis)
-                return userbot
+                assistant_dict[chat_id] = got_assis
+                user_bot = await get_client(got_assis)
+                return user_bot
             else:
-                userbot = await set_assistant(chat_id)
-                return userbot
+                user_bot = await set_assistant(chat_id)
+                return user_bot
     else:
         if assistant in assistants:
-            userbot = await get_client(assistant)
-            return userbot
+            user_bot = await get_client(assistant)
+            return user_bot
         else:
-            userbot = await set_assistant(chat_id)
-            return userbot
+            user_bot = await set_assistant(chat_id)
+            return user_bot
 
 
 async def set_calls_assistant(chat_id):
     from CineWinx.core.userbot import assistants
 
     ran_assistant = random.choice(assistants)
-    assistantdict[chat_id] = ran_assistant
+    assistant_dict[chat_id] = ran_assistant
     await db.update_one(
         {"chat_id": chat_id},
         {"$set": {"assistant": ran_assistant}},
@@ -87,15 +87,15 @@ async def set_calls_assistant(chat_id):
 async def group_assistant(self, chat_id: int) -> int:
     from CineWinx.core.userbot import assistants
 
-    assistant = assistantdict.get(chat_id)
+    assistant = assistant_dict.get(chat_id)
     if not assistant:
-        dbassistant = await db.find_one({"chat_id": chat_id})
-        if not dbassistant:
+        db_assistant = await db.find_one({"chat_id": chat_id})
+        if not db_assistant:
             assis = await set_calls_assistant(chat_id)
         else:
-            assis = dbassistant["assistant"]
+            assis = db_assistant["assistant"]
             if assis in assistants:
-                assistantdict[chat_id] = assis
+                assistant_dict[chat_id] = assis
                 assis = assis
             else:
                 assis = await set_calls_assistant(chat_id)

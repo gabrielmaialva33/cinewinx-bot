@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from typing import List
@@ -43,7 +44,8 @@ for filename in os.listdir(r"./strings/langs/"):
                 languages[language_name][item] = languages["pt"][item]
     try:
         languages_present[language_name] = languages[language_name]["name"]
-    except:
+    except KeyError as e:
+        logging.error(f"Language {language_name} is missing a name.")
         print(
             "There is some issue with the language file inside bot. Please report it to the TheTeamvk at @TheTeamvk "
             "on Telegram"
