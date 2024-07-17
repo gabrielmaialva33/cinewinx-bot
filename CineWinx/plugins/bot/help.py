@@ -3,7 +3,12 @@ from math import ceil
 from typing import Union
 
 from pyrogram import filters, types
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    CallbackQuery,
+)
 
 from CineWinx import HELPABLE, app
 from CineWinx.utils.database import get_lang, is_commanddelete_on
@@ -55,13 +60,13 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
             ]
         )
 
-    pairs = [modules[i: i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
+    pairs = [modules[i : i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
 
     max_num_pages = ceil(len(pairs) / COLUMN_SIZE) if len(pairs) > 0 else 1
     modulo_page = page_n % max_num_pages
 
     if len(pairs) > COLUMN_SIZE:
-        pairs = pairs[modulo_page * COLUMN_SIZE: COLUMN_SIZE * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)] + [
             (
                 EqInlineKeyboardButton(
                     "❮",
@@ -96,7 +101,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
 @app.on_message(filters.command(HELP_COMMAND) & filters.private & ~BANNED_USERS)
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(
-        client: app, update: Union[types.Message, types.CallbackQuery]
+    client: app, update: Union[types.Message, types.CallbackQuery]
 ):
     is_callback = isinstance(update, types.CallbackQuery)
     if is_callback:
@@ -162,8 +167,8 @@ async def help_button(client: app, query: CallbackQuery):
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
         text = (
-                f"<b><u>Aqui está a ajuda para {HELPABLE[module].__MODULE__}:</u></b>\n"
-                + HELPABLE[module].__HELP__
+            f"<b><u>Aqui está a ajuda para {HELPABLE[module].__MODULE__}:</u></b>\n"
+            + HELPABLE[module].__HELP__
         )
 
         key = InlineKeyboardMarkup(

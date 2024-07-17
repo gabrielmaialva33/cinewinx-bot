@@ -240,7 +240,7 @@ async def update_(client, message, _):
         return await response.edit("» ʙᴏᴛ ɪs ᴜᴘ-ᴛᴏ-ᴅᴀᴛᴇ.")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
     )
     updates = "".join(
         f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> ʙʏ -> {info.author}</b>\n\t\t\t\t<b>➥ ᴄᴏᴍᴍɪᴛᴇᴅ ᴏɴ :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
@@ -293,7 +293,7 @@ async def update_(client, message, _):
             )
             return await app.send_message(
                 chat_id=config.LOG_GROUP_ID,
-                text=f"Uma exceção ocorreu no #atualizador devido a: `{err}`"
+                text=f"Uma exceção ocorreu no #atualizador devido a: `{err}`",
             )
     else:
         os.system("pip3 install --no-cache-dir -U -r requirements.txt")

@@ -49,15 +49,15 @@ from config import BANNED_USERS, lyrical
 )
 @PlayWrapper
 async def play_command(
-        _client: app,
-        message: Message,
-        _,
-        chat_id: int,
-        video,
-        channel,
-        playmode,
-        url,
-        fplay,
+    _client: app,
+    message: Message,
+    _,
+    chat_id: int,
+    video,
+    channel,
+    playmode,
+    url,
+    fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
@@ -320,7 +320,7 @@ async def play_command(
                 )
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    "Por favor, ative o chat de vídeo para transmitir a URL."
+                    "Por favor, ative o chat de vídeo para transmitir a URL.",
                 )
             except Exception as e:
                 logging.error(e)

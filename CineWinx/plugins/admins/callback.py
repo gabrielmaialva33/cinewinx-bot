@@ -134,7 +134,9 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
             if popped:
                 await auto_clean(popped)
             if not check:
-                await callback_query.edit_message_text(f"» música pulada por {mention} !")
+                await callback_query.edit_message_text(
+                    f"» música pulada por {mention} !"
+                )
                 await callback_query.message.reply_text(
                     _["admin_10"].format(mention), disable_web_page_preview=True
                 )
@@ -146,7 +148,9 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
         except Exception as e:
             logging.error(e)
             try:
-                await callback_query.edit_message_text(f"» música pulada por {mention} !")
+                await callback_query.edit_message_text(
+                    f"» música pulada por {mention} !"
+                )
                 await callback_query.message.reply_text(
                     _["admin_10"].format(mention), disable_web_page_preview=True
                 )

@@ -18,9 +18,12 @@ async def assis_change(_client: app, message: Message, _):
     if await assistant() == True:
         return await message.reply_text(
             "Desculpe! No servidor do bot, há apenas um assistente disponível. Portanto, você não pode alterar o "
-            "assistente.")
-    usage = (f"**Uso incorreto do comando detectado**\n**Uso:**\n/changeassistant - Para alterar o assistente atual do "
-             f"seu grupo para um assistente aleatório no servidor do bot")
+            "assistente."
+        )
+    usage = (
+        f"**Uso incorreto do comando detectado**\n**Uso:**\n/changeassistant - Para alterar o assistente atual do "
+        f"seu grupo para um assistente aleatório no servidor do bot"
+    )
     if len(message.command) > 2:
         return await message.reply_text(usage)
     a = await get_assistant(message.chat.id)
@@ -45,7 +48,8 @@ async def assis_set(_client: app, message: Message, _):
     if await assistant():
         return await message.reply_text(
             "Desculpe! No servidor do bot, há apenas um assistente disponível. Portanto, você não pode alterar o "
-            "assistente.")
+            "assistente."
+        )
     usage = await get_assistant_details()
     if len(message.command) != 2:
         return await message.reply_text(usage, disable_web_page_preview=True)

@@ -67,7 +67,9 @@ async def language_markup(_client: app, callback_query: CallbackQuery, _):
         )
     try:
         _ = get_string(langauge)
-        await callback_query.answer("Seu idioma foi alterado com sucesso!", show_alert=True)
+        await callback_query.answer(
+            "Seu idioma foi alterado com sucesso!", show_alert=True
+        )
     except:
         return await callback_query.answer(
             "Falha ao alterar o idioma ou o idioma está em atualização",

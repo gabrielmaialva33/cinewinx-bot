@@ -13,7 +13,12 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    CallbackQuery,
+)
 from youtube_search import YoutubeSearch
 
 from CineWinx import Carbon, app
@@ -524,7 +529,9 @@ async def add_playlist(_client: app, message: Message, _):
 
     # Check if the provided input is a YouTube playlist link
     if "youtube.com/playlist" in query:
-        adding = await message.reply_text("** Adicionando músicas à playlist, por favor aguarde...**")
+        adding = await message.reply_text(
+            "** Adicionando músicas à playlist, por favor aguarde...**"
+        )
         try:
             from pytube import Playlist, YouTube
 
@@ -548,7 +555,9 @@ async def add_playlist(_client: app, message: Message, _):
                 title = yt.title
                 duration = yt.length
             except Exception as e:
-                return await message.reply_text(f"Erro ao obter informações do vídeo: {e}")
+                return await message.reply_text(
+                    f"Erro ao obter informações do vídeo: {e}"
+                )
 
             plist = {
                 "videoid": video_id,
@@ -571,11 +580,13 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="**Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!**\n\n**➥ Para remover "
-                 "alguma música, clique no botão abaixo.**",
+            "alguma música, clique no botão abaixo.**",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
-        addin = await message.reply_text("**Adicionando músicas à playlist, por favor aguarde...**")
+        addin = await message.reply_text(
+            "**Adicionando músicas à playlist, por favor aguarde...**"
+        )
         try:
             from pytube import YouTube
 
@@ -599,7 +610,9 @@ async def add_playlist(_client: app, message: Message, _):
                 title = yt.title
                 duration = yt.length
             except Exception as e:
-                return await message.reply_text(f"Erro ao buscar informações do vídeo: {e}")
+                return await message.reply_text(
+                    f"Erro ao buscar informações do vídeo: {e}"
+                )
 
             plist = {
                 "videoid": video_id,
@@ -621,13 +634,15 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="**Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!**\n\n**➥ Para remover "
-                 "alguma música, clique no botão abaixo.**",
+            "alguma música, clique no botão abaixo.**",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link
     if "https://youtu.be" in query:
         try:
-            add = await message.reply_text("**Adicionando músicas à playlist, por favor aguarde...**")
+            add = await message.reply_text(
+                "**Adicionando músicas à playlist, por favor aguarde...**"
+            )
             from pytube import Playlist, YouTube
 
             # Extract video ID from the YouTube lin
@@ -665,7 +680,9 @@ async def add_playlist(_client: app, message: Message, _):
                 await save_playlist(user_id, videoid, plist)
 
                 await add.delete()
-                await message.reply_photo(thumbnail, caption="**Música adicionada à sua playlist do bot**")
+                await message.reply_photo(
+                    thumbnail, caption="**Música adicionada à sua playlist do bot**"
+                )
             except Exception as e:
                 print(f"Error: {e}")
                 await message.reply_text(str(e))
@@ -765,7 +782,8 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
         [
             [
                 InlineKeyboardButton(
-                    "๏ Recuperar sua música ๏", callback_data=f"recover_playlist {videoid}"
+                    "๏ Recuperar sua música ๏",
+                    callback_data=f"recover_playlist {videoid}",
                 )
             ]
         ]
@@ -1004,7 +1022,9 @@ async def del_whole_playlist(_client: app, callback_query: CallbackQuery, _):
 
     _playlist = await get_playlist_names(callback_query.from_user.id)
     for x in _playlist:
-        await callback_query.answer("Por favor, aguarde.\nExcluindo sua playlist...", show_alert=True)
+        await callback_query.answer(
+            "Por favor, aguarde.\nExcluindo sua playlist...", show_alert=True
+        )
         await delete_playlist(callback_query.from_user.id, x)
     return await callback_query.edit_message_text(_["playlist_13"])
 

@@ -53,7 +53,9 @@ class WinxBot(Client):
                         BotCommand("pause", "pausar a música que está tocando"),
                         BotCommand("resume", "retomar a música pausada"),
                         BotCommand("end", "limpar a fila e sair do chat de voz"),
-                        BotCommand("shuffle", "embaralhar aleatoriamente a playlist na fila."),
+                        BotCommand(
+                            "shuffle", "embaralhar aleatoriamente a playlist na fila."
+                        ),
                         BotCommand(
                             "playmode",
                             "permite alterar o modo de reprodução padrão para o seu chat",

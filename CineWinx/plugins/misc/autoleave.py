@@ -63,7 +63,7 @@ async def auto_end():
                     await app.send_message(
                         chat_id,
                         "Bot saiu do chat de voz por inatividade para evitar sobrecarga nos servidores. "
-                        "Ninguém estava ouvindo o bot no chat de voz."
+                        "Ninguém estava ouvindo o bot no chat de voz.",
                     )
                 except:
                     continue

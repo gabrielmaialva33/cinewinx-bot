@@ -1,7 +1,8 @@
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    InlineQueryResultPhoto, CallbackQuery,
+    InlineQueryResultPhoto,
+    CallbackQuery,
 )
 from youtubesearchpython.__future__ import VideosSearch
 

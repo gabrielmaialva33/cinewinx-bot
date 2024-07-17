@@ -56,7 +56,9 @@ async def on_left_chat_member(_, message: Message):
         left_chat_member = message.left_chat_member
         if left_chat_member and left_chat_member.id == app.id:
             remove_by = (
-                message.from_user.mention if message.from_user else "Usuário Desconhecido"
+                message.from_user.mention
+                if message.from_user
+                else "Usuário Desconhecido"
             )
             title = message.chat.title
             username = (
