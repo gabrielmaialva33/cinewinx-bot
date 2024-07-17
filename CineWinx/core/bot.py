@@ -1,5 +1,4 @@
 import os
-import sys
 
 from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus
@@ -14,10 +13,14 @@ _ = get_string(config.LANGUAGE)
 
 
 class WinxBot(Client):
+    """
+    Bot client. Inherits from pyrogram.Client.
+    """
     def __init__(self):
-        LOGGER(__name__).info(f"Starting Bot")
+        LOGGER(__name__).info(f"Starting {config.BOT_NAME}.")
+
         super().__init__(
-            "CineWinx",
+            config.BOT_NAME,
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
@@ -39,19 +42,20 @@ class WinxBot(Client):
 
         try:
             text = _["bot_1"].format(self.mention, self.id, self.name, self.username)
-            await self.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+            img = await self.download_media(get_me.photo.big_file_id)
+            await self.send_photo(chat_id=config.LOG_GROUP_ID, photo=img, caption=text)
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
             LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
-            sys.exit()
+            await self.stop()
         except errors.FloodWait as e:
             LOGGER(__name__).error(f"FloodWait: {e.value} seconds.")
-            sys.exit()
+            await self.stop()
         except errors.RPCError as e:
             LOGGER(__name__).error(f"RPCError: {e}")
-            sys.exit()
+            await self.stop()
         except Exception as e:
             LOGGER(__name__).error(f"An error occurred: {e}")
-            sys.exit()
+            await self.stop()
 
         if config.SET_CMDS == str(True):
             try:
@@ -83,23 +87,21 @@ class WinxBot(Client):
         else:
             pass
         try:
-            a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
-            if a.status != ChatMemberStatus.ADMINISTRATOR:
+            member = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
+            if member.status != ChatMemberStatus.ADMINISTRATOR:
                 LOGGER(__name__).error("Please promote Bot as Admin in Logger Group")
                 return await self.stop()
-        except Exception:
+        except Exception as e:
+            LOGGER(__name__).error(f"An error occurred: {e}")
             pass
 
-        if get_me.last_name:
-            self.name = get_me.first_name + " " + get_me.last_name
-        else:
-            self.name = get_me.first_name
-        LOGGER(__name__).info(f"CineWinx Started as {self.name}")
+        LOGGER(__name__).info(f"Bot Started as {self.name}")
 
     async def stop(self, *args):
         await self.send_message(
             chat_id=config.LOG_GROUP_ID, text=_["bot_2"].format(self.mention)
         )
         await super().stop()
+
         LOGGER(__name__).info(f"{self.name} has stopped.")
         os.kill(os.getpid(), 9)
