@@ -1,12 +1,15 @@
 import sys
 
-from pyrogram import Client
+from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import BotCommand
 
 import config
+from strings import get_string
+
 from ..logging import LOGGER
 
+_ = get_string(config.LANGUAGE)
 
 class WinxBot(Client):
     def __init__(self):
@@ -24,23 +27,30 @@ class WinxBot(Client):
 
     async def start(self):
         await super().start()
+
         get_me = await self.get_me()
+
         self.id = get_me.id
         self.username = get_me.username
         self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.mention = self.me.mention
 
         try:
-            await self.send_message(
-                config.LOG_GROUP_ID,
-                text=f"<u><b>{self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ :</b><u>\n\nɪᴅ : <code>{self.id}</code>\nɴᴀᴍᴇ : {self.name}\nᴜsᴇʀɴᴀᴍᴇ : @{self.username}",
-            )
-        except:
-            LOGGER(__name__).error(
-                "O bot falhou ao acessar o grupo de logs. Certifique-se de que você adicionou seu bot ao canal de logs "
-                "e o promoveu como administrador!"
-            )
-            # sys.exit()
+            text = _["bot_1"].format(self.mention, self.id, self.name, self.username)
+            await self.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+        except (errors.ChannelInvalid, errors.PeerIdInvalid):
+            LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
+            sys.exit()
+        except errors.FloodWait as e:
+            LOGGER(__name__).error(f"FloodWait: {e.value} seconds.")
+            sys.exit()
+        except errors.RPCError as e:
+            LOGGER(__name__).error(f"RPCError: {e}")
+            sys.exit()
+        except Exception as e:
+            LOGGER(__name__).error(f"An error occurred: {e}")
+            sys.exit()
+
         if config.SET_CMDS == str(True):
             try:
                 await self.set_bot_commands(
@@ -77,6 +87,7 @@ class WinxBot(Client):
                 sys.exit()
         except Exception:
             pass
+
         if get_me.last_name:
             self.name = get_me.first_name + " " + get_me.last_name
         else:

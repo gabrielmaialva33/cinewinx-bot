@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 from config import LOG_FILE_NAME
 
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - file: %(filename)s - line: %(lineno)d - name: %(name)s - message: %(message)s",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
