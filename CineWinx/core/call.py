@@ -16,7 +16,9 @@ from pytgcalls import PyTgCalls, filters
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
 from pytgcalls.types import (
     MediaStream,
-    Update, ChatUpdate, GroupCallParticipant,
+    Update,
+    ChatUpdate,
+    GroupCallParticipant,
 )
 from pytgcalls.types.stream import StreamAudioEnded
 
@@ -635,9 +637,9 @@ class Call(PyTgCalls):
             filters.call_participant(GroupCallParticipant.Action.UPDATED)
         )
         async def participants_change_handler(client, update: Update):
-            if not isinstance(update, GroupCallParticipant.Action.JOINED) and not isinstance(
-                update, GroupCallParticipant.Action.LEFT
-            ):
+            if not isinstance(
+                update, GroupCallParticipant.Action.JOINED
+            ) and not isinstance(update, GroupCallParticipant.Action.LEFT):
                 return
             chat_id = update.chat_id
             users = counter.get(chat_id)
