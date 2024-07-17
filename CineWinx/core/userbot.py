@@ -104,7 +104,6 @@ class Userbot(Client):
                 await self.one.join_chat("@cinewinxcoments")
             except Exception as e:
                 logging.error(f"An error occurred: {e}")
-                pass
 
             try:
                 text = _["assistant_1"].format(
@@ -123,7 +122,9 @@ class Userbot(Client):
             assistants.append(1)
             assistant_ids.append(self.one.id)
 
-            LOGGER(__name__).info(f"{self.one.name} assistant {assistants[-1]} has started.")
+            LOGGER(__name__).info(
+                f"{self.one.name} assistant {assistants[-1]} has started."
+            )
 
         if config.STRING2:
             await self.two.start()
@@ -141,7 +142,6 @@ class Userbot(Client):
                 await self.two.join_chat("@cinewinxcoments")
             except Exception as e:
                 logging.error(f"An error occurred: {e}")
-                pass
 
             try:
                 text = _["assistant_1"].format(
@@ -160,13 +160,17 @@ class Userbot(Client):
             assistants.append(2)
             assistant_ids.append(self.two.id)
 
-            LOGGER(__name__).info(f"{self.two.name} assistant {assistants[-1]} has started.")
+            LOGGER(__name__).info(
+                f"{self.two.name} assistant {assistants[-1]} has started."
+            )
 
         if config.STRING3:
             await self.three.start()
 
             self.three.id = self.three.me.id
-            self.three.name = self.three.me.first_name + " " + (self.three.me.last_name or "")
+            self.three.name = (
+                self.three.me.first_name + " " + (self.three.me.last_name or "")
+            )
             self.three.username = self.three.me.username
             self.three.mention = self.three.me.mention
 
@@ -178,11 +182,13 @@ class Userbot(Client):
                 await self.three.join_chat("@cinewinxcoments")
             except Exception as e:
                 logging.error(f"An error occurred: {e}")
-                pass
 
             try:
                 text = _["assistant_1"].format(
-                    self.three.mention, self.three.id, self.three.name, self.three.username
+                    self.three.mention,
+                    self.three.id,
+                    self.three.name,
+                    self.three.username,
                 )
                 await self.three.send_message(chat_id=config.LOG_GROUP_ID, text=text)
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -197,13 +203,17 @@ class Userbot(Client):
             assistants.append(3)
             assistant_ids.append(self.three.id)
 
-            LOGGER(__name__).info(f"{self.three.name} assistant {assistants[-1]} has started.")
+            LOGGER(__name__).info(
+                f"{self.three.name} assistant {assistants[-1]} has started."
+            )
 
         if config.STRING4:
             await self.four.start()
 
             self.four.id = self.four.me.id
-            self.four.name = self.four.me.first_name + " " + (self.four.me.last_name or "")
+            self.four.name = (
+                self.four.me.first_name + " " + (self.four.me.last_name or "")
+            )
             self.four.username = self.four.me.username
             self.four.mention = self.four.me.mention
 
@@ -215,7 +225,6 @@ class Userbot(Client):
                 await self.four.join_chat("@cinewinxcoments")
             except Exception as e:
                 logging.error(f"An error occurred: {e}")
-                pass
 
             try:
                 text = _["assistant_1"].format(
@@ -234,13 +243,17 @@ class Userbot(Client):
             assistants.append(4)
             assistant_ids.append(self.four.id)
 
-            LOGGER(__name__).info(f"{self.four.name} assistant {assistants[-1]} has started.")
+            LOGGER(__name__).info(
+                f"{self.four.name} assistant {assistants[-1]} has started."
+            )
 
         if config.STRING5:
             await self.five.start()
 
             self.five.id = self.five.me.id
-            self.five.name = self.five.me.first_name + " " + (self.five.me.last_name or "")
+            self.five.name = (
+                self.five.me.first_name + " " + (self.five.me.last_name or "")
+            )
             self.five.username = self.five.me.username
             self.five.mention = self.five.me.mention
 
@@ -252,7 +265,6 @@ class Userbot(Client):
                 await self.five.join_chat("@cinewinxcoments")
             except Exception as e:
                 logging.error(f"An error occurred: {e}")
-                pass
 
             try:
                 text = _["assistant_1"].format(
@@ -271,7 +283,9 @@ class Userbot(Client):
             assistants.append(5)
             assistant_ids.append(self.five.id)
 
-            LOGGER(__name__).info(f"{self.five.name} assistant {assistants[-1]} has started.")
+            LOGGER(__name__).info(
+                f"{self.five.name} assistant {assistants[-1]} has started."
+            )
 
     async def stop(self, *args):
         LOGGER(__name__).info("Stopping assistants.")
