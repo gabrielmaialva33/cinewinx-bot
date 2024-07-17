@@ -51,7 +51,7 @@ async def stats_global(_client: app, message: Message, _):
     upl = stats_buttons(_, True if message.from_user.id in SUDOERS else False)
     await message.reply_photo(
         photo=config.STATS_IMG_URL,
-        caption=_["gstats_11"].format(app.mention),
+        caption=_["gstats_11"],
         reply_markup=upl,
     )
 
@@ -103,7 +103,7 @@ async def gstats_global(_client: app, message: Message, _):
         vidid,
     ) = await YouTube.details(videoid, True)
     title = title.title()
-    final = f"Faixas mais tocadas no bot {app.mention}\n\n**Título:** {title}\n\nTocadas **{co}** vezes"
+    final = f"<b>Faixas mais tocadas</b> {app.mention}\n\n<b>Título:</b> {title}\n\n<i>Tocadas <b>{co}</b> vezes</i>"
     upl = get_stats_markup(_, True if message.from_user.id in SUDOERS else False)
     try:
         await app.send_photo(
@@ -113,7 +113,7 @@ async def gstats_global(_client: app, message: Message, _):
             reply_markup=upl,
         )
     except FloodWait as e:
-        asyncio.sleep(e.value)
+        await asyncio.sleep(e.value)
     await mystic.delete()
 
 
@@ -172,9 +172,10 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
                 details = stats.get(items)
                 title = (details["title"][:35]).title()
                 if items == "telegram":
-                    msg += f"🔗[Arquivos e áudios do Telegram](https://t.me/telegram) ** tocados {count} vezes**\n\n"
+                    msg += f"🔗[Arquivos e áudios do Telegram](https://t.me/telegram) <b>tocados {count} vezes</b>\n\n"
                 else:
-                    msg += f"🔗 [{title}](https://www.youtube.com/watch?v={items}) ** tocados {count} vezes**\n\n"
+                    msg += (f"🔗 <a href='https://www.youtube.com/watch?v={items}'>{title}</a> "
+                            f"<b>tocados {count} vezes</b>\n\n")
 
             temp = (
                 _["gstats_4"].format(
@@ -212,7 +213,7 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
             except:
                 continue
             limit += 1
-            msg += f"🔗`{extract}` tocado {count} vezes no bot.\n\n"
+            msg += f"🔗 {extract} tocado {count} vezes no bot.\n\n"
         temp = (
             _["gstats_5"].format(limit, app.mention)
             if what == "Chats"
@@ -239,7 +240,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
         upl = back_stats_buttons(_)
     try:
         await callback_query.answer()
-    except:
+    except FloodWait:
         pass
     await callback_query.edit_message_text(_["gstats_8"])
     served_chats = len(await get_served_chats())
@@ -257,22 +258,22 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
         ass = "Yes"
     else:
         ass = "No"
-        text = f"""**Estatísticas e informações do bot:**
+    text = f"""<u><b>📊 Estatísticas e Informações Gerais:</b></u>
 
-    **Módulos importados:** {mod}
-    **Chats atendidos:** {served_chats} 
-    **Usuários atendidos:** {served_users} 
-    **Usuários bloqueados:** {blocked} 
-    **Usuários sudo:** {sudoers} 
+<b>📦 Módulos importados:</b> {mod}
+<b>💬 Chats atendidos:</b> {served_chats} 
+<b>👥 Usuários atendidos:</b> {served_users} 
+<b>🚫 Usuários bloqueados:</b> {blocked} 
+<b>🔧 Usuários sudo:</b> {sudoers} 
 
-    **Total de consultas:** {total_queries} 
-    **Total de assistentes:** {assistant}
-    **Assistente de saída automática:** {ass}
+<b>🔍 Total de consultas:</b> {total_queries} 
+<b>🤖 Total de assistentes:</b> {assistant}
+<b>🔄 Assistente de saída automática:</b> {ass}
 
-    **Limite de duração de reprodução:** {play_duration} mins
-    **Limite de download de músicas:** {song} mins
-    **Limite de playlist do servidor do bot:** {playlist_limit}
-    **Limite de reprodução de playlist:** {fetch_playlist}"""
+<b>⏳ Limite de duração de reprodução:</b> {play_duration} m
+<b>🎵 Limite de download de músicas:</b> {song} m
+<b>📋 Limite de playlist do servidor do bot:</b> {playlist_limit}
+<b>▶️ Limite de reprodução de playlist:</b> {fetch_playlist}"""
 
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
@@ -298,7 +299,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
         upl = back_stats_buttons(_)
     try:
         await callback_query.answer()
-    except:
+    except FloodWait:
         pass
     await callback_query.edit_message_text(_["gstats_8"])
     sc = platform.system()
@@ -334,33 +335,34 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(await get_sudoers())
-    text = f""" **Estatísticas e Informações do Bot:**
+    text = f"""<u><b>📊 Estatísticas e Informações do Bot:</b></u>
 
-    **Módulos Importados:** {mod}
-    **Plataforma:** {sc}
-    **RAM:** {ram}
-    **Núcleos Físicos:** {p_core}
-    **Total de Núcleos:** {t_core}
-    **Frequência da CPU:** {cpu_freq}
+<b>📦 Módulos Importados:</b> {mod}
+<b>🖥️ Plataforma:</b> {sc}
+<b>💾 RAM:</b> {ram}
+<b>🧩 Núcleos Físicos:</b> {p_core}
+<b>🧩 Total de Núcleos:</b> {t_core}
+<b>⚙️ Frequência da CPU:</b> {cpu_freq}
 
-    **Versão do Python:** {pyver.split()[0]}
-    **Versão do Pyrogram:** {pyrover}
-    **Versão do Py-TgCalls:** {pytgver}
-    **Versão do N-TgCalls:** {ngtgver}
-    **Armazenamento Disponível:** {total[:4]} GiB
-    **Armazenamento Usado:** {used[:4]} GiB
-    **Armazenamento Restante:** {free[:4]} GiB
+<b>🐍 Versão do Python:</b> {pyver.split()[0]}
+<b>🌐 Versão do Pyrogram:</b> {pyrover}
+<b>📞 Versão do Py-TgCalls:</b> {pytgver}
+<b>📞 Versão do N-TgCalls:</b> {ngtgver}
+<b>💽 Armazenamento Disponível:</b> {total[:5]} GiB
+<b>💽 Armazenamento Usado:</b> {used[:4]} GiB
+<b>💽 ArmazenamentoRestante:</b> {free[:4]} GiB
+<b>🗄️ Armazenamento Dados:</b> {datasize[:5]} MB
 
-    **Chats Servidos:** {served_chats} 
-    **Usuários Servidos:** {served_users} 
-    **Usuários Bloqueados:** {blocked} 
-    **Usuários Sudo:** {sudoers} 
+<b>💬 Chats Servidos:</b> {served_chats} 
+<b>👥 Usuários Servidos:</b> {served_users} 
+<b>🚫 Usuários Bloqueados:</b> {blocked} 
+<b>🔧 Usuários Sudo:</b> {sudoers} 
 
-    **Total de Armazenamento do BD:** {storage} MB
-    **Total de Coleções no BD:** {collections}
-    **Total de Chaves no BD:** {objects}
-    **Total de Consultas do Bot:** `{total_queries} `
-        """
+<b>🗄️ Armazenamento do BD:</b> {storage} MB
+<b>📂 Coleções no BD:</b> {collections}
+<b>🔑 Chaves no BD:</b> {objects}
+<b>🔍 Consultas do Bot:</b> <code>{total_queries}</code>
+"""
 
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:

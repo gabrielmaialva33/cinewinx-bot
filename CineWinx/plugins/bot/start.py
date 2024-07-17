@@ -104,9 +104,10 @@ async def start_comm(client: app, message: Message, _):
                     details = stats.get(vidid)
                     title = (details["title"][:35]).title()
                     if vidid == "telegram":
-                        msg += f"🔗[Arquivos e áudios do Telegram]({config.SUPPORT_GROUP}) ** tocados {count} vezes**\n\n"
+                        msg += (f"🔗[Arquivos e áudios do Telegram]({config.SUPPORT_GROUP}) <b>tocados {count} vezes"
+                                f"</b>\n\n")
                     else:
-                        msg += f"🔗 [{title}](https://www.youtube.com/watch?v={vidid}) ** tocado {count} vezes**\n\n"
+                        msg += f"🔗 <a href='https://www.youtube.com/watch?v={vidid}'>{title}</a> <b>tocado {count} vezes</b>\n\n"
                 msg = _["ustats_2"].format(tot, tota, limit) + msg
                 return videoid, msg
 
@@ -223,11 +224,13 @@ async def start_comm(client: app, message: Message, _):
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
             sender_name = message.from_user.first_name
+            username = message.from_user.username
             return await app.send_message(
                 config.LOG_GROUP_ID,
-                f"{message.from_user.mention} iniciou o bot. \n\n**"
-                f"ID do Usuário:** {sender_id}\n**"
-                f"Nome do Usuário:** {sender_name}",
+                f"{message.from_user.mention} <b>iniciou o bot. \n\n</b>"
+                f"<b>ID:</b> <code>{sender_id}</code>\n"
+                f"<b>Nome:</b> {sender_name}\n"
+                f"<b>Usuário:</b> @{username}",
             )
 
 

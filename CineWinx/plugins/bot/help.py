@@ -2,7 +2,7 @@ import re
 from math import ceil
 from typing import Union
 
-from pyrogram import filters, types
+from pyrogram import filters, types, errors
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -60,13 +60,13 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
             ]
         )
 
-    pairs = [modules[i : i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
+    pairs = [modules[i: i + NUM_COLUMNS] for i in range(0, len(modules), NUM_COLUMNS)]
 
     max_num_pages = ceil(len(pairs) / COLUMN_SIZE) if len(pairs) > 0 else 1
     modulo_page = page_n % max_num_pages
 
     if len(pairs) > COLUMN_SIZE:
-        pairs = pairs[modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * COLUMN_SIZE: COLUMN_SIZE * (modulo_page + 1)] + [
             (
                 EqInlineKeyboardButton(
                     "❮",
@@ -101,7 +101,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
 @app.on_message(filters.command(HELP_COMMAND) & filters.private & ~BANNED_USERS)
 @app.on_callback_query(filters.regex("settings_back_helper") & ~BANNED_USERS)
 async def helper_private(
-    client: app, update: Union[types.Message, types.CallbackQuery]
+        client: app, update: Union[types.Message, types.CallbackQuery]
 ):
     is_callback = isinstance(update, types.CallbackQuery)
     if is_callback:
@@ -167,8 +167,8 @@ async def help_button(client: app, query: CallbackQuery):
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
         text = (
-            f"<b><u>Aqui está a ajuda para {HELPABLE[module].__MODULE__}:</u></b>\n"
-            + HELPABLE[module].__HELP__
+                f"<b><u>Aqui está a ajuda para {HELPABLE[module].__MODULE__}:</u></b>\n"
+                + HELPABLE[module].__HELP__
         )
 
         key = InlineKeyboardMarkup(
@@ -182,11 +182,25 @@ async def help_button(client: app, query: CallbackQuery):
             ]
         )
 
-        await query.message.edit(
-            text=text,
-            reply_markup=key,
-            disable_web_page_preview=True,
-        )
+        try:
+            await query.message.edit(
+                text=text,
+                reply_markup=key,
+                disable_web_page_preview=True,
+            )
+        except (
+                errors.exceptions.bad_request_400.MediaCaptionTooLong,
+                errors.exceptions.bad_request_400.MessageTooLong):
+            # if the text is too long, send new message
+            await query.message.delete()
+            await query.message.reply_text(
+                text=text,
+                reply_markup=key,
+                disable_web_page_preview=True,
+            )
+
+
+
 
     elif home_match:
         await app.send_message(
@@ -235,3 +249,9 @@ async def help_button(client: app, query: CallbackQuery):
         )
 
     await client.answer_callback_query(query.id)
+
+
+@app.on_callback_query(filters.regex(r"help_next\((.+?)\)"))
+async def help_next(client: app, query: CallbackQuery):
+    await query.answer()
+    await help_button(client, query)
