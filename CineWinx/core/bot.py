@@ -6,7 +6,6 @@ from pyrogram.types import BotCommand
 
 import config
 from strings import get_string
-
 from ..logging import LOGGER
 
 _ = get_string(config.LANGUAGE)

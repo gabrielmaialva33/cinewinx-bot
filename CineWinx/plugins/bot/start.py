@@ -131,8 +131,10 @@ async def start_comm(client: app, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} acabou de iniciar o bot para verificar a `sudolist`\n\n**ID do "
-                    f"usuário:** {sender_id}\n**Nome de usuário:** {sender_name}",
+                    f"{message.from_user.mention} acabou de iniciar o bot para verificar a <code>sudolist</code>\n\n"
+                    f"<b>ID:</b> {sender_id}\n"
+                    f"<b>Nome:</b> {sender_name}"
+                    f"<b>Usuário:</b> @{sender_mention}",
                 )
             return
         if name[0:3] == "lyr":
@@ -163,16 +165,16 @@ async def start_comm(client: app, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
                 searched_text = f"""
-🔍__**Informações sobre a faixa de vídeo**__
+🔍<u><b>Informações sobre a faixa de vídeo</b></u>
 
-❇️**Título:** {title}
+❇️<b>Título:</b> {title}
 
-⏳**Duração:** {duration} minutos
-👀**Visualizações:** `{views}`
-⏰**Publicado em:** {published}
-🎥**Canal:** {channel}
-📎**Link do canal:** [Visitar aqui]({channellink})
-🔗**Link do vídeo:** [Link]({link})
+⏳<b>Duração:</b> {duration} minutos
+👀<b>Visualizações:</b> `{views}`
+⏰<b>Publicado em:</b> {published}
+🎥<b>Canal:</b> {channel}
+📎<b>Link do canal:</b> <a href="{channellink}">veja aqui</a>
+🔗<b>Link do vídeo:</b> <a href="{link}">link</a>
 """
             key = InlineKeyboardMarkup(
                 [
@@ -194,10 +196,12 @@ async def start_comm(client: app, message: Message, _):
             if await is_on_off(config.LOG):
                 sender_id = message.from_user.id
                 sender_name = message.from_user.first_name
+                sender_mention = message.from_user.mention
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} acabou de iniciar o bot para verificar `informações de "
-                    f"vídeo`\n\n**ID do usuário:** {sender_id}\n**Nome do usuário:** {sender_name}",
+                    f"{message.from_user.mention} acabou de iniciar o bot para verificar <code>informações de "
+                    f"vídeo</code>\n\n<b>ID:</b> {sender_id}\n<b>Nome:</b> {sender_name}\n"
+                    f"<b>Usuário:</b> @{sender_mention}",
                 )
     else:
         try:

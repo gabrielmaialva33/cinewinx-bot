@@ -49,7 +49,7 @@ async def useradd(_client: app, message: Message, _):
             _["sudo_2"].format(message.reply_to_message.from_user.mention)
         )
     else:
-        await message.reply_text("ғᴀɪʟᴇᴅ")
+        await message.reply_text("Falhou")
     return
 
 

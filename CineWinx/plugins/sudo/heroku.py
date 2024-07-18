@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import math
 import os
 import shutil
@@ -60,10 +61,10 @@ async def log_(_client: app, message: Message, _):
                 lines = log.readlines()
                 data = ""
                 try:
-                    NUMB = int(message.text.split(None, 1)[1])
-                except:
-                    NUMB = 100
-                for x in lines[-NUMB:]:
+                    numb = int(message.text.split(None, 1)[1])
+                except IndexError:
+                    numb = 100
+                for x in lines[-numb:]:
                     data += x
                 link = await WinxBin(data)
                 return await message.reply_text(link)
@@ -76,7 +77,7 @@ async def log_(_client: app, message: Message, _):
 
 @app.on_message(filters.command(GETVAR_COMMAND) & SUDOERS)
 @language
-async def varget_(client: app, message: Message, _):
+async def varget_(_client: app, message: Message, _):
     usage = _["heroku_3"]
     if len(message.command) != 2:
         return await message.reply_text(usage)
@@ -162,7 +163,6 @@ async def set_var(_client: app, message: Message, _):
 @app.on_message(filters.command(USAGE_COMMAND) & SUDOERS)
 @language
 async def usage_dynos(_client: app, message: Message, _):
-    ### Credits CatUserbot
     if await is_heroku():
         if HAPP is None:
             return await message.reply_text(_["heroku_1"])
@@ -218,7 +218,7 @@ Tᴏᴛᴀʟ ʟᴇғᴛ: `{hours}`**ʜ**  `{minutes}`**ᴍ**  [`{percentage}`**%
 
 @app.on_message(filters.command(["update", "gitpull", "up"]) & SUDOERS)
 @language
-async def update_(client, message, _):
+async def update_(_client: app, message: Message, _):
     if await is_heroku():
         if HAPP is None:
             return await message.reply_text(_["heroku_1"])
@@ -240,7 +240,7 @@ async def update_(client, message, _):
         return await response.edit("» ʙᴏᴛ ɪs ᴜᴘ-ᴛᴏ-ᴅᴀᴛᴇ.")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
     )
     updates = "".join(
         f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> ʙʏ -> {info.author}</b>\n\t\t\t\t<b>➥ ᴄᴏᴍᴍɪᴛᴇᴅ ᴏɴ :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
@@ -302,7 +302,7 @@ async def update_(client, message, _):
 
 
 @app.on_message(filters.command(["restart"]) & SUDOERS)
-async def restart_(_, message):
+async def restart_(_, message: Message):
     response = await message.reply_text("reiniciando...")
     ac_chats = await get_active_chats()
     for x in ac_chats:
@@ -313,14 +313,16 @@ async def restart_(_, message):
             )
             await remove_active_chat(x)
             await remove_active_video_chat(x)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             pass
 
     try:
         shutil.rmtree("downloads")
         shutil.rmtree("raw_files")
         shutil.rmtree("cache")
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
     await response.edit_text(
         "» Processo de reinicialização iniciado, aguarde alguns segundos até que o bot seja iniciado..."

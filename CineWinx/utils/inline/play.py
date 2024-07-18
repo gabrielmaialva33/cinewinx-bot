@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from CineWinx.utils.formatters import time_to_seconds
 
 
-def stream_markup_timer(_, videoid, chat_id, played, dur):
+def stream_markup_timer(_, videoid: str, chat_id: int, played: str, dur: str):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
@@ -57,7 +57,7 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
     return buttons
 
 
-def stream_markup(_, videoid, chat_id):
+def stream_markup(_, videoid: str, chat_id: int):
     buttons = [
         [
             InlineKeyboardButton(
@@ -83,7 +83,7 @@ def stream_markup(_, videoid, chat_id):
     return buttons
 
 
-def telegram_markup_timer(_, chat_id, played, dur):
+def telegram_markup_timer(_, chat_id: int, played: str, dur: str):
     played_sec = time_to_seconds(played)
     duration_sec = time_to_seconds(dur)
     percentage = (played_sec / duration_sec) * 100
@@ -155,16 +155,15 @@ def telegram_markup(_, chat_id):
     return buttons
 
 
-## By Anon
 close_keyboard = InlineKeyboardMarkup(
-    [[InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")]]
+    [[InlineKeyboardButton(text="Fechar", callback_data="close")]]
 )
 
 
 ## Search Query Inline
 
 
-def track_markup(_, videoid, user_id, channel, fplay):
+def track_markup(_, videoid: str, user_id: int, channel: str, fplay: str):
     buttons = [
         [
             InlineKeyboardButton(
@@ -185,7 +184,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
     return buttons
 
 
-def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
+def playlist_markup(_, videoid: str, user_id: int, ptype: str, channel: str, fplay: str):
     buttons = [
         [
             InlineKeyboardButton(
@@ -209,7 +208,7 @@ def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
 ## Live Stream Markup
 
 
-def livestream_markup(_, videoid, user_id, mode, channel, fplay):
+def livestream_markup(_, videoid: str, user_id: int, mode: str, channel: str, fplay: str):
     buttons = [
         [
             InlineKeyboardButton(
@@ -228,7 +227,7 @@ def livestream_markup(_, videoid, user_id, mode, channel, fplay):
 ## Slider Query Markup
 
 
-def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
+def slider_markup(_, videoid: str, user_id: int, query_type: str, query: str, channel: str, fplay: str):
     query = f"{query[:20]}"
     buttons = [
         [
@@ -258,7 +257,7 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
     return buttons
 
 
-def queue_markup(_, videoid, chat_id):
+def queue_markup(_, _videoid: str, chat_id: int):
     buttons = [
         [
             InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
@@ -266,6 +265,6 @@ def queue_markup(_, videoid, chat_id):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")],
+        [InlineKeyboardButton(text="Fechar", callback_data="close")],
     ]
     return buttons

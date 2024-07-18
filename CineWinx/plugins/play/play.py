@@ -49,15 +49,15 @@ from config import BANNED_USERS, lyrical
 )
 @PlayWrapper
 async def play_command(
-    _client: app,
-    message: Message,
-    _,
-    chat_id: int,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
+        _client: app,
+        message: Message,
+        _,
+        chat_id: int,
+        video,
+        channel,
+        playmode,
+        url,
+        fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
@@ -344,7 +344,7 @@ async def play_command(
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
-            return await play_logs(message, streamtype="M3u8 or Index Link")
+            return await play_logs(message, stream_type="M3u8 or Index Link")
     else:
         if len(message.command) < 2:
             buttons = botplaylist_markup(_)
@@ -408,7 +408,7 @@ async def play_command(
             except FloodWait as e:
                 await asyncio.sleep(e.value)
         await mystic.delete()
-        return await play_logs(message, streamtype=streamtype)
+        return await play_logs(message, stream_type=streamtype)
     else:
         if plist_type:
             ran_hash = "".join(
@@ -429,7 +429,7 @@ async def play_command(
                 caption=cap,
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
-            return await play_logs(message, streamtype=f"Playlist : {plist_type}")
+            return await play_logs(message, stream_type=f"Playlist : {plist_type}")
         else:
             if slider:
                 buttons = slider_markup(
@@ -450,7 +450,7 @@ async def play_command(
                     ),
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
-                return await play_logs(message, streamtype=f"Searched on Youtube")
+                return await play_logs(message, stream_type=f"Searched on Youtube")
             else:
                 buttons = track_markup(
                     _,
@@ -465,7 +465,7 @@ async def play_command(
                     caption=cap,
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
-                return await play_logs(message, streamtype=f"URL Searched Inline")
+                return await play_logs(message, stream_type=f"URL Searched Inline")
 
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)

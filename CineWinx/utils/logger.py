@@ -1,28 +1,30 @@
+from pyrogram.types import Message
+
 from CineWinx import app
 from CineWinx.utils.database import is_on_off
 from config import LOG_GROUP_ID, LOG
 
 
-async def play_logs(message, streamtype):
+async def play_logs(message: Message, stream_type: str):
     if await is_on_off(LOG):
         if message.chat.username:
             chatusername = f"@{message.chat.username}"
         else:
-            chatusername = "ᴘʀɪᴠᴀᴛᴇ ɢʀᴏᴜᴘ"
+            chatusername = "Grupo privado"
 
         logger_text = f"""
-**{app.mention} ᴘʟᴀʏ ʟᴏɢ**
+        <b>{app.mention} play log</b>
 
-**ᴄʜᴀᴛ ɪᴅ :** `{message.chat.id}`
-**ᴄʜᴀᴛ ɴᴀᴍᴇ :** {message.chat.title}
-**ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ :** {chatusername}
+<b>id do chat :</b> `{message.chat.id}`
+<b>nome do chat :</b> {message.chat.title}
+<b>username do chat :</b> {chatusername}
 
-**ᴜsᴇʀ ɪᴅ :** `{message.from_user.id}`
-**ɴᴀᴍᴇ :** {message.from_user.mention}
-**ᴜsᴇʀɴᴀᴍᴇ :** @{message.from_user.username}
+<b>id do usuário :</b> `{message.from_user.id}`
+<b>nome :</b> {message.from_user.mention}
+<b>username :</b> @{message.from_user.username}
 
-**ǫᴜᴇʀʏ :** {message.text.split(None, 1)[1]}
-**sᴛʀᴇᴀᴍᴛʏᴘᴇ :** {streamtype}"""
+<b>consulta :** {message.text.split(None, 1)[1]}
+<b>tipo de stream :** {stream_type}"""
         if message.chat.id != LOG_GROUP_ID:
             try:
                 await app.send_message(

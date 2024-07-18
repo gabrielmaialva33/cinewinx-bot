@@ -44,17 +44,17 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
                 ]
             )
             searched_text = f"""
-❇️**Título:** [{title}]({link})
+❇️<b>Título:</b> [{title}]({link})
 
-⏳**Duração:** {duration} Minutos
-👀**Visualizações:** `{views}`
-⏰**Publicado em:** {published}
-🎥**Nome do Canal:** {channel}
-📎**Link do Canal:** [Visite Aqui]({channellink})
+⏳<b>Duração:</b> {duration} minutos
+👀<b>Visualizações:</b> {views}
+⏰<b>Publicado em:</b> {published}
+🎥<b>Nome do Canal:</b> {channel}
+📎<b>Link do Canal:</b> <a href="{channellink}">veja aqui</a>
 
-__Responda com /play nesta mensagem pesquisada para transmitir no chat de voz.__
+<i>Responda com <code>/play</code> nesta mensagem pesquisada para transmitir no chat de voz.</i>
 
-⚡️ **Pesquisa inline por {app.mention} **"""
+⚡️ <b>Pesquisa inline por {app.mention} </b>"""
             answers.append(
                 InlineQueryResultPhoto(
                     photo_url=thumbnail,

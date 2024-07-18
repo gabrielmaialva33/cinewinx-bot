@@ -502,13 +502,13 @@ __HELP__ = """✅<u>Configurações do Grupo:</u>
 
 1 Você pode definir a Qualidade do Áudio
 2 Você pode definir a Qualidade do Vídeo
-3 **Usuários Autorizados**: Você pode mudar o modo de comandos de administrador para todos ou apenas administradores.
-4 **Modo Limpo**: O bot apaga as mensagens do bot após 5 minutos do seu grupo para garantir que seu chat permaneça limpo e organizado.
-5 **Limpeza de Comandos**: Quando ativado, o bot apagará imediatamente os comandos executados.
+3 <b>Usuários Autorizados</b>: Você pode mudar o modo de comandos de administrador para todos ou apenas administradores.
+4 <b>Modo Limpo</b>: O bot apaga as mensagens do bot após 5 minutos do seu grupo para garantir que seu chat permaneça limpo e organizado.
+5 <b>Limpeza de Comandos</b>: Quando ativado, o bot apagará imediatamente os comandos executados.
        <b><u>Configurações de Reprodução:</u></b>
 /playmode - Obtenha um painel completo de configurações de reprodução com botões onde você pode definir as configurações de reprodução do seu grupo.
       <b><u>Opções no Modo de Reprodução:</u></b>
-1 **Modo de Busca** [Direto ou Inline] - Altera o seu modo de busca enquanto você usa /playmode
-2 **Comandos de Administrador** [Todos ou Administradores] - Se for todos, qualquer um no seu grupo poderá usar comandos de administrador (como /skip, /stop etc)
-3 **Tipo de Reprodução** [Todos ou Administradores] - Se for administradores, apenas os administradores do grupo poderão reproduzir música no chat de voz.
+1 <b>Modo de Busca</b> [Direto ou Inline] - Altera o seu modo de busca enquanto você usa /playmode
+2 <b>Comandos de Administrador</b> [Todos ou Administradores] - Se for todos, qualquer um no seu grupo poderá usar comandos de administrador (como /skip, /stop etc)
+3 <b>Tipo de Reprodução</b> [Todos ou Administradores] - Se for administradores, apenas os administradores do grupo poderão reproduzir música no chat de voz.
 """

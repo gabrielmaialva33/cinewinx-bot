@@ -580,7 +580,7 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="**Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!**\n\n**➥ Para remover "
-            "alguma música, clique no botão abaixo.**",
+                 "alguma música, clique no botão abaixo.**",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
@@ -634,7 +634,7 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="**Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!**\n\n**➥ Para remover "
-            "alguma música, clique no botão abaixo.**",
+                 "alguma música, clique no botão abaixo.**",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link

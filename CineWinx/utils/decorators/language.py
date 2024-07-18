@@ -1,3 +1,5 @@
+from pyrogram.types import CallbackQuery
+
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.database import get_lang, is_commanddelete_on, is_maintenance
 from strings import get_string
@@ -8,7 +10,7 @@ def language(mystic):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ."
+                    "Bot está em manutenção por algum tempo, por favor, visite o chat de suporte para saber o motivo."
                 )
         if await is_commanddelete_on(message.chat.id):
             try:
@@ -26,19 +28,19 @@ def language(mystic):
 
 
 def languageCB(mystic):
-    async def wrapper(_, CallbackQuery, **kwargs):
+    async def wrapper(_, callback_query: CallbackQuery, **kwargs):
         if await is_maintenance() is False:
-            if CallbackQuery.from_user.id not in SUDOERS:
-                return await CallbackQuery.answer(
-                    "» ʙᴏᴛ ɪs ᴜɴᴅᴇʀ ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ ғᴏʀ sᴏᴍᴇ ᴛɪᴍᴇ, ᴩʟᴇᴀsᴇ ᴠɪsɪᴛ sᴜᴩᴩᴏʀᴛ ᴄʜᴀᴛ ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ʀᴇᴀsᴏɴ.",
+            if callback_query.from_user.id not in SUDOERS:
+                return await callback_query.answer(
+                    "Bot está em manutenção por algum tempo, por favor, visite o chat de suporte para saber o motivo.",
                     show_alert=True,
                 )
         try:
-            language = await get_lang(CallbackQuery.message.chat.id)
+            language = await get_lang(callback_query.message.chat.id)
             language = get_string(language)
         except:
             language = get_string("pt")
-        return await mystic(_, CallbackQuery, language)
+        return await mystic(_, callback_query, language)
 
     return wrapper
 

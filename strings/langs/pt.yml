@@ -12,9 +12,9 @@ assistant_2: "👩🏻‍💼<b>A assistente <u>{0}</u> foi parada.</b>"
 # General Strings
 general_1: "Responda à mensagem de um usuário ou forneça o nome de usuário/ID de usuário."
 general_2: "Erro! Uso incorreto do comando."
-general_3: "Ocorreu **alguma exceção** ao processar sua consulta.\n\nTipo de exceção: {0}"
+general_3: "Ocorreu <b>alguma exceção</b> ao processar sua consulta.\n\nTipo de exceção: {0}"
 general_4: "Você é um administrador anônimo neste grupo de chat!\nReverta para a conta de usuário para obter direitos de administrador."
-general_5: "Você precisa ser um administrador com direitos de **gerenciar chat de vídeo** para realizar esta ação."
+general_5: "Você precisa ser um administrador com direitos de <b>gerenciar chat de vídeo</b> para realizar esta ação."
 general_6: "O bot não está transmitindo no chat de vídeo."
 
 # Classes - Telegram
@@ -22,7 +22,7 @@ tg_1: "O bot está **sobrecarregado** com downloads no momento.\n\n**Tente novam
 tg_2: "Falha ao baixar a mídia do Telegram."
 
 # Core - Call
-call_1: "O bot precisa de **permissão de administrador** para convidar a conta assistente para o seu canal."
+call_1: "O bot precisa de <b>permissão de administrador</b> para convidar a conta assistente para o seu canal."
 call_2: "O assistente está banido no seu grupo ou canal.\nPor favor, desbane e toque a música novamente.\n\n**Nome de usuário do assistente:** @{0}\n**ID do assistente:** {1}"
 call_3: "Ocorreu uma exceção ao convidar a conta assistente.\n\n**Motivo**: {0}"
 call_4: "O bot precisa de **permissão para convidar usuários via link** para convidar a conta assistente para o seu grupo de chat."

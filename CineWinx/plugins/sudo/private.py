@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters
 from pyrogram.types import Message
 
@@ -20,14 +22,14 @@ AUTHORIZED_COMMAND = get_command("AUTHORIZED_COMMAND")
 
 @app.on_message(filters.command(AUTHORIZE_COMMAND) & SUDOERS)
 @language
-async def authorize(client, message: Message, _):
+async def authorize(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
         return await message.reply_text(_["pbot_12"])
     if len(message.command) != 2:
         return await message.reply_text(_["pbot_1"])
     try:
         chat_id = int(message.text.strip().split()[1])
-    except:
+    except ValueError:
         return await message.reply_text(_["pbot_7"])
     if not await is_served_private_chat(chat_id):
         await add_private_chat(chat_id)
@@ -38,14 +40,14 @@ async def authorize(client, message: Message, _):
 
 @app.on_message(filters.command(UNAUTHORIZE_COMMAND) & SUDOERS)
 @language
-async def unauthorize(client, message: Message, _):
+async def unauthorize(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
         return await message.reply_text(_["pbot_12"])
     if len(message.command) != 2:
         return await message.reply_text(_["pbot_2"])
     try:
         chat_id = int(message.text.strip().split()[1])
-    except:
+    except ValueError:
         return await message.reply_text(_["pbot_7"])
     if not await is_served_private_chat(chat_id):
         return await message.reply_text(_["pbot_6"])
@@ -56,7 +58,7 @@ async def unauthorize(client, message: Message, _):
 
 @app.on_message(filters.command(AUTHORIZED_COMMAND) & SUDOERS)
 @language
-async def authorized(client, message: Message, _):
+async def authorized(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
         return await message.reply_text(_["pbot_12"])
     m = await message.reply_text(_["pbot_8"])
@@ -73,7 +75,8 @@ async def authorized(client, message: Message, _):
             title = (await app.get_chat(served_chat)).title
             count += 1
             text += f"{count}:- {title[:15]} [{served_chat}]\n"
-        except Exception:
+        except Exception as e:
+            logging.error(str(e))
             title = _["pbot_10"]
             co += 1
             msg += f"{co}:- {title} [{served_chat}]\n"
@@ -90,10 +93,10 @@ async def authorized(client, message: Message, _):
             return await m.edit(text)
 
 
-__MODULE__ = "P-ʙᴏᴛ"
+__MODULE__ = "P-bot"
 __HELP__ = """
-      ⚡️<u>Pʀɪᴠᴀᴛᴇ Bᴏᴛ Fᴜɴᴄᴛɪᴏɴ:</u>
-/authorize [CHAT_ID] - Aʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғᴏʀ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
-/unauthorize[CHAT_ID] - Dɪsᴀʟʟᴏᴡ ᴀ ᴄʜᴀᴛ ғʀᴏᴍ ᴜsɪɴɢ ʏᴏᴜʀ ʙᴏᴛ.
-/authorized - Cʜᴇᴄᴋ ᴀʟʟ ᴀʟʟᴏᴡᴇᴅ ᴄʜᴀᴛs ᴏғ ʏᴏᴜʀ ʙᴏᴛ.
+      ⚡️<u>Função do bot privado:</u>
+/authorize [CHAT_ID] - Permitir um chat usar seu bot.
+/unauthorize [CHAT_ID] - Desautorizar um chat de usar seu bot.
+/authorized - Verificar todos os chats permitidos do seu bot.
 """

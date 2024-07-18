@@ -1,10 +1,11 @@
 import asyncio
+import logging
 import os
 import time
 from datetime import datetime, timedelta
 from typing import Union
 
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice, Message, Video, Audio
 
 import config
 from CineWinx import app
@@ -19,9 +20,9 @@ class TeleAPI:
         self.chars_limit = 4096
         self.sleep = config.TELEGRAM_DOWNLOAD_EDIT_SLEEP
 
-    async def send_split_text(self, message, string):
+    async def send_split_text(self, message: Message, string: str):
         n = self.chars_limit
-        out = [(string[i : i + n]) for i in range(0, len(string), n)]
+        out = [(string[i: i + n]) for i in range(0, len(string), n)]
         j = 0
         for x in out:
             if j <= 2:
@@ -29,68 +30,72 @@ class TeleAPI:
                 await message.reply_text(x)
         return True
 
-    async def get_link(self, message):
+    async def get_link(self, message: Message):
         if message.chat.username:
             link = f"https://t.me/{message.chat.username}/{message.reply_to_message.id}"
         else:
-            xf = str((message.chat.id))[4:]
+            xf = str(message.chat.id)[4:]
             link = f"https://t.me/c/{xf}/{message.reply_to_message.id}"
         return link
 
-    async def get_filename(self, file, audio: Union[bool, str] = None):
+    async def get_filename(self, file, audio: Audio = None):
         try:
             file_name = file.file_name
             if file_name is None:
-                file_name = "ᴛᴇʟᴇɢʀᴀᴍ ᴀᴜᴅɪᴏ ғɪʟᴇ" if audio else "ᴛᴇʟᴇɢʀᴀᴍ ᴠɪᴅᴇᴏ ғɪʟᴇ"
+                file_name = "🎵 telegram audio file" if audio else "🎥 telegram video file"
 
-        except:
-            file_name = "ᴛᴇʟᴇɢʀᴀᴍ ᴀᴜᴅɪᴏ ғɪʟᴇ" if audio else "ᴛᴇʟᴇɢʀᴀᴍ ᴠɪᴅᴇᴏ ғɪʟᴇ"
+        except AttributeError as e:
+            logging.error(str(e))
+            file_name = "🎵 telegram audio file" if audio else "🎥 telegram video file"
         return file_name
 
-    async def get_duration(self, file):
+    async def get_duration(self, file: Union[Audio, Video]):
         try:
             dur = seconds_to_min(file.duration)
-        except:
-            dur = "Unknown"
+        except AttributeError as e:
+            logging.error(str(e))
+            dur = "0:00"
         return dur
 
     async def get_filepath(
-        self,
-        audio: Union[bool, str] = None,
-        video: Union[bool, str] = None,
+            self,
+            audio: Audio = None,
+            video: Video = None,
     ):
         if audio:
             try:
                 file_name = (
-                    audio.file_unique_id
-                    + "."
-                    + (
-                        (audio.file_name.split(".")[-1])
-                        if (not isinstance(audio, Voice))
-                        else "ogg"
-                    )
+                        audio.file_unique_id
+                        + "."
+                        + (
+                            (audio.file_name.split(".")[-1])
+                            if (not isinstance(audio, Voice))
+                            else "ogg"
+                        )
                 )
-            except:
+            except Exception as e:
+                logging.error(str(e))
                 file_name = audio.file_unique_id + "." + ".ogg"
             file_name = os.path.join(os.path.realpath("downloads"), file_name)
         if video:
             try:
                 file_name = (
-                    video.file_unique_id + "." + (video.file_name.split(".")[-1])
+                        video.file_unique_id + "." + (video.file_name.split(".")[-1])
                 )
-            except:
+            except Exception as e:
+                logging.error(str(e))
                 file_name = video.file_unique_id + "." + "mp4"
             file_name = os.path.join(os.path.realpath("downloads"), file_name)
         return file_name
 
-    async def download(self, _, message, mystic, fname):
+    async def download(self, _, message: Message, mystic: Message, filename: str):
         left_time = {}
         speed_counter = {}
-        if os.path.exists(fname):
+        if os.path.exists(filename):
             return True
 
         async def down_load():
-            async def progress(current, total):
+            async def progress(current: int, total: int):
                 if current == total:
                     return
                 current_time = time.time()
@@ -100,7 +105,7 @@ class TeleAPI:
                     [
                         [
                             InlineKeyboardButton(
-                                text="🚦 ᴄᴀɴᴄᴇʟ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ",
+                                text="🚦 Cancelar download",
                                 callback_data="stop_downloading",
                             ),
                         ]
@@ -119,17 +124,18 @@ class TeleAPI:
                     completed_size = convert_bytes(current)
                     speed = convert_bytes(speed)
                     text = f"""
-**{app.mention} ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇᴅɪᴀ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ**
+📥 <u><b>{app.mention} telegram media downloader</b></u>
 
-**ᴛᴏᴛᴀʟ ғɪʟᴇ sɪᴢᴇ:** {total_size}
-**ᴄᴏᴍᴘʟᴇᴛᴇᴅ:** {completed_size} 
-**ᴘᴇʀᴄᴇɴᴛᴀɢᴇ:** {percentage[:5]}%
+📁 <b>Tamanho total do arquivo:</b> {total_size}
+✅ <b>Completado:</b> {completed_size}
+📊 <b>Porcentagem:</b> {percentage[:5]}%
 
-**sᴘᴇᴇᴅ:** {speed}/s
-**ᴇʟᴘᴀsᴇᴅ ᴛɪᴍᴇ:** {eta}"""
+⚡ <b>Velocidade:</b> {speed}/s
+⏳<b>Tempo decorrido:</b> {eta}"""
                     try:
                         await mystic.edit_text(text, reply_markup=upl)
-                    except:
+                    except Exception as e:
+                        logging.error(str(e))
                         pass
                     left_time[message.id] = datetime.now() + timedelta(
                         seconds=self.sleep
@@ -141,14 +147,15 @@ class TeleAPI:
             try:
                 await app.download_media(
                     message.reply_to_message,
-                    file_name=fname,
+                    file_name=filename,
                     progress=progress,
                 )
                 await mystic.edit_text(
-                    "sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ...\n ᴘʀᴏᴄᴇssɪɴɢ ғɪʟᴇ ɴᴏᴡ"
+                    "✅ <i>Download concluído com sucesso...</i>\nProcessando arquivo agora"
                 )
                 downloader.pop(message.id)
-            except:
+            except Exception as e:
+                logging.error(str(e))
                 await mystic.edit_text(_["tg_2"])
 
         if len(downloader) > 10:
@@ -158,8 +165,9 @@ class TeleAPI:
             try:
                 low = min(timers)
                 eta = get_readable_time(low)
-            except:
-                eta = "Unknown"
+            except Exception as e:
+                logging.error(str(e))
+                eta = "0 sec"
             await mystic.edit_text(_["tg_1"].format(eta))
             return False
 
