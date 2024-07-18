@@ -241,7 +241,7 @@ async def update_(_client: app, message: Message, _):
         return await response.edit("<b>✅ Bot is up-to-date.</b>")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
     )
     updates = "".join(
         f"<b>#{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> por -> {info.author}</b>\n\t\t\t\t<b>"
@@ -251,8 +251,10 @@ async def update_(_client: app, message: Message, _):
         f"{datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
         for info in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}")
     )
-    _update_response_ = ("<b>🔔 A new update is available for the bot!</b>\n\n"
-                         "Pushing updates now\n\n<b><u>📦 Updates:</u></b>\n")
+    _update_response_ = (
+        "<b>🔔 A new update is available for the bot!</b>\n\n"
+        "Pushing updates now\n\n<b><u>📦 Updates:</u></b>\n"
+    )
     _final_updates_ = f"{_update_response_} {updates}"
 
     if len(_final_updates_) > 4096:

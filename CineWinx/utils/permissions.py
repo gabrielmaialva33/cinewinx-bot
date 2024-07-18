@@ -35,7 +35,14 @@ async def member_permissions(chat_id: int, user_id: int):
     return perms
 
 
-async def authorised(func: callable, sub_func_2: callable, client: app, message: Message, *args: tuple, **kwargs: dict):
+async def authorised(
+    func: callable,
+    sub_func_2: callable,
+    client: app,
+    message: Message,
+    *args: tuple,
+    **kwargs: dict,
+):
     chat_id = message.chat.id
     try:
         await func(client, message, *args, **kwargs)
@@ -53,18 +60,21 @@ async def authorised(func: callable, sub_func_2: callable, client: app, message:
 
 
 async def unauthorised(
-        message: Message, permission: str, sub_func_2: callable, bot_lacking_permission=False
+    message: Message,
+    permission: str,
+    sub_func_2: callable,
+    bot_lacking_permission=False,
 ):
     chat_id = message.chat.id
     if bot_lacking_permission:
         text = (
-                "Eu não tenho a permissão necessária para realizar esta ação."
-                + f"\n<b>Permissão:</b> __{permission}__"
+            "Eu não tenho a permissão necessária para realizar esta ação."
+            + f"\n<b>Permissão:</b> __{permission}__"
         )
     else:
         text = (
-                "Você não tem a permissão necessária para realizar esta ação."
-                + f"\n<b>Permissão:</b> __{permission}__"
+            "Você não tem a permissão necessária para realizar esta ação."
+            + f"\n<b>Permissão:</b> __{permission}__"
         )
     try:
         await message.reply_text(text)
