@@ -133,14 +133,14 @@ class TeleAPI:
                     completed_size = convert_bytes(current)
                     speed = convert_bytes(speed)
                     text = f"""
-📥 <u><b>{app.mention} telegram media downloader</b></u>
+📥 <b>{app.mention} telegram media downloader</b>
 
-📁 <b>Tamanho total do arquivo:</b> {total_size}
+📁 <b>Tamanho:</b> {total_size}
 ✅ <b>Completado:</b> {completed_size}
 📊 <b>Porcentagem:</b> {percentage[:5]}%
 
 ⚡ <b>Velocidade:</b> {speed}/s
-⏳<b>Tempo decorrido:</b> {eta}"""
+⏳ <b>Tempo decorrido:</b> {eta}"""
                     try:
                         await mystic.edit_text(text, reply_markup=upl)
                     except Exception as e:
