@@ -57,7 +57,6 @@ async def settings_mar(client: Client, message: Message, _):
     chat_id = -1000000000000 + chat_id
     await message.reply_photo(
         photo=pic,
-
         caption=_["setting_1"].format(message.chat.title, chat_id),
         reply_markup=InlineKeyboardMarkup(buttons),
     )
