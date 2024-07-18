@@ -1,4 +1,4 @@
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import (
@@ -49,10 +49,16 @@ SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")
 
 @app.on_message(filters.command(SETTINGS_COMMAND) & filters.group & ~BANNED_USERS)
 @language
-async def settings_mar(_client: app, message: Message, _):
+async def settings_mar(client: Client, message: Message, _):
+    me = await client.get_me()
+    pic = await client.download_media(me.photo.big_file_id) if me.photo else None
     buttons = setting_markup(_)
-    await message.reply_text(
-        _["setting_1"].format(message.chat.title, message.chat.id),
+    chat_id = message.chat.id
+    chat_id = -1000000000000 + chat_id
+    await message.reply_photo(
+        photo=pic,
+
+        caption=_["setting_1"].format(message.chat.title, chat_id),
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
