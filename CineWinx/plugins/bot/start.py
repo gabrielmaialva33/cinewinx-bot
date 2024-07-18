@@ -104,8 +104,10 @@ async def start_comm(client: app, message: Message, _):
                     details = stats.get(vidid)
                     title = (details["title"][:35]).title()
                     if vidid == "telegram":
-                        msg += (f"🔗[Arquivos e áudios do Telegram]({config.SUPPORT_GROUP}) <b>tocados {count} vezes"
-                                f"</b>\n\n")
+                        msg += (
+                            f"🔗[Arquivos e áudios do Telegram]({config.SUPPORT_GROUP}) <b>tocados {count} vezes"
+                            f"</b>\n\n"
+                        )
                     else:
                         msg += f"🔗 <a href='https://www.youtube.com/watch?v={vidid}'>{title}</a> <b>tocado {count} vezes</b>\n\n"
                 msg = _["ustats_2"].format(tot, tota, limit) + msg

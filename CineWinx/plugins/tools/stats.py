@@ -174,8 +174,10 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
                 if items == "telegram":
                     msg += f"🔗[Arquivos e áudios do Telegram](https://t.me/telegram) <b>tocados {count} vezes</b>\n\n"
                 else:
-                    msg += (f"🔗 <a href='https://www.youtube.com/watch?v={items}'>{title}</a> "
-                            f"<b>tocados {count} vezes</b>\n\n")
+                    msg += (
+                        f"🔗 <a href='https://www.youtube.com/watch?v={items}'>{title}</a> "
+                        f"<b>tocados {count} vezes</b>\n\n"
+                    )
 
             temp = (
                 _["gstats_4"].format(
