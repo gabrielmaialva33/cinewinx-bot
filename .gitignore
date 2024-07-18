@@ -11,3 +11,5 @@ __pycache__/
 .idea/
 .venv
 tempdb
+.cinewinx.env
+.dev.env

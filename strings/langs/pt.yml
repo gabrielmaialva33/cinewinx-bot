@@ -222,7 +222,7 @@ song_11: "Envio iniciado\n\nPor favor, aguarde..."
 queue_1: "» Por favor, aguarde..."
 queue_2: "A lista de espera está vazia. Nenhuma faixa encontrada"
 queue_3: "<u>**Faixas na fila:</u>**  [Confira mais faixas na fila aqui]({0})"
-queue_4: "**💫 Adicionado à fila na posição #{0}**\n\n**🥀Título :** {1}\n**⏱ Duração :** {2}\n **🥀Adicionado por :** {3} ❄️"
+queue_4: "**💫 Adicionado à fila na posição #{0}**\n\n**Título :** {1}\n**⏱ Duração :** {2}\n **Adicionado por :** {3} ❄️"
 queue_5: "Apenas uma faixa está na fila, adicione mais faixas à fila para verificar a fila inteira."
 
 # All Streaming Lines
