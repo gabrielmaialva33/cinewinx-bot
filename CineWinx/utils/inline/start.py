@@ -93,7 +93,7 @@ def alive_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text="me adicione", url=f"https://t.me/{app.username}?startgroup=true"
+                text="➕𝗺𝗲 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗲", url=f"https://t.me/{app.username}?startgroup=true"
             ),
             InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}"),
         ],

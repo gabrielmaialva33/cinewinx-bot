@@ -84,7 +84,7 @@ start_3: "O dono de {0}, {1}, acabou de entrar no seu chat."
 start_4: "O usuário sudo de {0}, {1}, acabou de entrar no seu chat."
 start_5: "🦸 <b>Necessário Supergrupo</b> 🦸\n\nPor favor, converta seu <b>grupo</b> em <b>supergrupo</b> e depois me adicione de volta.\n\n<b>Como criar um supergrupo?</b>\n🥱 Torne o histórico de chat do seu grupo <b>visível</b> uma vez."
 start_6: "<b>Chat na lista negra</b>\n\nEste chat está na lista negra para usar o bot. Solicite a um usuário sudo para colocar seu chat na lista branca, usuários sudo [lista]({0})."
-start_7: "{0} está vivo, baby.\n\n<b>Tempo de atividade:</b> {1}"
+start_7: "{0} <b>𝗲𝘀𝘁𝗮́ 𝘃𝗶𝘃𝗮, 𝗺𝗶𝗴𝗴𝗲𝗿!</b> 🎉\n\n<b>✨𝗨𝗽𝘁𝗶𝗺𝗲:</b> {1}"
 
 # Help
 help_1: "Clique nos botões abaixo para mais informações. Se você estiver enfrentando algum problema com o comando, pode entrar em contato com o meu dono ou perguntar no chat de suporte.\n\nTodos os comandos podem ser usados com: /"
@@ -240,7 +240,7 @@ L_B_1: "🚀 Confira as letras agora"
 # Start
 S_B_1: "🗒 Comandos"
 S_B_2: "🔧 Configurações"
-S_B_3: "📨 Suporte"
+S_B_3: "🆘 Suporte"
 S_B_4: "📨 Canal"
 S_B_5: "✚ Adicione-me ao seu grupo ✚"
 S_B_6: "💡 Repositório Git"

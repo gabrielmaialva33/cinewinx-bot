@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
@@ -242,13 +242,14 @@ async def start_comm(client: app, message: Message, _):
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @language_start
-async def testbot(_client: app, message: Message, _):
+async def testbot(client: Client, message: Message, _):
     out = alive_panel(_)
     uptime = int(time.time() - _boot_)
-    chat_id = message.chat.id
     if config.START_IMG_URL:
+        me = await client.get_me()
+        img = await client.download_media(me.photo.big_file_id)
         await message.reply_photo(
-            photo=config.START_IMG_URL,
+            photo=img,
             caption=_["start_7"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
