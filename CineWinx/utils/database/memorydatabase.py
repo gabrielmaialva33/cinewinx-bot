@@ -638,7 +638,7 @@ async def get_audio_bitrate(chat_id: int) -> AudioQuality:
 
 
 async def get_video_bitrate(chat_id: int) -> VideoQuality:
-    mode = video.get(str(chat_id), "UHD_4K")
+    mode = video.get(str(chat_id), "FHD_1080p")
     return {
         "UHD_4K": VideoQuality.UHD_4K,
         "QHD_2K": VideoQuality.QHD_2K,
@@ -646,4 +646,4 @@ async def get_video_bitrate(chat_id: int) -> VideoQuality:
         "HD_720p": VideoQuality.HD_720p,
         "SD_480p": VideoQuality.SD_480p,
         "SD_360p": VideoQuality.SD_360p,
-    }.get(mode, VideoQuality.UHD_4K)
+    }.get(mode, VideoQuality.FHD_1080p)
