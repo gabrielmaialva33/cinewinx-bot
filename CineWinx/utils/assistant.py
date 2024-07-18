@@ -3,8 +3,10 @@ from CineWinx.utils.database import get_client
 
 async def get_assistant_details():
     ms = ""
-    msg = ("<b>Uso</b>: /setassistant [número do assistente] para alterar e definir manualmente o assistente do "
-           "grupo\nAbaixo estão alguns detalhes dos assistentes disponíveis\n")
+    msg = (
+        "<b>Uso</b>: /setassistant [número do assistente] para alterar e definir manualmente o assistente do "
+        "grupo\nAbaixo estão alguns detalhes dos assistentes disponíveis\n"
+    )
     try:
         a = await get_client(1)
         msg += f"Assistente número:- `1`\nNome :- [{a.name}](https://t.me/{a.username})\nUsername :- @{a.username}\nID :- {a.id}\n\n"

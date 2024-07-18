@@ -53,7 +53,7 @@ def PlayWrapper(command):
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{app.mention} está em manutenção, visite o <a href={SUPPORT_CHAT}>chat de suporte</a> para "
-                         f"saber o motivo.",
+                    f"saber o motivo.",
                     disable_web_page_preview=True,
                 )
         if PRIVATE_BOT_MODE == str(True):
@@ -68,7 +68,6 @@ def PlayWrapper(command):
                 await message.delete()
             except Exception as e:
                 logging.error(e)
-                pass
 
         audio_telegram = (
             (message.reply_to_message.audio or message.reply_to_message.voice)
@@ -135,8 +134,8 @@ def PlayWrapper(command):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                        get.status == ChatMemberStatus.BANNED
-                        or get.status == ChatMemberStatus.RESTRICTED
+                    get.status == ChatMemberStatus.BANNED
+                    or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),

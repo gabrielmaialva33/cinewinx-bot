@@ -5,7 +5,14 @@ import time
 from datetime import datetime, timedelta
 from typing import Union
 
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice, Message, Video, Audio
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Voice,
+    Message,
+    Video,
+    Audio,
+)
 
 import config
 from CineWinx import app
@@ -22,7 +29,7 @@ class TeleAPI:
 
     async def send_split_text(self, message: Message, string: str):
         n = self.chars_limit
-        out = [(string[i: i + n]) for i in range(0, len(string), n)]
+        out = [(string[i : i + n]) for i in range(0, len(string), n)]
         j = 0
         for x in out:
             if j <= 2:
@@ -42,7 +49,9 @@ class TeleAPI:
         try:
             file_name = file.file_name
             if file_name is None:
-                file_name = "🎵 telegram audio file" if audio else "🎥 telegram video file"
+                file_name = (
+                    "🎵 telegram audio file" if audio else "🎥 telegram video file"
+                )
 
         except AttributeError as e:
             logging.error(str(e))
@@ -58,20 +67,20 @@ class TeleAPI:
         return dur
 
     async def get_filepath(
-            self,
-            audio: Audio = None,
-            video: Video = None,
+        self,
+        audio: Audio = None,
+        video: Video = None,
     ):
         if audio:
             try:
                 file_name = (
-                        audio.file_unique_id
-                        + "."
-                        + (
-                            (audio.file_name.split(".")[-1])
-                            if (not isinstance(audio, Voice))
-                            else "ogg"
-                        )
+                    audio.file_unique_id
+                    + "."
+                    + (
+                        (audio.file_name.split(".")[-1])
+                        if (not isinstance(audio, Voice))
+                        else "ogg"
+                    )
                 )
             except Exception as e:
                 logging.error(str(e))
@@ -80,7 +89,7 @@ class TeleAPI:
         if video:
             try:
                 file_name = (
-                        video.file_unique_id + "." + (video.file_name.split(".")[-1])
+                    video.file_unique_id + "." + (video.file_name.split(".")[-1])
                 )
             except Exception as e:
                 logging.error(str(e))
@@ -136,7 +145,6 @@ class TeleAPI:
                         await mystic.edit_text(text, reply_markup=upl)
                     except Exception as e:
                         logging.error(str(e))
-                        pass
                     left_time[message.id] = datetime.now() + timedelta(
                         seconds=self.sleep
                     )

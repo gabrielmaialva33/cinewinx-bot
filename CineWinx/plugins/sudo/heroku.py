@@ -240,7 +240,7 @@ async def update_(_client: app, message: Message, _):
         return await response.edit("» ʙᴏᴛ ɪs ᴜᴘ-ᴛᴏ-ᴅᴀᴛᴇ.")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
     )
     updates = "".join(
         f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> ʙʏ -> {info.author}</b>\n\t\t\t\t<b>➥ ᴄᴏᴍᴍɪᴛᴇᴅ ᴏɴ :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
@@ -315,7 +315,6 @@ async def restart_(_, message: Message):
             await remove_active_video_chat(x)
         except Exception as e:
             logging.error(str(e))
-            pass
 
     try:
         shutil.rmtree("downloads")
@@ -323,7 +322,6 @@ async def restart_(_, message: Message):
         shutil.rmtree("cache")
     except Exception as e:
         logging.error(str(e))
-        pass
     await response.edit_text(
         "» Processo de reinicialização iniciado, aguarde alguns segundos até que o bot seja iniciado..."
     )
