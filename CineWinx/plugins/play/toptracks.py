@@ -18,7 +18,7 @@ from CineWinx.utils.database import (
     get_particulars,
     get_userss,
 )
-from CineWinx.utils.decorators.language import languageCB
+from CineWinx.utils.decorators.language import language_cb
 from CineWinx.utils.inline.playlist import (
     botplaylist_markup,
     failed_top_markup,
@@ -31,7 +31,7 @@ loop = asyncio.get_running_loop()
 
 
 @app.on_callback_query(filters.regex("get_playmarkup") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def get_play_markup(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
@@ -44,7 +44,7 @@ async def get_play_markup(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("get_top_playlists") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def get_topz_playlists(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
@@ -57,7 +57,7 @@ async def get_topz_playlists(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("SERVERTOP") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def server_to_play(client: app, callback_query: CallbackQuery, _):
     userbot = await get_assistant(callback_query.message.chat.id)
     try:
@@ -65,12 +65,12 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
             get = await app.get_chat_member(callback_query.message.chat.id, userbot.id)
         except ChatAdminRequired:
             return await callback_query.answer(
-                f"» Não tenho permissão para convidar usuários por link para {callback_query.message.chat.title}.",
+                f"Não tenho permissão para convidar usuários por link para {callback_query.message.chat.title}.",
                 show_alert=True,
             )
         if get.status == ChatMemberStatus.BANNED:
             return await callback_query.answer(
-                text=f"» Assistente está banido em {callback_query.message.chat.title}",
+                text=f"Assistente está banido em {callback_query.message.chat.title}",
                 show_alert=True,
             )
     except UserNotParticipant:
@@ -87,7 +87,7 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
                 )
             except ChatAdminRequired:
                 return await callback_query.answer(
-                    f"» Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
+                    f"Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
                     show_alert=True,
                 )
             except InviteRequestSent:
@@ -102,12 +102,12 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
             except Exception as ex:
                 if "channels.JoinChannel" in str(ex) or "Username not found" in str(ex):
                     return await callback_query.answer(
-                        f"» Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
+                        f"Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
                         show_alert=True,
                     )
                 else:
                     return await callback_query.message.reply_text(
-                        f"Falha ao convidar o assistente para {callback_query.message.chat.title}.\n\n**Motivo:** `{ex}`"
+                        f"Falha ao convidar o assistente para {callback_query.message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                     )
         if invitelink.startswith("https://t.me/+"):
             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
@@ -124,7 +124,7 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
             except Exception as e:
                 if "messages.HideChatJoinRequest" in str(e):
                     return await callback_query.answer(
-                        f"» Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
+                        f"Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
                         show_alert=True,
                     )
                 else:
@@ -134,7 +134,7 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
         except Exception as ex:
             if "channels.JoinChannel" in str(ex) or "Username not found" in str(ex):
                 return await callback_query.answer(
-                    f"» Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
+                    f"Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
                     show_alert=True,
                 )
             else:

@@ -2,7 +2,6 @@ from CineWinx.utils.database import get_client
 
 
 async def get_assistant_details():
-    ms = ""
     msg = (
         "<b>Uso</b>: /setassistant [número do assistente] para alterar e definir manualmente o assistente do "
         "grupo\nAbaixo estão alguns detalhes dos assistentes disponíveis\n"

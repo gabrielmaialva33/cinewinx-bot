@@ -6,7 +6,7 @@ from CineWinx import YouTube, app
 from CineWinx.core.call import CineWinx
 from CineWinx.misc import db
 from CineWinx.utils.database import get_loop
-from CineWinx.utils.decorators import AdminRightsCheck
+from CineWinx.utils.decorators import admin_rights_check
 from CineWinx.utils.inline.play import stream_markup, telegram_markup
 from CineWinx.utils.stream.autoclear import auto_clean
 from CineWinx.utils.thumbnails import gen_thumb
@@ -18,7 +18,7 @@ SKIP_COMMAND = get_command("SKIP_COMMAND")
 
 
 @app.on_message(filters.command(SKIP_COMMAND) & filters.group & ~BANNED_USERS)
-@AdminRightsCheck
+@admin_rights_check
 async def skip(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) < 2:
         loop = await get_loop(chat_id)

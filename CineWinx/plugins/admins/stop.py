@@ -36,9 +36,9 @@ async def stop_music(_client: Client, message: Message):
                 filter = " ".join(message.command[1:])
                 deleted = await delete_filter(message.chat.id, filter)
                 if deleted:
-                    return await message.reply_text(f"**Filtro {filter} deletado.**")
+                    return await message.reply_text(f"<b>Filtro {filter} deletado.</b>")
                 else:
-                    return await message.reply_text("**Nenhum filtro encontrado.**")
+                    return await message.reply_text("<b>Nenhum filtro encontrado.</b>")
 
     if await is_commanddelete_on(message.chat.id):
         try:

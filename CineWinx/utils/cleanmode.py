@@ -4,13 +4,13 @@ from config import LOG_GROUP_ID
 protected_messages = {}
 
 
-async def protect_message(chat_id, message_id):
+async def protect_message(chat_id: int, message_id: int):
     if chat_id not in protected_messages:
         protected_messages[chat_id] = []
     protected_messages[chat_id].append(message_id)
 
 
-async def send_message(chat_id, text, reply=None):
+async def send_message(chat_id: int, text: str, reply=None):
     if reply:
         try:
             message = await app.send_message(

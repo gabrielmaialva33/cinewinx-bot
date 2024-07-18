@@ -14,7 +14,7 @@ from pyrogram.types import (
 )
 
 from CineWinx import YouTube, app
-from CineWinx.utils.decorators.language import language, languageCB
+from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.formatters import convert_bytes
 from CineWinx.utils.inline.song import song_markup
 from config import BANNED_USERS, SONG_DOWNLOAD_DURATION, SONG_DOWNLOAD_DURATION_LIMIT
@@ -126,7 +126,7 @@ async def song_commad_private(_client: app, message: Message, _):
 
 
 @app.on_callback_query(filters.regex(pattern=r"song_back") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def songs_back_helper(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
 
@@ -142,7 +142,7 @@ async def songs_back_helper(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex(pattern=r"song_helper") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -237,7 +237,7 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex(pattern=r"song_download") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer("Baixando...")
@@ -253,7 +253,7 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
     with yt_dlp.YoutubeDL({"quiet": True}) as ytdl:
         x = ytdl.extract_info(yturl, download=False)
     title = (x["title"]).title()
-    title = re.sub("\W+", " ", title)
+    title = re.sub(r"\W+", " ", title)
     thumb_image_path = await callback_query.message.download()
     duration = x["duration"]
 

@@ -21,7 +21,7 @@ from CineWinx.utils.database import (
     is_on_off,
     is_served_private_chat,
 )
-from CineWinx.utils.decorators.language import LanguageStart
+from CineWinx.utils.decorators.language import language_start
 from CineWinx.utils.formatters import get_readable_time
 from CineWinx.utils.functions import MARKDOWN, WELCOMEHELP
 from CineWinx.utils.inline import alive_panel, private_panel, start_pannel
@@ -34,7 +34,7 @@ loop = asyncio.get_running_loop()
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
-@LanguageStart
+@language_start
 async def start_comm(client: app, message: Message, _):
     chat_id = message.chat.id
     await add_served_user(message.from_user.id)
@@ -241,7 +241,7 @@ async def start_comm(client: app, message: Message, _):
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
-@LanguageStart
+@language_start
 async def testbot(_client: app, message: Message, _):
     out = alive_panel(_)
     uptime = int(time.time() - _boot_)
@@ -266,7 +266,7 @@ async def welcome(_client: app, message: Message):
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(message.chat.id):
             await message.reply_text(
-                "**O modo privado deste bot foi ativado.** Somente meu dono pode usá-lo. "
+                "<b>O modo privado deste bot foi ativado.</b> Somente meu dono pode usá-lo. "
                 "Se você quiser usar este bot em seu chat, peça ao meu dono para autorizar."
             )
             return await app.leave_chat(message.chat.id)

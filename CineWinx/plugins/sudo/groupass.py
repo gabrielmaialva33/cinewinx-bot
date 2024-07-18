@@ -8,42 +8,42 @@ from CineWinx.utils.assistant import (
     get_assistant_details,
 )
 from CineWinx.utils.database import get_assistant, save_assistant, set_assistant
-from CineWinx.utils.decorators import AdminActual
+from CineWinx.utils.decorators import admin_actual
 from config import LOG_GROUP_ID, BANNED_USERS
 
 
 @app.on_message(filters.command("changeassistant") & ~BANNED_USERS)
-@AdminActual
+@admin_actual
 async def assis_change(_client: app, message: Message, _):
-    if await assistant() == True:
+    if await assistant():
         return await message.reply_text(
             "Desculpe! No servidor do bot, há apenas um assistente disponível. Portanto, você não pode alterar o "
             "assistente."
         )
     usage = (
-        f"**Uso incorreto do comando detectado**\n**Uso:**\n/changeassistant - Para alterar o assistente atual do "
+        f"<b>Uso incorreto do comando detectado</b>\n<b>Uso:</b>\n/changeassistant - Para alterar o assistente atual do "
         f"seu grupo para um assistente aleatório no servidor do bot"
     )
     if len(message.command) > 2:
         return await message.reply_text(usage)
     a = await get_assistant(message.chat.id)
-    DETAILS = f"O assistente do seu chat foi alterado de [{a.name}](https://t.me/{a.username}) "
+    details = f"O assistente do seu chat foi alterado de [{a.name}](https://t.me/{a.username}) "
     if not message.chat.id == LOG_GROUP_ID:
         try:
             await a.leave_chat(message.chat.id)
         except:
             pass
     b = await set_assistant(message.chat.id)
-    DETAILS += f"ᴛᴏ [{b.name}](https://t.me/{b.username})"
+    details += f"para [{b.name}](https://t.me/{b.username})"
     try:
         await b.join_chat(message.chat.id)
     except:
         pass
-    await message.reply_text(DETAILS, disable_web_page_preview=True)
+    await message.reply_text(details, disable_web_page_preview=True)
 
 
 @app.on_message(filters.command("setassistant") & ~BANNED_USERS)
-@AdminActual
+@admin_actual
 async def assis_set(_client: app, message: Message, _):
     if await assistant():
         return await message.reply_text(
@@ -68,16 +68,16 @@ async def assis_set(_client: app, message: Message, _):
     except:
         pass
     await message.reply_text(
-        f"**Detalhes do novo assistente do seu chat:**\nNome do Assistente: {b.name}\nNome de Usuário: @{b.username}\nID: {b.id}",
+        f"<b>Detalhes do novo assistente do seu chat:<b>\nNome do Assistente: {b.name}\nNome de Usuário: @{b.username}\nID: {b.id}",
         disable_web_page_preview=True,
     )
 
 
 @app.on_message(filters.command("checkassistant") & filters.group & ~BANNED_USERS)
-@AdminActual
+@admin_actual
 async def check_ass(_client: app, message: Message, _):
     a = await get_assistant(message.chat.id)
     await message.reply_text(
-        f"**Detalhes do assistente do seu chat:**\nNome do Assistente: {a.name}\nNome de Usuário: @{a.username}\nID do Assistente: {a.id}",
+        f"<b>Detalhes do assistente do seu chat:</b>\nNome do Assistente: {a.name}\nNome de Usuário: @{a.username}\nID do Assistente: {a.id}",
         disable_web_page_preview=True,
     )

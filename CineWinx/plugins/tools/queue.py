@@ -7,9 +7,9 @@ from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
 import config
 from CineWinx import app
 from CineWinx.misc import db
-from CineWinx.utils import WinxBin, get_channeplayCB, seconds_to_min
+from CineWinx.utils import winx_bin, get_channeplay_cb, seconds_to_min
 from CineWinx.utils.database import get_cmode, is_active_chat, is_music_playing
-from CineWinx.utils.decorators.language import language, languageCB
+from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.inline import queue_back_markup, queue_markup
 from config import BANNED_USERS
 from strings import get_command
@@ -82,17 +82,18 @@ async def ping_com(_client: app, message: Message, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "**⌛️Duração:** Transmissão de duração indeterminada.\n\nClique no botão abaixo para ver a lista completa da "
+        "<b>⌛️Duração:</b> Transmissão de duração indeterminada.\n\n"
+        "Clique no botão abaixo para ver a lista completa da "
         "fila."
         if DUR == "Unknown"
         else "\nClique no botão abaixo para ver a lista completa da fila."
     )
-    cap = f"""**{app.mention} Player**
+    cap = f"""<b>{app.mention} Player</b>
 
-🎥**Tocando:** {title}
+🎥<b>Tocando:</b> {title}
 
-🔗**Tipo de Stream:** {typo}
-🙍‍♂️**Adicionado por:** {user}
+🔗<b>Tipo de Stream:</b> {typo}
+🙍‍♂️<b>Adicionado por:</b> {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, "c" if cplay else "g", videoid)
@@ -146,13 +147,13 @@ async def quite_timer(_client: app, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("GetQueued") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     what, videoid = callback_request.split("|")
     try:
-        chat_id, channel = await get_channeplayCB(_, what, callback_query)
+        chat_id, channel = await get_channeplay_cb(_, what, callback_query)
     except:
         return
     if not await is_active_chat(chat_id):
@@ -166,7 +167,7 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
     basic[videoid] = False
     buttons = queue_back_markup(_, what)
     med = InputMediaPhoto(
-        media="https://telegra.ph//file/6f7d35131f69951c74ee5.jpg",
+        media="https://telegra.ph/file/a52fcc73359b00743e75b.jpg",
         caption=_["queue_1"],
     )
     await callback_query.edit_message_media(media=med)
@@ -198,7 +199,7 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
         if "Na fila" in msg:
             msg = msg.replace("Na fila", "Na Fila")
 
-        link = await WinxBin(msg)
+        link = await winx_bin(msg)
         await callback_query.edit_message_text(
             _["queue_3"].format(link), reply_markup=buttons
         )
@@ -217,7 +218,7 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
             if "Na fila" in msg:
                 msg = msg.replace("Na fila", "Na Fila")
 
-            link = await WinxBin(msg)
+            link = await winx_bin(msg)
             await asyncio.sleep(1)
             return await callback_query.edit_message_text(
                 _["queue_3"].format(link), reply_markup=buttons
@@ -228,12 +229,12 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("queue_back_timer") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def queue_back(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     cplay = callback_data.split(None, 1)[1]
     try:
-        chat_id, channel = await get_channeplayCB(_, cplay, callback_query)
+        chat_id, channel = await get_channeplay_cb(_, cplay, callback_query)
     except:
         return
     if not await is_active_chat(chat_id):
@@ -266,17 +267,18 @@ async def queue_back(_client: app, callback_query: CallbackQuery, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "**⌛️Duração:** Transmissão de duração indeterminada.\n\nClique no botão abaixo para ver a lista completa da "
+        "<b>⌛️Duração:</b> Transmissão de duração indeterminada.\n\n"
+        "Clique no botão abaixo para ver a lista completa da "
         "fila."
         if DUR == "Unknown"
         else "\nClique no botão abaixo para ver a lista completa da fila."
     )
-    cap = f"""**{app.mention} Player**
+    cap = f"""<b>{app.mention} Player</b>
 
-🎥**Tocando:** {title}
+🎥<b>Tocando:</b> {title}
 
-🔗**Tipo de stream:** {typo}
-🙍‍♂️**Adicionado por:** {user}
+🔗<b>Tipo de stream:</b> {typo}
+🙍‍♂️<b>Adicionado por:</b> {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, cplay, videoid)

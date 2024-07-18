@@ -1,5 +1,5 @@
 from pyrogram.enums import ChatMemberStatus, ChatType
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
 from CineWinx import app
 from CineWinx.misc import SUDOERS
@@ -17,12 +17,12 @@ from strings import get_string
 from ..formatters import int_to_alpha
 
 
-def AdminRightsCheck(mystic):
+def admin_rights_check(mystic: callable):
     async def wrapper(client, message):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    "Bot is under maintenance. Please wait for some time..."
+                    "O bot está em manutenção. Por favor, aguarde um momento..."
                 )
         if await is_commanddelete_on(message.chat.id):
             try:
@@ -72,7 +72,7 @@ def AdminRightsCheck(mystic):
     return wrapper
 
 
-def AdminActual(mystic):
+def admin_actual(mystic: callable):
     async def wrapper(client, message):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
@@ -116,46 +116,46 @@ def AdminActual(mystic):
     return wrapper
 
 
-def ActualAdminCB(mystic):
-    async def wrapper(client, CallbackQuery):
+def actual_admin_cb(mystic: callable):
+    async def wrapper(client: app, callback_query: CallbackQuery):
         if await is_maintenance() is False:
-            if CallbackQuery.from_user.id not in SUDOERS:
-                return await CallbackQuery.answer(
-                    "Bot is under maintenance. Please wait for some time...",
+            if callback_query.from_user.id not in SUDOERS:
+                return await callback_query.answer(
+                    "O bot está em manutenção. Por favor, aguarde um momento...",
                     show_alert=True,
                 )
         try:
-            language = await get_lang(CallbackQuery.message.chat.id)
+            language = await get_lang(callback_query.message.chat.id)
             _ = get_string(language)
         except:
             _ = get_string("pt")
-        if CallbackQuery.message.chat.type == ChatType.PRIVATE:
-            return await mystic(client, CallbackQuery, _)
-        is_non_admin = await is_nonadmin_chat(CallbackQuery.message.chat.id)
+        if callback_query.message.chat.type == ChatType.PRIVATE:
+            return await mystic(client, callback_query, _)
+        is_non_admin = await is_nonadmin_chat(callback_query.message.chat.id)
         if not is_non_admin:
             try:
                 a = await app.get_chat_member(
-                    CallbackQuery.message.chat.id,
-                    CallbackQuery.from_user.id,
+                    callback_query.message.chat.id,
+                    callback_query.from_user.id,
                 )
                 if a.status != ChatMemberStatus.ADMINISTRATOR:
                     if not a.privileges.can_manage_video_chats:
-                        if CallbackQuery.from_user.id not in SUDOERS:
-                            token = await int_to_alpha(CallbackQuery.from_user.id)
+                        if callback_query.from_user.id not in SUDOERS:
+                            token = await int_to_alpha(callback_query.from_user.id)
                             _check = await get_authuser_names(
-                                CallbackQuery.from_user.id
+                                callback_query.from_user.id
                             )
                             if token not in _check:
-                                return await CallbackQuery.answer(
+                                return await callback_query.answer(
                                     _["general_5"],
                                     show_alert=True,
                                 )
                     elif a is None:
-                        return await CallbackQuery.answer(
-                            "You are not a member of this chat."
+                        return await callback_query.answer(
+                            "Você não é um membro deste chat."
                         )
             except Exception as e:
-                return await CallbackQuery.answer(f"Error: {str(e)}")
-        return await mystic(client, CallbackQuery, _)
+                return await callback_query.answer(f"Error: {str(e)}")
+        return await mystic(client, callback_query, _)
 
     return wrapper

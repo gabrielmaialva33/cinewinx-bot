@@ -3,7 +3,7 @@ from pyrogram.types import Message
 
 from CineWinx import app
 from CineWinx.utils.database.memorydatabase import get_loop, set_loop
-from CineWinx.utils.decorators import AdminRightsCheck
+from CineWinx.utils.decorators import admin_rights_check
 from config import BANNED_USERS
 from strings import get_command
 
@@ -12,7 +12,7 @@ LOOP_COMMAND = get_command("LOOP_COMMAND")
 
 
 @app.on_message(filters.command(LOOP_COMMAND) & filters.group & ~BANNED_USERS)
-@AdminRightsCheck
+@admin_rights_check
 async def admins(_client: Client, message: Message, _, chat_id: int):
     usage = _["admin_24"]
     if len(message.command) != 2:

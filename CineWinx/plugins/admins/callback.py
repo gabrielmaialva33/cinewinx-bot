@@ -18,7 +18,7 @@ from CineWinx.utils.database import (
     mute_on,
     set_loop,
 )
-from CineWinx.utils.decorators.language import languageCB
+from CineWinx.utils.decorators.language import language_cb
 from CineWinx.utils.formatters import seconds_to_min
 from CineWinx.utils.inline.play import stream_markup, telegram_markup
 from CineWinx.utils.stream.autoclear import auto_clean
@@ -39,7 +39,7 @@ downvoters = {}
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -127,7 +127,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
 
     elif command == "Skip":
         check = db.get(chat_id)
-        txt = f"» música pulada por {mention} !"
+        txt = f"música pulada por {mention} !"
         popped = None
         try:
             popped = check.pop(0)
@@ -135,7 +135,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
                 await auto_clean(popped)
             if not check:
                 await callback_query.edit_message_text(
-                    f"» música pulada por {mention} !"
+                    f"música pulada por {mention} !"
                 )
                 await callback_query.message.reply_text(
                     _["admin_10"].format(mention), disable_web_page_preview=True
@@ -149,7 +149,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
             logging.error(e)
             try:
                 await callback_query.edit_message_text(
-                    f"» música pulada por {mention} !"
+                    f"música pulada por {mention} !"
                 )
                 await callback_query.message.reply_text(
                     _["admin_10"].format(mention), disable_web_page_preview=True
@@ -310,7 +310,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
             if (duration_played - duration_to_skip) <= 10:
                 bet = seconds_to_min(duration_played)
                 return await callback_query.answer(
-                    f"» O bot não pode buscar porque a duração excede.\n\nAtualmente tocando: **{bet}** minutos de **{duration}** minutos.",
+                    f"O bot não pode buscar porque a duração excede.\n\nAtualmente tocando: <b>{bet}</b> minutos de <b>{duration}</b> minutos.",
                     show_alert=True,
                 )
             to_seek = duration_played - duration_to_skip + 1
@@ -318,7 +318,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
             if (duration_seconds - (duration_played + duration_to_skip)) <= 10:
                 bet = seconds_to_min(duration_played)
                 return await callback_query.answer(
-                    f"» O bot não pode buscar porque a duração excede.\n\nAtualmente tocando: **{bet}** minutos de **{duration}** minutos.",
+                    f"O bot não pode buscar porque a duração excede.\n\nAtualmente tocando: <b>{bet}</b> minutos de <b>{duration}</b> minutos.",
                     show_alert=True,
                 )
             to_seek = duration_played + duration_to_skip + 1

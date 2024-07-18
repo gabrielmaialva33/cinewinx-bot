@@ -61,43 +61,43 @@ async def varsFunc(_client: app, message):
     owner_id = " ,".join(owners)
     tg_aud = convert_bytes(config.TG_AUDIO_FILESIZE_LIMIT)
     tg_vid = convert_bytes(config.TG_VIDEO_FILESIZE_LIMIT)
-    text = f"""**MUSIC BOT CONFIG:**
+    text = f"""<b>MUSIC BOT CONFIG:</b>
 
-**<u>Basic Vars:</u>**
-`DURATION_LIMIT` : **{play_duration} min**
-`SONG_DOWNLOAD_DURATION_LIMIT` :** {song} min**
-`OWNER_ID` : **{owner_id}**
-    
-**<u>Custom Repo Vars:</u>**
-`UPSTREAM_REPO` : **{up_r}**
-`UPSTREAM_BRANCH` : **{up_b}**
-`GITHUB_REPO` :** {git}**
-`GIT_TOKEN `:** {token}**
+<b><u>Basic Vars:</u></b>
+<code>DURATION_LIMIT</code> : <b>{play_duration} min</b>
+<code>SONG_DOWNLOAD_DURATION_LIMIT</code> :<b> {song} min</b>
+<code>OWNER_ID</code> : <b>{owner_id}</b>
+
+<b><u>Custom Repo Vars:</u></b>
+<code>UPSTREAM_REPO</code> : <b>{up_r}</b>
+<code>UPSTREAM_BRANCH</code> : <b>{up_b}</b>
+<code>GITHUB_REPO</code> :<b> {git}</b>
+<code>GIT_TOKEN</code> :<b> {token}</b>
 
 
-**<u>Bot Vars:</u>**
-`AUTO_LEAVING_ASSISTANT` : **{ass}**
-`ASSISTANT_LEAVE_TIME` : **{auto_leave} seconds**
-`PRIVATE_BOT_MODE` : **{pvt}**
-`YOUTUBE_EDIT_SLEEP` : **{yt_sleep} seconds**
-`TELEGRAM_EDIT_SLEEP` :** {tg_sleep} seconds**
-`VIDEO_STREAM_LIMIT` : **{v_limit} chats**
-`SERVER_PLAYLIST_LIMIT` :** {playlist_limit}**
-`PLAYLIST_FETCH_LIMIT` :** {fetch_playlist}**
+<b><u>Bot Vars:</u></b>
+<code>AUTO_LEAVING_ASSISTANT</code> : <b>{ass}</b>
+<code>ASSISTANT_LEAVE_TIME</code> : <b>{auto_leave} seconds</b>
+<code>PRIVATE_BOT_MODE</code> : <b>{pvt}</b>
+<code>YOUTUBE_EDIT_SLEEP</code> : <b>{yt_sleep} seconds</b>
+<code>TELEGRAM_EDIT_SLEEP</code> :<b> {tg_sleep} seconds</b>
+<code>VIDEO_STREAM_LIMIT</code> : <b>{v_limit} chats</b>
+<code>SERVER_PLAYLIST_LIMIT</code> :<b> {playlist_limit}</b>
+<code>PLAYLIST_FETCH_LIMIT</code> :<b> {fetch_playlist}</b>
 
-**<u>Spotify Vars:</u>**
-`SPOTIFY_CLIENT_ID` :** {sotify}**
-`SPOTIFY_CLIENT_SECRET` : **{sotify}**
+<b><u>Spotify Vars:</u></b>
+<code>SPOTIFY_CLIENT_ID</code> :<b> {sotify}</b>
+<code>SPOTIFY_CLIENT_SECRET</code> : <b>{sotify}</b>
 
-**<u>Playsize Vars:</u>**
-`TG_AUDIO_FILESIZE_LIMIT` :** {tg_aud}**
-`TG_VIDEO_FILESIZE_LIMIT` :** {tg_vid}**
+<b><u>Playsize Vars:</u></b>
+<code>TG_AUDIO_FILESIZE_LIMIT</code> :<b> {tg_aud}</b>
+<code>TG_VIDEO_FILESIZE_LIMIT</code> :<b> {tg_vid}</b>
 
-**<u>URL Vars:</u>**
-`SUPPORT_CHANNEL` : **{s_c}**
-`SUPPORT_GROUP` : ** {s_g}**
-`START_IMG_URL` : ** {start}**
-    """
+<b><u>URL Vars:</u></b>
+<code>SUPPORT_CHANNEL</code> : <b>{s_c}</b>
+<code>SUPPORT_GROUP</code> : <b>{s_g}</b>
+<code>START_IMG_URL</code> : <b>{start}</b>
+"""
     await asyncio.sleep(1)
 
     await mystic.edit_text(text)

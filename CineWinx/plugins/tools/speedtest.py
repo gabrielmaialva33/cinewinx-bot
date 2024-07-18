@@ -32,18 +32,18 @@ async def speedtest_function(_client: app, message: Message):
     m = await message.reply_text("Executando teste de velocidade")
     loop = asyncio.get_event_loop_policy().get_event_loop()
     result = await loop.run_in_executor(None, testspeed, m)
-    output = f"""**Resultado do teste de velocidade**
+    output = f"""<b>📊 Resultado do teste de velocidade 📊</b>
 
-<u>**Cliente:**</u>
-**ISP:** {result['client']['isp']}
-**País:** {result['client']['country']}
+<b><u>👤 Cliente:</u></b>
+<b>🏢 ISP:</b> {result['client']['isp']}
+<b>🌍 País:</b> {result['client']['country']}
 
-<u>**Servidor:**</u>
-**Nome:** {result['server']['name']}
-**País:** {result['server']['country']}, {result['server']['cc']}
-**Patrocinador:** {result['server']['sponsor']}
-**Latência:** {result['server']['latency']}  
-**Ping:** {result['ping']}"""
+<b><u>🌐 Servidor:</u></b>
+<b>📌 Nome:</b> {result['server']['name']}
+<b>🌍 País:</b> {result['server']['country']}, {result['server']['cc']}
+<b>🤝 Patrocinador:</b> {result['server']['sponsor']}
+<b>⚡ Latência:</b> {result['server']['latency']} ms
+<b>🏓 Ping:</b> {result['ping']} ms"""
 
     msg = await app.send_photo(
         chat_id=message.chat.id, photo=result["share"], caption=output

@@ -1,21 +1,23 @@
 from typing import Union
 
+from pyrogram.types import Video, Audio
+
 from CineWinx.misc import db
 from config import autoclean, chatstats, userstats
 from config.config import time_to_seconds
 
 
 async def put_queue(
-    chat_id,
-    original_chat_id,
-    file,
-    title,
-    duration,
-    user,
-    vidid,
-    user_id,
-    stream,
-    forceplay: Union[bool, str] = None,
+        chat_id: int,
+        original_chat_id: int,
+        file: Union[Video, Audio],
+        title: str,
+        duration: str,
+        user: str,
+        vidid: str,
+        user_id: int,
+        stream: str,
+        forceplay: Union[bool, str] = None,
 ):
     title = title.title()
     try:
@@ -54,15 +56,15 @@ async def put_queue(
 
 
 async def put_queue_index(
-    chat_id,
-    original_chat_id,
-    file,
-    title,
-    duration,
-    user,
-    vidid,
-    stream,
-    forceplay: Union[bool, str] = None,
+        chat_id: int,
+        original_chat_id: int,
+        file: Union[Video, Audio],
+        title: str,
+        duration: str,
+        user: str,
+        vidid: str,
+        stream: str,
+        forceplay: Union[bool, str] = None,
 ):
     put = {
         "title": title,

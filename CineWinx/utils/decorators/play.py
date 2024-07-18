@@ -32,7 +32,7 @@ from strings import get_string
 links = {}
 
 
-def PlayWrapper(command):
+def play_wrapper(command: callable):
     async def wrapper(client: app, message: Message):
         language = await get_lang(message.chat.id)
         _ = get_string(language)
@@ -53,7 +53,7 @@ def PlayWrapper(command):
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     text=f"{app.mention} está em manutenção, visite o <a href={SUPPORT_CHAT}>chat de suporte</a> para "
-                    f"saber o motivo.",
+                         f"saber o motivo.",
                     disable_web_page_preview=True,
                 )
         if PRIVATE_BOT_MODE == str(True):
@@ -134,8 +134,8 @@ def PlayWrapper(command):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                    get.status == ChatMemberStatus.BANNED
-                    or get.status == ChatMemberStatus.RESTRICTED
+                        get.status == ChatMemberStatus.BANNED
+                        or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),

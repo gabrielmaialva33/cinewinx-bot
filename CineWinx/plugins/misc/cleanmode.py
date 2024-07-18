@@ -238,8 +238,8 @@ async def auto_clean():
                     if datetime.now() > x["timer_after"]:
                         # Skip deletion if the message is protected
                         if (
-                            chat_id in protected_messages
-                            and x["msg_id"] in protected_messages[chat_id]
+                                chat_id in protected_messages
+                                and x["msg_id"] in protected_messages[chat_id]
                         ):
                             continue
                         try:
@@ -274,13 +274,13 @@ async def auto_clean():
 asyncio.create_task(auto_clean())
 
 __MODULE__ = "G-cast"
-__HELP__ = """🍒 **<u>Funcionalidade de Transmissão</u>** [apenas para administradores]:
-/broadcast [mensagem ou responda a uma mensagem] » Transmite uma mensagem para os chats atendidos pelo bot.
+__HELP__ = """🍒 <b><u>Funcionalidade de Transmissão</u></b> [apenas para administradores]:
+/broadcast [mensagem ou responda a uma mensagem] Transmite uma mensagem para os chats atendidos pelo bot.
 <u>Modos de Transmissão:</u>
-**-pin** » Fixa suas mensagens transmitidas nos chats atendidos.
-**-pinloud** » Fixa suas mensagens transmitidas nos chats atendidos e envia notificação aos membros.
-**-user** » Transmite a mensagem para os usuários que iniciaram seu bot.
-**-assistant** » Transmite sua mensagem a partir da conta assistente do bot.
-**-nobot** » Impede o bot de transmitir a mensagem.
-> **Exemplo:** `/broadcast -user -assistant -pin Testando transmissão`
+<b>-pin</b> Fixa suas mensagens transmitidas nos chats atendidos.
+<b>-pinloud</b> Fixa suas mensagens transmitidas nos chats atendidos e envia notificação aos membros.
+<b>-user</b> Transmite a mensagem para os usuários que iniciaram seu bot.
+<b>-assistant</b> Transmite sua mensagem a partir da conta assistente do bot.
+<b>-nobot</b> Impede o bot de transmitir a mensagem.
+<b>Exemplo:</b> `/broadcast -user -assistant -pin Testando transmissão`
 """

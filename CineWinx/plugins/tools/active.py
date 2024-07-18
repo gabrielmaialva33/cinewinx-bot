@@ -36,7 +36,7 @@ async def activevc(_, message: Message):
         await mystic.edit_text("Nenhum chat de voz ativo")
     else:
         await mystic.edit_text(
-            f"**Chats de Voz Ativos:**\n\n{text}",
+            f"<b>Chats de Voz Ativos:</b>\n\n{text}",
             disable_web_page_preview=True,
         )
 
@@ -64,7 +64,7 @@ async def activevi_(_, message: Message):
         await mystic.edit_text("Nenhum chat de vídeo ativo")
     else:
         await mystic.edit_text(
-            f"**Chats de Vídeo Ativos:**\n\n{text}",
+            f"<b>Chats de Vídeo Ativos:</b>\n\n{text}",
             disable_web_page_preview=True,
         )
 
@@ -74,7 +74,7 @@ async def vc(client: app, message: Message):
     ac_audio = str(len(await get_active_chats()))
     ac_video = str(len(await get_active_video_chats()))
     await message.reply_text(
-        f"✫ **<u>Informações de Chats Ativos</u>**:\n\nVoz: {ac_audio}\nVídeo: {ac_video}"
+        f"<b><u>Informações de Chats Ativos</u></b>:\n\nVoz: {ac_audio}\nVídeo: {ac_video}"
     )
 
 

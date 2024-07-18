@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton, Message, CallbackQuery
 
 from CineWinx import app
 from CineWinx.utils.database import get_lang, set_lang
-from CineWinx.utils.decorators import ActualAdminCB, language, languageCB
+from CineWinx.utils.decorators import actual_admin_cb, language, language_cb
 from config import BANNED_USERS
 from strings import get_command, get_string, languages_present
 
@@ -46,7 +46,7 @@ async def langs_command(_client: app, message: Message, _):
 
 
 @app.on_callback_query(filters.regex("LG") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def lanuagecb(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
@@ -57,7 +57,7 @@ async def lanuagecb(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex(r"languages:(.*?)") & ~BANNED_USERS)
-@ActualAdminCB
+@actual_admin_cb
 async def language_markup(_client: app, callback_query: CallbackQuery, _):
     langauge = (callback_query.data).split(":")[1]
     old = await get_lang(callback_query.message.chat.id)

@@ -26,7 +26,7 @@ from CineWinx.utils.database import (
     get_top_chats,
     get_topp_users,
 )
-from CineWinx.utils.decorators.language import language, languageCB
+from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.inline.stats import (
     back_stats_buttons,
     back_stats_markup,
@@ -118,7 +118,7 @@ async def gstats_global(_client: app, message: Message, _):
 
 
 @app.on_callback_query(filters.regex("GetStatsNow") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
     chat_id = callback_query.message.chat.id
     callback_data = callback_query.data.strip()
@@ -130,7 +130,7 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
         pass
     mystic = await callback_query.edit_message_text(
         _["gstats_3"].format(
-            f"ᴏғ {callback_query.message.chat.title}" if what == "Here" else what
+            f"de {callback_query.message.chat.title}" if what == "Here" else what
         )
     )
     if what == "Tracks":
@@ -232,7 +232,7 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("TopOverall") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     what = callback_data.split(None, 1)[1]
@@ -287,7 +287,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("bot_stats_sudo"))
-@languageCB
+@language_cb
 async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     if callback_query.from_user.id not in SUDOERS:
         return await callback_query.answer(
@@ -307,7 +307,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     sc = platform.system()
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
-    ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " GB"
+    ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
     try:
         cpu_freq = psutil.cpu_freq().current
         if cpu_freq >= 1000:
@@ -317,11 +317,11 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     except:
         cpu_freq = "N/A"
     hdd = psutil.disk_usage("/")
-    total = hdd.total / (1024.0**3)
+    total = hdd.total / (1024.0 ** 3)
     total = str(total)
-    used = hdd.used / (1024.0**3)
+    used = hdd.used / (1024.0 ** 3)
     used = str(used)
-    free = hdd.free / (1024.0**3)
+    free = hdd.free / (1024.0 ** 3)
     free = str(free)
     mod = len(ALL_MODULES)
     db = pymongodb
@@ -378,7 +378,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 @app.on_callback_query(
     filters.regex(pattern=r"^(TOPMARKUPGET|GETSTATS|GlobalStats)$") & ~BANNED_USERS
 )
-@languageCB
+@language_cb
 async def back_buttons(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()

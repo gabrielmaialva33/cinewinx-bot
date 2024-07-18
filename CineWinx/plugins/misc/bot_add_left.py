@@ -20,12 +20,12 @@ async def join_watcher(_, message: Message):
                     message.chat.username if message.chat.username else "Chat Privado"
                 )
                 msg = (
-                    f"**Bot de Música adicionado a um novo grupo #NovoGrupo**\n\n"
-                    f"**Nome do Chat:** {message.chat.title}\n"
-                    f"**ID do Chat:** {message.chat.id}\n"
-                    f"**Username do Chat:** @{username}\n"
-                    f"**Número de Membros do Chat:** {count}\n"
-                    f"**Adicionado por:** {message.from_user.mention}"
+                    f"<b>Bot de Música adicionado a um novo grupo #novogrupo</b>\n\n"
+                    f"<b>Nome do Chat:</b> {message.chat.title}\n"
+                    f"<b>ID do Chat:</b> {message.chat.id}\n"
+                    f"<b>Username do Chat:</b> @{username}\n"
+                    f"<b>Número de Membros do Chat:</b> {count}\n"
+                    f"<b>Adicionado por:</b> {message.from_user.mention}"
                 )
                 await app.send_message(
                     LOG_GROUP_ID,
@@ -65,7 +65,12 @@ async def on_left_chat_member(_, message: Message):
                 f"@{message.chat.username}" if message.chat.username else "Chat Privado"
             )
             chat_id = message.chat.id
-            left = f"✫ **#Saiu_do_Grupo** ✫\nNome do Chat: {title}\nID do Chat: {chat_id}\n\nRemovido por: {remove_by}"
+            left = (
+                f"<b>#saiu_do_grupo</b>\n"
+                f"<b>Nome do Chat:</b> {title}\n"
+                f"<b>ID do Chat:</b> {chat_id}\n\n"
+                f"<b>Removido por:</b> {remove_by}"
+            )
             await app.send_message(LOG_GROUP_ID, text=left)
             await delete_served_chat(chat_id)
             await userbot.leave_chat(chat_id)

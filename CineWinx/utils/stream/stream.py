@@ -16,23 +16,23 @@ from CineWinx.utils.database import (
 from CineWinx.utils.exceptions import AssistantErr
 from CineWinx.utils.inline.play import queue_markup, stream_markup, telegram_markup
 from CineWinx.utils.inline.playlist import close_markup
-from CineWinx.utils.pastebin import WinxBin
+from CineWinx.utils.pastebin import winx_bin
 from CineWinx.utils.stream.queue import put_queue, put_queue_index
 from CineWinx.utils.thumbnails import gen_qthumb, gen_thumb
 
 
 async def stream(
-    _,
-    mystic,
-    user_id,
-    result,
-    chat_id,
-    user_name,
-    original_chat_id,
-    video: Union[bool, str] = None,
-    streamtype: Union[bool, str] = None,
-    spotify: Union[bool, str] = None,
-    forceplay: Union[bool, str] = None,
+        _,
+        mystic: app,
+        user_id: int,
+        result: Union[dict, list],
+        chat_id: int,
+        user_name: str,
+        original_chat_id: int,
+        video: Union[bool, str] = None,
+        streamtype: Union[bool, str] = None,
+        spotify: Union[bool, str] = None,
+        forceplay: Union[bool, str] = None,
 ):
     if not result:
         return
@@ -120,7 +120,7 @@ async def stream(
         if count == 0:
             return
         else:
-            link = await WinxBin(msg)
+            link = await winx_bin(msg)
             lines = msg.count("\n")
             if lines >= 17:
                 car = os.linesep.join(msg.split(os.linesep)[:17])

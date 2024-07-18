@@ -1,11 +1,11 @@
-from pyrogram.types import CallbackQuery
+from pyrogram.types import CallbackQuery, Message
 
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.database import get_lang, is_commanddelete_on, is_maintenance
 from strings import get_string
 
 
-def language(mystic):
+def language(mystic: callable):
     async def wrapper(_, message, **kwargs):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
@@ -27,7 +27,7 @@ def language(mystic):
     return wrapper
 
 
-def languageCB(mystic):
+def language_cb(mystic: callable):
     async def wrapper(_, callback_query: CallbackQuery, **kwargs):
         if await is_maintenance() is False:
             if callback_query.from_user.id not in SUDOERS:
@@ -45,8 +45,8 @@ def languageCB(mystic):
     return wrapper
 
 
-def LanguageStart(mystic):
-    async def wrapper(_, message, **kwargs):
+def language_start(mystic: callable):
+    async def wrapper(_, message: Message, **kwargs: dict):
         try:
             language = await get_lang(message.chat.id)
             language = get_string(language)

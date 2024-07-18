@@ -24,7 +24,7 @@ from CineWinx.utils.database import (
     remove_active_video_chat,
 )
 from CineWinx.utils.decorators.language import language
-from CineWinx.utils.pastebin import WinxBin
+from CineWinx.utils.pastebin import winx_bin
 from strings import get_command
 
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
@@ -53,7 +53,7 @@ async def log_(_client: app, message: Message, _):
             if HAPP is None:
                 return await message.reply_text(_["heroku_1"])
             data = HAPP.get_log()
-            link = await WinxBin(data)
+            link = await winx_bin(data)
             return await message.reply_text(link)
         else:
             if os.path.exists(config.LOG_FILE_NAME):
@@ -66,7 +66,7 @@ async def log_(_client: app, message: Message, _):
                     numb = 100
                 for x in lines[-numb:]:
                     data += x
-                link = await WinxBin(data)
+                link = await winx_bin(data)
                 return await message.reply_text(link)
             else:
                 return await message.reply_text(_["heroku_2"])
@@ -88,7 +88,7 @@ async def varget_(_client: app, message: Message, _):
         heroku_config = HAPP.config()
         if check_var in heroku_config:
             return await message.reply_text(
-                f"**{check_var}:** `{heroku_config[check_var]}`"
+                f"<b>{check_var}:</b> `{heroku_config[check_var]}`"
             )
         else:
             return await message.reply_text(_["heroku_4"])
@@ -100,7 +100,7 @@ async def varget_(_client: app, message: Message, _):
         if not output:
             await message.reply_text(_["heroku_4"])
         else:
-            return await message.reply_text(f"**{check_var}:** `{str(output)}`")
+            return await message.reply_text(f"<b>{check_var}:</b> `{str(output)}`")
 
 
 @app.on_message(filters.command(DELVAR_COMMAND) & SUDOERS)
@@ -206,13 +206,14 @@ async def usage_dynos(_client: app, message: Message, _):
     AppMinutes = math.floor(AppQuotaUsed % 60)
     await asyncio.sleep(1.5)
     text = f"""
-**Dʏɴᴏ Usᴀɢᴇ**
+<b>📊 Dyno Usage 📊</b>
 
-<u>Usᴀɢᴇ:</u>
-Tᴏᴛᴀʟ ᴜsᴇᴅ: `{AppHours}`**ʜ**  `{AppMinutes}`**ᴍ**  [`{AppPercentage}`**%**]
+<b><u>⚙️ Usage:</u></b>
+<b>Total used:</b> <code>{AppHours}</code>h <code>{AppMinutes}</code>m [<code>{AppPercentage}</code>%]
 
-<u>Rᴇᴀᴍɪɴɪɴɢ ǫᴜᴏᴛᴀ:</u>
-Tᴏᴛᴀʟ ʟᴇғᴛ: `{hours}`**ʜ**  `{minutes}`**ᴍ**  [`{percentage}`**%**]"""
+<b><u>🕒 Remaining quota:</u></b>
+<b>Total left:</b> <code>{hours}</code>h <code>{minutes}</code>m [<code>{percentage}</code>%]
+    """
     return await dyno.edit(text)
 
 
@@ -237,22 +238,28 @@ async def update_(_client: app, message: Message, _):
     for checks in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}"):
         verification = str(checks.count())
     if verification == "":
-        return await response.edit("» ʙᴏᴛ ɪs ᴜᴘ-ᴛᴏ-ᴅᴀᴛᴇ.")
+        return await response.edit("<b>✅ Bot is up-to-date.</b>")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
     )
     updates = "".join(
-        f"<b>➣ #{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> ʙʏ -> {info.author}</b>\n\t\t\t\t<b>➥ ᴄᴏᴍᴍɪᴛᴇᴅ ᴏɴ :</b> {ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} {datetime.fromtimestamp(info.committed_date).strftime('%b')}, {datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
+        f"<b>#{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> por -> {info.author}</b>\n\t\t\t\t<b>"
+        f"commited on :</b> "
+        f"{ordinal(int(datetime.fromtimestamp(info.committed_date).strftime('%d')))} "
+        f"{datetime.fromtimestamp(info.committed_date).strftime('%b')}, "
+        f"{datetime.fromtimestamp(info.committed_date).strftime('%Y')}\n\n"
         for info in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}")
     )
-    _update_response_ = "**ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !**\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n__**ᴜᴩᴅᴀᴛᴇs:**__\n"
+    _update_response_ = ("<b>🔔 A new update is available for the bot!</b>\n\n"
+                         "Pushing updates now\n\n<b><u>📦 Updates:</u></b>\n")
     _final_updates_ = f"{_update_response_} {updates}"
 
     if len(_final_updates_) > 4096:
-        url = await WinxBin(updates)
+        url = await winx_bin(updates)
         nrs = await response.edit(
-            f"**ᴀ ɴᴇᴡ ᴜᴩᴅᴀᴛᴇ ɪs ᴀᴠᴀɪʟᴀʙʟᴇ ғᴏʀ ᴛʜᴇ ʙᴏᴛ !**\n\n➣ ᴩᴜsʜɪɴɢ ᴜᴩᴅᴀᴛᴇs ɴᴏᴡ\n\n__**ᴜᴩᴅᴀᴛᴇs :**__\n\n[ᴄʜᴇᴄᴋ ᴜᴩᴅᴀᴛᴇs]({url})",
+            f"<b>🔔 A new update is available for the bot!</b>\n\n"
+            f"Pushing updates now\n\n<b><u>📦 Updates:</u></b>\n\n<a href='{url}'>Check updates</a>",
             disable_web_page_preview=True,
         )
     else:
@@ -265,7 +272,7 @@ async def update_(_client: app, message: Message, _):
             try:
                 await app.send_message(
                     chat_id=int(x),
-                    text="{0} ɪs ᴜᴘᴅᴀᴛᴇᴅ ʜᴇʀsᴇʟғ\n\nʏᴏᴜ ᴄᴀɴ sᴛᴀʀᴛ ᴩʟᴀʏɪɴɢ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 15-20 sᴇᴄᴏɴᴅs.".format(
+                    text="{0} is updated herself\n\nYou can start playing again after 15-20 seconds.".format(
                         app.mention
                     ),
                 )
@@ -275,7 +282,7 @@ async def update_(_client: app, message: Message, _):
                 pass
         await response.edit(
             _final_updates_
-            + f"» ʙᴏᴛ ᴜᴩᴅᴀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ ! ɴᴏᴡ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ ᴍɪɴᴜᴛᴇs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ ʀᴇsᴛᴀʀᴛs",
+            + "<b>🤖 Bot updated successfully!</b> Now wait for a few minutes until the bot restarts.",
             disable_web_page_preview=True,
         )
     except:
@@ -289,11 +296,11 @@ async def update_(_client: app, message: Message, _):
             return
         except Exception as err:
             await response.edit(
-                f"{nrs.text}\n\nsᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ, ᴩʟᴇᴀsᴇ ᴄʜᴇᴄᴋ ʟᴏɢs."
+                f"{nrs.text}\n\n<b>⚠️ Something went wrong, please check logs.</b>"
             )
             return await app.send_message(
                 chat_id=config.LOG_GROUP_ID,
-                text=f"Uma exceção ocorreu no #atualizador devido a: `{err}`",
+                text=f"⚠️ Uma exceção ocorreu no #atualizador devido a: <code>{err}</code>",
             )
     else:
         os.system("pip3 install --no-cache-dir -U -r requirements.txt")
@@ -323,7 +330,7 @@ async def restart_(_, message: Message):
     except Exception as e:
         logging.error(str(e))
     await response.edit_text(
-        "» Processo de reinicialização iniciado, aguarde alguns segundos até que o bot seja iniciado..."
+        "Processo de reinicialização iniciado, aguarde alguns segundos até que o bot seja iniciado..."
     )
     os.system(f"kill -9 {os.getpid()} && python3 -m CineWinx")
 

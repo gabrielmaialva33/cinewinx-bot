@@ -93,7 +93,7 @@ def get_urls_from_text(text: str) -> bool:
     return [x[0] for x in findall(regex, str(text))]
 
 
-def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
+def extract_text_and_keyb(ikb: callable, text: str, row_width: int = 2):
     keyboard = {}
     try:
         text = text.strip()
@@ -108,7 +108,7 @@ def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
         if "¤¤" in text:
             text = text.replace("¤¤", "~~")
 
-        keyb = findall(r"\[.+\,.+\]", keyb)
+        keyb = findall(r"\[.+,.+]", keyb)
         for btn_str in keyb:
             btn_str = re_sub(r"[\[\]]", "", btn_str)
             btn_str = btn_str.split(",")
@@ -124,8 +124,8 @@ def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
     return text, keyboard
 
 
-async def check_format(ikb, raw_text: str):
-    keyb = findall(r"\[.+\,.+\]", raw_text)
+async def check_format(ikb: callable, raw_text: str):
+    keyb = findall(r"\[.+,.+]", raw_text)
     if keyb and not "~" in raw_text:
         raw_text = raw_text.replace("button=", "\n~\nbutton=")
         return raw_text
@@ -138,7 +138,7 @@ async def check_format(ikb, raw_text: str):
         return raw_text
 
 
-async def get_data_and_name(replied_message, message):
+async def get_data_and_name(replied_message: Message, message: Message):
     text = message.text.markdown if message.text else message.caption.markdown
     name = text.split(None, 1)[1].strip()
     text = name.split(" ", 1)
@@ -151,7 +151,7 @@ async def get_data_and_name(replied_message, message):
         if replied_message and (replied_message.sticker or replied_message.video_note):
             data = None
         elif (
-            replied_message and not replied_message.text and not replied_message.caption
+                replied_message and not replied_message.text and not replied_message.caption
         ):
             data = None
         else:
@@ -171,11 +171,7 @@ async def get_data_and_name(replied_message, message):
     return data, name
 
 
-async def extract_userid(message, text: str):
-    """
-    NOT TO BE USED OUTSIDE THIS FILE
-    """
-
+async def extract_userid(message: Message, text: str):
     def is_int(text: str):
         try:
             int(text)
@@ -212,9 +208,9 @@ async def extract_user_and_reason(message, sender_chat=False):
             # if reply to a message and no reason is given
             if not reply.from_user:
                 if (
-                    reply.sender_chat
-                    and reply.sender_chat != message.chat.id
-                    and sender_chat
+                        reply.sender_chat
+                        and reply.sender_chat != message.chat.id
+                        and sender_chat
                 ):
                     id_ = reply.sender_chat.id
                 else:
@@ -249,9 +245,9 @@ async def extract_user(message):
 
 
 def get_file_id_from_message(
-    message,
-    max_file_size=3145728,
-    mime_types=["image/png", "image/jpeg"],
+        message: Message,
+        max_file_size=3145728,
+        mime_types=["image/png", "image/jpeg"],
 ):
     file_id = None
     if message.document:

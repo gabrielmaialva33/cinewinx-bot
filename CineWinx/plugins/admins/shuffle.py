@@ -5,7 +5,7 @@ from pyrogram.types import Message
 
 from CineWinx import app
 from CineWinx.misc import db
-from CineWinx.utils.decorators import AdminRightsCheck
+from CineWinx.utils.decorators import admin_rights_check
 from config import BANNED_USERS
 from strings import get_command
 
@@ -14,7 +14,7 @@ SHUFFLE_COMMAND = get_command("SHUFFLE_COMMAND")
 
 
 @app.on_message(filters.command(SHUFFLE_COMMAND) & filters.group & ~BANNED_USERS)
-@AdminRightsCheck
+@admin_rights_check
 async def admins(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) == 1:
         return await message.reply_text(_["general_2"])

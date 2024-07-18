@@ -4,7 +4,7 @@ from pyrogram.types import Message
 from CineWinx import YouTube, app
 from CineWinx.core.call import CineWinx
 from CineWinx.misc import db
-from CineWinx.utils import AdminRightsCheck, seconds_to_min
+from CineWinx.utils import admin_rights_check, seconds_to_min
 from config import BANNED_USERS
 from strings import get_command
 
@@ -13,7 +13,7 @@ SEEK_COMMAND = get_command("SEEK_COMMAND")
 
 
 @app.on_message(filters.command(SEEK_COMMAND) & filters.group & ~BANNED_USERS)
-@AdminRightsCheck
+@admin_rights_check
 async def seek_comm(_client: Client, message: Message, _, chat_id: int):
     if len(message.command) == 1:
         return await message.reply_text(_["admin_28"])

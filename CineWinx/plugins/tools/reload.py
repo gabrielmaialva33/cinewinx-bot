@@ -9,7 +9,7 @@ from CineWinx import app
 from CineWinx.core.call import CineWinx
 from CineWinx.misc import db
 from CineWinx.utils.database import get_authuser_names, get_cmode
-from CineWinx.utils.decorators import ActualAdminCB, AdminActual, language
+from CineWinx.utils.decorators import actual_admin_cb, admin_actual, language
 from CineWinx.utils.formatters import alpha_to_int
 from config import BANNED_USERS, adminlist, lyrical
 from strings import get_command
@@ -40,7 +40,7 @@ async def reload_admin_cache(_client: app, message: Message, _):
 
 
 @app.on_message(filters.command(REBOOT_COMMAND) & filters.group & ~BANNED_USERS)
-@AdminActual
+@admin_actual
 async def restartbot(_client: app, message: Message, _):
     mystic = await message.reply_text(
         f"Por favor, aguarde...\nReiniciando {app.mention} para o seu chat..."
@@ -92,7 +92,7 @@ async def close_menu(_, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("stop_downloading") & ~BANNED_USERS)
-@ActualAdminCB
+@actual_admin_cb
 async def stop_download(client, callback_query: CallbackQuery, _):
     message_id = callback_query.message.id
     task = lyrical.get(message_id)

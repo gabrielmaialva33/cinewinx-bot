@@ -2,14 +2,14 @@ from pyrogram import filters
 from pyrogram.types import CallbackQuery
 
 from CineWinx import YouTube, app
-from CineWinx.utils.channelplay import get_channeplayCB
-from CineWinx.utils.decorators.language import languageCB
+from CineWinx.utils.channelplay import get_channeplay_cb
+from CineWinx.utils.decorators.language import language_cb
 from CineWinx.utils.stream.stream import stream
 from config import BANNED_USERS
 
 
 @app.on_callback_query(filters.regex("LiveStream") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def play_live_stream(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -20,7 +20,7 @@ async def play_live_stream(_client: app, callback_query: CallbackQuery, _):
         except:
             return
     try:
-        chat_id, channel = await get_channeplayCB(_, cplay, callback_query)
+        chat_id, channel = await get_channeplay_cb(_, cplay, callback_query)
     except:
         return
     video = True if mode == "v" else None

@@ -18,9 +18,9 @@ SUDOUSERS_COMMAND = get_command("SUDOUSERS_COMMAND")
 async def useradd(_client: app, message: Message, _):
     if MONGO_DB_URI is None:
         return await message.reply_text(
-            "**Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
-            "dados do Winx.**\n\n**Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
-            "esta função.**"
+            "<b>Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
+            "dados do Winx.</b>\n\n<b>Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
+            "esta função.</b>"
         )
     if not message.reply_to_message:
         if len(message.command) != 2:
@@ -58,9 +58,9 @@ async def useradd(_client: app, message: Message, _):
 async def userdel(_client: app, message: Message, _):
     if MONGO_DB_URI is None:
         return await message.reply_text(
-            "**Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
-            "dados do Winx.**\n\n**Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
-            "esta função.**"
+            "<b>Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
+            "dados do Winx.</b>\n\n<b>Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
+            "esta função.</b>"
         )
     if not message.reply_to_message:
         if len(message.command) != 2:

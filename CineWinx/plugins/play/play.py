@@ -12,10 +12,10 @@ import config
 from CineWinx import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from CineWinx.core.call import CineWinx
 from CineWinx.utils import seconds_to_min, time_to_seconds
-from CineWinx.utils.channelplay import get_channeplayCB
+from CineWinx.utils.channelplay import get_channeplay_cb
 from CineWinx.utils.database import is_video_allowed
-from CineWinx.utils.decorators.language import languageCB
-from CineWinx.utils.decorators.play import PlayWrapper
+from CineWinx.utils.decorators.language import language_cb
+from CineWinx.utils.decorators.play import play_wrapper
 from CineWinx.utils.formatters import formats
 from CineWinx.utils.inline.play import (
     livestream_markup,
@@ -47,17 +47,17 @@ from config import BANNED_USERS, lyrical
     & filters.group
     & ~BANNED_USERS
 )
-@PlayWrapper
+@play_wrapper
 async def play_command(
-    _client: app,
-    message: Message,
-    _,
-    chat_id: int,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
+        _client: app,
+        message: Message,
+        _,
+        chat_id: int,
+        video,
+        channel,
+        playmode,
+        url,
+        fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
@@ -469,7 +469,7 @@ async def play_command(
 
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def play_music(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -480,7 +480,7 @@ async def play_music(_client: app, callback_query: CallbackQuery, _):
         except:
             return
     try:
-        chat_id, channel = await get_channeplayCB(_, cplay, callback_query)
+        chat_id, channel = await get_channeplay_cb(_, cplay, callback_query)
     except:
         return
     user_name = callback_query.from_user.first_name
@@ -550,7 +550,7 @@ async def anonymous_check(_client: app, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex("WinxPlaylists") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def play_playlists_command(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
@@ -568,7 +568,7 @@ async def play_playlists_command(_client: app, callback_query: CallbackQuery, _)
         except:
             return
     try:
-        chat_id, channel = await get_channeplayCB(_, cplay, callback_query)
+        chat_id, channel = await get_channeplay_cb(_, cplay, callback_query)
     except:
         return
     user_name = callback_query.from_user.first_name
@@ -638,7 +638,7 @@ async def play_playlists_command(_client: app, callback_query: CallbackQuery, _)
 
 
 @app.on_callback_query(filters.regex("slider") & ~BANNED_USERS)
-@languageCB
+@language_cb
 async def slider_queries(client, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
