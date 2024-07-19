@@ -174,7 +174,7 @@ class Call(PyTgCalls):
             )
         else:
             stream = MediaStream(link, audio_parameters=audio_stream_quality)
-        await assistant.change_stream(
+        await assistant.play(
             chat_id,
             stream,
         )
@@ -198,7 +198,7 @@ class Call(PyTgCalls):
                 video_flags=MediaStream.IGNORE,
             )
         )
-        await assistant.change_stream(chat_id, stream)
+        await assistant.play(chat_id, stream)
 
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOG_GROUP_ID)
@@ -350,7 +350,7 @@ class Call(PyTgCalls):
             if users == 1:
                 autoend[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)
 
-    async def change_stream(self, client: Client, chat_id: int):
+    async def play(self, client: Client, chat_id: int):
         check = db.get(chat_id)
         popped = None
         loop = await get_loop(chat_id)
@@ -404,7 +404,7 @@ class Call(PyTgCalls):
                         audio_parameters=audio_stream_quality,
                     )
                 try:
-                    await client.change_stream(chat_id, stream)
+                    await client.play(chat_id, stream)
                 except Exception:
                     return await app.send_message(
                         original_chat_id,
@@ -450,7 +450,7 @@ class Call(PyTgCalls):
                         audio_parameters=audio_stream_quality,
                     )
                 try:
-                    await client.change_stream(chat_id, stream)
+                    await client.play(chat_id, stream)
                 except Exception:
                     return await app.send_message(
                         original_chat_id,
@@ -483,7 +483,7 @@ class Call(PyTgCalls):
                     else MediaStream(videoid, audio_parameters=audio_stream_quality)
                 )
                 try:
-                    await client.change_stream(chat_id, stream)
+                    await client.play(chat_id, stream)
                 except Exception:
                     return await app.send_message(
                         original_chat_id,
@@ -520,7 +520,7 @@ class Call(PyTgCalls):
                         audio_parameters=audio_stream_quality,
                     )
                 try:
-                    await client.change_stream(chat_id, stream)
+                    await client.play(chat_id, stream)
                 except Exception as e:
                     logging.error(e)
                     return await app.send_message(
@@ -619,7 +619,7 @@ class Call(PyTgCalls):
         async def stream_end_handler(client, update: Update):
             if not isinstance(update, StreamAudioEnded):
                 return
-            await self.change_stream(client, update.chat_id)
+            await self.play(client, update.chat_id)
 
         @self.one.on_update(
             filters.call_participant(GroupCallParticipant.Action.UPDATED)
