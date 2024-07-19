@@ -1,7 +1,7 @@
 from pyrogram import filters, Client
 from pyrogram.types import Message
 
-from CineWinx import YouTube, app
+from CineWinx import YouTube, app, LOGGER
 from CineWinx.core.call import CineWinx
 from CineWinx.misc import db
 from CineWinx.utils import admin_rights_check, seconds_to_min
@@ -57,7 +57,8 @@ async def seek_comm(_client: Client, message: Message, _, chat_id: int):
             duration,
             playing[0]["streamtype"],
         )
-    except:
+    except Exception as e:
+        LOGGER(__name__).exception(e)
         return await mystic.edit_text(_["admin_34"])
     if message.command[0][-2] == "c":
         db[chat_id][0]["played"] -= duration_to_skip
