@@ -1,10 +1,11 @@
+from youtubesearchpython.__future__ import VideosSearch
+
 import asyncio
 import time
 
 from pyrogram import filters, Client
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from CineWinx import Telegram, YouTube, app
@@ -69,7 +70,7 @@ async def start_comm(client: app, message: Message, _):
                 disable_web_page_preview=True,
             )
         if name[0:3] == "sta":
-            m = await message.reply_text("🔎 Buscando suas estatísticas pessoais.")
+            m = await message.reply_text("🔎 <i>𝗕𝘂𝘀𝗰𝗮𝗻𝗱𝗼 𝘀𝘂𝗮𝘀 𝗲𝘀𝘁𝗮𝘁𝗶́𝘀𝘁𝗶𝗰𝗮𝘀 𝗽𝗲𝘀𝘀𝗼𝗮𝗶𝘀.</i>")
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
             if not stats:
@@ -131,10 +132,10 @@ async def start_comm(client: app, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} acabou de iniciar o bot para verificar a <code>sudolist</code>\n\n"
-                    f"<b>ID:</b> {sender_id}\n"
-                    f"<b>Nome:</b> {sender_name}"
-                    f"<b>Usuário:</b> @{sender_mention}",
+                    f"📢 {message.from_user.mention} 𝗮𝗰𝗮𝗯𝗼𝘂 𝗱𝗲 𝗶𝗻𝗶𝗰𝗶𝗮𝗿 𝗼 𝗯𝗼𝘁 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿 𝗮 <code>sudolist</code>\n\n"
+                    f"🆔 <b>𝗜𝗗:</b> {sender_id}\n"
+                    f"👤 <b>𝗡𝗼𝗺𝗲:</b> {sender_name}\n"
+                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}"
                 )
             return
         if name[0:3] == "lyr":
@@ -145,13 +146,13 @@ async def start_comm(client: app, message: Message, _):
                 await Telegram.send_split_text(message, lyrics)
                 return
             else:
-                await message.reply_text("Falha ao obter a letra da música.")
+                await message.reply_text("𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗼𝗯𝘁𝗲𝗿 𝗮 𝗹𝗲𝘁𝗿𝗮 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮. 🎵")
                 return
         if name[0:3] == "del":
             await del_plist_msg(client=client, message=message, _=_)
             await asyncio.sleep(1)
         if name[0:3] == "inf":
-            m = await message.reply_text("🔎 Buscando informações!")
+            m = await message.reply_text("🔎 𝗕𝘂𝘀𝗰𝗮𝗻𝗱𝗼 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀!")
             query = (str(name)).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
@@ -165,22 +166,22 @@ async def start_comm(client: app, message: Message, _):
                 link = result["link"]
                 published = result["publishedTime"]
                 searched_text = f"""
-🔍<u><b>Informações sobre a faixa de vídeo</b></u>
+🔍<u><b>𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝘀𝗼𝗯𝗿𝗲 𝗮 𝗳𝗮𝗶𝘅𝗮 𝗱𝗲 𝘃𝗶́𝗱𝗲𝗼</b></u>
 
-❇️<b>Título:</b> {title}
+❇️<b>𝗧𝗶́𝘁𝘂𝗹𝗼:</b> {title}
 
-⏳<b>Duração:</b> {duration} minutos
-👀<b>Visualizações:</b> `{views}`
-⏰<b>Publicado em:</b> {published}
-🎥<b>Canal:</b> {channel}
-📎<b>Link do canal:</b> <a href="{channellink}">veja aqui</a>
-🔗<b>Link do vídeo:</b> <a href="{link}">link</a>
+⏳<b>𝗗𝘂𝗿𝗮𝗰̧𝗮̃𝗼:</b> {duration} minutos
+👀<b>𝗩𝗶𝘀𝘂𝗮𝗹𝗶𝘇𝗮𝗰𝗼̃𝗲𝘀:</b> `{views}`
+⏰<b>𝗣𝘂𝗯𝗹𝗶𝗰𝗮𝗱𝗼 𝗲𝗺:</b> {published}
+🎥<b>𝗖𝗮𝗻𝗮𝗹:</b> {channel}
+📎<b>𝗟𝗶𝗻𝗸 𝗱𝗼 𝗰𝗮𝗻𝗮𝗹:</b> <a href="{channellink}">veja aqui</a>
+🔗<b>𝗟𝗶𝗻𝗸 𝗱𝗼 𝘃𝗶́𝗱𝗲𝗼:</b> <a href="{link}">link</a>
 """
             key = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="🎥 Assistir ", url=f"{link}"),
-                        InlineKeyboardButton(text="🔄 Fechar", callback_data="close"),
+                        InlineKeyboardButton(text="🎥 𝗮𝘀𝘀𝗶𝘀𝘁𝗶𝗿", url=f"{link}"),
+                        InlineKeyboardButton(text="🔄 𝗳𝗲𝗰𝗵𝗮𝗿", callback_data="close"),
                     ],
                 ]
             )
@@ -199,9 +200,11 @@ async def start_comm(client: app, message: Message, _):
                 sender_mention = message.from_user.mention
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} acabou de iniciar o bot para verificar <code>informações de "
-                    f"vídeo</code>\n\n<b>ID:</b> {sender_id}\n<b>Nome:</b> {sender_name}\n"
-                    f"<b>Usuário:</b> @{sender_mention}",
+                    f"📢 {message.from_user.mention} 𝗮𝗰𝗮𝗯𝗼𝘂 𝗱𝗲 𝗶𝗻𝗶𝗰𝗶𝗮𝗿 𝗼 𝗯𝗼𝘁 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿 "
+                    f"<code>𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗲 𝘃𝗶́𝗱𝗲𝗼</code>\n\n"
+                    f"🆔 <b>𝗜𝗗:</b> {sender_id}\n"
+                    f"👤 <b>𝗡𝗼𝗺𝗲:</b> {sender_name}\n"
+                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}"
                 )
     else:
         try:
@@ -233,10 +236,10 @@ async def start_comm(client: app, message: Message, _):
             username = message.from_user.username
             return await app.send_message(
                 config.LOG_GROUP_ID,
-                f"{message.from_user.mention} <b>iniciou o bot. \n\n</b>"
-                f"<b>ID:</b> <code>{sender_id}</code>\n"
-                f"<b>Nome:</b> {sender_name}\n"
-                f"<b>Usuário:</b> @{username}",
+                f"📢 {message.from_user.mention} <b>𝗶𝗻𝗶𝗰𝗶𝗼𝘂 𝗼 𝗯𝗼𝘁. \n\n</b>"
+                f"🆔 <b>𝗜𝗗:</b> <code>{sender_id}</code>\n"
+                f"👤 <b>𝗡𝗼𝗺𝗲:</b> {sender_name}\n"
+                f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{username}",
             )
 
 
@@ -267,8 +270,8 @@ async def welcome(_client: app, message: Message):
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(message.chat.id):
             await message.reply_text(
-                "<b>O modo privado deste bot foi ativado.</b> Somente meu dono pode usá-lo. "
-                "Se você quiser usar este bot em seu chat, peça ao meu dono para autorizar."
+                "<b>𝗢 𝗺𝗼𝗱𝗼 𝗽𝗿𝗶𝘃𝗮𝗱𝗼 𝗱𝗲𝘀𝘁𝗲 𝗯𝗼𝘁 𝗳𝗼𝗶 𝗮𝘁𝗶𝘃𝗮𝗱𝗼.</b>\n🔒 𝗦𝗼𝗺𝗲𝗻𝘁𝗲 𝗺𝗲𝘂 𝗱𝗼𝗻𝗼 𝗽𝗼𝗱𝗲 𝘂𝘀𝗮́-𝗹𝗼. 👤 "
+                "𝗦𝗲 𝘃𝗼𝗰𝗲̂ 𝗾𝘂𝗶𝘀𝗲𝗿 𝘂𝘀𝗮𝗿 𝗲𝘀𝘁𝗲 𝗯𝗼𝘁 𝗲𝗺 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁, 𝗽𝗲𝗰̧𝗮 𝗮𝗼 𝗺𝗲𝘂 𝗱𝗼𝗻𝗼 𝗽𝗮𝗿𝗮 𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗿. 📝"
             )
             return await app.leave_chat(message.chat.id)
     else:

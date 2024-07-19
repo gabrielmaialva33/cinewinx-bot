@@ -78,8 +78,8 @@ admin_33: "Stream buscado com sucesso para {0} minutos"
 admin_34: "Falha ao buscar no stream atual."
 
 # Start
-start_1: "👋 Oie migger, eu sou {0}.\n\n<i>🤖 Sou um bot de streaming do Telegram com alguns recursos úteis.</i>\n\n<b>📺 Plataformas suportadas:</b> YouTube, Spotify, SoundCloud, etc.\n\n๏ <i>Sinta-se à vontade para me adicionar aos seus grupos. 😊</i>"
-start_2: "Ei,\n  este é {0}\n\nUm bot de reprodução de música rápido e poderoso com alguns recursos incríveis.\n\nNome de usuário do assistente:- @{1}\nID do assistente:- {2}"
+start_1: "👋 𝗢𝗶𝗲 𝗺𝗶𝗴𝗴𝗲𝗿, 𝗲𝘂 𝘀𝗼𝘂 {0}.\n\n<i>🤖 𝗦𝗼𝘂 𝘂𝗺 𝗯𝗼𝘁 𝗱𝗲 𝘀𝘁𝗿𝗲𝗮𝗺𝗶𝗻𝗴 𝗱𝗼 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗰𝗼𝗺 𝗮𝗹𝗴𝘂𝗻𝘀 𝗿𝗲𝗰𝘂𝗿𝘀𝗼𝘀 𝘂́𝘁𝗶𝗹𝗲𝘀.</i>\n\n<b>📺 𝗣𝗹𝗮𝘁𝗮𝗳𝗼𝗿𝗺𝗮𝘀 𝘀𝘂𝗽𝗼𝗿𝘁𝗮𝗱𝗮𝘀:</b> 𝗬𝗼𝘂𝗧𝘂𝗯𝗲, 𝗦𝗽𝗼𝘁𝗶𝗳𝘆, 𝗦𝗼𝘂𝗻𝗱𝗖𝗹𝗼𝘂𝗱, 𝗲𝘁𝗰.\n\n<i>𝗦𝗶𝗻𝘁𝗮-𝘀𝗲 à 𝘃𝗼𝗻𝘁𝗮𝗱𝗲 𝗽𝗮𝗿𝗮 𝗺𝗲 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗮𝗼𝘀 𝘀𝗲𝘂𝘀 𝗴𝗿𝘂𝗽𝗼𝘀. 😊</i>"
+start_2: "👋 𝗢𝗶𝗲 𝗺𝗶𝗴𝗴𝗲𝗿, 𝘀𝗼𝘂 𝗮 {0}\n\n🤖<i>𝗨𝗺 𝗯𝗼𝘁 𝗱𝗲 𝘀𝘁𝗿𝗲𝗮𝗺 𝗱𝗲 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗿𝗮́𝗽𝗶𝗱𝗼 𝗲 𝗽𝗼𝗱𝗲𝗿𝗼𝘀𝗼 𝗰𝗼𝗺 𝗮𝗹𝗴𝘂𝗻𝘀 𝗿𝗲𝗰𝘂𝗿𝘀𝗼𝘀 𝗶𝗻𝗰𝗿𝗶́𝘃𝗲𝗶𝘀.</i>\n\n<b>👩🏻‍💼𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲</b>: @{1}\n🆔𝗜𝗗: {2}"
 start_3: "O dono de {0}, {1}, acabou de entrar no seu chat."
 start_4: "O usuário sudo de {0}, {1}, acabou de entrar no seu chat."
 start_5: "🦸 <b>Necessário Supergrupo</b> 🦸\n\nPor favor, converta seu <b>grupo</b> em <b>supergrupo</b> e depois me adicione de volta.\n\n<b>Como criar um supergrupo?</b>\n🥱 Torne o histórico de chat do seu grupo <b>visível</b> uma vez."
@@ -238,14 +238,14 @@ UNBAN_BUTTON: "Desbanir Assistente"
 L_B_1: "🚀 Confira as letras agora"
 
 # Start
-S_B_1: "🗒 Comandos"
-S_B_2: "🔧 Configurações"
+S_B_1: "🗒 𝗰𝗼𝗺𝗮𝗻𝗱𝗼𝘀"
+S_B_2: "🔧 𝗰𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗼̃𝗲𝘀"
 S_B_3: "🆘 𝘀𝘂𝗽𝗼𝗿𝘁𝗲"
-S_B_4: "📨 Canal"
-S_B_5: "✚ Adicione-me ao seu grupo ✚"
-S_B_6: "💡 Repositório Git"
-S_B_7: "👤 Proprietário"
-S_B_8: "🔎 Como usar? Menu de Comandos"
+S_B_4: "📨 𝗰𝗮𝗻𝗮𝗹"
+S_B_5: "✚ 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗲-𝗺𝗲 𝗮𝗼 𝘀𝗲𝘂 𝗴𝗿𝘂𝗽𝗼"
+S_B_6: "💡 𝗿𝗲𝗽𝗼𝘀𝗶𝘁𝗼́𝗿𝗶𝗼"
+S_B_7: "👤 𝗱𝗼𝗻𝗼"
+S_B_8: "🔎 𝗰𝗼𝗺𝗼 𝘂𝘀𝗮𝗿?"
 
 # PlayMode
 PM_B_1: "Reprodução Direta"

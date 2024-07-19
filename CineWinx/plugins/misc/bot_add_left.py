@@ -13,19 +13,22 @@ async def join_watcher(_, message: Message):
             return
         userbot = await get_assistant(message.chat.id)
         chat = message.chat
+        chat_id = -1000000000000 + message.chat.id
         for members in message.new_chat_members:
             if members.id == app.id:
-                count = await app.get_chat_members_count(chat.id)
+                members_count = await app.get_chat_members_count(chat.id)
                 username = (
-                    message.chat.username if message.chat.username else "Chat Privado"
+                    message.chat.username if message.chat.username else "private chat"
                 )
+                username = f"@{username}" if username != "private chat" else username
+                me = await app.get_me()
                 msg = (
-                    f"<b>Bot de Música adicionado a um novo grupo #novogrupo</b>\n\n"
-                    f"<b>Nome do Chat:</b> {message.chat.title}\n"
-                    f"<b>ID do Chat:</b> {message.chat.id}\n"
-                    f"<b>Username do Chat:</b> @{username}\n"
-                    f"<b>Número de Membros do Chat:</b> {count}\n"
-                    f"<b>Adicionado por:</b> {message.from_user.mention}"
+                    f"<b>{me.mention} 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗮 𝗮 𝘂𝗺 𝗻𝗼𝘃𝗼 𝗴𝗿𝘂𝗽𝗼 #novogrupo</b>\n\n"
+                    f"<b>📝 𝗡𝗼𝗺𝗲 𝗱𝗼 𝗰𝗵𝗮𝘁:</b> {message.chat.title}\n"
+                    f"<b>🆔 𝗜𝗗 𝗱𝗼 𝗰𝗵𝗮𝘁:</b> {chat_id}\n"
+                    f"<b>🔤 𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> {username}\n"
+                    f"<b>👥 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗺𝗲𝗺𝗯𝗿𝗼𝘀:</b> {members_count}\n"
+                    f"<b>👤 𝗔𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗼 𝗽𝗼𝗿:</b> {message.from_user.mention}"
                 )
                 await app.send_message(
                     LOG_GROUP_ID,
@@ -34,7 +37,7 @@ async def join_watcher(_, message: Message):
                         [
                             [
                                 InlineKeyboardButton(
-                                    f"Adicionado por",
+                                    f"𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗼 𝗽𝗼𝗿",
                                     url=f"tg://openmessage?user_id={message.from_user.id}",
                                 )
                             ]
