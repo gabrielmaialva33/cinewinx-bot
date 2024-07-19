@@ -70,7 +70,9 @@ async def start_comm(client: app, message: Message, _):
                 disable_web_page_preview=True,
             )
         if name[0:3] == "sta":
-            m = await message.reply_text("🔎 <i>𝗕𝘂𝘀𝗰𝗮𝗻𝗱𝗼 𝘀𝘂𝗮𝘀 𝗲𝘀𝘁𝗮𝘁𝗶́𝘀𝘁𝗶𝗰𝗮𝘀 𝗽𝗲𝘀𝘀𝗼𝗮𝗶𝘀.</i>")
+            m = await message.reply_text(
+                "🔎 <i>𝗕𝘂𝘀𝗰𝗮𝗻𝗱𝗼 𝘀𝘂𝗮𝘀 𝗲𝘀𝘁𝗮𝘁𝗶́𝘀𝘁𝗶𝗰𝗮𝘀 𝗽𝗲𝘀𝘀𝗼𝗮𝗶𝘀.</i>"
+            )
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
             if not stats:
@@ -135,7 +137,7 @@ async def start_comm(client: app, message: Message, _):
                     f"📢 {message.from_user.mention} 𝗮𝗰𝗮𝗯𝗼𝘂 𝗱𝗲 𝗶𝗻𝗶𝗰𝗶𝗮𝗿 𝗼 𝗯𝗼𝘁 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿 𝗮 <code>sudolist</code>\n\n"
                     f"🆔 <b>𝗜𝗗:</b> {sender_id}\n"
                     f"👤 <b>𝗡𝗼𝗺𝗲:</b> {sender_name}\n"
-                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}"
+                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}",
                 )
             return
         if name[0:3] == "lyr":
@@ -204,7 +206,7 @@ async def start_comm(client: app, message: Message, _):
                     f"<code>𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗲 𝘃𝗶́𝗱𝗲𝗼</code>\n\n"
                     f"🆔 <b>𝗜𝗗:</b> {sender_id}\n"
                     f"👤 <b>𝗡𝗼𝗺𝗲:</b> {sender_name}\n"
-                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}"
+                    f"📧 <b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> @{sender_mention}",
                 )
     else:
         try:
