@@ -46,7 +46,6 @@ async def stop_music(_client: Client, message: Message):
             await message.delete()
         except Exception as e:
             logging.error(e)
-            pass
     try:
         language = await get_lang(message.chat.id)
         _ = get_string(language)
