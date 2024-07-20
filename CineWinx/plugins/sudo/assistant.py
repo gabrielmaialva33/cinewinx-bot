@@ -32,7 +32,9 @@ async def set_bio(client: app, message: Message):
     from CineWinx.core.userbot import assistants
 
     if len(message.command) == 1:
-        return await eor(message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗯𝗶𝗼.")
+        return await eor(
+            message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗯𝗶𝗼."
+        )
     elif len(message.command) > 1:
         for num in assistants:
             client = await get_client(num)
@@ -43,7 +45,9 @@ async def set_bio(client: app, message: Message):
         except Exception as e:
             await eor(message, text=e)
     else:
-        return await eor(message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝘀𝗲𝗿 𝗱𝗲𝗳𝗶𝗻𝗶𝗱𝗼 𝗰𝗼𝗺𝗼 𝗯𝗶𝗼.")
+        return await eor(
+            message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝘀𝗲𝗿 𝗱𝗲𝗳𝗶𝗻𝗶𝗱𝗼 𝗰𝗼𝗺𝗼 𝗯𝗶𝗼."
+        )
 
 
 @app.on_message(filters.command("setname", prefixes=".") & SUDOERS)
@@ -51,7 +55,9 @@ async def set_name(client: app, message: Message):
     from CineWinx.core.userbot import assistants
 
     if len(message.command) == 1:
-        return await eor(message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗻𝗼𝗺𝗲.")
+        return await eor(
+            message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗻𝗼𝗺𝗲."
+        )
     elif len(message.command) > 1:
         for num in assistants:
             client = await get_client(num)
@@ -62,7 +68,9 @@ async def set_name(client: app, message: Message):
         except Exception as e:
             await eor(message, text=e)
     else:
-        return await eor(message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗻𝗼𝗺𝗲.")
+        return await eor(
+            message, text="❗ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗱𝗲𝗳𝗶𝗻𝗶𝗿 𝗰𝗼𝗺𝗼 𝗻𝗼𝗺𝗲."
+        )
 
 
 @app.on_message(filters.command("delpfp", prefixes=".") & SUDOERS)

@@ -188,7 +188,9 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
                 )
             except InviteRequestSent:
                 try:
-                    await app.approve_chat_join_request(callback_query.message.chat.id, userbot.id)
+                    await app.approve_chat_join_request(
+                        callback_query.message.chat.id, userbot.id
+                    )
                 except Exception as e:
                     return await callback_query.message.reply_text(
                         f"Falha ao convidar o assistente para {callback_query.message.chat.title}\nMotivo: {e}"
@@ -205,7 +207,9 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
                         f"Falha ao convidar o assistente para {callback_query.message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                     )
         if invite_link.startswith("https://t.me/+"):
-            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
+            invite_link = invite_link.replace(
+                "https://t.me/+", "https://t.me/joinchat/"
+            )
         try:
             await userbot.join_chat(invite_link)
             await asyncio.sleep(2)
@@ -262,7 +266,6 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
         await callback_query.answer()
     except Exception as e:
         logging.error(str(e))
-        pass
     video = True if mode == "v" else None
     mystic = await callback_query.message.reply_text(_["play_1"])
     for vidids in _playlist:
@@ -335,7 +338,9 @@ async def play_playlist_command(client: app, message: Message, _):
                         f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                     )
         if invite_link.startswith("https://t.me/+"):
-            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
+            invite_link = invite_link.replace(
+                "https://t.me/+", "https://t.me/joinchat/"
+            )
         anon = await msg.edit_text(
             f"Por favor, aguarde...\n\nConvidando {userbot.mention} para {message.chat.title}."
         )

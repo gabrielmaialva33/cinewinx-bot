@@ -32,7 +32,6 @@ async def blacklist_chat_func(_client: app, message: Message, _):
         await app.leave_chat(chat_id)
     except Exception as e:
         logging.error(e)
-        pass
 
 
 @app.on_message(filters.command(WHITELISTCHAT_COMMAND, PREFIXES) & SUDOERS)

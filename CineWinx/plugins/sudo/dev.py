@@ -32,14 +32,22 @@ async def edit_or_reply(msg: Message, **kwargs: dict):
 
 
 @app.on_edited_message(
-    filters.command(["ev", "eval"], PREFIXES) & SUDOERS & ~filters.forwarded & ~filters.via_bot
+    filters.command(["ev", "eval"], PREFIXES)
+    & SUDOERS
+    & ~filters.forwarded
+    & ~filters.via_bot
 )
 @app.on_message(
-    filters.command(["ev", "eval"], PREFIXES) & SUDOERS & ~filters.forwarded & ~filters.via_bot
+    filters.command(["ev", "eval"], PREFIXES)
+    & SUDOERS
+    & ~filters.forwarded
+    & ~filters.via_bot
 )
 async def executor(client: app, message: Message):
     if len(message.command) < 2:
-        return await edit_or_reply(message, text="❓ <b>𝗢 𝗾𝘂𝗲 𝘃𝗼𝗰𝗲̂ 𝗱𝗲𝘀𝗲𝗷𝗮 𝗲𝘅𝗲𝗰𝘂𝘁𝗮𝗿?</b>")
+        return await edit_or_reply(
+            message, text="❓ <b>𝗢 𝗾𝘂𝗲 𝘃𝗼𝗰𝗲̂ 𝗱𝗲𝘀𝗲𝗷𝗮 𝗲𝘅𝗲𝗰𝘂𝘁𝗮𝗿?</b>"
+        )
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
