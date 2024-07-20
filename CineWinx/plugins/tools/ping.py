@@ -20,7 +20,8 @@ async def ping_com(client: Client, message: Message, _):
     me = await client.get_me()
     pic = await client.download_media(me.photo.big_file_id)
     response = await message.reply_photo(
-        photo=pic, caption=_["ping_1"].format(app.mention),
+        photo=pic,
+        caption=_["ping_1"].format(app.mention),
     )
     start = datetime.now()
     pytg_ping = await CineWinx.ping()
