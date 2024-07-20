@@ -35,15 +35,15 @@ PLAY_COMMAND = get_command("PLAY_COMMAND")
 @app.on_message(filters.command(PLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @play_wrapper
 async def play_command(
-        _client: app,
-        message: Message,
-        _,
-        chat_id: int,
-        video,
-        channel,
-        playmode,
-        url,
-        fplay,
+    _client: app,
+    message: Message,
+    _,
+    chat_id: int,
+    video,
+    channel,
+    playmode,
+    url,
+    fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
@@ -702,4 +702,3 @@ __HELP__ = """✅ <u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿�
 
 🔗 <code>/channelplay</code> [𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗼𝘂 𝗜𝗗 𝗱𝗼 𝗰𝗵𝗮𝘁] ou [𝗗𝗲𝘀𝗮𝘁𝗶𝘃𝗮𝗿] - 𝗖𝗼𝗻𝗲𝗰𝘁𝗲 𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝘂𝗺 𝗴𝗿𝘂𝗽𝗼 𝗲 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗱𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗼 𝘀𝗲𝘂 𝗴𝗿𝘂𝗽𝗼.
 """
-
