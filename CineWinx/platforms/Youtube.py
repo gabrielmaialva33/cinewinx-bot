@@ -73,7 +73,7 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        results = VideosSearch(link, limit=1)
+        results = VideosSearch(link, limit=1,language="pt",region="BR")
         for result in (await results.next())["result"]:
             title = result["title"]
             duration_min = result["duration"]

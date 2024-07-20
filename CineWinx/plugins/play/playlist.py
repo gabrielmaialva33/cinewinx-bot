@@ -38,10 +38,13 @@ from CineWinx.utils.inline.playlist import (
 )
 from CineWinx.utils.pastebin import winx_bin
 from CineWinx.utils.stream.stream import stream
-from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
+from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT, PREFIXES
+from strings import get_command
+
+PLAYLIST_COMMAND = get_command("PLAYLIST_COMMAND")
 
 
-@app.on_message(filters.command(["playlist"]) & ~BANNED_USERS)
+@app.on_message(filters.command(PLAYLIST_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
 async def check_playlist(_client: app, message: Message, _):
     _playlist = await get_playlist_names(message.from_user.id)
@@ -586,7 +589,7 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-            "alguma música, clique no botão abaixo.</b>",
+                 "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
@@ -640,7 +643,7 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-            "alguma música, clique no botão abaixo.</b>",
+                 "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link
@@ -796,7 +799,7 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     )
     return await callback_query.edit_message_text(
         text="<b>Sua música foi removida da sua playlist do bot</b>\n\n<b>"
-        "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
+             "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
         reply_markup=keyboards,
     )
 
