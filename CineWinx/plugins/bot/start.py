@@ -181,8 +181,8 @@ async def start_comm(client: app, message: Message, _):
             key = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="🎥 𝗮𝘀𝘀𝗶𝘀𝘁𝗶𝗿", url=f"{link}"),
-                        InlineKeyboardButton(text="🔄 𝗳𝗲𝗰𝗵𝗮𝗿", callback_data="close"),
+                        InlineKeyboardButton(text="🎥 𝗔𝘀𝘀𝗶𝘀𝘁𝗶𝗿", url=f"{link}"),
+                        InlineKeyboardButton(text="❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close"),
                     ],
                 ]
             )
