@@ -589,7 +589,7 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-                 "alguma música, clique no botão abaixo.</b>",
+            "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
@@ -643,7 +643,7 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-                 "alguma música, clique no botão abaixo.</b>",
+            "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link
@@ -799,7 +799,7 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     )
     return await callback_query.edit_message_text(
         text="<b>Sua música foi removida da sua playlist do bot</b>\n\n<b>"
-             "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
+        "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
         reply_markup=keyboards,
     )
 
