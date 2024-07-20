@@ -21,8 +21,8 @@ async def pause_admin(_client: app, message: Message, _, chat_id):
                 item["mystic"].reply_markup
                 for item in check
                 if isinstance(item, dict)
-                   and "mystic" in item
-                   and hasattr(item["mystic"], "reply_markup")
+                and "mystic" in item
+                and hasattr(item["mystic"], "reply_markup")
             ),
             None,
         ),
@@ -32,8 +32,8 @@ async def pause_admin(_client: app, message: Message, _, chat_id):
                     item["mystic"].photo.thumbs
                     for item in check
                     if isinstance(item, dict)
-                       and "mystic" in item
-                       and hasattr(item["mystic"].photo, "thumbs")
+                    and "mystic" in item
+                    and hasattr(item["mystic"].photo, "thumbs")
                 ),
                 None,
             )
@@ -43,8 +43,8 @@ async def pause_admin(_client: app, message: Message, _, chat_id):
                 item["mystic"].caption
                 for item in check
                 if isinstance(item, dict)
-                   and "mystic" in item
-                   and hasattr(item["mystic"], "caption")
+                and "mystic" in item
+                and hasattr(item["mystic"], "caption")
             ),
             None,
         ),
