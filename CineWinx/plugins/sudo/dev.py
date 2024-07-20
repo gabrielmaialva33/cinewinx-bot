@@ -13,9 +13,10 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from CineWinx import app
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.cleanmode import protect_message
+from config import PREFIXES
 
 
-async def aexec(code, client: app, message: Message):
+async def aexec(code: str, client: app, message: Message):
     exec(
         "async def __aexec(client, message): "
         + "".join(f"\n {a}" for a in code.split("\n"))
@@ -23,7 +24,7 @@ async def aexec(code, client: app, message: Message):
     return await locals()["__aexec"](client, message)
 
 
-async def edit_or_reply(msg: Message, **kwargs):
+async def edit_or_reply(msg: Message, **kwargs: dict):
     func = msg.edit_text if msg.from_user.is_self else msg.reply
     spec = getfullargspec(func.__wrapped__).args
     await func(**{k: v for k, v in kwargs.items() if k in spec})
@@ -31,14 +32,14 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 
 @app.on_edited_message(
-    filters.command(["ev", "eval"]) & SUDOERS & ~filters.forwarded & ~filters.via_bot
+    filters.command(["ev", "eval"], PREFIXES) & SUDOERS & ~filters.forwarded & ~filters.via_bot
 )
 @app.on_message(
-    filters.command(["ev", "eval"]) & SUDOERS & ~filters.forwarded & ~filters.via_bot
+    filters.command(["ev", "eval"], PREFIXES) & SUDOERS & ~filters.forwarded & ~filters.via_bot
 )
 async def executor(client: app, message: Message):
     if len(message.command) < 2:
-        return await edit_or_reply(message, text="</b>O que você deseja executar?</b>")
+        return await edit_or_reply(message, text="❓ <b>𝗢 𝗾𝘂𝗲 𝘃𝗼𝗰𝗲̂ 𝗱𝗲𝘀𝗲𝗷𝗮 𝗲𝘅𝗲𝗰𝘂𝘁𝗮𝗿?</b>")
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:

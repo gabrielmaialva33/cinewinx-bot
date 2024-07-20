@@ -30,7 +30,7 @@ async def save_assistant(chat_id, number):
     )
 
 
-async def set_assistant(chat_id):
+async def set_assistant(chat_id) -> int:
     from CineWinx.core.userbot import assistants
 
     ran_assistant = random.choice(assistants)
@@ -44,7 +44,7 @@ async def set_assistant(chat_id):
     return user_bot
 
 
-async def get_assistant(chat_id: int) -> str:
+async def get_assistant(chat_id: int) -> userbot:
     from CineWinx.core.userbot import assistants
 
     assistant = assistant_dict.get(chat_id)
@@ -71,7 +71,7 @@ async def get_assistant(chat_id: int) -> str:
             return user_bot
 
 
-async def set_calls_assistant(chat_id):
+async def set_calls_assistant(chat_id) -> int:
     from CineWinx.core.userbot import assistants
 
     ran_assistant = random.choice(assistants)

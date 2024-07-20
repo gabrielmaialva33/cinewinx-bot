@@ -78,6 +78,9 @@ async def assis_set(_client: app, message: Message, _):
 async def check_ass(_client: app, message: Message, _):
     a = await get_assistant(message.chat.id)
     await message.reply_text(
-        f"<b>Detalhes do assistente do seu chat:</b>\nNome do Assistente: {a.name}\nNome de Usuário: @{a.username}\nID do Assistente: {a.id}",
+        f"<b>📋 𝗗𝗲𝘁𝗮𝗹𝗵𝗲𝘀 𝗱𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗱𝗼 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁:</b>\n"
+        f"🤖 𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲: {a.name}\n"
+        f"👤 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼: @{a.username}\n"
+        f"🆔 𝗜𝗗 𝗱𝗼 𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲: {a.id}",
         disable_web_page_preview=True,
     )

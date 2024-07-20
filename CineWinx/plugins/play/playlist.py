@@ -159,7 +159,8 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
             get = await app.get_chat_member(callback_query.message.chat.id, userbot.id)
         except ChatAdminRequired:
             return await callback_query.answer(
-                f"Não tenho permissão para convidar usuários por link para adicionar o assistente ao {callback_query.message.chat.title}.",
+                f"Não tenho permissão para convidar usuários por link para adicionar "
+                f"o assistente ao {callback_query.message.chat.title}.",
                 show_alert=True,
             )
         if get.status == ChatMemberStatus.BANNED:
@@ -169,14 +170,14 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
             )
     except UserNotParticipant:
         if callback_query.message.chat.username:
-            invitelink = callback_query.message.chat.username
+            invite_link = callback_query.message.chat.username
             try:
-                await userbot.resolve_peer(invitelink)
+                await userbot.resolve_peer(invite_link)
             except Exception as ex:
                 logging.exception(ex)
         else:
             try:
-                invitelink = await client.export_chat_invite_link(
+                invite_link = await client.export_chat_invite_link(
                     callback_query.message.chat.id
                 )
             except ChatAdminRequired:
@@ -187,9 +188,7 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
                 )
             except InviteRequestSent:
                 try:
-                    await app.approve_chat_join_request(
-                        callback_query.message.chat.id, userbot.id
-                    )
+                    await app.approve_chat_join_request(callback_query.message.chat.id, userbot.id)
                 except Exception as e:
                     return await callback_query.message.reply_text(
                         f"Falha ao convidar o assistente para {callback_query.message.chat.title}\nMotivo: {e}"
@@ -205,10 +204,10 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
                     return await callback_query.message.reply_text(
                         f"Falha ao convidar o assistente para {callback_query.message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                     )
-        if invitelink.startswith("https://t.me/+"):
-            invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
+        if invite_link.startswith("https://t.me/+"):
+            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
         try:
-            await userbot.join_chat(invitelink)
+            await userbot.join_chat(invite_link)
             await asyncio.sleep(2)
         except UserAlreadyParticipant:
             pass
@@ -239,7 +238,7 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
                 )
 
         try:
-            await userbot.resolve_peer(invitelink)
+            await userbot.resolve_peer(invite_link)
         except:
             pass
 
@@ -261,7 +260,8 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
     result = []
     try:
         await callback_query.answer()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
     video = True if mode == "v" else None
     mystic = await callback_query.message.reply_text(_["play_1"])
@@ -306,14 +306,14 @@ async def play_playlist_command(client: app, message: Message, _):
             )
     except UserNotParticipant:
         if message.chat.username:
-            invitelink = message.chat.username
+            invite_link = message.chat.username
             try:
-                await userbot.resolve_peer(invitelink)
+                await userbot.resolve_peer(invite_link)
             except Exception as ex:
                 logging.exception(ex)
         else:
             try:
-                invitelink = await client.export_chat_invite_link(message.chat.id)
+                invite_link = await client.export_chat_invite_link(message.chat.id)
             except ChatAdminRequired:
                 return await msg.edit_text(
                     f"Não tenho permissão para convidar usuários por link para adicionar o assistente {userbot.mention} ao {message.chat.title}."
@@ -334,13 +334,13 @@ async def play_playlist_command(client: app, message: Message, _):
                     return await msg.edit_text(
                         f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                     )
-        if invitelink.startswith("https://t.me/+"):
-            invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
+        if invite_link.startswith("https://t.me/+"):
+            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
         anon = await msg.edit_text(
             f"Por favor, aguarde...\n\nConvidando {userbot.mention} para {message.chat.title}."
         )
         try:
-            await userbot.join_chat(invitelink)
+            await userbot.join_chat(invite_link)
             await asyncio.sleep(2)
             await msg.edit_text(
                 f"{userbot.mention} entrou com sucesso,\n\niniciando transmissão..."
@@ -351,6 +351,7 @@ async def play_playlist_command(client: app, message: Message, _):
             try:
                 await app.approve_chat_join_request(message.chat.id, userbot.id)
             except Exception as e:
+                logging.error(str(e))
                 return await msg.edit(
                     f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
                 )
@@ -365,7 +366,7 @@ async def play_playlist_command(client: app, message: Message, _):
                 )
 
         try:
-            await userbot.resolve_peer(invitelink)
+            await userbot.resolve_peer(invite_link)
         except:
             pass
     await msg.delete()
@@ -1102,11 +1103,12 @@ async def del_back_playlist(_client: app, callback_query: CallbackQuery, _):
 
 
 __MODULE__ = "Playlist"
-__HELP__ = """❀ Funcionalidades de Playlist para você:
-/playlist - Verifique sua playlist salva nos servidores.
-/delplaylist - Exclua qualquer música salva em sua playlist.
-/play - Comece a reproduzir sua playlist salva dos servidores.
-/playplaylist - Comece a reproduzir diretamente sua playlist salva dos servidores [apenas áudio, sem vídeo].
+__HELP__ = """🎵<b>𝗙𝘂𝗻𝗰𝗶𝗼𝗻𝗮𝗹𝗶𝗱𝗮𝗱𝗲𝘀 𝗱𝗲 𝗣𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗽𝗮𝗿𝗮 𝘃𝗼𝗰𝗲̂:</b>
+📋 <code>/playlist</code> - 𝗩𝗲𝗿𝗶𝗳𝗶𝗾𝘂𝗲 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝘀𝗮𝗹𝘃𝗮 𝗻𝗼𝘀 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿𝗲𝘀.
+❌ <code>/delplaylist</code> - 𝗘𝘅𝗰𝗹𝘂𝗮 𝗾𝘂𝗮𝗹𝗾𝘂𝗲𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮 𝘀𝗮𝗹𝘃𝗮 𝗲𝗺 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁.
+▶️ <code>/play</code> - 𝗖𝗼𝗺𝗲𝗰̧𝗲 𝗮 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝘀𝗮𝗹𝘃𝗮 𝗱𝗼𝘀 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿𝗲𝘀.
+🎧 <code>/playplaylist</code> - 𝗖𝗼𝗺𝗲𝗰̧𝗲 𝗮 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝗱𝗶𝗿𝗲𝘁𝗮𝗺𝗲𝗻𝘁𝗲 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝘀𝗮𝗹𝘃𝗮 𝗱𝗼𝘀 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿𝗲𝘀 [𝗮𝗽𝗲𝗻𝗮𝘀 𝗮́𝘂𝗱𝗶𝗼, 𝘀𝗲𝗺 𝘃𝗶́𝗱𝗲𝗼].
 
-/vplayplaylist - Comece a reproduzir diretamente sua playlist salva dos servidores [áudio com vídeo].
-/addplaylist - [link do vídeo do YouTube] ou [link da playlist do YouTube] ou [nome da música] para adicionar à sua playlist do bot."""
+📹 <code>/vplayplaylist</code> - 𝗖𝗼𝗺𝗲𝗰̧𝗲 𝗮 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝗱𝗶𝗿𝗲𝘁𝗮𝗺𝗲𝗻𝘁𝗲 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝘀𝗮𝗹𝘃𝗮 𝗱𝗼𝘀 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿𝗲𝘀 [𝗮́𝘂𝗱𝗶𝗼 𝗰𝗼𝗺 𝘃𝗶́𝗱𝗲𝗼].
+➕ <code>/addplaylist</code> - [𝗹𝗶𝗻𝗸 𝗱𝗼 𝘃𝗶́𝗱𝗲𝗼 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲] 𝗼𝘂 [𝗹𝗶𝗻𝗸 𝗱𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲] 𝗼𝘂 [𝗻𝗼𝗺𝗲 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮] 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗮̀ 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗯𝗼𝘁.
+"""
