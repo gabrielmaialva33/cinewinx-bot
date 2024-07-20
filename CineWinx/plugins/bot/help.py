@@ -167,7 +167,7 @@ async def help_button(client: app, query: CallbackQuery):
         module = mod_match.group(1)
         prev_page_num = int(mod_match.group(2))
         text = (
-            f"<b><u>Aqui está a ajuda para {HELPABLE[module].__MODULE__}:</u></b>\n\n"
+            f"<b>Aqui está a ajuda para {HELPABLE[module].__MODULE__}</b>\n\n"
             + HELPABLE[module].__HELP__
         )
 
