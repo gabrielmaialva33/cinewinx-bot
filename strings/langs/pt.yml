@@ -1,13 +1,13 @@
 name: 🇧🇷 Português (Brasil)
 
 # Bot
-bot_1: "🟢 <b><u>{0}</u> foi iniciado(a).</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
-bot_2: "🔴 <b><u>{0}</u> foi parado(a).</b>"
-bot_3: "🟡 <b><u>{0}</u></b> não é <code>admin</code> do grupo <b>{1}</b>."
+bot_1: "🟢 <b><u>{0}</u> 𝗳𝗼𝗶 𝗶𝗻𝗶𝗰𝗶𝗮𝗱𝗼(𝗮).</b>\n\n<b>𝗜𝗗</b>: <code>{1}</code>\n<b>𝗡𝗼𝗺𝗲</b>: {2}\n<b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼</b>: @{3}"
+bot_2: "🔴 <b><u>{0}</u> 𝗳𝗼𝗶 𝗽𝗮𝗿𝗮𝗱𝗼(𝗮).</b>"
+bot_3: "🟡 <b><u>{0}</u></b> 𝗻𝗮̃𝗼 𝗲́ <code>admin</code> 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼 <b>{1}</b>."
 
 # Assistant
-assistant_1: "👩🏻‍💼<b>A assistente <u>{0}</u> foi iniciada.</b>\n\n<b>ID</b>: <code>{1}</code>\n<b>Nome</b>: {2}\n<b>Usuário</b>: @{3}"
-assistant_2: "👩🏻‍💼<b>A assistente <u>{0}</u> foi parada.</b>"
+assistant_1: "👩🏻‍💼<b>A 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 <u>{0}</u> 𝗳𝗼𝗶 𝗶𝗻𝗶𝗰𝗶𝗮𝗱𝗮.</b>\n\n<b>𝗜𝗗</b>: <code>{1}</code>\n<b>𝗡𝗼𝗺𝗲</b>: {2}\n<b>𝗨𝘀𝘂𝗮́𝗿𝗶𝗼</b>: @{3}"
+assistant_2: "👩🏻‍💼<b>A 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 <u>{0}</u> 𝗳𝗼𝗶 𝗽𝗮𝗿𝗮𝗱𝗮.</b>"
 
 # General Strings
 general_1: "Responda à mensagem de um usuário ou forneça o nome de usuário/ID de usuário."
@@ -39,19 +39,19 @@ auth_4: "Removido da lista de usuários autorizados deste grupo."
 auth_5: "O usuário alvo não é um usuário autorizado."
 auth_6: "Buscando usuários autorizados... por favor, aguarde!"
 auth_7: "<b>Lista de usuários autorizados [aul]:</b>\n\n"
-auth_8: "┗ Adicionado por:-"
+auth_8: "Adicionado por: "
 
 # Plugins - Admins
-admin_1: "A música já está pausada!"
-admin_2: "A música foi pausada por {}!"
-admin_3: "A música já está retomada"
-admin_4: "A música foi retomada por {}!"
-admin_5: "A música já está mutada"
-admin_6: "A música foi mutada por {}!"
-admin_7: "A música já está desmutada"
-admin_8: "A música foi desmutada por {}!"
-admin_9: "A música foi encerrada/parada por {}!"
-admin_10: "A música foi pulada por {}!. Não há mais músicas na fila"
+admin_1: "⏸️ 𝘀𝘁𝗿𝗲𝗮𝗺 𝗷𝗮́ 𝗲𝘀𝘁𝗮́ 𝗽𝗮𝘂𝘀𝗮𝗱𝗮"
+admin_2: "⏸️ 𝘀𝘁𝗿𝗲𝗮𝗺 𝗽𝗮𝘂𝘀𝗮𝗱𝗮 𝗽𝗼𝗿 {0}"
+admin_3: "▶️ 𝘀𝘁𝗿𝗲𝗮𝗺 𝗷𝗮́ 𝗳𝗼𝗶 𝗿𝗲𝘁𝗼𝗺𝗮𝗱𝗮"
+admin_4: "▶️ 𝘀𝘁𝗿𝗲𝗮𝗺 𝗳𝗼𝗶 𝗿𝗲𝘁𝗼𝗺𝗮𝗱𝗮 𝗽𝗼𝗿 {0}!"
+admin_5: "🔇 𝘀𝘁𝗿𝗲𝗮𝗺 𝗷𝗮́ 𝗳𝗼𝗶 𝗺𝘂𝘁𝗮𝗱𝗮"
+admin_6: "🔇 𝘀𝘁𝗿𝗲𝗮𝗺 𝗳𝗼𝗶 𝗺𝘂𝘁𝗮𝗱𝗮 𝗽𝗼𝗿 {0}!"
+admin_7: "🔊 𝘀𝘁𝗿𝗲𝗮𝗺 𝗷𝗮́ 𝗳𝗼𝗶 𝗱𝗲𝘀𝗺𝘂𝘁𝗮𝗱𝗮"
+admin_8: "🔊 𝘀𝘁𝗿𝗲𝗮𝗺 𝗳𝗼𝗶 𝗱𝗲𝘀𝗺𝘂𝘁𝗮𝗱𝗮 𝗽𝗼𝗿 {0}!"
+admin_9: "🚫 𝘀𝘁𝗿𝗲𝗮𝗺 𝗽𝗮𝗿𝗮𝗱𝗮 𝗽𝗼𝗿 {0}!"
+admin_10: "⏭️ 𝘀𝘁𝗿𝗲𝗮𝗺 𝗽𝘂𝗹𝗮𝗱𝗮 𝗽𝗼𝗿 {0}! 𝗻𝗮̃𝗼 𝗵𝗮́ 𝗺𝗮𝗶𝘀 𝗻𝗮𝗱𝗮 𝗻𝗮 𝗳𝗶𝗹𝗮"
 admin_11: "Erro ao mudar o stream para <b>{0}</b>\n\nPor favor, use /skip novamente."
 admin_12: "Não foi possível pular para uma faixa específica devido à reprodução em loop habilitada. Por favor, desabilite a reprodução em loop via `/loop disable` para usar este recurso."
 admin_13: "Por favor, use números para faixas específicas, como 1, 2 ou 4, etc."
@@ -225,14 +225,14 @@ queue_4: "<b>💫 Adicionado à fila na posição #{0}</b>\n\n<b>Título :</b> {
 queue_5: "Apenas uma faixa está na fila, adicione mais faixas à fila para verificar a fila inteira."
 
 # All Streaming Lines
-stream_1: "<b>✮ Iniciou transmissão</b>\n\n<b>✯ Título:</b> [{0}]({1})\n<b>✬ Duração:</b> {2} minutos\n<b>✭ Por:</b> {3}"
-stream_2: "➲ <b>Transmissão Iniciada|</b>\n\n<b>‣ Tipo de transmissão :</b> transmissão ao vivo [URL]\n<b>‣ Por :</b> {0}"
+stream_1: "🎥<b>|𝗘𝗺 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼</b>\n\n<b>𝗧𝗶́𝘁𝘂𝗹𝗼:</b> <a href={0}>{1}</a>\n<b>⏳ 𝗗𝘂𝗿𝗮𝗰̧𝗮̃𝗼:</b> {2} 𝗺𝗶𝗻𝘂𝘁𝗼𝘀\n<b>👤 𝗣𝗼𝗿:</b> {3}"
+stream_2: "🔴<b>|𝗔𝗼 𝗩𝗶𝘃𝗼</b>\n\n<b>🎥 𝗧𝗶́𝘁𝘂𝗹𝗼:</b> 𝗹𝗶𝘃𝗲 𝘀𝘁𝗿𝗲𝗮𝗺\n<b>📡 𝗣𝗼𝗿:</b> {0}"
 
 # General Buttons
-CLOSE_BUTTON: "Fechar"
-CLOSEMENU_BUTTON: "Fechar"
-BACK_BUTTON: "Voltar"
-UNBAN_BUTTON: "Desbanir Assistente"
+CLOSE_BUTTON: "❌ 𝗳𝗲𝗰𝗵𝗮𝗿"
+CLOSEMENU_BUTTON: "❌ 𝗳𝗲𝗰𝗵𝗮𝗿"
+BACK_BUTTON: "🔙 𝘃𝗼𝗹𝘁𝗮𝗿"
+UNBAN_BUTTON: "🔓 𝗱𝗲𝘀𝗯𝗮𝗻𝗶𝗿 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲"
 
 # Lyrics
 L_B_1: "🚀 Confira as letras agora"
@@ -257,8 +257,8 @@ P_B_1: "🎵 Reproduzir Áudio"
 P_B_2: "🎥 Reproduzir Vídeo"
 P_B_3: "🏮 Iniciar Transmissão Ao Vivo"
 P_B_4: "🎵 Reproduzir Playlist"
-P_B_5: "Mutar"
-P_B_6: "Desmutar"
+P_B_5: "🔇 𝗺𝘂𝘁𝗮𝗿"
+P_B_6: "🔊 𝗱𝗲𝘀𝗺𝘂𝘁𝗮𝗿"
 P_B_7: "Adicionar à Playlist"
 
 # Playlist
