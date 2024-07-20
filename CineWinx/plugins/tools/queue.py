@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from pyrogram import filters
 from pyrogram.errors import FloodWait
@@ -11,7 +12,7 @@ from CineWinx.utils import winx_bin, get_channeplay_cb, seconds_to_min
 from CineWinx.utils.database import get_cmode, is_active_chat, is_music_playing
 from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.inline import queue_back_markup, queue_markup
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 QUEUE_COMMAND = get_command("QUEUE_COMMAND")
@@ -19,11 +20,12 @@ QUEUE_COMMAND = get_command("QUEUE_COMMAND")
 basic = {}
 
 
-def get_image(videoid):
+def get_image(video_id: str):
     try:
-        url = f"https://img.youtube.com/vi/{videoid}/hqdefault.jpg"
+        url = f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
         return url
-    except Exception:
+    except Exception as e:
+        logging.error(str(e))
         return config.YOUTUBE_IMG_URL
 
 
@@ -38,7 +40,7 @@ def get_duration(playing):
         return "Inline"
 
 
-@app.on_message(filters.command(QUEUE_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(QUEUE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def ping_com(_client: app, message: Message, _):
     if message.command[0][0] == "c":
@@ -47,7 +49,8 @@ async def ping_com(_client: app, message: Message, _):
             return await message.reply_text(_["setting_12"])
         try:
             await app.get_chat(chat_id)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return await message.reply_text(_["cplay_4"])
         cplay = True
     else:
@@ -82,19 +85,19 @@ async def ping_com(_client: app, message: Message, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "<b>⌛️Duração:</b> Transmissão de duração indeterminada.\n\n"
-        "Clique no botão abaixo para ver a lista completa da "
-        "fila."
+        "<b>⌛️ 𝗗𝘂𝗿𝗮𝗰̧𝗮̃𝗼:</b> 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗱𝗲 𝗱𝘂𝗿𝗮𝗰̧𝗮̃𝗼 𝗶𝗻𝗱𝗲𝘁𝗲𝗿𝗺𝗶𝗻𝗮𝗱𝗮.\n\n"
+        "📋 𝗖𝗹𝗶𝗾𝘂𝗲 𝗻𝗼 𝗯𝗼𝘁𝗮̃𝗼 𝗮𝗯𝗮𝗶𝘅𝗼 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿 𝗮 𝗹𝗶𝘀𝘁𝗮 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗮 𝗱𝗮 "
+        "𝗳𝗶𝗹𝗮."
         if DUR == "Unknown"
-        else "\nClique no botão abaixo para ver a lista completa da fila."
+        else "📋 𝗖𝗹𝗶𝗾𝘂𝗲 𝗻𝗼 𝗯𝗼𝘁𝗮̃𝗼 𝗮𝗯𝗮𝗶𝘅𝗼 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿 𝗮 𝗹𝗶𝘀𝘁𝗮 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗮 𝗱𝗮 𝗳𝗶𝗹𝗮."
     )
-    cap = f"""<b>{app.mention} Player</b>
+    cap = f"""<b>{app.mention} 𝗣𝗹𝗮𝘆𝗲𝗿</b>
 
-🎥<b>Tocando:</b> {title}
+🎥 <b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼:</b> {title}
 
-🔗<b>Tipo de Stream:</b> {typo}
-🙍‍♂️<b>Adicionado por:</b> {user}
-{send}"""
+🔗 <b>𝗧𝗶𝗽𝗼 𝗱𝗲 𝗦𝘁𝗿𝗲𝗮𝗺:</b> {typo}
+🙍‍♂️ <b>𝗔𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗼 𝗽𝗼𝗿:</b> {user}
+    {send}"""
     upl = (
         queue_markup(_, DUR, "c" if cplay else "g", videoid)
         if DUR == "Unknown"
@@ -134,7 +137,8 @@ async def ping_com(_client: app, message: Message, _):
                         break
                 else:
                     break
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
 
 
@@ -142,7 +146,7 @@ async def ping_com(_client: app, message: Message, _):
 async def quite_timer(_client: app, callback_query: CallbackQuery):
     try:
         await callback_query.answer()
-    except:
+    except FloodWait:
         pass
 
 
@@ -154,7 +158,8 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
     what, videoid = callback_request.split("|")
     try:
         chat_id, channel = await get_channeplay_cb(_, what, callback_query)
-    except:
+    except Exception as e:
+        logging.error(str(e))
         return
     if not await is_active_chat(chat_id):
         return await callback_query.answer(_["general_6"], show_alert=True)
@@ -176,11 +181,11 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
     for x in got:
         j += 1
         if j == 1:
-            msg += f'Tocando agora:\n\n🏷Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'Tocando agora:\n\n🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
         elif j == 2:
-            msg += f'Na fila:\n\n🏷Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'Na fila:\n\n🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
         else:
-            msg += f'🏷Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
     if "Queued" in msg:
         if len(msg) < 700:
             await asyncio.sleep(1)
@@ -235,7 +240,8 @@ async def queue_back(_client: app, callback_query: CallbackQuery, _):
     cplay = callback_data.split(None, 1)[1]
     try:
         chat_id, channel = await get_channeplay_cb(_, cplay, callback_query)
-    except:
+    except Exception as e:
+        logging.error(str(e))
         return
     if not await is_active_chat(chat_id):
         return await callback_query.answer(_["general_6"], show_alert=True)
@@ -267,7 +273,7 @@ async def queue_back(_client: app, callback_query: CallbackQuery, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "<b>⌛️Duração:</b> Transmissão de duração indeterminada.\n\n"
+        "<b>⌛️Duração:</b> duração indeterminada.\n\n"
         "Clique no botão abaixo para ver a lista completa da "
         "fila."
         if DUR == "Unknown"
@@ -321,5 +327,6 @@ async def queue_back(_client: app, callback_query: CallbackQuery, _):
                         break
                 else:
                     break
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return

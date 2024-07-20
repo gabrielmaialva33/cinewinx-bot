@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters, Client
 from pyrogram.types import Message
 
@@ -120,7 +122,7 @@ async def unauthusers(_client: Client, message: Message, _):
     filters.command(AUTHUSERS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
 @language
-async def authusers(client, message: Message, _):
+async def authusers(_client: Client, message: Message, _):
     _playlist = await get_authuser_names(message.chat.id)
     if not _playlist:
         return await message.reply_text(_["setting_5"])
@@ -137,10 +139,11 @@ async def authusers(client, message: Message, _):
                 user = await app.get_users(user_id)
                 user = user.first_name
                 j += 1
-            except Exception:
+            except Exception as e:
+                logging.error(str(e))
                 continue
-            text += f"{j}➤ {user}[`{user_id}`]\n"
-            text += f"   {_['auth_8']} {admin_name}[`{admin_id}`]\n\n"
+            text += f"<b>{j}</b> {user}[{user_id}]\n"
+            text += f"{_['auth_8']} {admin_name}[{admin_id}]\n\n"
         await mystic.delete()
         await message.reply_text(text)
 
