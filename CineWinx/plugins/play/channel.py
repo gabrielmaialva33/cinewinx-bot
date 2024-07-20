@@ -11,7 +11,9 @@ from strings import get_command
 CHANNELPLAY_COMMAND = get_command("CHANNELPLAY_COMMAND")
 
 
-@app.on_message(filters.command(CHANNELPLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(CHANNELPLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_actual
 async def playmode_(_client: app, message: Message, _):
     if len(message.command) < 2:
