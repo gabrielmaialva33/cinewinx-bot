@@ -12,7 +12,9 @@ from strings import get_command
 RESUME_COMMAND = get_command("RESUME_COMMAND")
 
 
-@app.on_message(filters.command(RESUME_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(RESUME_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_rights_check
 async def resume_com(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) == 1:

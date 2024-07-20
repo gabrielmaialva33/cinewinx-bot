@@ -12,7 +12,9 @@ from strings import get_command
 PAUSE_COMMAND = get_command("PAUSE_COMMAND")
 
 
-@app.on_message(filters.command(PAUSE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(PAUSE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_rights_check
 async def pause_admin(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) == 1:

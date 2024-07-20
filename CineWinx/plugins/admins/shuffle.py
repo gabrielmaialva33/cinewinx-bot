@@ -13,7 +13,9 @@ from strings import get_command
 SHUFFLE_COMMAND = get_command("SHUFFLE_COMMAND")
 
 
-@app.on_message(filters.command(SHUFFLE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(SHUFFLE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_rights_check
 async def admins(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) == 1:
