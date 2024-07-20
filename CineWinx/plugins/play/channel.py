@@ -5,13 +5,13 @@ from pyrogram.types import Message
 from CineWinx import app
 from CineWinx.utils.database import set_cmode
 from CineWinx.utils.decorators.admins import admin_actual
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 CHANNELPLAY_COMMAND = get_command("CHANNELPLAY_COMMAND")
 
 
-@app.on_message(filters.command(CHANNELPLAY_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(CHANNELPLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admin_actual
 async def playmode_(_client: app, message: Message, _):
     if len(message.command) < 2:

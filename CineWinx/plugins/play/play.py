@@ -26,38 +26,24 @@ from CineWinx.utils.inline.play import (
 from CineWinx.utils.inline.playlist import botplaylist_markup
 from CineWinx.utils.logger import play_logs
 from CineWinx.utils.stream.stream import stream
-from config import BANNED_USERS, lyrical
+from config import BANNED_USERS, lyrical, PREFIXES
+from strings import get_command
+
+PLAY_COMMAND = get_command("PLAY_COMMAND")
 
 
-@app.on_message(
-    filters.command(
-        [
-            "play",
-            "vplay",
-            "cplay",
-            "cute",
-            "cvplay",
-            "playforce",
-            "vplayforce",
-            "cplayforce",
-            "cvplayforce",
-        ],
-        prefixes=["/", "!", "%", ",", ".", "@", "#"],
-    )
-    & filters.group
-    & ~BANNED_USERS
-)
+@app.on_message(filters.command(PLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @play_wrapper
 async def play_command(
-    _client: app,
-    message: Message,
-    _,
-    chat_id: int,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
+        _client: app,
+        message: Message,
+        _,
+        chat_id: int,
+        video,
+        channel,
+        playmode,
+        url,
+        fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
@@ -702,18 +688,18 @@ async def slider_queries(client, callback_query: CallbackQuery, _):
 
 
 __MODULE__ = "Play"
-__HELP__ = """✅<u>Comandos de Reprodução:</u>
-Comandos Disponíveis = play, vplay, cplay
-Comandos de Reprodução Forçada = playforce, vplayforce, cplayforce
+__HELP__ = """✅<u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼:</u>
+🎵 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗗𝗶𝘀𝗽𝗼𝗻𝗶́𝘃𝗲𝗶𝘀 = <code>play</code>, <code>vplay</code>, <code>cplay</code>
+🔥 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 𝗙𝗼𝗿𝗰̧𝗮𝗱𝗮 = <code>playforce</code>, <code>vplayforce</code>, <code>cplayforce</code>
 
-c significa tocar no canal.
-v significa tocar vídeo.
-force significa reprodução forçada.
+🔄 c significa tocar no canal.
+🎥 v significa tocar vídeo.
+🚀 force significa reprodução forçada.
 
-/play ou /vplay ou /cplay  - O bot começará a tocar sua consulta no chat de voz ou transmitirá links ao vivo nos chats de voz.
+▶️ <code>/play</code> ou <code>/vplay</code> ou <code>/cplay</code> - 𝗢 𝗯𝗼𝘁 𝗰𝗼𝗺𝗲𝗰̧𝗮𝗿𝗮́ 𝗮 𝘁𝗼𝗰𝗮𝗿 𝘀𝘂𝗮 𝗰𝗼𝗻𝘀𝘂𝗹𝘁𝗮 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗼𝘂 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗶𝗿𝗮́ 𝗹𝗶𝗻𝗸𝘀 𝗮𝗼 𝘃𝗶𝘃𝗼 𝗻𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗱𝗲 𝘃𝗼𝘇.
 
-/playforce ou /vplayforce ou /cplayforce - A Reprodução Forçada interrompe a faixa que está tocando no chat de voz e começa a tocar a faixa pesquisada instantaneamente, sem perturbar/limpar a fila.
+🔊 <code>/playforce</code> ou <code>/vplayforce</code> ou <code>/cplayforce</code> - 𝗔 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 𝗙𝗼𝗿𝗰𝗮𝗱𝗮 𝗶𝗻𝘁𝗲𝗿𝗿𝗼𝗺𝗽𝗲 𝗮 𝗳𝗮𝗶𝘅𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗲 𝗰𝗼𝗺𝗲𝗰̧𝗮 𝗮 𝘁𝗼𝗰𝗮𝗿 𝗮 𝗳𝗮𝗶𝘅𝗮 𝗽𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗱𝗮 𝗶𝗻𝘀𝘁𝗮𝗻𝘁𝗮𝗻𝗲𝗮𝗺𝗲𝗻𝘁𝗲, 𝘀𝗲𝗺 𝗽𝗲𝗿𝘁𝘂𝗿𝗯𝗮𝗿/𝗹𝗶𝗺𝗽𝗮𝗿 𝗮 𝗳𝗶𝗹𝗮.
 
-/channelplay [Nome de usuário ou ID do chat] ou [Desativar] - Conecte o canal a um grupo e transmita música no chat de voz do canal a partir do seu grupo.
-
+🔗 <code>/channelplay</code> [𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗼𝘂 𝗜𝗗 𝗱𝗼 𝗰𝗵𝗮𝘁] ou [𝗗𝗲𝘀𝗮𝘁𝗶𝘃𝗮𝗿] - 𝗖𝗼𝗻𝗲𝗰𝘁𝗲 𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝘂𝗺 𝗴𝗿𝘂𝗽𝗼 𝗲 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗱𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗼 𝘀𝗲𝘂 𝗴𝗿𝘂𝗽𝗼.
 """
+

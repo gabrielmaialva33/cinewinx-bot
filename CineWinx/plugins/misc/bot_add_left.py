@@ -70,9 +70,9 @@ async def on_left_chat_member(_, message: Message):
             chat_id = message.chat.id
             left = (
                 f"<b>#saiu_do_grupo</b>\n"
-                f"<b>Nome do Chat:</b> {title}\n"
-                f"<b>ID do Chat:</b> {chat_id}\n\n"
-                f"<b>Removido por:</b> {remove_by}"
+                f"<b>🏷️ 𝗡𝗼𝗺𝗲 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> {title}\n"
+                f"<b>🆔 𝗜𝗗 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> {chat_id}\n\n"
+                f"<b>👤 𝗥𝗲𝗺𝗼𝘃𝗶𝗱𝗼 𝗽𝗼𝗿:</b> {remove_by}"
             )
             await app.send_message(LOG_GROUP_ID, text=left)
             await delete_served_chat(chat_id)

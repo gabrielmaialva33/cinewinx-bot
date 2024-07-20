@@ -26,7 +26,7 @@ from CineWinx.utils.database import (
 )
 from CineWinx.utils.decorators.language import language
 from CineWinx.utils.formatters import alpha_to_int
-from config import adminlist, chatstats, clean, userstats
+from config import adminlist, chatstats, clean, userstats, PREFIXES
 from strings import get_command
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
@@ -65,7 +65,7 @@ async def clean_mode(_client: app, update, users, chats):
     await set_queries(1)
 
 
-@app.on_message(filters.command(BROADCAST_COMMAND) & SUDOERS)
+@app.on_message(filters.command(BROADCAST_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def broadcast_message(_client: app, message: Message, _):
     global IS_BROADCASTING
@@ -274,13 +274,15 @@ async def auto_clean():
 asyncio.create_task(auto_clean())
 
 __MODULE__ = "G-cast"
-__HELP__ = """🍒 <b><u>Funcionalidade de Transmissão</u></b> [apenas para administradores]:
-/broadcast [mensagem ou responda a uma mensagem] Transmite uma mensagem para os chats atendidos pelo bot.
-<u>Modos de Transmissão:</u>
-<b>-pin</b> Fixa suas mensagens transmitidas nos chats atendidos.
-<b>-pinloud</b> Fixa suas mensagens transmitidas nos chats atendidos e envia notificação aos membros.
-<b>-user</b> Transmite a mensagem para os usuários que iniciaram seu bot.
-<b>-assistant</b> Transmite sua mensagem a partir da conta assistente do bot.
-<b>-nobot</b> Impede o bot de transmitir a mensagem.
-<b>Exemplo:</b> `/broadcast -user -assistant -pin Testando transmissão`
+__HELP__ = """🍒 <b><u>𝗙𝘂𝗻𝗰𝗶𝗼𝗻𝗮𝗹𝗶𝗱𝗮𝗱𝗲 𝗱𝗲 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼</u></b> [𝗮𝗽𝗲𝗻𝗮𝘀 𝗽𝗮𝗿𝗮 𝗮𝗱𝗺𝗶𝗻𝗶𝘀𝘁𝗿𝗮𝗱𝗼𝗿𝗲𝘀]:
+📣 <code>/broadcast [𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗼𝘂 𝗿𝗲𝘀𝗽𝗼𝗻𝗱𝗮 𝗮 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺]</code> 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗲 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗽𝗮𝗿𝗮 𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗮𝘁𝗲𝗻𝗱𝗶𝗱𝗼𝘀 𝗽𝗲𝗹𝗼 𝗯𝗼𝘁.
+
+🔗 <u>𝗠𝗼𝗱𝗼𝘀 𝗱𝗲 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼:</u>
+📌 <code>-pin</code> 𝗙𝗶𝘅𝗮 𝘀𝘂𝗮𝘀 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗻𝘀 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗶𝗱𝗮𝘀 𝗻𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗮𝘁𝗲𝗻𝗱𝗶𝗱𝗼𝘀.
+📢 <code>-pinloud</code> 𝗙𝗶𝘅𝗮 𝘀𝘂𝗮𝘀 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗻𝘀 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗶𝗱𝗮𝘀 𝗻𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗮𝘁𝗲𝗻𝗱𝗶𝗱𝗼𝘀 𝗲 𝗲𝗻𝘃𝗶𝗮 𝗻𝗼𝘁𝗶𝗳𝗶𝗰𝗮𝗰̧𝗮̃𝗼 𝗮𝗼𝘀 𝗺𝗲𝗺𝗯𝗿𝗼𝘀.
+👥 <code>-user</code> 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗲 𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗽𝗮𝗿𝗮 𝗼𝘀 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗾𝘂𝗲 𝗶𝗻𝗶𝗰𝗶𝗮𝗿𝗮𝗺 𝘀𝗲𝘂 𝗯𝗼𝘁.
+🤖 <code>-assistant</code> 𝗧𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗲 𝘀𝘂𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗮 𝗰𝗼𝗻𝘁𝗮 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗱𝗼 𝗯𝗼𝘁.
+🚫 <code>-nobot</code> 𝗜𝗺𝗽𝗲𝗱𝗲 𝗼 𝗯𝗼𝘁 𝗱𝗲 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗶𝗿 𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺.
+
+📋<b>𝗘𝘅𝗲𝗺𝗽𝗹𝗼:</b> `/broadcast -user -assistant -pin 𝗧𝗲𝘀𝘁𝗮𝗻𝗱𝗼 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼`
 """

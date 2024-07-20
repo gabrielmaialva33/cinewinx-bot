@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from datetime import datetime
 
 from pyrogram.enums import ChatType
@@ -65,7 +66,8 @@ async def auto_end():
                         "Bot saiu do chat de voz por inatividade para evitar sobrecarga nos servidores. "
                         "Ninguém estava ouvindo o bot no chat de voz.",
                     )
-                except:
+                except Exception as e:
+                    logging.error(e)
                     continue
 
 
