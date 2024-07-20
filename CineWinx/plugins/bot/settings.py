@@ -49,7 +49,9 @@ from strings import get_command
 SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")
 
 
-@app.on_message(filters.command(SETTINGS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(SETTINGS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language
 async def settings_mar(client: Client, message: Message, _):
     me = await client.get_me()
@@ -70,7 +72,6 @@ async def settings_cb(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer(_["set_cb_8"])
     except Exception as e:
         logging.error(e)
-        pass
     buttons = setting_markup(_)
 
     return await callback_query.edit_message_text(
