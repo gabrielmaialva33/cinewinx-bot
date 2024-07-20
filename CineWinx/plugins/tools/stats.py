@@ -272,10 +272,10 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 <b>🤖 Total de assistentes:</b> {assistant}
 <b>🔄 Assistente de saída automática:</b> {ass}
 
-<b>⏳ Limite de duração de reprodução:</b> {play_duration} m
-<b>🎵 Limite de download de músicas:</b> {song} m
-<b>📋 Limite de playlist do servidor do bot:</b> {playlist_limit}
-<b>▶️ Limite de reprodução de playlist:</b> {fetch_playlist}"""
+<b>⏳ Duração de reprodução:</b> {play_duration} m
+<b>🎵 Download de músicas:</b> {song} m
+<b>📋 Playlist do servidor:</b> {playlist_limit}
+<b>▶️ Reprodução de playlist:</b> {fetch_playlist}"""
 
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
@@ -346,14 +346,14 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 <b>🧩 Total de Núcleos:</b> {t_core}
 <b>⚙️ Frequência da CPU:</b> {cpu_freq}
 
-<b>🐍 Versão do Python:</b> {pyver.split()[0]}
-<b>🌐 Versão do Pyrogram:</b> {pyrover}
-<b>📞 Versão do Py-TgCalls:</b> {pytgver}
-<b>📞 Versão do N-TgCalls:</b> {ngtgver}
-<b>💽 Armazenamento Disponível:</b> {total[:5]} GiB
-<b>💽 Armazenamento Usado:</b> {used[:4]} GiB
-<b>💽 ArmazenamentoRestante:</b> {free[:4]} GiB
-<b>🗄️ Armazenamento Dados:</b> {datasize[:5]} MB
+<b>🐍 Python:</b> {pyver.split()[0]}
+<b>🌐 Pyrogram:</b> {pyrover}
+<b>📞 Py-TgCalls:</b> {pytgver}
+<b>📞 N-TgCalls:</b> {ngtgver}
+<b>💽 Disponível:</b> {total[:5]} GiB
+<b>💽 Usado:</b> {used[:4]} GiB
+<b>💽 Restante:</b> {free[:4]} GiB
+<b>🗄️ Dados:</b> {datasize[:5]} MB
 
 <b>💬 Chats Servidos:</b> {served_chats} 
 <b>👥 Usuários Servidos:</b> {served_users} 

@@ -147,6 +147,7 @@ STRING5 = getenv("STRING_SESSION5", None)
 
 # Get language from ENV or use 'pt'
 LANGUAGE = getenv("LANGUAGE", "pt")
+PREFIXES = ["/", "!", "%", ",", ".", "@", "#"]
 
 ### DONT TOUCH or EDIT codes after this line
 BANNED_USERS = filters.user()

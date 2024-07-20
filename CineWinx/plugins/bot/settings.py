@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters, Client
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
@@ -41,20 +43,19 @@ from CineWinx.utils.inline.settings import (
     video_quality_markup,
 )
 from CineWinx.utils.inline.start import private_panel
-from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID
+from config import BANNED_USERS, CLEANMODE_DELETE_MINS, OWNER_ID, PREFIXES
 from strings import get_command
 
 SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")
 
 
-@app.on_message(filters.command(SETTINGS_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(SETTINGS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def settings_mar(client: Client, message: Message, _):
     me = await client.get_me()
     pic = await client.download_media(me.photo.big_file_id) if me.photo else None
     buttons = setting_markup(_)
     chat_id = message.chat.id
-    chat_id = -1000000000000 + chat_id
     await message.reply_photo(
         photo=pic,
         caption=_["setting_1"].format(message.chat.title, chat_id),
@@ -67,9 +68,11 @@ async def settings_mar(client: Client, message: Message, _):
 async def settings_cb(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer(_["set_cb_8"])
-    except:
+    except Exception as e:
+        logging.error(e)
         pass
     buttons = setting_markup(_)
+
     return await callback_query.edit_message_text(
         _["setting_1"].format(
             callback_query.message.chat.title,
@@ -90,10 +93,10 @@ async def settings_back_markup(_client: app, callback_query: CallbackQuery, _):
     if callback_query.message.chat.type == ChatType.PRIVATE:
         try:
             await app.resolve_peer(OWNER_ID[0])
-            OWNER = OWNER_ID[0]
+            owner = OWNER_ID[0]
         except:
-            OWNER = None
-        buttons = private_panel(_, app.username, OWNER)
+            owner = None
+        buttons = private_panel(_, app.username, owner)
         try:
             await callback_query.edit_message_text(
                 _["start_1"].format(app.mention),
