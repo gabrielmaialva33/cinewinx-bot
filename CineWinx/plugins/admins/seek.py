@@ -5,14 +5,14 @@ from CineWinx import YouTube, app, LOGGER
 from CineWinx.core.call import CineWinx
 from CineWinx.misc import db
 from CineWinx.utils import admin_rights_check, seconds_to_min
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 # Commands
 SEEK_COMMAND = get_command("SEEK_COMMAND")
 
 
-@app.on_message(filters.command(SEEK_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(SEEK_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admin_rights_check
 async def seek_comm(_client: Client, message: Message, _, chat_id: int):
     if len(message.command) == 1:

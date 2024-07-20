@@ -34,8 +34,8 @@ from config import (
 )
 
 wrong = {}
-downvote = {}
-downvoters = {}
+down_vote = {}
+down_voters = {}
 
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
@@ -343,26 +343,27 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
 
 
 __MODULE__ = "Admin"
-__HELP__ = """<b><u>Comandos de Admin:</u></b>
+__HELP__ = """<b><u>👮‍♂️ 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗔𝗱𝗺𝗶𝗻 </u></b>
 
-c significa tocar no canal.
+🔄 c significa tocar no canal.
 
-/pause ou /cpause - Pausa a música que está tocando.
-/resume ou /cresume - Retoma a música que estava pausada.
-/mute ou /cmute - Silencia a música que está tocando.
-/unmute ou /cunmute - Ativa o som da música que estava silenciada.
-/skip ou /cskip - Pula a música que está tocando atualmente.
-/stop ou /cstop - Para a música que está tocando.
-/shuffle ou /cshuffle - Embaralha aleatoriamente a playlist na fila.
-/seek ou /cseek - Avança a música para a duração especificada.
-/seekback ou /cseekback - Retrocede a música para a duração especificada.
-/reboot - Reinicia o bot para o seu chat.
+⏸️ <code>/pause</code> ou <code>/cpause</code> - 𝗣𝗮𝘂𝘀𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼.
+▶️ <code>/resume</code> ou <code>/cresume</code> - 𝗥𝗲𝘁𝗼𝗺𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮𝘃𝗮 𝗽𝗮𝘂𝘀𝗮𝗱𝗮.
+🔇 <code>/mute</code> ou <code>/cmute</code> - 𝗦𝗶𝗹𝗲𝗻𝗰𝗶𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼.
+🔊 <code>/unmute</code> ou <code>/cunmute</code> - 𝗔𝘁𝗶𝘃𝗮 𝗼 𝘀𝗼𝗺 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮𝘃𝗮 𝘀𝗶𝗹𝗲𝗻𝗰𝗶𝗮𝗱𝗮.
+⏭️ <code>/skip</code> ou <code>/cskip</code> - 𝗣𝘂𝗹𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝘁𝘂𝗮𝗹𝗺𝗲𝗻𝘁𝗲.
+⏹️ <code>/stop</code> ou <code>/cstop</code> - 𝗣𝗮𝗿𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼.
+🔀 <code>/shuffle</code> ou <code>/cshuffle</code> - 𝗘𝗺𝗯𝗮𝗿𝗮𝗹𝗵𝗮 𝗮𝗹𝗲𝗮𝘁𝗼𝗿𝗶𝗮𝗺𝗲𝗻𝘁𝗲 𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗻𝗮 𝗳𝗶𝗹𝗮.
+⏩ <code>/seek</code> ou <code>/cseek</code> - 𝗔𝘃𝗮𝗻𝗰̧𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗽𝗮𝗿𝗮 𝗮 𝗱𝘂𝗿𝗮𝗰̧𝗮̃𝗼 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗮.
+⏪ <code>/seekback</code> ou <code>/cseekback</code> - 𝗥𝗲𝘁𝗿𝗼𝗰𝗲𝗱𝗲 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗽𝗮𝗿𝗮 𝗮 𝗱𝘂𝗿𝗮𝗰̧𝗮̃𝗼 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗮.
+🔄 <code>/reboot</code> - 𝗥𝗲𝗶𝗻𝗶𝗰𝗶𝗮 𝗼 𝗯𝗼𝘁 𝗽𝗮𝗿𝗮 𝗼 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁.
 
-<b><u>Pular Específico:</u></b>
-/skip ou /cskip [Número (exemplo: 3)] 
-    - Pula a música para o número especificado na fila. Exemplo: /skip 3 irá pular para a terceira música na fila e ignorará as músicas 1 e 2 na fila.
+<b><u>⏭️ 𝗣𝘂𝗹𝗮𝗿 𝗘𝘀𝗽𝗲𝗰𝗶́𝗳𝗶𝗰𝗼:</u></b>
+<code>/skip</code> ou <code>/cskip</code> [𝗻𝘂́𝗺𝗲𝗿𝗼 (𝗲𝘅𝗲𝗺𝗽𝗹𝗼: 3)] 
+    - ⏩ 𝗣𝘂𝗹𝗮 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗽𝗮𝗿𝗮 𝗼 𝗻𝘂́𝗺𝗲𝗿𝗼 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗼 𝗻𝗮 𝗳𝗶𝗹𝗮. 𝗘𝘅𝗲𝗺𝗽𝗹𝗼: <code>/skip</code> 3 𝗶𝗿𝗮́ 𝗽𝘂𝗹𝗮𝗿 𝗽𝗮𝗿𝗮 𝗮 𝘁𝗲𝗿𝗰𝗲𝗶𝗿𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗻𝗮 𝗳𝗶𝗹𝗮 𝗲 𝗶𝗴𝗻𝗼𝗿𝗮𝗿𝗮́ 𝗮𝘀 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 1 𝗲 2 𝗻𝗮 𝗳𝗶𝗹𝗮.
 
-<b><u>Repetir Reprodução:</u></b>
-/loop ou /cloop [habilitar/desabilitar] ou [números entre 1-10] 
-    - Quando ativado, o bot repete a música atual entre 1-10 vezes no chat de voz. Padrão é 10 vezes.
+<b><u>🔁 𝗥𝗲𝗽𝗲𝘁𝗶𝗿 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼:</u></b>
+<code>/loop</code> ou <code>/cloop</code> [𝗲𝗻𝗮𝗯𝗹𝗲/𝗱𝗶𝘀𝗮𝗯𝗹𝗲] 𝗼𝘂 [𝗻𝘂́𝗺𝗲𝗿𝗼𝘀 𝗲𝗻𝘁𝗿𝗲 1-10] 
+    - 🔁 𝗤𝘂𝗮𝗻𝗱𝗼 𝗮𝘁𝗶𝘃𝗮𝗱𝗼, 𝗼 𝗯𝗼𝘁 𝗿𝗲𝗽𝗲𝘁𝗲 𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗮𝘁𝘂𝗮𝗹 𝗲𝗻𝘁𝗿𝗲 1-10 𝘃𝗲𝘇𝗲𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇. 𝗣𝗮𝗱𝗿𝗮̃𝗼 𝗲́ 10 𝘃𝗲𝘇𝗲𝘀.
 """
+

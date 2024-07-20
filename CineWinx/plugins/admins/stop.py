@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.types import Message
@@ -16,14 +18,13 @@ from CineWinx.utils.database import (
     is_active_chat,
     get_cmode,
 )
-from config import BANNED_USERS
-from config import adminlist
-from strings import get_string
+from config import BANNED_USERS, PREFIXES, adminlist
+from strings import get_string, get_command
+
+STOP_COMMAND = get_command("STOP_COMMAND")
 
 
-@app.on_message(
-    filters.command(["stop", "end", "cstop", "cend"]) & filters.group & ~BANNED_USERS
-)
+@app.on_message(filters.command(STOP_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 async def stop_music(_client: Client, message: Message):
     if await is_maintenance() is False:
         if message.from_user.id not in SUDOERS:
@@ -43,12 +44,14 @@ async def stop_music(_client: Client, message: Message):
     if await is_commanddelete_on(message.chat.id):
         try:
             await message.delete()
-        except:
+        except Exception as e:
+            logging.error(e)
             pass
     try:
         language = await get_lang(message.chat.id)
         _ = get_string(language)
-    except:
+    except Exception as e:
+        logging.error(e)
         _ = get_string("pt")
 
     if message.sender_chat:
@@ -70,7 +73,8 @@ async def stop_music(_client: Client, message: Message):
             return await message.reply_text(_["setting_12"])
         try:
             await app.get_chat(chat_id)
-        except:
+        except Exception as e:
+            logging.error(e)
             return await message.reply_text(_["cplay_4"])
     else:
         chat_id = message.chat.id

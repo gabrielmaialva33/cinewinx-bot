@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardMarkup, Message
 
@@ -10,14 +12,14 @@ from CineWinx.utils.decorators import admin_rights_check
 from CineWinx.utils.inline.play import stream_markup, telegram_markup
 from CineWinx.utils.stream.autoclear import auto_clean
 from CineWinx.utils.thumbnails import gen_thumb
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 # Commands
 SKIP_COMMAND = get_command("SKIP_COMMAND")
 
 
-@app.on_message(filters.command(SKIP_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(SKIP_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admin_rights_check
 async def skip(_client: Client, message: Message, _, chat_id: int):
     if not len(message.command) < 2:
@@ -37,7 +39,7 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
                             popped = None
                             try:
                                 popped = check.pop(0)
-                            except:
+                            except IndexError:
                                 return await message.reply_text(_["admin_16"])
                             if popped:
                                 await auto_clean(popped)
@@ -50,7 +52,8 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
                                         disable_web_page_preview=True,
                                     )
                                     await CineWinx.stop_stream(chat_id)
-                                except:
+                                except Exception as e:
+                                    logging.error(e)
                                     return
                                 break
                     else:
@@ -75,16 +78,19 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
                 )
                 try:
                     return await CineWinx.stop_stream(chat_id)
-                except:
+                except Exception as e:
+                    logging.error(e)
                     return
-        except:
+        except Exception as e:
+            logging.error(e)
             try:
                 await message.reply_text(
                     _["admin_10"].format(message.from_user.first_name),
                     disable_web_page_preview=True,
                 )
                 return await CineWinx.stop_stream(chat_id)
-            except:
+            except Exception as e:
+                logging.error(e)
                 return
     queued = check[0]["file"]
     title = (check[0]["title"]).title()
@@ -100,7 +106,8 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
             return await message.reply_text(_["admin_11"].format(title))
         try:
             await CineWinx.skip_stream(chat_id, link, video=status)
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             return await message.reply_text(_["call_7"])
         button = telegram_markup(_, chat_id)
         img = await gen_thumb(videoid)
@@ -123,11 +130,13 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
                 videoid=True,
                 video=status,
             )
-        except:
+        except Exception as e:
+            logging.error(e)
             return await mystic.edit_text(_["call_7"])
         try:
             await CineWinx.skip_stream(chat_id, file_path, video=status)
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             return await mystic.edit_text(_["call_7"])
         button = stream_markup(_, videoid, chat_id)
         img = await gen_thumb(videoid)
@@ -147,7 +156,8 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
     elif "index_" in queued:
         try:
             await CineWinx.skip_stream(chat_id, videoid, video=status)
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             return await message.reply_text(_["call_7"])
         button = telegram_markup(_, chat_id)
         run = await message.reply_photo(
@@ -160,7 +170,8 @@ async def skip(_client: Client, message: Message, _, chat_id: int):
     else:
         try:
             await CineWinx.skip_stream(chat_id, queued, video=status)
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             return await message.reply_text(_["call_7"])
         if videoid == "telegram":
             button = telegram_markup(_, chat_id)

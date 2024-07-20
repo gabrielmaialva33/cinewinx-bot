@@ -10,7 +10,7 @@ from CineWinx.utils.database import (
 )
 from CineWinx.utils.decorators import admin_actual, language
 from CineWinx.utils.formatters import int_to_alpha
-from config import BANNED_USERS, adminlist
+from config import BANNED_USERS, adminlist, PREFIXES
 from strings import get_command
 
 # Command
@@ -19,7 +19,7 @@ UNAUTH_COMMAND = get_command("UNAUTH_COMMAND")
 AUTHUSERS_COMMAND = get_command("AUTHUSERS_COMMAND")
 
 
-@app.on_message(filters.command(AUTH_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(AUTH_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admin_actual
 async def auth(_client: Client, message: Message, _):
     if not message.reply_to_message:
@@ -81,7 +81,7 @@ async def auth(_client: Client, message: Message, _):
         await message.reply_text(_["auth_3"])
 
 
-@app.on_message(filters.command(UNAUTH_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(UNAUTH_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admin_actual
 async def unauthusers(_client: Client, message: Message, _):
     if not message.reply_to_message:
@@ -114,7 +114,7 @@ async def unauthusers(_client: Client, message: Message, _):
         return await message.reply_text(_["auth_5"])
 
 
-@app.on_message(filters.command(AUTHUSERS_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(AUTHUSERS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def authusers(client, message: Message, _):
     _playlist = await get_authuser_names(message.chat.id)
@@ -142,10 +142,10 @@ async def authusers(client, message: Message, _):
 
 
 __MODULE__ = "Autorização"
-__HELP__ = """<b><u>Usuários Autorizados:</u></b>
-Usuários autorizados podem usar comandos de administrador sem direitos de administrador no seu chat.
+__HELP__ = """<b><u>🔒 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗔𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗱𝗼𝘀 </u></b>\n
+👥 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗱𝗼𝘀 𝗽𝗼𝗱𝗲𝗺 𝘂𝘀𝗮𝗿 𝗰𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗮𝗱𝗺𝗶𝗻𝗶𝘀𝘁𝗿𝗮𝗱𝗼𝗿 𝘀𝗲𝗺 𝗱𝗶𝗿𝗲𝗶𝘁𝗼𝘀 𝗱𝗲 𝗮𝗱𝗺𝗶𝗻𝗶𝘀𝘁𝗿𝗮𝗱𝗼𝗿 𝗻𝗼 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁.
 
-/auth [NomeDeUsuário] - Adiciona um usuário à LISTA DE AUTORIZADOS do grupo.
-/unauth [NomeDeUsuário] - Remove um usuário da LISTA DE AUTORIZADOS do grupo.
-/authusers - Verifica a LISTA DE AUTORIZADOS do grupo.
+➕ <code>/auth [𝗻𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼]</code> - 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 à 𝗟𝗜𝗦𝗧𝗔 𝗗𝗘 𝗔𝗨𝗧𝗢𝗥𝗜𝗭𝗔𝗗𝗢𝗦 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼.
+➖ <code>/unauth [𝗻𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼]</code> - 𝗿𝗲𝗺𝗼𝘃𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗱𝗮 𝗟𝗜𝗦𝗧𝗔 𝗗𝗘 𝗔𝗨𝗧𝗢𝗥𝗜𝗭𝗔𝗗𝗢𝗦 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼.
+📋 <code>/authusers</code> - 𝘃𝗲𝗿𝗶𝗳𝗶𝗰𝗮 𝗮 𝗟𝗜𝗦𝗧𝗔 𝗗𝗘 𝗔𝗨𝗧𝗢𝗥𝗜𝗭𝗔𝗗𝗢𝗦 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼.
 """

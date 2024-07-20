@@ -318,16 +318,17 @@ async def welcome(_client: app, message: Message):
 
 __MODULE__ = "Bot"
 __HELP__ = """
-/stats - Obtenha as estatísticas globais das 10 músicas mais tocadas, os 10 principais usuários do bot, os 10 principais chats no bot, as 10 mais tocadas em um chat, etc.
+📊 <code>/stats</code> - 𝗢𝗯𝘁𝗲𝗻𝗵𝗮 𝗮𝘀 𝗲𝘀𝘁𝗮𝘁𝗶́𝘀𝘁𝗶𝗰𝗮𝘀 𝗴𝗹𝗼𝗯𝗮𝗶𝘀 𝗱𝗮𝘀 10 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗺𝗮𝗶𝘀 𝘁𝗼𝗰𝗮𝗱𝗮𝘀, 𝗼𝘀 10 𝗽𝗿𝗶𝗻𝗰𝗶𝗽𝗮𝗶𝘀 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗱𝗼 𝗯𝗼𝘁, 𝗼𝘀 10 𝗽𝗿𝗶𝗻𝗰𝗶𝗽𝗮𝗶𝘀 𝗰𝗵𝗮𝘁𝘀 𝗻𝗼 𝗯𝗼𝘁, 𝗮𝘀 10 𝗺𝗮𝗶𝘀 𝘁𝗼𝗰𝗮𝗱𝗮𝘀 𝗲𝗺 𝘂𝗺 𝗰𝗵𝗮𝘁, 𝗲𝘁𝗰.
 
-/sudolist - Verifique os usuários com privilégios de administrador (sudo) do bot.
+👮‍♂️ <code>/sudolist</code> - 𝗩𝗲𝗿𝗶𝗳𝗶𝗾𝘂𝗲 𝗼𝘀 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗰𝗼𝗺 𝗽𝗿𝗶𝘃𝗶𝗹𝗲́𝗴𝗶𝗼𝘀 𝗱𝗲 𝗮𝗱𝗺𝗶𝗻𝗶𝘀𝘁𝗿𝗮𝗱𝗼𝗿 (𝘀𝘂𝗱𝗼) 𝗱𝗼 𝗯𝗼𝘁.
 
-/lyrics [Nome da música] - Busca a letra da música especificada na web.
+🎤 <code>/lyrics</code> [𝗡𝗼𝗺𝗲 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮] - 𝗕𝘂𝘀𝗰𝗮 𝗮 𝗹𝗲𝘁𝗿𝗮 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗮 𝗻𝗮 𝘄𝗲𝗯.
 
-/song [Nome da música] ou [Link do YouTube] - Baixe qualquer música do YouTube nos formatos MP3 ou MP4.
+🎵 <code>/song</code> [𝗡𝗼𝗺𝗲 𝗱𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮] 𝗼𝘂 [𝗟𝗶𝗻𝗸 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲] - 𝗕𝗮𝗶𝘅𝗲 𝗾𝘂𝗮𝗹𝗾𝘂𝗲𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗻𝗼𝘀 𝗳𝗼𝗿𝗺𝗮𝘁𝗼𝘀 𝗠𝗣𝟯 𝗼𝘂 𝗠𝗣𝟰.
 
-/player - Obtenha um painel de reprodução interativo.
+🎛️ <code>/player</code> - 𝗢𝗯𝘁𝗲𝗻𝗵𝗮 𝘂𝗺 𝗽𝗮𝗶𝗻𝗲𝗹 𝗱𝗲 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 𝗶𝗻𝘁𝗲𝗿𝗮𝘁𝗶𝘃𝗼.
 
-c significa tocar no canal.
+🔄 c significa tocar no canal.
 
-/queue ou /cqueue - Verifique a lista de reprodução (fila) de músicas."""
+📋 <code>/queue</code> ou <code>/cqueue</code> - 𝗩𝗲𝗿𝗶𝗳𝗶𝗾𝘂𝗲 𝗮 𝗹𝗶𝘀𝘁𝗮 𝗱𝗲 𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 (𝗳𝗶𝗹𝗮) 𝗱𝗲 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀.
+"""
