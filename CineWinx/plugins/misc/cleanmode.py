@@ -238,8 +238,8 @@ async def auto_clean():
                     if datetime.now() > x["timer_after"]:
                         # Skip deletion if the message is protected
                         if (
-                                chat_id in protected_messages
-                                and x["msg_id"] in protected_messages[chat_id]
+                            chat_id in protected_messages
+                            and x["msg_id"] in protected_messages[chat_id]
                         ):
                             continue
                         try:
