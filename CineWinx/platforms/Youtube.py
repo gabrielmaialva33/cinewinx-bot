@@ -1,3 +1,5 @@
+from youtubesearchpython.__future__ import VideosSearch
+
 import asyncio
 import os
 import re
@@ -6,7 +8,6 @@ from typing import Union
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from CineWinx.utils.database import is_on_off
@@ -73,7 +74,7 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        results = VideosSearch(link, limit=1, language="pt", region="BR")
+        results = VideosSearch(link, limit=1)
         for result in (await results.next())["result"]:
             title = result["title"]
             duration_min = result["duration"]
