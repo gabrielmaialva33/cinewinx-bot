@@ -49,15 +49,15 @@ from config import BANNED_USERS, lyrical
 )
 @play_wrapper
 async def play_command(
-    _client: app,
-    message: Message,
-    _,
-    chat_id: int,
-    video,
-    channel,
-    playmode,
-    url,
-    fplay,
+        _client: app,
+        message: Message,
+        _,
+        chat_id: int,
+        video,
+        channel,
+        playmode,
+        url,
+        fplay,
 ):
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]

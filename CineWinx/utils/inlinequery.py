@@ -31,7 +31,7 @@ answer.extend(
         InlineQueryResultArticle(
             title="pular stream",
             description="pular para a próxima faixa. | pular para a próxima faixa. | para faixa específica: /skip ["
-            "número]",
+                        "número]",
             thumb_url="https://telegra.ph/file/cd09eef8a10036541f81b.png",
             input_message_content=InputTextMessageContent("/skip"),
         ),
