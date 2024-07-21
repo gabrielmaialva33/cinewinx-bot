@@ -83,6 +83,8 @@ class YouTubeAPI:
                 duration_sec = 0
             else:
                 duration_sec = int(time_to_seconds(duration_min))
+            if str(title) == "None":
+                title = "𝗻𝗼 𝘁𝗶𝘁𝗹𝗲"
         return title, duration_min, duration_sec, thumbnail, vidid
 
     async def title(self, link: str, videoid: Union[bool, str] = None):
