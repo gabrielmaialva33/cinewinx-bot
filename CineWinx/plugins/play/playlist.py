@@ -42,7 +42,9 @@ from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT, PREFIXES
 from strings import get_command
 
 PLAYLIST_COMMAND = get_command("PLAYLIST_COMMAND")
-
+DELETEPLAYLIST_COMMAND = get_command("DELETEPLAYLIST_COMMAND")
+ADDPLAYLIST_COMMAND = get_command("ADDPLAYLIST_COMMAND")
+PLAYLISTS_COMMAND = get_command("PLAYLISTS_COMMAND")
 
 @app.on_message(filters.command(PLAYLIST_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
@@ -97,9 +99,7 @@ async def get_keyboard(_, user_id: int):
     return keyboard, count
 
 
-@app.on_message(
-    filters.command(["deleteplaylist", "delplaylist"]) & filters.group & ~BANNED_USERS
-)
+@app.on_message(filters.command(DELETEPLAYLIST_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def del_group_message(_client: app, message: Message, _):
     upl = InlineKeyboardMarkup(
@@ -139,9 +139,7 @@ async def get_keyboard(_, user_id: int):
     return keyboard, count
 
 
-@app.on_message(
-    filters.command(["deleteplaylist", "delplaylist"]) & filters.private & ~BANNED_USERS
-)
+@app.on_message(filters.command(DELETEPLAYLIST_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS)
 @language
 async def del_plist_msg(_client: app, message: Message, _):
     _playlist = await get_playlist_names(message.from_user.id)
@@ -292,23 +290,25 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
     return await mystic.delete()
 
 
-@app.on_message(
-    filters.command(["playplaylist", "vplayplaylist"]) & ~BANNED_USERS & filters.group
-)
+@app.on_message(filters.command(PLAYLIST_COMMAND, PREFIXES) & ~BANNED_USERS & filters.group)
 @language_cb
 async def play_playlist_command(client: app, message: Message, _):
-    msg = await message.reply_text("Aguarde um momento...")
+    msg = await message.reply_text("⏳ 𝗔𝗴𝘂𝗮𝗿𝗱𝗲 𝘂𝗺 𝗺𝗼𝗺𝗲𝗻𝘁𝗼...")
     try:
         try:
             userbot = await get_assistant(message.chat.id)
             get = await app.get_chat_member(message.chat.id, userbot.id)
         except ChatAdminRequired:
             return await msg.edit_text(
-                f"Não tenho permissão para convidar usuários por link para adicionar o assistente {userbot.mention} ao {message.chat.title}."
+                f"🚫 𝗡𝗮̃𝗼 𝘁𝗲𝗻𝗵𝗼 𝗽𝗲𝗿𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗽𝗮𝗿𝗮 <b>𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗽𝗼𝗿 "
+                f"𝗹𝗶𝗻𝗸</b> 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗮 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗮𝗼 "
+                f"{message.chat.title}."
             )
         if get.status == ChatMemberStatus.BANNED:
             return await msg.edit_text(
-                text=f"O assistente {userbot.mention} está banido em {message.chat.title}\n\n𖢵 ID: `{userbot.id}`\n𖢵 Nome: {userbot.mention}\n𖢵 Nome de usuário: @{userbot.username}\n\nPor favor, remova o banimento do assistente e tente novamente..."
+                text=f"🚫 𝗔 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗲𝘀𝘁𝗮́ 𝗯𝗮𝗻𝗶𝗱𝗮 𝗲𝗺 {message.chat.title}\n\n🆔 𝗜𝗗: `{userbot.id}`\n"
+                     f"👤 𝗡𝗼𝗺𝗲: {userbot.mention}\n📧 𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼: @{userbot.username}\n\n🛑 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, "
+                     f"𝗿𝗲𝗺𝗼𝘃𝗮 𝗼 𝗯𝗮𝗻𝗶𝗺𝗲𝗻𝘁𝗼 𝗱𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗲 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲..."
             )
     except UserNotParticipant:
         if message.chat.username:
@@ -322,36 +322,40 @@ async def play_playlist_command(client: app, message: Message, _):
                 invite_link = await client.export_chat_invite_link(message.chat.id)
             except ChatAdminRequired:
                 return await msg.edit_text(
-                    f"Não tenho permissão para convidar usuários por link para adicionar o assistente {userbot.mention} ao {message.chat.title}."
+                    f"🚫 𝗡𝗮̃𝗼 𝘁𝗲𝗻𝗵𝗼 𝗽𝗲𝗿𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗽𝗮𝗿𝗮 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗽𝗼𝗿 "
+                    f"𝗹𝗶𝗻𝗸 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗮 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗮𝗼 "
+                    f"{message.chat.title}."
                 )
             except InviteRequestSent:
                 try:
                     await app.approve_chat_join_request(message.chat.id, userbot.id)
                 except Exception as e:
                     return await msg.edit(
-                        f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{e}`"
+                        f"❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}.\n\n<b>🛑 𝗠𝗼𝘁𝗶𝘃𝗼:</b> `{e}`"
                     )
             except Exception as ex:
                 if "channels.JoinChannel" in str(ex) or "Username not found" in str(ex):
                     return await msg.edit_text(
-                        f"Não tenho permissão para convidar usuários por link para adicionar o assistente {userbot.mention} ao {message.chat.title}."
+                        f"🚫 𝗡𝗮̃𝗼 𝘁𝗲𝗻𝗵𝗼 𝗽𝗲𝗿𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗽𝗮𝗿𝗮 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 "
+                        f"𝗽𝗼𝗿 𝗹𝗶𝗻𝗸 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗮 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗮𝗼 "
+                        f"{message.chat.title}."
                     )
                 else:
                     return await msg.edit_text(
-                        f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
+                        f"❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝗮 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}.\n\n<b>🛑 𝗠𝗼𝘁𝗶𝘃𝗼:</b> `{ex}`"
                     )
         if invite_link.startswith("https://t.me/+"):
             invite_link = invite_link.replace(
                 "https://t.me/+", "https://t.me/joinchat/"
             )
         anon = await msg.edit_text(
-            f"Por favor, aguarde...\n\nConvidando {userbot.mention} para {message.chat.title}."
+            f"⏳ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲...\n\n🔗 𝗖𝗼𝗻𝘃𝗶𝗱𝗮𝗻𝗱𝗼 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}."
         )
         try:
             await userbot.join_chat(invite_link)
             await asyncio.sleep(2)
             await msg.edit_text(
-                f"{userbot.mention} entrou com sucesso,\n\niniciando transmissão..."
+                f"✅ {userbot.mention} 𝗲𝗻𝘁𝗿𝗼𝘂 𝗰𝗼𝗺 𝘀𝘂𝗰𝗲𝘀𝘀𝗼,\n\n📡 𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼..."
             )
         except UserAlreadyParticipant:
             pass
@@ -361,21 +365,24 @@ async def play_playlist_command(client: app, message: Message, _):
             except Exception as e:
                 logging.error(str(e))
                 return await msg.edit(
-                    f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
+                    f"❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}.\n\n<b>🛑 𝗠𝗼𝘁𝗶𝘃𝗼:</b> `{ex}`"
                 )
         except Exception as ex:
             if "channels.JoinChannel" in str(ex) or "Username not found" in str(ex):
                 return await msg.edit_text(
-                    f"Não tenho permissão para convidar usuários por link para adicionar o assistente {userbot.mention} ao {message.chat.title}."
+                    f"🚫 𝗡𝗮̃𝗼 𝘁𝗲𝗻𝗵𝗼 𝗽𝗲𝗿𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗽𝗮𝗿𝗮 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗽𝗼𝗿 "
+                    f"𝗹𝗶𝗻𝗸 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗮𝗼 "
+                    f"{message.chat.title}."
                 )
             else:
                 return await msg.edit_text(
-                    f"Falha ao convidar o assistente {userbot.mention} para {message.chat.title}.\n\n<b>Motivo:</b> `{ex}`"
+                    f"❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}.\n\n<b>🛑 𝗠𝗼𝘁𝗶𝘃𝗼:</b> `{ex}`"
                 )
 
         try:
             await userbot.resolve_peer(invite_link)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             pass
     await msg.delete()
     mode = message.command[0][0]
@@ -387,7 +394,8 @@ async def play_playlist_command(client: app, message: Message, _):
                 _["playlist_3"],
                 quote=True,
             )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
 
     chat_id = message.chat.id
@@ -395,7 +403,8 @@ async def play_playlist_command(client: app, message: Message, _):
 
     try:
         await message.delete()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
 
     result = []
@@ -438,7 +447,8 @@ async def play_playlist(_client: app, callback_query: CallbackQuery, _):
                 _["playlist_19"],
                 show_alert=True,
             )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     chat_id = callback_query.message.chat.id
     user_name = callback_query.from_user.first_name
@@ -472,7 +482,7 @@ async def play_playlist(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_message(
-    filters.command(["playgplaylist", "vplaygplaylist"]) & ~BANNED_USERS & filters.group
+    filters.command(PLAYLISTS_COMMAND, PREFIXES) & ~BANNED_USERS & filters.group
 )
 @language_cb
 async def play_playlist_command(_client: app, message: Message, _):
@@ -485,7 +495,8 @@ async def play_playlist_command(_client: app, message: Message, _):
                 _["playlist_3"],
                 quote=True,
             )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
 
     chat_id = message.chat.id
@@ -493,7 +504,8 @@ async def play_playlist_command(_client: app, message: Message, _):
 
     try:
         await message.delete()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
 
     result = []
@@ -523,15 +535,17 @@ async def play_playlist_command(_client: app, message: Message, _):
     return await mystic.delete()
 
 
-@app.on_message(filters.command(["addplaylist"]) & ~BANNED_USERS)
+@app.on_message(filters.command(ADDPLAYLIST_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
 async def add_playlist(_client: app, message: Message, _):
     if len(message.command) < 2:
         return await message.reply_text(
-            "<b>Por favor, me forneça um nome de música, um link de música ou um link de playlist do YouTube após o "
-            "comando.</b>\n\n<b>Exemplos:</b>\n\n▷ `/addplaylist Ram siya ram` (insira o nome de uma música "
-            "específica)\n\n▷ /addplaylist [link da playlist do YouTube] (para adicionar todas as músicas de uma "
-            "playlist do YouTube à playlist do bot.)"
+            "📌 <b>𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗺𝗲 𝗳𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝗻𝗼𝗺𝗲 𝗱𝗲 𝗺𝘂́𝘀𝗶𝗰𝗮, 𝘂𝗺 𝗹𝗶𝗻𝗸 𝗱𝗲 "
+            "𝗺𝘂́𝘀𝗶𝗰𝗮 𝗼𝘂 𝘂𝗺 𝗹𝗶𝗻𝗸 𝗱𝗲 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗮𝗽𝗼́𝘀 𝗼"
+            "𝗰𝗼𝗺𝗮𝗻𝗱𝗼.</b>\n\n<b>📋 𝗘𝘅𝗲𝗺𝗽𝗹𝗼𝘀:</b>\n\n▷ `/addplaylist Ram siya ram` (𝗶𝗻𝘀𝗶𝗿𝗮 𝗼 𝗻𝗼𝗺𝗲 𝗱𝗲 𝘂𝗺𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 "
+            "𝗲𝘀𝗽𝗲𝗰𝗶́𝗳𝗶𝗰𝗮)\n\n▷ <code>/addplaylist [𝗹𝗶𝗻𝗸 𝗱𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 "
+            "𝗬𝗼𝘂𝗧𝘂𝗯𝗲]</code> (𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝘁𝗼𝗱𝗮𝘀 𝗮𝘀 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗱𝗲 𝘂𝗺𝗮"
+            "𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗬𝗼𝘂𝗧𝘂𝗯𝗲 𝗮̀ 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗯𝗼𝘁.)"
         )
 
     query = message.command[1]
@@ -589,7 +603,7 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-            "alguma música, clique no botão abaixo.</b>",
+                 "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
@@ -643,7 +657,7 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-            "alguma música, clique no botão abaixo.</b>",
+                 "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link
@@ -799,7 +813,7 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     )
     return await callback_query.edit_message_text(
         text="<b>Sua música foi removida da sua playlist do bot</b>\n\n<b>"
-        "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
+             "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
         reply_markup=keyboards,
     )
 

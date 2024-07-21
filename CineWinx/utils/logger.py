@@ -8,23 +8,23 @@ from config import LOG_GROUP_ID, LOG
 async def play_logs(message: Message, stream_type: str):
     if await is_on_off(LOG):
         if message.chat.username:
-            chatusername = f"@{message.chat.username}"
+            chat_username = f"@{message.chat.username}"
         else:
-            chatusername = "Grupo privado"
+            chat_username = "𝗚𝗿𝘂𝗽𝗼 𝗽𝗿𝗶𝘃𝗮𝗱𝗼 🔒"
 
         logger_text = f"""
-        <b>{app.mention} play log</b>
+        🎵 <b>{app.mention} 𝗣𝗹𝗮𝘆 𝗟𝗼𝗴</b>
 
-<b>id do chat:</b> `{message.chat.id}`
-<b>nome do chat:</b> {message.chat.title}
-<b>username do chat:</b> {chatusername}
+🆔 <b>𝗜𝗗 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> <code>{message.chat.id}</code>
+🏠 <b>𝗡𝗼𝗺𝗲 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> {message.chat.title}
+📧 <b>𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲 𝗱𝗼 𝗖𝗵𝗮𝘁:</b> {chat_username}
 
-<b>id do usuário:</b> `{message.from_user.id}`
-<b>nome:</b> {message.from_user.mention}
-<b>username:</b> @{message.from_user.username}
+🆔 <b>𝗜𝗗 𝗱𝗼 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼:</b> <code>{message.from_user.id}</code>
+👤 <b>𝗡𝗼𝗺𝗲:</b> {message.from_user.mention}
+📧 <b>𝗨𝘀𝗲𝗿𝗻𝗮𝗺𝗲:</b> @{message.from_user.username}
 
-<b>consulta:</b> {message.text.split(None, 1)[1]}
-<b>tipo de stream:</b> {stream_type}"""
+📝 <b>𝗖𝗼𝗻𝘀𝘂𝗹𝘁𝗮:</b> {message.text.split(None, 1)[1]}
+📡 <b>𝗧𝗶𝗽𝗼 𝗱𝗲 𝗦𝘁𝗿𝗲𝗮𝗺:</b> {stream_type}"""
         if message.chat.id != LOG_GROUP_ID:
             try:
                 await app.send_message(
