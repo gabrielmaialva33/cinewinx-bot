@@ -87,7 +87,7 @@ async def assis_set(_client: app, message: Message, _):
 
 
 @app.on_message(
-    filters.command(CHANGE_ASSISTANT, PREFIXES) & filters.group & ~BANNED_USERS
+    filters.command(CHECK_ASSISTANT, PREFIXES) & filters.group & ~BANNED_USERS
 )
 @admin_actual
 async def check_ass(_client: app, message: Message, _):
