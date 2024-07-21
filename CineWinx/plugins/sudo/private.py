@@ -13,6 +13,7 @@ from CineWinx.utils.database import (
     remove_private_chat,
 )
 from CineWinx.utils.decorators.language import language
+from config import PREFIXES
 from strings import get_command
 
 AUTHORIZE_COMMAND = get_command("AUTHORIZE_COMMAND")
@@ -20,7 +21,7 @@ UNAUTHORIZE_COMMAND = get_command("UNAUTHORIZE_COMMAND")
 AUTHORIZED_COMMAND = get_command("AUTHORIZED_COMMAND")
 
 
-@app.on_message(filters.command(AUTHORIZE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(AUTHORIZE_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def authorize(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
@@ -38,7 +39,7 @@ async def authorize(_client: app, message: Message, _):
         await message.reply_text(_["pbot_5"])
 
 
-@app.on_message(filters.command(UNAUTHORIZE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(UNAUTHORIZE_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def unauthorize(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
@@ -56,7 +57,7 @@ async def unauthorize(_client: app, message: Message, _):
         return await message.reply_text(_["pbot_4"])
 
 
-@app.on_message(filters.command(AUTHORIZED_COMMAND) & SUDOERS)
+@app.on_message(filters.command(AUTHORIZED_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def authorized(_client: app, message: Message, _):
     if config.PRIVATE_BOT_MODE != str(True):
@@ -95,8 +96,9 @@ async def authorized(_client: app, message: Message, _):
 
 __MODULE__ = "P-bot"
 __HELP__ = """
-      ⚡️<u>Função do bot privado:</u>
-/authorize [CHAT_ID] - Permitir um chat usar seu bot.
-/unauthorize [CHAT_ID] - Desautorizar um chat de usar seu bot.
-/authorized - Verificar todos os chats permitidos do seu bot.
+⚡️<u>𝗙𝘂𝗻𝗰̧𝗮̃𝗼 𝗱𝗼 𝗯𝗼𝘁 𝗽𝗿𝗶𝘃𝗮𝗱𝗼:</u>
+      
+<code>/authorize [chat_id]</code> - 𝗣𝗲𝗿𝗺𝗶𝘁𝗶𝗿 𝘂𝗺 𝗰𝗵𝗮𝘁 𝘂𝘀𝗮𝗿 𝘀𝗲𝘂 𝗯𝗼𝘁.
+<code>/unauthorize [chat_id]</code> - 𝗗𝗲𝘀𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗿 𝘂𝗺 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘂𝘀𝗮𝗿 𝘀𝗲𝘂 𝗯𝗼𝘁.
+<code>/authorized</code> - 𝗩𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿 𝘁𝗼𝗱𝗼𝘀 𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗽𝗲𝗿𝗺𝗶𝘁𝗶𝗱𝗼𝘀 𝗱𝗼 𝘀𝗲𝘂 𝗯𝗼𝘁.
 """

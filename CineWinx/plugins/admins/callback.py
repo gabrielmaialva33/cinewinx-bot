@@ -343,7 +343,7 @@ async def del_back_playlist(_client: Client, callback_query: CallbackQuery, _):
 
 
 __MODULE__ = "Admin"
-__HELP__ = """<b><u>👮‍♂️ 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗔𝗱𝗺𝗶𝗻 </u></b>
+__HELP__ = """<b>👮‍♂️ 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗔𝗱𝗺𝗶𝗻 </b>
 
 🔄 c significa tocar no canal.
 

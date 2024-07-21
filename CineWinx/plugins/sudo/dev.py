@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import subprocess
@@ -14,6 +15,10 @@ from CineWinx import app
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.cleanmode import protect_message
 from config import PREFIXES
+from strings import get_command
+
+EVAL_COMMAND = get_command("EVAL_COMMAND")
+SH_COMMAND = get_command("SH_COMMAND")
 
 
 async def aexec(code: str, client: app, message: Message):
@@ -32,13 +37,13 @@ async def edit_or_reply(msg: Message, **kwargs: dict):
 
 
 @app.on_edited_message(
-    filters.command(["ev", "eval"], PREFIXES)
+    filters.command(EVAL_COMMAND, PREFIXES)
     & SUDOERS
     & ~filters.forwarded
     & ~filters.via_bot
 )
 @app.on_message(
-    filters.command(["ev", "eval"], PREFIXES)
+    filters.command(EVAL_COMMAND, PREFIXES)
     & SUDOERS
     & ~filters.forwarded
     & ~filters.via_bot
@@ -75,7 +80,7 @@ async def executor(client: app, message: Message):
         evaluation += stdout
     else:
         evaluation += "Success"
-    final_output = f"<b>Resultado:</b>\n<pre language='python'>{evaluation}</pre>"
+    final_output = f"📊 <b>𝗥𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼:</b>\n<pre language='python'>{evaluation}</pre>"
     if len(final_output) > 4096:
         filename = "output.txt"
         with open(filename, "w+", encoding="utf8") as out_file:
@@ -93,7 +98,7 @@ async def executor(client: app, message: Message):
         )
         await message.reply_document(
             document=filename,
-            caption=f"<b>Avaliação :</b>\n<code>{cmd[0:980]}</code>\n\n<b>Resultado :</b>\nAttached Document",
+            caption=f"📋 <b>𝗔𝘃𝗮𝗹𝗶𝗮𝗰̧𝗮̃𝗼 :</b>\n<code>{cmd[0:980]}</code>\n\n📊 <b>𝗥𝗲𝘀𝘂𝗹𝘁𝗮𝗱𝗼 :</b>\n",
             quote=False,
             reply_markup=keyboard,
         )
@@ -132,14 +137,16 @@ async def forceclose_command(_, CallbackQuery):
     if CallbackQuery.from_user.id != int(user_id):
         try:
             return await CallbackQuery.answer(
-                "Será melhor se você ficar dentro dos seus limites.", show_alert=True
+                "⚠️ 𝗦𝗲𝗿𝗮́ 𝗺𝗲𝗹𝗵𝗼𝗿 𝘀𝗲 𝘃𝗼𝗰𝗲̂ 𝗳𝗶𝗰𝗮𝗿 𝗱𝗲𝗻𝘁𝗿𝗼 𝗱𝗼𝘀 𝘀𝗲𝘂𝘀 𝗹𝗶𝗺𝗶𝘁𝗲𝘀.", show_alert=True
             )
-        except:
+        except Exception as e:
+            logging.error(e)
             return
     await CallbackQuery.message.delete()
     try:
         await CallbackQuery.answer()
-    except:
+    except Exception as e:
+        logging.error(e)
         return
 
 
@@ -149,7 +156,7 @@ async def forceclose_command(_, CallbackQuery):
 @app.on_message(filters.command("sh") & SUDOERS & ~filters.forwarded & ~filters.via_bot)
 async def shellrunner(_, message: Message):
     if len(message.command) < 2:
-        return await edit_or_reply(message, text="<b>Exemplo :</b>\n/sh git pull")
+        return await edit_or_reply(message, text="📋 <b>𝗘𝘅𝗲𝗺𝗽𝗹𝗼 :</b>\n/sh git pull")
     text = message.text.split(None, 1)[1]
     if "\n" in text:
         code = text.split("\n")
@@ -163,7 +170,7 @@ async def shellrunner(_, message: Message):
                     stderr=subprocess.PIPE,
                 )
             except Exception as err:
-                await edit_or_reply(message, text=f"<b>ERROR :</b>\n<pre>{err}</pre>")
+                await edit_or_reply(message, text=f"❌ <b>𝗘𝗥𝗥𝗢𝗥 :</b>\n<pre>{err}</pre>")
             output += f"<b>{code}</b>\n"
             output += process.stdout.read()[:-1].decode("utf-8")
             output += "\n"
@@ -186,7 +193,7 @@ async def shellrunner(_, message: Message):
                 tb=exc_tb,
             )
             return await edit_or_reply(
-                message, text=f"<b>ERROR :</b>\n<pre>{''.join(errors)}</pre>"
+                message, text=f"❌ <b>𝗘𝗥𝗥𝗢𝗥 :</b>\n<pre>{''.join(errors)}</pre>"
             )
         output = process.stdout.read()[:-1].decode("utf-8")
     if str(output) == "\n":
@@ -202,8 +209,8 @@ async def shellrunner(_, message: Message):
                 caption="<code>Output</code>",
             )
             return os.remove("output.txt")
-        await edit_or_reply(message, text=f"<b>OUTPUT :</b>\n<pre>{output}</pre>")
+        await edit_or_reply(message, text=f"📄 <b>𝗢𝗨𝗧𝗣𝗨𝗧 :</b>\n<pre>{output}</pre>")
     else:
-        await edit_or_reply(message, text="<b>OUTPUT :</b>\n<code>None</code>")
+        await edit_or_reply(message, text="📄 <b>𝗢𝗨𝗧𝗣𝗨𝗧 :</b>\n<code>None</code>")
 
     await message.stop_propagation()

@@ -6,12 +6,13 @@ from CineWinx import app
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.database import add_off, add_on
 from CineWinx.utils.decorators.language import language
+from config import PREFIXES
 from strings import get_command
 
 VIDEOMODE_COMMAND = get_command("VIDEOMODE_COMMAND")
 
 
-@app.on_message(filters.command(VIDEOMODE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(VIDEOMODE_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def videoloaymode(_client: app, message: Message, _):
     usage = _["vidmode_1"]

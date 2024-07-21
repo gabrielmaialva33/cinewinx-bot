@@ -25,6 +25,7 @@ from CineWinx.utils.database import (
 )
 from CineWinx.utils.decorators.language import language
 from CineWinx.utils.pastebin import winx_bin
+from config import PREFIXES
 from strings import get_command
 
 GETLOG_COMMAND = get_command("GETLOG_COMMAND")
@@ -42,10 +43,7 @@ async def is_heroku():
     return "heroku" in socket.getfqdn()
 
 
-@app.on_message(
-    filters.command(["log", "logs", "get_log", "getlog", "get_logs", "getlogs"])
-    & SUDOERS
-)
+@app.on_message(filters.command(GETLOG_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def log_(_client: app, message: Message, _):
     try:
@@ -75,7 +73,7 @@ async def log_(_client: app, message: Message, _):
         await message.reply_text(_["heroku_2"])
 
 
-@app.on_message(filters.command(GETVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(GETVAR_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def varget_(_client: app, message: Message, _):
     usage = _["heroku_3"]
@@ -103,7 +101,7 @@ async def varget_(_client: app, message: Message, _):
             return await message.reply_text(f"<b>{check_var}:</b> `{str(output)}`")
 
 
-@app.on_message(filters.command(DELVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(DELVAR_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def vardel_(_client: app, message: Message, _):
     usage = _["heroku_6"]
@@ -131,7 +129,7 @@ async def vardel_(_client: app, message: Message, _):
             os.system(f"kill -9 {os.getpid()} && python3 -m CineWinx")
 
 
-@app.on_message(filters.command(SETVAR_COMMAND) & SUDOERS)
+@app.on_message(filters.command(SETVAR_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def set_var(_client: app, message: Message, _):
     usage = _["heroku_8"]
@@ -160,7 +158,7 @@ async def set_var(_client: app, message: Message, _):
         os.system(f"kill -9 {os.getpid()} && python3 -m CineWinx")
 
 
-@app.on_message(filters.command(USAGE_COMMAND) & SUDOERS)
+@app.on_message(filters.command(USAGE_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def usage_dynos(_client: app, message: Message, _):
     if await is_heroku():
@@ -217,7 +215,7 @@ async def usage_dynos(_client: app, message: Message, _):
     return await dyno.edit(text)
 
 
-@app.on_message(filters.command(["update", "gitpull", "up"]) & SUDOERS)
+@app.on_message(filters.command(UPDATE_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def update_(_client: app, message: Message, _):
     if await is_heroku():
@@ -238,10 +236,10 @@ async def update_(_client: app, message: Message, _):
     for checks in repo.iter_commits(f"HEAD..origin/{config.UPSTREAM_BRANCH}"):
         verification = str(checks.count())
     if verification == "":
-        return await response.edit("<b>✅ Bot is up-to-date.</b>")
+        return await response.edit("✅ <b>𝗕𝗼𝘁 𝗶𝘀 𝘂𝗽-𝘁𝗼-𝗱𝗮𝘁𝗲.</b>")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
     )
     updates = "".join(
         f"<b>#{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> por -> {info.author}</b>\n\t\t\t\t<b>"
@@ -310,15 +308,16 @@ async def update_(_client: app, message: Message, _):
         exit()
 
 
-@app.on_message(filters.command(["restart"]) & SUDOERS)
+@app.on_message(filters.command(RESTART_COMMAND, PREFIXES) & SUDOERS)
 async def restart_(_, message: Message):
-    response = await message.reply_text("reiniciando...")
+    response = await message.reply_text("🔄 𝗥𝗲𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼...")
     ac_chats = await get_active_chats()
     for x in ac_chats:
         try:
             await app.send_message(
                 chat_id=int(x),
-                text=f"{app.mention} está reiniciando...\n\nVocê poderá reproduzir músicas novamente em 15-20 segundos.",
+                text=f"🔄 {app.mention} 𝗲𝘀𝘁𝗮́ 𝗿𝗲𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼...\n\n𝗩𝗼𝗰𝗲̂ 𝗽𝗼𝗱𝗲𝗿𝗮́ "
+                     f"𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗲𝗺 𝟭𝟱-𝟮𝟬 𝘀𝗲𝗴𝘂𝗻𝗱𝗼𝘀.",
             )
             await remove_active_chat(x)
             await remove_active_video_chat(x)
@@ -332,29 +331,28 @@ async def restart_(_, message: Message):
     except Exception as e:
         logging.error(str(e))
     await response.edit_text(
-        "Processo de reinicialização iniciado, aguarde alguns segundos até que o bot seja iniciado..."
+        "🔄 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗼 𝗱𝗲 𝗿𝗲𝗶𝗻𝗶𝗰𝗶𝗮𝗹𝗶𝘇𝗮𝗰̧𝗮̃𝗼 𝗶𝗻𝗶𝗰𝗶𝗮𝗱𝗼, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲 𝗮𝗹𝗴𝘂𝗻𝘀 𝘀𝗲𝗴𝘂𝗻𝗱𝗼𝘀 𝗮𝘁𝗲́ 𝗾𝘂𝗲 𝗼 𝗯𝗼𝘁 𝘀𝗲𝗷𝗮 𝗶𝗻𝗶𝗰𝗶𝗮𝗱𝗼..."
     )
     os.system(f"kill -9 {os.getpid()} && python3 -m CineWinx")
 
 
 __MODULE__ = "Desenvolvedor"
-__HELP__ = """🔰<u>Adicionar e Remover Usuários Sudo:</u>
-/addsudo [Nome de usuário ou Responder a um usuário]
-/delsudo [Nome de usuário ou Responder a um usuário]
+__HELP__ = """🔰<u>𝗔𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿 𝗲 𝗥𝗲𝗺𝗼𝘃𝗲𝗿 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗦𝘂𝗱𝗼:</u>
+/addsudo [𝗻𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗼𝘂 𝗿𝗲𝘀𝗽𝗼𝗻𝗱𝗲𝗿 𝗮 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼]
+/delsudo [𝗻𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗼𝘂 𝗿𝗲𝘀𝗽𝗼𝗻𝗱𝗲𝗿 𝗮 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼]
 
-🛃<u>Heroku:</u>
-/usage - Uso do Dyno.
-/get_var - Obter uma variável de configuração do Heroku ou .env
-/del_var - Excluir qualquer variável no Heroku ou .env.
-/set_var [Nome da Variável] [Valor] - Definir ou atualizar uma variável no Heroku ou .env. Separe a variável e seu valor com um espaço.
+🛃<u>𝗛𝗲𝗿𝗼𝗸𝘂:</u>
+/usage - 𝗨𝘀𝗼 𝗱𝗼 𝗗𝘆𝗻𝗼.
+/get_var - 𝗢𝗯𝘁𝗲𝗿 𝘂𝗺𝗮 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗹 𝗱𝗲 𝗰𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗮̃𝗼 𝗱𝗼 𝗛𝗲𝗿𝗼𝗸𝘂 𝗼𝘂 .env
+/del_var - 𝗘𝘅𝗰𝗹𝘂𝗶𝗿 𝗾𝘂𝗮𝗹𝗾𝘂𝗲𝗿 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗹 𝗻𝗼 𝗛𝗲𝗿𝗼𝗸𝘂 𝗼𝘂 .env.
+/set_var [𝗻𝗼𝗺𝗲 𝗱𝗮 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗹] [𝘃𝗮𝗹𝗼𝗿] - 𝗗𝗲𝗳𝗶𝗻𝗶𝗿 𝗼𝘂 𝗮𝘁𝘂𝗮𝗹𝗶𝘇𝗮𝗿 𝘂𝗺𝗮 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗹 𝗻𝗼 𝗛𝗲𝗿𝗼𝗸𝘂 𝗼𝘂 .env. 𝗦𝗲𝗽𝗮𝗿𝗲 𝗮 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗹 𝗲 𝘀𝗲𝘂 𝘃𝗮𝗹𝗼𝗿 𝗰𝗼𝗺 𝘂𝗺 𝗲𝘀𝗽𝗮𝗰̧𝗼.
 
-🤖<u>Comandos do Bot:</u>
-/restart - Reiniciar seu Bot.
-/update, /gitpull - Atualizar o Bot.
-/speedtest - Verificar a velocidade do servidor.
-/maintenance [ativar/desativar]
-/logger [ativar/desativar] - O bot registra as pesquisas no grupo de registros.
-/get_log [Número de Linhas] - Obter o registro do seu bot do Heroku ou VPS. Funciona para ambos.
-/autoend [ativar|desativar] - Ativar o fim automático da transmissão após 3 minutos se ninguém estiver ouvindo.
-
+🤖<u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗼 𝗕𝗼𝘁:</u>
+/restart - 𝗥𝗲𝗶𝗻𝗶𝗰𝗶𝗮𝗿 𝘀𝗲𝘂 𝗕𝗼𝘁.
+/update, /gitpull - 𝗔𝘁𝘂𝗮𝗹𝗶𝘇𝗮𝗿 𝗼 𝗕𝗼𝘁.
+/speedtest - 𝗩𝗲𝗿𝗶𝗳𝗶𝗰𝗮𝗿 𝗮 𝘃𝗲𝗹𝗼𝗰𝗶𝗱𝗮𝗱𝗲 𝗱𝗼 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿.
+/maintenance [enable|disable] - 𝗠𝗼𝗱𝗼 𝗺𝗮𝗻𝘂𝘁𝗲𝗻𝗰̧𝗮̃𝗼.
+/logger [ativar|desativar] - 𝗢 𝗯𝗼𝘁 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗮 𝗮𝘀 𝗽𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝘀 𝗻𝗼 𝗴𝗿𝘂𝗽𝗼 𝗱𝗲 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗼𝘀.
+/get_log [número de linhas] - 𝗢𝗯𝘁𝗲𝗿 𝗼 𝗿𝗲𝗴𝗶𝘀𝘁𝗿𝗼 𝗱𝗼 𝘀𝗲𝘂 𝗯𝗼𝘁 𝗱𝗼 𝗛𝗲𝗿𝗼𝗸𝘂 𝗼𝘂 𝗩𝗣𝗦. 𝗙𝘂𝗻𝗰𝗶𝗼𝗻𝗮 𝗽𝗮𝗿𝗮 𝗮𝗺𝗯𝗼𝘀.
+/autoend [enable|disable] - 𝗔𝘁𝗶𝘃𝗮𝗿 𝗼 𝗳𝗶𝗺 𝗮𝘂𝘁𝗼𝗺𝗮́𝘁𝗶𝗰𝗼 𝗱𝗮 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘀𝘀𝗮̃𝗼 𝗮𝗽𝗼́𝘀 𝟯 𝗺𝗶𝗻𝘂𝘁𝗼𝘀 𝘀𝗲 𝗻𝗶𝗻𝗴𝘂𝗲́𝗺 𝗲𝘀𝘁𝗶𝘃𝗲𝗿 𝗼𝘂𝘃𝗶𝗻𝗱𝗼.
 """

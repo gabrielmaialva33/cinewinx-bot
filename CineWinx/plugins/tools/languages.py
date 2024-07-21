@@ -1,3 +1,5 @@
+import logging
+
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message, CallbackQuery
@@ -5,7 +7,7 @@ from pyrogram.types import InlineKeyboardButton, Message, CallbackQuery
 from CineWinx import app
 from CineWinx.utils.database import get_lang, set_lang
 from CineWinx.utils.decorators import actual_admin_cb, language, language_cb
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command, get_string, languages_present
 
 
@@ -35,7 +37,7 @@ def lanuages_keyboard(_):
 LANGUAGE_COMMAND = get_command("LANGUAGE_COMMAND")
 
 
-@app.on_message(filters.command(LANGUAGE_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(LANGUAGE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def langs_command(_client: app, message: Message, _):
     keyboard = lanuages_keyboard(_)
@@ -50,7 +52,8 @@ async def langs_command(_client: app, message: Message, _):
 async def lanuagecb(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
-    except:
+    except Exception as e:
+        logging.error(e)
         pass
     keyboard = lanuages_keyboard(_)
     return await callback_query.edit_message_reply_markup(reply_markup=keyboard)
@@ -63,16 +66,17 @@ async def language_markup(_client: app, callback_query: CallbackQuery, _):
     old = await get_lang(callback_query.message.chat.id)
     if str(old) == str(langauge):
         return await callback_query.answer(
-            "Você já está usando esse idioma", show_alert=True
+            "🌐 𝗩𝗼𝗰𝗲̂ 𝗷𝗮́ 𝗲𝘀𝘁𝗮́ 𝘂𝘀𝗮𝗻𝗱𝗼 𝗲𝘀𝘀𝗲 𝗶𝗱𝗶𝗼𝗺𝗮", show_alert=True
         )
     try:
         _ = get_string(langauge)
         await callback_query.answer(
-            "Seu idioma foi alterado com sucesso!", show_alert=True
+            "🌐 𝗦𝗲𝘂 𝗶𝗱𝗶𝗼𝗺𝗮 𝗳𝗼𝗶 𝗮𝗹𝘁𝗲𝗿𝗮𝗱𝗼 𝗰𝗼𝗺 𝘀𝘂𝗰𝗲𝘀𝘀𝗼!", show_alert=True
         )
-    except:
+    except Exception as e:
+        logging.error(str(e))
         return await callback_query.answer(
-            "Falha ao alterar o idioma ou o idioma está em atualização",
+            "❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗮𝗹𝘁𝗲𝗿𝗮𝗿 𝗼 𝗶𝗱𝗶𝗼𝗺𝗮 𝗼𝘂 𝗼 𝗶𝗱𝗶𝗼𝗺𝗮 𝗲𝘀𝘁𝗮́ 𝗲𝗺 𝗮𝘁𝘂𝗮𝗹𝗶𝘇𝗮𝗰̧𝗮̃𝗼",
             show_alert=True,
         )
     await set_lang(callback_query.message.chat.id, langauge)

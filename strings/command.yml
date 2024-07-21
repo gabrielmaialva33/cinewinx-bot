@@ -15,6 +15,7 @@ PLAY_COMMAND: ["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayfo
 PLAYMODE_COMMAND: [ "playmode" ]
 CHANNELPLAY_COMMAND: [ "channelplay" ]
 STREAM_COMMAND: [ "stream", "cstream", "streamforce" ]
+PLAYER_COMMAND: ["cplayer", "playing", "cplaying", "player"]
 
 # Playlists Command
 PLAYLIST_COMMAND: [ "playlist" ]
@@ -65,13 +66,12 @@ MAINTENANCE_COMMAND: [ "maintenance" ]
 LOGGER_COMMAND: [ "logger" ]
 
 # Heroku
-GETLOG_COMMAND: [ "get_log" ]
+GETLOG_COMMAND: ["log", "logs", "get_log", "getlog", "get_logs", "getlogs"]
 GETVAR_COMMAND: [ "get_var" ]
 DELVAR_COMMAND: [ "del_var" ]
 SETVAR_COMMAND: [ "set_var" ]
 USAGE_COMMAND: [ "usage" ]
 VARS_COMMAND: [ "vars", "config" ]
-
 
 # Basic Bot Commands
 UPDATE_COMMAND: [ "update","gitpull" ]
@@ -94,8 +94,18 @@ SPEEDTEST_COMMAND: [ "speedtest" ]
 # Voice chat commands
 ACTIVEVC_COMMAND: [ "activevoice","activevc" ]
 ACTIVEVIDEO_COMMAND: [ "activevideo","activevd" ]
+ACINFO_COMMAND: [ "ac" , "acinfo" ]
 
 # Gban Commands
 GBAN_COMMAND: [ "gban" ]
 UNGBAN_COMMAND: [ "ungban" ]
 GBANNED_COMMAND: [ "gbannedusers" ]
+
+# Dev
+EVAL_COMMAND: [ "eval" , "ev" ]
+SH_COMMAND: [ "sh" , "shell" ]
+
+# Assistant
+CHANGE_ASSISTANT: [ "changeassistant" ]
+SET_ASSISTANT: [ "setassistant" ]
+CHECK_ASSISTANT: [ "checkassistant" ]

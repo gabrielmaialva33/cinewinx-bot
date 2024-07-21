@@ -5,12 +5,13 @@ from CineWinx import app
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.database import set_video_limit
 from CineWinx.utils.decorators.language import language
+from config import PREFIXES
 from strings import get_command
 
 VIDEOLIMIT_COMMAND = get_command("VIDEOLIMIT_COMMAND")
 
 
-@app.on_message(filters.command(VIDEOLIMIT_COMMAND) & SUDOERS)
+@app.on_message(filters.command(VIDEOLIMIT_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def set_video_limit_kid(_client: app, message: Message, _):
     if len(message.command) != 2:

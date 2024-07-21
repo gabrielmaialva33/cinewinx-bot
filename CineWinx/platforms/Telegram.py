@@ -29,7 +29,7 @@ class TeleAPI:
 
     async def send_split_text(self, message: Message, string: str):
         n = self.chars_limit
-        out = [(string[i : i + n]) for i in range(0, len(string), n)]
+        out = [(string[i: i + n]) for i in range(0, len(string), n)]
         j = 0
         for x in out:
             if j <= 2:
@@ -67,20 +67,20 @@ class TeleAPI:
         return dur
 
     async def get_filepath(
-        self,
-        audio: Audio = None,
-        video: Video = None,
+            self,
+            audio: Audio = None,
+            video: Video = None,
     ):
         if audio:
             try:
                 file_name = (
-                    audio.file_unique_id
-                    + "."
-                    + (
-                        (audio.file_name.split(".")[-1])
-                        if (not isinstance(audio, Voice))
-                        else "ogg"
-                    )
+                        audio.file_unique_id
+                        + "."
+                        + (
+                            (audio.file_name.split(".")[-1])
+                            if (not isinstance(audio, Voice))
+                            else "ogg"
+                        )
                 )
             except Exception as e:
                 logging.error(str(e))
@@ -89,7 +89,7 @@ class TeleAPI:
         if video:
             try:
                 file_name = (
-                    video.file_unique_id + "." + (video.file_name.split(".")[-1])
+                        video.file_unique_id + "." + (video.file_name.split(".")[-1])
                 )
             except Exception as e:
                 logging.error(str(e))
@@ -114,7 +114,7 @@ class TeleAPI:
                     [
                         [
                             InlineKeyboardButton(
-                                text="🚦 Cancelar download",
+                                text="🚦 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿 𝗱𝗼𝘄𝗻𝗹𝗼𝗮𝗱",
                                 callback_data="stop_downloading",
                             ),
                         ]
@@ -133,18 +133,19 @@ class TeleAPI:
                     completed_size = convert_bytes(current)
                     speed = convert_bytes(speed)
                     text = f"""
-📥 <b>{app.mention} telegram media downloader</b>
+📥 <b>{app.mention} 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗠𝗲𝗱𝗶𝗮 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗿</b>
 
-📁 <b>Tamanho:</b> {total_size}
-✅ <b>Completado:</b> {completed_size}
-📊 <b>Porcentagem:</b> {percentage[:5]}%
+📁 <b>𝗧𝗮𝗺𝗮𝗻𝗵𝗼:</b> {total_size}
+✅ <b>𝗖𝗼𝗺𝗽𝗹𝗲𝘁𝗮𝗱𝗼:</b> {completed_size}
+📊 <b>𝗣𝗼𝗿𝗰𝗲𝗻𝘁𝗮𝗴𝗲𝗺:</b> {percentage[:5]}%
 
-⚡ <b>Velocidade:</b> {speed}/s
-⏳ <b>Tempo decorrido:</b> {eta}"""
+⚡ <b>𝗩𝗲𝗹𝗼𝗰𝗶𝗱𝗮𝗱𝗲:</b> {speed}/s
+⏳ <b>𝗧𝗲𝗺𝗽𝗼 𝗱𝗲𝗰𝗼𝗿𝗿𝗶𝗱𝗼:</b> {eta}"""
                     try:
                         await mystic.edit_text(text, reply_markup=upl)
-                    except Exception as e:
-                        logging.error(str(e))
+                    except Exception as ex:
+                        logging.error(str(ex))
+                        pass
                     left_time[message.id] = datetime.now() + timedelta(
                         seconds=self.sleep
                     )
@@ -159,7 +160,7 @@ class TeleAPI:
                     progress=progress,
                 )
                 await mystic.edit_text(
-                    "✅ <i>Download concluído com sucesso...</i>\nProcessando arquivo agora"
+                    "✅ <i>𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗰𝗼𝗻𝗰𝗹𝘂𝗶́𝗱𝗼 𝗰𝗼𝗺 𝘀𝘂𝗰𝗲𝘀𝘀𝗼...</i>\n𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮𝗿𝗾𝘂𝗶𝘃𝗼 𝗮𝗴𝗼𝗿𝗮"
                 )
                 downloader.pop(message.id)
             except Exception as e:

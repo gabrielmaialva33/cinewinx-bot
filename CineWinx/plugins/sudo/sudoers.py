@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram import filters
 from pyrogram.types import Message
 
@@ -5,7 +7,7 @@ from CineWinx import app
 from CineWinx.misc import SUDOERS
 from CineWinx.utils.database import add_sudo, remove_sudo
 from CineWinx.utils.decorators.language import language
-from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID
+from config import BANNED_USERS, MONGO_DB_URI, OWNER_ID, PREFIXES
 from strings import get_command
 
 ADDSUDO_COMMAND = get_command("ADDSUDO_COMMAND")
@@ -13,14 +15,15 @@ DELSUDO_COMMAND = get_command("DELSUDO_COMMAND")
 SUDOUSERS_COMMAND = get_command("SUDOUSERS_COMMAND")
 
 
-@app.on_message(filters.command(ADDSUDO_COMMAND) & filters.user(OWNER_ID))
+@app.on_message(filters.command(ADDSUDO_COMMAND, PREFIXES) & filters.user(OWNER_ID))
 @language
 async def useradd(_client: app, message: Message, _):
     if MONGO_DB_URI is None:
         return await message.reply_text(
-            "<b>Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
-            "dados do Winx.</b>\n\n<b>Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
-            "esta função.</b>"
+            "🔒 <b>𝗗𝗲𝘃𝗶𝗱𝗼 𝗮̀𝘀 𝗾𝘂𝗲𝘀𝘁𝗼̃𝗲𝘀 𝗱𝗲 𝗽𝗿𝗶𝘃𝗮𝗰𝗶𝗱𝗮𝗱𝗲 𝗱𝗼 𝗯𝗼𝘁, 𝘃𝗼𝗰𝗲̂ 𝗻𝗮̃𝗼 "
+            "𝗽𝗼𝗱𝗲 𝗴𝗲𝗿𝗲𝗻𝗰𝗶𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝘀𝘂𝗱𝗼 𝗮𝗼 𝘂𝘀𝗮𝗿 𝗼 𝗯𝗮𝗻𝗰𝗼 𝗱𝗲 𝗱𝗮𝗱𝗼𝘀 𝗱𝗼 "
+            "𝗪𝗶𝗻𝘅.</b>\n\n"
+            "📋 <b>𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗽𝗿𝗲𝗲𝗻𝗰𝗵𝗮 𝘀𝘂𝗮 MONGO_DB_URI 𝗻𝗮𝘀 𝘀𝘂𝗮𝘀 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗶𝘀 𝗱𝗲 𝗮𝗺𝗯𝗶𝗲𝗻𝘁𝗲 𝗽𝗮𝗿𝗮 𝘂𝘀𝗮𝗿 𝗲𝘀𝘁𝗮 𝗳𝘂𝗻𝗰̧𝗮̃𝗼.</b>"
         )
     if not message.reply_to_message:
         if len(message.command) != 2:
@@ -53,14 +56,15 @@ async def useradd(_client: app, message: Message, _):
     return
 
 
-@app.on_message(filters.command(DELSUDO_COMMAND) & filters.user(OWNER_ID))
+@app.on_message(filters.command(DELSUDO_COMMAND, PREFIXES) & filters.user(OWNER_ID))
 @language
 async def userdel(_client: app, message: Message, _):
     if MONGO_DB_URI is None:
         return await message.reply_text(
-            "<b>Devido a questões de privacidade do bot, você não pode gerenciar usuários sudo ao usar o banco de "
-            "dados do Winx.</b>\n\n<b>Por favor, preencha sua MONGO_DB_URI nas suas variáveis de ambiente para usar "
-            "esta função.</b>"
+            "🔒 <b>𝗗𝗲𝘃𝗶𝗱𝗼 𝗮̀𝘀 𝗾𝘂𝗲𝘀𝘁𝗼̃𝗲𝘀 𝗱𝗲 𝗽𝗿𝗶𝘃𝗮𝗰𝗶𝗱𝗮𝗱𝗲 𝗱𝗼 𝗯𝗼𝘁, 𝘃𝗼𝗰𝗲̂ 𝗻𝗮̃𝗼 "
+            "𝗽𝗼𝗱𝗲 𝗴𝗲𝗿𝗲𝗻𝗰𝗶𝗮𝗿 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝘀𝘂𝗱𝗼 𝗮𝗼 𝘂𝘀𝗮𝗿 𝗼 𝗯𝗮𝗻𝗰𝗼 𝗱𝗲 𝗱𝗮𝗱𝗼𝘀 𝗱𝗼 "
+            "𝗪𝗶𝗻𝘅.</b>\n\n"
+            "📋 <b>𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗽𝗿𝗲𝗲𝗻𝗰𝗵𝗮 𝘀𝘂𝗮 MONGO_DB_URI 𝗻𝗮𝘀 𝘀𝘂𝗮𝘀 𝘃𝗮𝗿𝗶𝗮́𝘃𝗲𝗶𝘀 𝗱𝗲 𝗮𝗺𝗯𝗶𝗲𝗻𝘁𝗲 𝗽𝗮𝗿𝗮 𝘂𝘀𝗮𝗿 𝗲𝘀𝘁𝗮 𝗳𝘂𝗻𝗰̧𝗮̃𝗼.</b>"
         )
     if not message.reply_to_message:
         if len(message.command) != 2:
@@ -86,10 +90,10 @@ async def userdel(_client: app, message: Message, _):
         SUDOERS.remove(user_id)
         await message.reply_text(_["sudo_4"])
         return
-    await message.reply_text(f"Algo deu errado.")
+    await message.reply_text("❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗮𝗱𝗼.")
 
 
-@app.on_message(filters.command(SUDOUSERS_COMMAND) & ~BANNED_USERS)
+@app.on_message(filters.command(SUDOUSERS_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
 async def sudoers_list(_client: app, message: Message, _):
     text = _["sudo_5"]
@@ -99,7 +103,8 @@ async def sudoers_list(_client: app, message: Message, _):
             user = await app.get_users(x)
             user = user.first_name if not user.mention else user.mention
             count += 1
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             continue
         text += f"{count}➤ {user}\n"
     smex = 0
@@ -113,7 +118,8 @@ async def sudoers_list(_client: app, message: Message, _):
                     text += _["sudo_6"]
                 count += 1
                 text += f"{count}➤ {user}\n"
-            except Exception:
+            except Exception as e:
+                logging.error(e)
                 continue
     if not text:
         await message.reply_text(_["sudo_7"])

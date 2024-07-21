@@ -16,7 +16,7 @@ from CineWinx.utils.database import (
     remove_banned_user,
 )
 from CineWinx.utils.decorators.language import language
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 GBAN_COMMAND = get_command("GBAN_COMMAND")
@@ -24,7 +24,7 @@ UNGBAN_COMMAND = get_command("UNGBAN_COMMAND")
 GBANNED_COMMAND = get_command("GBANNED_COMMAND")
 
 
-@app.on_message(filters.command(GBAN_COMMAND) & SUDOERS)
+@app.on_message(filters.command(GBAN_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def gbanuser(_client: app, message: Message, _):
     if not message.reply_to_message:
@@ -62,14 +62,15 @@ async def gbanuser(_client: app, message: Message, _):
             number_of_chats += 1
         except FloodWait as e:
             await asyncio.sleep(int(e.value))
-        except Exception:
+        except Exception as e:
+            logging.error(e)
             pass
     await add_banned_user(user_id)
     await message.reply_text(_["gban_6"].format(mention, number_of_chats))
     await mystic.delete()
 
 
-@app.on_message(filters.command(UNGBAN_COMMAND) & SUDOERS)
+@app.on_message(filters.command(UNGBAN_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def gungabn(_client: app, message: Message, _):
     if not message.reply_to_message:
@@ -108,14 +109,14 @@ async def gungabn(_client: app, message: Message, _):
     await mystic.delete()
 
 
-@app.on_message(filters.command(GBANNED_COMMAND) & SUDOERS)
+@app.on_message(filters.command(GBANNED_COMMAND, PREFIXES) & SUDOERS)
 @language
 async def gbanned_list(_client: app, message: Message, _):
     counts = await get_banned_count()
     if counts == 0:
         return await message.reply_text(_["gban_10"])
     mystic = await message.reply_text(_["gban_11"])
-    msg = "Gbanned Users:\n\n"
+    msg = "🚫 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗚𝗹𝗼𝗯𝗮𝗹𝗺𝗲𝗻𝘁𝗲 𝗕𝗮𝗻𝗶𝗱𝗼𝘀:\n\n"
     count = 0
     users = await get_banned_users()
     for user_id in users:
@@ -124,8 +125,9 @@ async def gbanned_list(_client: app, message: Message, _):
             user = await app.get_users(user_id)
             user = user.first_name if not user.mention else user.mention
             msg += f"{count}➤ {user}\n"
-        except Exception:
-            msg += f"{count}➤ [Unfetched User]{user_id}\n"
+        except Exception as e:
+            logging.error(e)
+            msg += f"{count} ➤ [𝗨𝘀𝘂𝗮́𝗿𝗶𝗼 𝗡𝗮̃𝗼 𝗥𝗲𝗰𝘂𝗽𝗲𝗿𝗮𝗱𝗼] {user_id}\n"
             continue
     if count == 0:
         return await mystic.edit_text(_["gban_10"])

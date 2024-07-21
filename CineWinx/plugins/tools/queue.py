@@ -29,7 +29,7 @@ def get_image(video_id: str):
         return config.YOUTUBE_IMG_URL
 
 
-def get_duration(playing):
+def get_duration(playing: list):
     file_path = playing[0]["file"]
     if "index_" in file_path or "live_" in file_path:
         return "Unknown"

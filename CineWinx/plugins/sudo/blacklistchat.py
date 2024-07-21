@@ -45,7 +45,7 @@ async def white_funciton(_client: app, message: Message, _):
     whitelisted = await whitelist_chat(chat_id)
     if whitelisted:
         return await message.reply_text(_["black_6"])
-    await message.reply_text("Algo deu errado.")
+    await message.reply_text("❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗮𝗱𝗼.")
 
 
 @app.on_message(filters.command(BLACKLISTEDCHAT_COMMAND, PREFIXES) & ~BANNED_USERS)
