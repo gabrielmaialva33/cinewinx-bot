@@ -465,7 +465,7 @@ async def authusers_mar(client: app, callback_query: CallbackQuery, _):
                 except Exception:
                     continue
                 msg += f"{j}➤ {user}[`{user_id}`]\n"
-                msg += f"   {_['auth_8']} {admin_name}[`{admin_id}`]\n\n"
+                msg += f"   {_['auth_8']} {admin_name}[{admin_id}]\n\n"
             upl = InlineKeyboardMarkup(
                 [
                     [

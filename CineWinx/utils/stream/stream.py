@@ -57,7 +57,7 @@ async def stream(
                     vidid,
                 ) = await YouTube.details(search, False if spotify else True)
             except Exception as ex:
-                logging.error(ex)
+                logging.warning(ex)
                 continue
             if str(duration_min) == "None":
                 continue

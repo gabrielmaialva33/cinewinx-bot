@@ -140,7 +140,7 @@ async def authusers(_client: Client, message: Message, _):
                 user = user.first_name
                 j += 1
             except Exception as e:
-                logging.error(str(e))
+                logging.warning(e)
                 continue
             text += f"<b>{j}</b> {user}[{user_id}]\n"
             text += f"{_['auth_8']} {admin_name}[{admin_id}]\n\n"

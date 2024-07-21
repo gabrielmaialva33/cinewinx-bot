@@ -58,13 +58,14 @@ async def auto_end():
                 autoend[chat_id] = {}
                 try:
                     await CineWinx.stop_stream(chat_id)
-                except:
+                except Exception as e:
+                    logging.warning(e)
                     continue
                 try:
                     await app.send_message(
                         chat_id,
-                        "Bot saiu do chat de voz por inatividade para evitar sobrecarga nos servidores. "
-                        "Ninguém estava ouvindo o bot no chat de voz.",
+                        "𝗕𝗼𝘁 𝘀𝗮𝗶𝘂 𝗱𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗽𝗼𝗿 𝗶𝗻𝗮𝘁𝗶𝘃𝗶𝗱𝗮𝗱𝗲 💤 𝗽𝗮𝗿𝗮 𝗲𝘃𝗶𝘁𝗮𝗿 𝘀𝗼𝗯𝗿𝗲𝗰𝗮𝗿𝗴𝗮 𝗻𝗼𝘀 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿𝗲𝘀 ⚠️. "
+                        "𝗡𝗶𝗻𝗴𝘂𝗲́𝗺 𝗲𝘀𝘁𝗮𝘃𝗮 𝗼𝘂𝘃𝗶𝗻𝗱𝗼 𝗼 𝗯𝗼𝘁 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 🎧.",
                     )
                 except Exception as e:
                     logging.error(e)
