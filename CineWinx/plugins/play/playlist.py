@@ -884,7 +884,6 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
             await callback_query.answer(_["playlist_11"], show_alert=True)
         except Exception as e:
             logging.error(str(e))
-            pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
@@ -1041,7 +1040,6 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
             await callback_query.answer(_["playlist_11"], show_alert=True)
         except Exception as e:
             logging.error(str(e))
-            pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
@@ -1074,7 +1072,6 @@ async def get_playlist_playmode_(_client: app, callback_query: CallbackQuery, _)
         await callback_query.answer()
     except Exception as e:
         logging.error(str(e))
-        pass
     if callback_query.data.startswith("get_playlist_playmode"):
         buttons = get_playlist_markup(_)
         return await callback_query.edit_message_reply_markup(
@@ -1096,7 +1093,6 @@ async def delete_warning_message(_client: app, callback_query: CallbackQuery, _)
         await callback_query.answer()
     except Exception as e:
         logging.error(str(e))
-        pass
     upl = warning_markup(_)
     return await callback_query.edit_message_text(_["playlist_14"], reply_markup=upl)
 
@@ -1110,7 +1106,6 @@ async def home_play_(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer()
     except Exception as e:
         logging.error(str(e))
-        pass
     buttons = botplaylist_markup(_)
     return await callback_query.edit_message_reply_markup(
         reply_markup=InlineKeyboardMarkup(buttons)
@@ -1129,7 +1124,6 @@ async def del_back_playlist(_client: app, callback_query: CallbackQuery, _):
             await callback_query.answer(_["playlist_2"], show_alert=True)
         except Exception as e:
             logging.error(str(e))
-            pass
     else:
         try:
             return await callback_query.answer(_["playlist_3"], show_alert=True)
