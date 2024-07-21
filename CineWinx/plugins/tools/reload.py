@@ -18,7 +18,9 @@ RELOAD_COMMAND = get_command("RELOAD_COMMAND")
 REBOOT_COMMAND = get_command("REBOOT_COMMAND")
 
 
-@app.on_message(filters.command(RELOAD_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(RELOAD_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language
 async def reload_admin_cache(_client: Client, message: Message, _):
     try:
@@ -41,7 +43,9 @@ async def reload_admin_cache(_client: Client, message: Message, _):
         )
 
 
-@app.on_message(filters.command(REBOOT_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(REBOOT_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_actual
 async def restart_bot(_client: Client, message: Message, _):
     mystic = await message.reply_text(
@@ -53,7 +57,6 @@ async def restart_bot(_client: Client, message: Message, _):
         await CineWinx.stop_stream(message.chat.id)
     except Exception as e:
         logging.exception(e)
-        pass
     chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:

@@ -19,7 +19,6 @@ def language(mystic: callable):
                 await message.delete()
             except Exception as e:
                 logging.exception(e)
-                pass
         try:
             language = await get_lang(message.chat.id)
             language = get_string(language)

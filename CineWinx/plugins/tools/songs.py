@@ -18,7 +18,12 @@ from CineWinx import YouTube, app
 from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.formatters import convert_bytes
 from CineWinx.utils.inline.song import song_markup
-from config import BANNED_USERS, SONG_DOWNLOAD_DURATION, SONG_DOWNLOAD_DURATION_LIMIT, PREFIXES
+from config import (
+    BANNED_USERS,
+    SONG_DOWNLOAD_DURATION,
+    SONG_DOWNLOAD_DURATION_LIMIT,
+    PREFIXES,
+)
 from strings import get_command
 
 SONG_COMMAND = get_command("SONG_COMMAND")
@@ -42,7 +47,10 @@ async def song_commad_group(_client: Client, message: Message, _):
 
 # Song Module
 
-@app.on_message(filters.command(SONG_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS)
+
+@app.on_message(
+    filters.command(SONG_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS
+)
 @language
 async def song_commad_private(_client: Client, message: Message, _):
     await message.delete()
@@ -136,7 +144,6 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer(_["song_6"], show_alert=True)
     except Exception as e:
         logging.exception(e)
-        pass
     if stype == "audio":
         try:
             formats_available, link = await YouTube.formats(vidid, True)
@@ -223,7 +230,6 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer("⬇️ 𝗕𝗮𝗶𝘅𝗮𝗻𝗱𝗼...")
     except Exception as e:
         logging.exception(e)
-        pass
 
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]

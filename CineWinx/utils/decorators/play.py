@@ -135,8 +135,8 @@ def play_wrapper(command: callable):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                        get.status == ChatMemberStatus.BANNED
-                        or get.status == ChatMemberStatus.RESTRICTED
+                    get.status == ChatMemberStatus.BANNED
+                    or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),
@@ -151,7 +151,6 @@ def play_wrapper(command: callable):
                             await userbot.resolve_peer(invite_link)
                         except Exception as e:
                             logging.error(e)
-                            pass
                     else:
                         try:
                             await client.get_chat_member(message.chat.id, "me")
@@ -190,13 +189,11 @@ def play_wrapper(command: callable):
                     await myu.delete()
                 except Exception as e:
                     logging.error(e)
-                    pass
 
                 try:
                     await userbot.resolve_peer(chat_id)
                 except Exception as e:
                     logging.error(e)
-                    pass
 
         return await command(
             client,

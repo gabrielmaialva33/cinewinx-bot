@@ -40,7 +40,9 @@ def get_duration(playing: list):
         return "Inline"
 
 
-@app.on_message(filters.command(QUEUE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(QUEUE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language
 async def ping_com(_client: app, message: Message, _):
     if message.command[0][0] == "c":

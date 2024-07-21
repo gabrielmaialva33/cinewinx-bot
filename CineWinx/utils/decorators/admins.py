@@ -31,7 +31,6 @@ def admin_rights_check(mystic: callable):
                 await message.delete()
             except Exception as e:
                 logging.exception(e)
-                pass
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)
@@ -88,7 +87,6 @@ def admin_actual(mystic: callable):
                 await message.delete()
             except Exception as e:
                 logging.exception(e)
-                pass
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)

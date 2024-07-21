@@ -12,40 +12,46 @@ async def get_assistant_details():
     )
     try:
         a = await get_client(1)
-        msg += (f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 1\n👤 𝗡𝗼𝗺𝗲: [{a.name}](https://t.me/{a.username})\n🏷️ "
-                f"𝗨𝘀𝘂á𝗿𝗶𝗼: @{a.username}\n🆔 𝗜𝗗: {a.id}\n\n")
+        msg += (
+            f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 1\n👤 𝗡𝗼𝗺𝗲: [{a.name}](https://t.me/{a.username})\n🏷️ "
+            f"𝗨𝘀𝘂á𝗿𝗶𝗼: @{a.username}\n🆔 𝗜𝗗: {a.id}\n\n"
+        )
     except Exception as e:
         logging.exception(e)
-        pass
 
     try:
         b = await get_client(2)
-        msg += (f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 2\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{b.username}'>{b.name}</a>\n"
-                f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{b.username}\n🆔 𝗜𝗗: {b.id}\n")
+        msg += (
+            f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 2\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{b.username}'>{b.name}</a>\n"
+            f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{b.username}\n🆔 𝗜𝗗: {b.id}\n"
+        )
     except Exception as e:
         logging.exception(e)
-        pass
 
     try:
         c = await get_client(3)
-        msg += (f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 3\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{c.username}'>{c.name}</a>\n"
-                f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{c.username}\n🆔 𝗜𝗗: {c.id}\n")
+        msg += (
+            f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 3\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{c.username}'>{c.name}</a>\n"
+            f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{c.username}\n🆔 𝗜𝗗: {c.id}\n"
+        )
     except Exception as e:
         logging.exception(e)
-        pass
 
     try:
         d = await get_client(4)
-        msg += (f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 4\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{d.username}'>{d.name}</a>\n"
-                f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{d.username}\n🆔 𝗜𝗗: {d.id}\n")
+        msg += (
+            f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 4\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{d.username}'>{d.name}</a>\n"
+            f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{d.username}\n🆔 𝗜𝗗: {d.id}\n"
+        )
     except Exception as e:
         logging.exception(e)
-        pass
 
     try:
         e = await get_client(5)
-        msg += (f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 5\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{e.username}'>{e.name}</a>\n"
-                f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{e.username}\n🆔 𝗜𝗗: {e.id}\n")
+        msg += (
+            f"𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗻ú𝗺𝗲𝗿𝗼: 5\n👤 𝗡𝗼𝗺𝗲: <a href='https://t.me/{e.username}'>{e.name}</a>\n"
+            f"🏷️ 𝗨𝘀𝘂á𝗿𝗶𝗼: @{e.username}\n🆔 𝗜𝗗: {e.id}\n"
+        )
     except Exception as e:
         pass
 

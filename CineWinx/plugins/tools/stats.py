@@ -103,8 +103,10 @@ async def gstats_global(_client: app, message: Message, _):
         vidid,
     ) = await YouTube.details(videoid, True)
     title = title.title()
-    final = (f"<b>🎶 𝗙𝗮𝗶𝘅𝗮𝘀 𝗺𝗮𝗶𝘀 𝘁𝗼𝗰𝗮𝗱𝗮𝘀</b> {app.mention}\n\n<b>🎵 𝗧í𝘁𝘂𝗹𝗼:</b> {title}\n\n<i>🎧 "
-             f"𝗧𝗼𝗰𝗮𝗱𝗮𝘀 <b>{co}</b> 𝘃𝗲𝘇𝗲𝘀</i>")
+    final = (
+        f"<b>🎶 𝗙𝗮𝗶𝘅𝗮𝘀 𝗺𝗮𝗶𝘀 𝘁𝗼𝗰𝗮𝗱𝗮𝘀</b> {app.mention}\n\n<b>🎵 𝗧í𝘁𝘂𝗹𝗼:</b> {title}\n\n<i>🎧 "
+        f"𝗧𝗼𝗰𝗮𝗱𝗮𝘀 <b>{co}</b> 𝘃𝗲𝘇𝗲𝘀</i>"
+    )
     upl = get_stats_markup(_, True if message.from_user.id in SUDOERS else False)
     try:
         await app.send_photo(
@@ -308,7 +310,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     sc = platform.system()
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
-    ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
+    ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " GB"
     try:
         cpu_freq = psutil.cpu_freq().current
         if cpu_freq >= 1000:
@@ -318,11 +320,11 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     except AttributeError:
         cpu_freq = "𝗡/𝗔"
     hdd = psutil.disk_usage("/")
-    total = hdd.total / (1024.0 ** 3)
+    total = hdd.total / (1024.0**3)
     total = str(total)
-    used = hdd.used / (1024.0 ** 3)
+    used = hdd.used / (1024.0**3)
     used = str(used)
-    free = hdd.free / (1024.0 ** 3)
+    free = hdd.free / (1024.0**3)
     free = str(free)
     mod = len(ALL_MODULES)
     db = pymongodb
