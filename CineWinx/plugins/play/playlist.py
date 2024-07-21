@@ -794,18 +794,18 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     if deleted:
         try:
             await callback_query.answer(_["playlist_11"], show_alert=True)
-        except:
+        except Exception as e:
             pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
-        except:
+        except Exception as e:
             return
     keyboards = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    "๏ Recuperar sua música ๏",
+                    "🔄 𝗥𝗲𝗰𝘂𝗽𝗲𝗿𝗮𝗿 𝘀𝘂𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮",
                     callback_data=f"recover_playlist {videoid}",
                 )
             ]
@@ -830,7 +830,8 @@ async def add_playlist(_client: app, callback_query: CallbackQuery, _):
     if _check:
         try:
             return await callback_query.answer(_["playlist_8"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     _count = await get_playlist_names(user_id)
     count = len(_count)
@@ -840,7 +841,8 @@ async def add_playlist(_client: app, callback_query: CallbackQuery, _):
                 _["playlist_9"].format(SERVER_PLAYLIST_LIMIT),
                 show_alert=True,
             )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     (
         title,
@@ -859,9 +861,10 @@ async def add_playlist(_client: app, callback_query: CallbackQuery, _):
     try:
         title = (title[:30]).title()
         return await callback_query.edit_message_text(
-            text="<b>Música recuperada na sua playlist</b>",
+            text=f"🔄 <b>𝗠𝘂́𝘀𝗶𝗰𝗮 𝗿𝗲𝗰𝘂𝗽𝗲𝗿𝗮𝗱𝗮 𝗻𝗮 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁: {title}</b>"
         )
-    except:
+    except Exception as e:
+        logging.error(str(e))
         return
 
 
@@ -875,16 +878,18 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     if deleted:
         try:
             await callback_query.answer(_["playlist_11"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
 
     return await callback_query.edit_message_text(
-        text="<b>Sua música foi removida da sua playlist do bot</b>"
+        text="❌ <b>𝗦𝘂𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗳𝗼𝗶 𝗿𝗲𝗺𝗼𝘃𝗶𝗱𝗮 𝗱𝗮 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗯𝗼𝘁</b>"
     )
 
 
@@ -904,7 +909,8 @@ async def add_playlist(_client: app, callback_query: CallbackQuery, _):
     if _check:
         try:
             return await callback_query.answer(_["playlist_8"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     _count = await get_playlist_names(user_id)
     count = len(_count)
@@ -955,10 +961,11 @@ async def add_playlist(_client: app, callback_query: CallbackQuery, _):
     if _check:
         try:
             return await callback_query.answer(
-                "Já existe\n\nEsta faixa já existe na playlist do grupo.",
+                "🔄 𝗝𝗮́ 𝗲𝘅𝗶𝘀𝘁𝗲\n\n𝗘𝘀𝘁𝗮 𝗳𝗮𝗶𝘅𝗮 𝗷𝗮́ 𝗲𝘅𝗶𝘀𝘁𝗲 𝗻𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼.",
                 show_alert=True,
             )
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     _count = await get_playlist_names(callback_query.message.chat.id)
     count = len(_count)
@@ -1005,12 +1012,12 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     if deleted:
         try:
             await callback_query.answer(_["playlist_11"], show_alert=True)
-        except:
+        except Exception as e:
             pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
-        except:
+        except Exception as e:
             return
     keyboard, count = await get_keyboard(_, user_id)
     return await callback_query.edit_message_reply_markup(reply_markup=keyboard)
@@ -1028,12 +1035,14 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     if deleted:
         try:
             await callback_query.answer(_["playlist_11"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             pass
     else:
         try:
             return await callback_query.answer(_["playlist_12"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     keyboard, count = await get_keyboard(_, callback_query.message.chat.id)
     return await callback_query.edit_message_reply_markup(reply_markup=keyboard)
@@ -1047,7 +1056,7 @@ async def del_whole_playlist(_client: app, callback_query: CallbackQuery, _):
     _playlist = await get_playlist_names(callback_query.from_user.id)
     for x in _playlist:
         await callback_query.answer(
-            "Por favor, aguarde.\nExcluindo sua playlist...", show_alert=True
+            "⏳ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲.\n𝗘𝘅𝗰𝗹𝘂𝗶𝗻𝗱𝗼 𝘀𝘂𝗮 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁...", show_alert=True
         )
         await delete_playlist(callback_query.from_user.id, x)
     return await callback_query.edit_message_text(_["playlist_13"])
@@ -1059,7 +1068,8 @@ async def del_whole_playlist(_client: app, callback_query: CallbackQuery, _):
 async def get_playlist_playmode_(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
     if callback_query.data.startswith("get_playlist_playmode"):
         buttons = get_playlist_markup(_)
@@ -1080,7 +1090,8 @@ async def delete_warning_message(_client: app, callback_query: CallbackQuery, _)
 
     try:
         await callback_query.answer()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
     upl = warning_markup(_)
     return await callback_query.edit_message_text(_["playlist_14"], reply_markup=upl)
@@ -1093,7 +1104,8 @@ async def home_play_(_client: app, callback_query: CallbackQuery, _):
 
     try:
         await callback_query.answer()
-    except:
+    except Exception as e:
+        logging.error(str(e))
         pass
     buttons = botplaylist_markup(_)
     return await callback_query.edit_message_reply_markup(
@@ -1111,12 +1123,14 @@ async def del_back_playlist(_client: app, callback_query: CallbackQuery, _):
     if _playlist:
         try:
             await callback_query.answer(_["playlist_2"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             pass
     else:
         try:
             return await callback_query.answer(_["playlist_3"], show_alert=True)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
     keyboard, count = await get_keyboard(_, user_id)
     return await callback_query.edit_message_text(
