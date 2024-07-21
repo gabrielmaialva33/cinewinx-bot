@@ -41,7 +41,7 @@ def play_wrapper(command: callable):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Como corrigir?",
+                            text="❓ 𝗖𝗼𝗺𝗼 𝗰𝗼𝗿𝗿𝗶𝗴𝗶𝗿?",
                             callback_data="AnonymousAdmin",
                         ),
                     ]
@@ -52,15 +52,15 @@ def play_wrapper(command: callable):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    text=f"{app.mention} está em manutenção, visite o <a href={SUPPORT_CHAT}>chat de suporte</a> para "
-                    f"saber o motivo.",
+                    text=f"🔧 {app.mention} 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼, 𝘃𝗶𝘀𝗶𝘁𝗲 𝗼 <a href={SUPPORT_CHAT}>𝗰𝗵𝗮𝘁 𝗱𝗲 𝘀𝘂𝗽𝗼𝗿𝘁𝗲</a> 𝗽𝗮𝗿𝗮 𝘀𝗮𝗯𝗲𝗿 𝗼 𝗺𝗼𝘁𝗶𝘃𝗼.",
                     disable_web_page_preview=True,
                 )
         if PRIVATE_BOT_MODE == str(True):
             if not await is_served_private_chat(message.chat.id):
                 await message.reply_text(
-                    "<b>Bot de música privado</b>\n\nApenas para chats autorizados pelo proprietário. Peça ao meu "
-                    "proprietário para permitir seu chat primeiro."
+                    "<b>🔒 𝗕𝗼𝘁 𝗱𝗲 𝗺ú𝘀𝗶𝗰𝗮 𝗽𝗿𝗶𝘃𝗮𝗱𝗼</b>\n\n𝗔𝗽𝗲𝗻𝗮𝘀 𝗽𝗮𝗿𝗮 𝗰𝗵𝗮𝘁𝘀 "
+                    "𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗱𝗼𝘀 𝗽𝗲𝗹𝗼 𝗽𝗿𝗼𝗽𝗿𝗶𝗲𝘁á𝗿𝗶𝗼. 𝗣𝗲ç𝗮 𝗮𝗼 𝗺𝗲𝘂 "
+                    "𝗽𝗿𝗼𝗽𝗿𝗶𝗲𝘁á𝗿𝗶𝗼 𝗽𝗮𝗿𝗮 𝗽𝗲𝗿𝗺𝗶𝘁𝗶𝗿 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁 𝗽𝗿𝗶𝗺𝗲𝗶𝗿𝗼."
                 )
                 return await app.leave_chat(message.chat.id)
         if await is_commanddelete_on(message.chat.id):
@@ -96,7 +96,8 @@ def play_wrapper(command: callable):
                 return await message.reply_text(_["setting_12"])
             try:
                 chat = await app.get_chat(chat_id)
-            except:
+            except Exception as e:
+                logging.error(e)
                 return await message.reply_text(_["cplay_4"])
             channel = chat.title
         else:
@@ -134,26 +135,27 @@ def play_wrapper(command: callable):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                    get.status == ChatMemberStatus.BANNED
-                    or get.status == ChatMemberStatus.RESTRICTED
+                        get.status == ChatMemberStatus.BANNED
+                        or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),
                     )
             except UserNotParticipant:
                 if chat_id in links:
-                    invitelink = links[chat_id]
+                    invite_link = links[chat_id]
                 else:
                     if message.chat.username:
-                        invitelink = message.chat.username
+                        invite_link = message.chat.username
                         try:
-                            await userbot.resolve_peer(invitelink)
-                        except:
+                            await userbot.resolve_peer(invite_link)
+                        except Exception as e:
+                            logging.error(e)
                             pass
                     else:
                         try:
                             await client.get_chat_member(message.chat.id, "me")
-                            invitelink = await client.export_chat_invite_link(
+                            invite_link = await client.export_chat_invite_link(
                                 message.chat.id
                             )
                         except ChatAdminRequired:
@@ -163,14 +165,14 @@ def play_wrapper(command: callable):
                                 _["call_3"].format(app.mention, type(e).__name__)
                             )
 
-                if invitelink.startswith("https://t.me/+"):
-                    invitelink = invitelink.replace(
+                if invite_link.startswith("https://t.me/+"):
+                    invite_link = invite_link.replace(
                         "https://t.me/+", "https://t.me/joinchat/"
                     )
                 myu = await message.reply_text(_["call_5"])
                 try:
                     await asyncio.sleep(1)
-                    await userbot.join_chat(invitelink)
+                    await userbot.join_chat(invite_link)
                 except InviteRequestSent:
                     try:
                         await app.approve_chat_join_request(chat_id, userbot.id)
@@ -183,15 +185,17 @@ def play_wrapper(command: callable):
                 except Exception as e:
                     return await myu.edit(_["call_3"].format(type(e).__name__))
 
-                links[chat_id] = invitelink
+                links[chat_id] = invite_link
                 try:
                     await myu.delete()
-                except Exception:
+                except Exception as e:
+                    logging.error(e)
                     pass
 
                 try:
                     await userbot.resolve_peer(chat_id)
-                except:
+                except Exception as e:
+                    logging.error(e)
                     pass
 
         return await command(

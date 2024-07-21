@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
@@ -22,24 +24,26 @@ def admin_rights_check(mystic: callable):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    "O bot está em manutenção. Por favor, aguarde um momento..."
+                    "🔧 𝗢 𝗯𝗼𝘁 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼. 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲 𝘂𝗺 𝗺𝗼𝗺𝗲𝗻𝘁𝗼..."
                 )
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
-            except:
+            except Exception as e:
+                logging.exception(e)
                 pass
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)
-        except:
+        except Exception as e:
+            logging.exception(e)
             _ = get_string("pt")
         if message.sender_chat:
             upl = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Como arrumar isso? ",
+                            text="❓ 𝗖𝗼𝗺𝗼 𝗮𝗿𝗿𝘂𝗺𝗮𝗿 𝗶𝘀𝘀𝗼?",
                             callback_data="AnonymousAdmin",
                         ),
                     ]
@@ -77,24 +81,26 @@ def admin_actual(mystic: callable):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    "Bot is under maintenance. Please wait for some time..."
+                    "🔧 𝗢 𝗯𝗼𝘁 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼. 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲 𝘂𝗺 𝗺𝗼𝗺𝗲𝗻𝘁𝗼..."
                 )
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
-            except:
+            except Exception as e:
+                logging.exception(e)
                 pass
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)
-        except:
+        except Exception as e:
+            logging.exception(e)
             _ = get_string("pt")
         if message.sender_chat:
             upl = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Como arrumar isso? ",
+                            text="❓ 𝗖𝗼𝗺𝗼 𝗮𝗿𝗿𝘂𝗺𝗮𝗿 𝗶𝘀𝘀𝗼?",
                             callback_data="AnonymousAdmin",
                         ),
                     ]
@@ -121,13 +127,14 @@ def actual_admin_cb(mystic: callable):
         if await is_maintenance() is False:
             if callback_query.from_user.id not in SUDOERS:
                 return await callback_query.answer(
-                    "O bot está em manutenção. Por favor, aguarde um momento...",
+                    "🔧 𝗢 𝗯𝗼𝘁 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼. 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲 𝘂𝗺 𝗺𝗼𝗺𝗲𝗻𝘁𝗼...",
                     show_alert=True,
                 )
         try:
             language = await get_lang(callback_query.message.chat.id)
             _ = get_string(language)
-        except:
+        except Exception as e:
+            logging.exception(e)
             _ = get_string("pt")
         if callback_query.message.chat.type == ChatType.PRIVATE:
             return await mystic(client, callback_query, _)
@@ -152,7 +159,7 @@ def actual_admin_cb(mystic: callable):
                                 )
                     elif a is None:
                         return await callback_query.answer(
-                            "Você não é um membro deste chat."
+                            "🚫 𝗩𝗼𝗰ê 𝗻ã𝗼 é 𝘂𝗺 𝗺𝗲𝗺𝗯𝗿𝗼 𝗱𝗲𝘀𝘁𝗲 𝗰𝗵𝗮𝘁."
                         )
             except Exception as e:
                 return await callback_query.answer(f"Error: {str(e)}")

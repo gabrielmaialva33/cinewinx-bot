@@ -35,7 +35,7 @@ from CineWinx.utils.inline.stats import (
     stats_buttons,
     top_ten_stats_markup,
 )
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
 loop = asyncio.get_running_loop()
@@ -45,7 +45,7 @@ GSTATS_COMMAND = get_command("GSTATS_COMMAND")
 STATS_COMMAND = get_command("STATS_COMMAND")
 
 
-@app.on_message(filters.command(STATS_COMMAND) & ~BANNED_USERS)
+@app.on_message(filters.command(STATS_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
 async def stats_global(_client: app, message: Message, _):
     upl = stats_buttons(_, True if message.from_user.id in SUDOERS else False)
@@ -56,7 +56,7 @@ async def stats_global(_client: app, message: Message, _):
     )
 
 
-@app.on_message(filters.command(GSTATS_COMMAND) & ~BANNED_USERS)
+@app.on_message(filters.command(GSTATS_COMMAND, PREFIXES) & ~BANNED_USERS)
 @language
 async def gstats_global(_client: app, message: Message, _):
     mystic = await message.reply_text(_["gstats_1"])
@@ -103,7 +103,8 @@ async def gstats_global(_client: app, message: Message, _):
         vidid,
     ) = await YouTube.details(videoid, True)
     title = title.title()
-    final = f"<b>Faixas mais tocadas</b> {app.mention}\n\n<b>Título:</b> {title}\n\n<i>Tocadas <b>{co}</b> vezes</i>"
+    final = (f"<b>🎶 𝗙𝗮𝗶𝘅𝗮𝘀 𝗺𝗮𝗶𝘀 𝘁𝗼𝗰𝗮𝗱𝗮𝘀</b> {app.mention}\n\n<b>🎵 𝗧í𝘁𝘂𝗹𝗼:</b> {title}\n\n<i>🎧 "
+             f"𝗧𝗼𝗰𝗮𝗱𝗮𝘀 <b>{co}</b> 𝘃𝗲𝘇𝗲𝘀</i>")
     upl = get_stats_markup(_, True if message.from_user.id in SUDOERS else False)
     try:
         await app.send_photo(
@@ -126,11 +127,11 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
     upl = back_stats_markup(_)
     try:
         await callback_query.answer()
-    except:
+    except FloodWait:
         pass
     mystic = await callback_query.edit_message_text(
         _["gstats_3"].format(
-            f"de {callback_query.message.chat.title}" if what == "Here" else what
+            f"𝗱𝗲 {callback_query.message.chat.title}" if what == "Here" else what
         )
     )
     if what == "Tracks":
@@ -172,11 +173,11 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
                 details = stats.get(items)
                 title = (details["title"][:35]).title()
                 if items == "telegram":
-                    msg += f"🔗[Arquivos e áudios do Telegram](https://t.me/telegram) <b>tocados {count} vezes</b>\n\n"
+                    msg += f"<a href='https://t.me/telegram'>🔗 𝗔𝗿𝗾𝘂𝗶𝘃𝗼𝘀 𝗲 á𝘂𝗱𝗶𝗼𝘀 𝗱𝗼 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺</a> <b>𝘁𝗼𝗰𝗮𝗱𝗼𝘀 {count} 𝘃𝗲𝘇𝗲𝘀</b>\n\n"
                 else:
                     msg += (
                         f"🔗 <a href='https://www.youtube.com/watch?v={items}'>{title}</a> "
-                        f"<b>tocados {count} vezes</b>\n\n"
+                        f"<b>𝗧𝗼𝗰𝗮𝗱𝗼𝘀 {count} 𝘃𝗲𝘇𝗲𝘀</b>\n\n"
                     )
 
             temp = (
@@ -215,7 +216,7 @@ async def top_users_ten(_client: app, callback_query: CallbackQuery, _):
             except:
                 continue
             limit += 1
-            msg += f"🔗 {extract} tocado {count} vezes no bot.\n\n"
+            msg += f"🔗 {extract} 𝗧𝗼𝗰𝗮𝗱𝗼 {count} 𝘃𝗲𝘇𝗲𝘀 𝗻𝗼 𝗯𝗼𝘁.\n\n"
         temp = (
             _["gstats_5"].format(limit, app.mention)
             if what == "Chats"
@@ -260,22 +261,22 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
         ass = "Yes"
     else:
         ass = "No"
-    text = f"""<u><b>📊 Estatísticas e Informações Gerais:</b></u>
+    text = f"""<u><b>📊 𝗘𝘀𝘁𝗮𝘁í𝘀𝘁𝗶𝗰𝗮𝘀 𝗲 𝗜𝗻𝗳𝗼𝗿𝗺𝗮çõ𝗲𝘀 𝗚𝗲𝗿𝗮𝗶𝘀:</b></u>
 
-<b>📦 Módulos importados:</b> {mod}
-<b>💬 Chats atendidos:</b> {served_chats} 
-<b>👥 Usuários atendidos:</b> {served_users} 
-<b>🚫 Usuários bloqueados:</b> {blocked} 
-<b>🔧 Usuários sudo:</b> {sudoers} 
+<b>📦 𝗠ó𝗱𝘂𝗹𝗼𝘀 𝗶𝗺𝗽𝗼𝗿𝘁𝗮𝗱𝗼𝘀:</b> {mod}
+<b>💬 𝗖𝗵𝗮𝘁𝘀 𝗮𝘁𝗲𝗻𝗱𝗶𝗱𝗼𝘀:</b> {served_chats} 
+<b>👥 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝗮𝘁𝗲𝗻𝗱𝗶𝗱𝗼𝘀:</b> {served_users} 
+<b>🚫 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝗯𝗹𝗼𝗾𝘂𝗲𝗮𝗱𝗼𝘀:</b> {blocked} 
+<b>🔧 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝘀𝘂𝗱𝗼:</b> {sudoers} 
 
-<b>🔍 Total de consultas:</b> {total_queries} 
-<b>🤖 Total de assistentes:</b> {assistant}
-<b>🔄 Assistente de saída automática:</b> {ass}
+<b>🔍 𝗧𝗼𝘁𝗮𝗹 𝗱𝗲 𝗰𝗼𝗻𝘀𝘂𝗹𝘁𝗮𝘀:</b> {total_queries} 
+<b>🤖 𝗧𝗼𝘁𝗮𝗹 𝗱𝗲 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲𝘀:</b> {assistant}
+<b>🔄 𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗱𝗲 𝘀á𝗶𝗱𝗮 𝗮𝘂𝘁𝗼𝗺á𝘁𝗶𝗰𝗮:</b> {ass}
 
-<b>⏳ Duração de reprodução:</b> {play_duration} m
-<b>🎵 Download de músicas:</b> {song} m
-<b>📋 Playlist do servidor:</b> {playlist_limit}
-<b>▶️ Reprodução de playlist:</b> {fetch_playlist}"""
+<b>⏳ 𝗗𝘂𝗿𝗮çã𝗼 𝗱𝗲 𝗿𝗲𝗽𝗿𝗼𝗱𝘂çã𝗼:</b> {play_duration} m
+<b>🎵 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗱𝗲 𝗺ú𝘀𝗶𝗰𝗮𝘀:</b> {song} m
+<b>📋 𝗣𝗹𝗮𝘆𝗹𝗶𝘀𝘁 𝗱𝗼 𝘀𝗲𝗿𝘃𝗶𝗱𝗼𝗿:</b> {playlist_limit}
+<b>▶️ 𝗥𝗲𝗽𝗿𝗼𝗱𝘂çã𝗼 𝗱𝗲 𝗽𝗹𝗮𝘆𝗹𝗶𝘀𝘁:</b> {fetch_playlist}"""
 
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
     try:
@@ -291,7 +292,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     if callback_query.from_user.id not in SUDOERS:
         return await callback_query.answer(
-            "Somente para usuários SUDO", show_alert=True
+            "🔒 𝗦𝗼𝗺𝗲𝗻𝘁𝗲 𝗽𝗮𝗿𝗮 𝘂𝘀𝘂á𝗿𝗶𝗼𝘀 𝗦𝗨𝗗𝗢", show_alert=True
         )
     callback_data = callback_query.data.strip()
     what = callback_data.split(None, 1)[1]
@@ -307,21 +308,21 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     sc = platform.system()
     p_core = psutil.cpu_count(logical=False)
     t_core = psutil.cpu_count(logical=True)
-    ram = str(round(psutil.virtual_memory().total / (1024.0**3))) + " GB"
+    ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
     try:
         cpu_freq = psutil.cpu_freq().current
         if cpu_freq >= 1000:
             cpu_freq = f"{round(cpu_freq / 1000, 2)}GHz"
         else:
             cpu_freq = f"{round(cpu_freq, 2)}MHz"
-    except:
-        cpu_freq = "N/A"
+    except AttributeError:
+        cpu_freq = "𝗡/𝗔"
     hdd = psutil.disk_usage("/")
-    total = hdd.total / (1024.0**3)
+    total = hdd.total / (1024.0 ** 3)
     total = str(total)
-    used = hdd.used / (1024.0**3)
+    used = hdd.used / (1024.0 ** 3)
     used = str(used)
-    free = hdd.free / (1024.0**3)
+    free = hdd.free / (1024.0 ** 3)
     free = str(free)
     mod = len(ALL_MODULES)
     db = pymongodb
@@ -337,33 +338,33 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
     total_queries = await get_queries()
     blocked = len(BANNED_USERS)
     sudoers = len(await get_sudoers())
-    text = f"""<u><b>📊 Estatísticas e Informações do Bot:</b></u>
+    text = f"""<u><b>📊 𝗘𝘀𝘁𝗮𝘁í𝘀𝘁𝗶𝗰𝗮𝘀 𝗲 𝗜𝗻𝗳𝗼𝗿𝗺𝗮çõ𝗲𝘀 𝗱𝗼 𝗕𝗼𝘁:</b></u>
 
-<b>📦 Módulos Importados:</b> {mod}
-<b>🖥️ Plataforma:</b> {sc}
-<b>💾 RAM:</b> {ram}
-<b>🧩 Núcleos Físicos:</b> {p_core}
-<b>🧩 Total de Núcleos:</b> {t_core}
-<b>⚙️ Frequência da CPU:</b> {cpu_freq}
+<b>📦 𝗠ó𝗱𝘂𝗹𝗼𝘀 𝗜𝗺𝗽𝗼𝗿𝘁𝗮𝗱𝗼𝘀:</b> {mod}
+<b>🖥️ 𝗣𝗹𝗮𝘁𝗮𝗳𝗼𝗿𝗺𝗮:</b> {sc}
+<b>💾 𝗥𝗔𝗠:</b> {ram}
+<b>🧩 𝗡ú𝗰𝗹𝗲𝗼𝘀 𝗙í𝘀𝗶𝗰𝗼𝘀:</b> {p_core}
+<b>🧩 𝗧𝗼𝘁𝗮𝗹 𝗱𝗲 𝗡ú𝗰𝗹𝗲𝗼𝘀:</b> {t_core}
+<b>⚙️ 𝗙𝗿𝗲𝗾𝘂ê𝗻𝗰𝗶𝗮 𝗱𝗮 𝗖𝗣𝗨:</b> {cpu_freq}
 
-<b>🐍 Python:</b> {pyver.split()[0]}
-<b>🌐 Pyrogram:</b> {pyrover}
-<b>📞 Py-TgCalls:</b> {pytgver}
-<b>📞 N-TgCalls:</b> {ngtgver}
-<b>💽 Disponível:</b> {total[:5]} GiB
-<b>💽 Usado:</b> {used[:4]} GiB
-<b>💽 Restante:</b> {free[:4]} GiB
-<b>🗄️ Dados:</b> {datasize[:5]} MB
+<b>🐍 𝗣𝘆𝘁𝗵𝗼𝗻:</b> {pyver.split()[0]}
+<b>🌐 𝗣𝘆𝗿𝗼𝗴𝗿𝗮𝗺:</b> {pyrover}
+<b>📞 𝗣𝘆-𝗧𝗴𝗖𝗮𝗹𝗹𝘀:</b> {pytgver}
+<b>📞 𝗡-𝗧𝗴𝗖𝗮𝗹𝗹𝘀:</b> {ngtgver}
+<b>💽 𝗗𝗶𝘀𝗽𝗼𝗻í𝘃𝗲𝗹:</b> {total[:5]} GiB
+<b>💽 𝗨𝘀𝗮𝗱𝗼:</b> {used[:4]} GiB
+<b>💽 𝗥𝗲𝘀𝘁𝗮𝗻𝘁𝗲:</b> {free[:4]} GiB
+<b>🗄️ 𝗗𝗮𝗱𝗼𝘀:</b> {datasize[:5]} MB
 
-<b>💬 Chats Servidos:</b> {served_chats} 
-<b>👥 Usuários Servidos:</b> {served_users} 
-<b>🚫 Usuários Bloqueados:</b> {blocked} 
-<b>🔧 Usuários Sudo:</b> {sudoers} 
+<b>💬 𝗖𝗵𝗮𝘁𝘀 𝗦𝗲𝗿𝘃𝗶𝗱𝗼𝘀:</b> {served_chats} 
+<b>👥 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝗦𝗲𝗿𝘃𝗶𝗱𝗼𝘀:</b> {served_users} 
+<b>🚫 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝗕𝗹𝗼𝗾𝘂𝗲𝗮𝗱𝗼𝘀:</b> {blocked} 
+<b>🔧 𝗨𝘀𝘂á𝗿𝗶𝗼𝘀 𝗦𝘂𝗱𝗼:</b> {sudoers} 
 
-<b>🗄️ Armazenamento do BD:</b> {storage} MB
-<b>📂 Coleções no BD:</b> {collections}
-<b>🔑 Chaves no BD:</b> {objects}
-<b>🔍 Consultas do Bot:</b> <code>{total_queries}</code>
+<b>🗄️ 𝗔𝗿𝗺𝗮𝘇𝗲𝗻𝗮𝗺𝗲𝗻𝘁𝗼 𝗱𝗼 𝗕𝗗:</b> {storage} MB
+<b>📂 𝗖𝗼𝗹𝗲çõ𝗲𝘀 𝗻𝗼 𝗕𝗗:</b> {collections}
+<b>🔑 𝗖𝗵𝗮𝘃𝗲𝘀 𝗻𝗼 𝗕𝗗:</b> {objects}
+<b>🔍 𝗖𝗼𝗻𝘀𝘂𝗹𝘁𝗮𝘀 𝗱𝗼 𝗕𝗼𝘁:</b> <code>{total_queries}</code>
 """
 
     med = InputMediaPhoto(media=config.STATS_IMG_URL, caption=text)
@@ -382,7 +383,7 @@ async def overall_stats(_client: app, callback_query: CallbackQuery, _):
 async def back_buttons(_client: app, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
-    except:
+    except FloodWait:
         pass
     command = callback_query.matches[0].group(1)
     if command == "TOPMARKUPGET":

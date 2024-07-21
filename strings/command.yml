@@ -11,17 +11,17 @@ STATS_COMMAND: [ "stats" ]
 LANGUAGE_COMMAND: [ "lang", "language", "langs" ]
 
 # Play Commands
-PLAY_COMMAND: ["play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"]
+PLAY_COMMAND: [ "play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce" ]
 PLAYMODE_COMMAND: [ "playmode" ]
 CHANNELPLAY_COMMAND: [ "channelplay" ]
 STREAM_COMMAND: [ "stream", "cstream", "streamforce" ]
-PLAYER_COMMAND: ["cplayer", "playing", "cplaying", "player"]
+PLAYER_COMMAND: [ "cplayer", "playing", "cplaying", "player" ]
 
 # Playlists Command
 PLAYLIST_COMMAND: [ "playlist" ]
 DELETEPLAYLIST_COMMAND: [ "deleteplaylist" ]
 ADDPLAYLIST_COMMAND: [ "addplaylist" ]
-PLAYLISTS_COMMAND: ["playgplaylist", "vplaygplaylist"]
+PLAYLISTS_COMMAND: [ "playgplaylist", "vplaygplaylist" ]
 
 # Tools
 QUEUE_COMMAND: [ "queue","cqueue" ]
@@ -66,7 +66,7 @@ MAINTENANCE_COMMAND: [ "maintenance" ]
 LOGGER_COMMAND: [ "logger" ]
 
 # Heroku
-GETLOG_COMMAND: ["log", "logs", "get_log", "getlog", "get_logs", "getlogs"]
+GETLOG_COMMAND: [ "log", "logs", "get_log", "getlog", "get_logs", "getlogs" ]
 GETVAR_COMMAND: [ "get_var" ]
 DELVAR_COMMAND: [ "del_var" ]
 SETVAR_COMMAND: [ "set_var" ]

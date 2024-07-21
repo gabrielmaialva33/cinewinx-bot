@@ -151,7 +151,7 @@ async def get_data_and_name(replied_message: Message, message: Message):
         if replied_message and (replied_message.sticker or replied_message.video_note):
             data = None
         elif (
-            replied_message and not replied_message.text and not replied_message.caption
+                replied_message and not replied_message.text and not replied_message.caption
         ):
             data = None
         else:
@@ -208,9 +208,9 @@ async def extract_user_and_reason(message, sender_chat=False):
             # if reply to a message and no reason is given
             if not reply.from_user:
                 if (
-                    reply.sender_chat
-                    and reply.sender_chat != message.chat.id
-                    and sender_chat
+                        reply.sender_chat
+                        and reply.sender_chat != message.chat.id
+                        and sender_chat
                 ):
                     id_ = reply.sender_chat.id
                 else:
@@ -245,9 +245,9 @@ async def extract_user(message):
 
 
 def get_file_id_from_message(
-    message: Message,
-    max_file_size=3145728,
-    mime_types=["image/png", "image/jpeg"],
+        message: Message,
+        max_file_size=3145728,
+        mime_types=["image/png", "image/jpeg"],
 ):
     file_id = None
     if message.document:
@@ -289,7 +289,7 @@ async def time_converter(message: Message, time_value: str) -> Message | datetim
     currunt_time = datetime.now()
     time_digit = time_value[:-1]
     if not time_digit.isdigit():
-        return await message.reply_text("Tempo especificado incorreto")
+        return await message.reply_text("❌ 𝗧𝗲𝗺𝗽𝗼 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗼 𝗶𝗻𝗰𝗼𝗿𝗿𝗲𝘁𝗼")
     if check_unit == "m":
         temp_time = currunt_time + timedelta(minutes=int(time_digit))
     elif check_unit == "h":
@@ -297,6 +297,6 @@ async def time_converter(message: Message, time_value: str) -> Message | datetim
     elif check_unit == "d":
         temp_time = currunt_time + timedelta(days=int(time_digit))
     else:
-        return await message.reply_text("Tempo especificado incorreto")
+        return await message.reply_text("❌ 𝗧𝗲𝗺𝗽𝗼 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝗱𝗼 𝗶𝗻𝗰𝗼𝗿𝗿𝗲𝘁𝗼")
 
     return temp_time

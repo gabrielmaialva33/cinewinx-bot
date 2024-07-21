@@ -160,7 +160,7 @@ close_keyboard = InlineKeyboardMarkup(
 )
 
 
-## Search Query Inline
+# Search Query Inline
 
 
 def track_markup(_, videoid: str, user_id: int, channel: str, fplay: str):
@@ -185,7 +185,7 @@ def track_markup(_, videoid: str, user_id: int, channel: str, fplay: str):
 
 
 def playlist_markup(
-    _, videoid: str, user_id: int, ptype: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, ptype: str, channel: str, fplay: str
 ):
     buttons = [
         [
@@ -207,11 +207,11 @@ def playlist_markup(
     return buttons
 
 
-## Live Stream Markup
+# Live Stream Markup
 
 
 def livestream_markup(
-    _, videoid: str, user_id: int, mode: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, mode: str, channel: str, fplay: str
 ):
     buttons = [
         [
@@ -228,11 +228,11 @@ def livestream_markup(
     return buttons
 
 
-## Slider Query Markup
+# Slider Query Markup
 
 
 def slider_markup(
-    _, videoid: str, user_id: int, query_type: str, query: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, query_type: str, query: str, channel: str, fplay: str
 ):
     query = f"{query[:20]}"
     buttons = [

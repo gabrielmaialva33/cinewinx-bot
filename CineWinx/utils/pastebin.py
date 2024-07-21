@@ -1,3 +1,5 @@
+import logging
+
 import aiohttp
 
 BASE = "https://batbin.me/"
@@ -8,7 +10,8 @@ async def post(url: str, *args: list, **kwargs: dict):
         async with session.post(url, *args, **kwargs) as resp:
             try:
                 data = await resp.json()
-            except Exception:
+            except Exception as e:
+                logging.exception(e)
                 data = await resp.text()
         return data
 

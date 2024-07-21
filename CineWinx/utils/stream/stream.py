@@ -1,3 +1,4 @@
+import logging
 import os
 from random import randint
 from typing import Union
@@ -22,17 +23,17 @@ from CineWinx.utils.thumbnails import gen_qthumb, gen_thumb
 
 
 async def stream(
-    _,
-    mystic: app,
-    user_id: int,
-    result: Union[dict, list],
-    chat_id: int,
-    user_name: str,
-    original_chat_id: int,
-    video: Union[bool, str] = None,
-    streamtype: Union[bool, str] = None,
-    spotify: Union[bool, str] = None,
-    forceplay: Union[bool, str] = None,
+        _,
+        mystic: app,
+        user_id: int,
+        result: Union[dict, list],
+        chat_id: int,
+        user_name: str,
+        original_chat_id: int,
+        video: Union[bool, str] = None,
+        streamtype: Union[bool, str] = None,
+        spotify: Union[bool, str] = None,
+        forceplay: Union[bool, str] = None,
 ):
     if not result:
         return
@@ -55,7 +56,8 @@ async def stream(
                     thumbnail,
                     vidid,
                 ) = await YouTube.details(search, False if spotify else True)
-            except:
+            except Exception as ex:
+                logging.error(ex)
                 continue
             if str(duration_min) == "None":
                 continue
@@ -85,7 +87,8 @@ async def stream(
                     file_path, direct = await YouTube.download(
                         vidid, mystic, video=status, videoid=True
                     )
-                except:
+                except Exception as ex:
+                    logging.error(ex)
                     raise AssistantErr(_["play_16"])
                 await CineWinx.join_call(
                     chat_id, original_chat_id, file_path, video=status, image=thumbnail
@@ -370,8 +373,8 @@ async def stream(
             db[chat_id][0]["markup"] = "tg"
     elif streamtype == "index":
         link = result
-        title = "Index or M3u8 Link"
-        duration_min = "URL stream"
+        title = "𝗜𝗻𝗱𝗲𝘅 𝗼𝗿 𝗠3𝘂8 𝗟𝗶𝗻𝗸"
+        duration_min = "𝗨𝗥𝗟 𝘀𝘁𝗿𝗲𝗮𝗺"
         if await is_active_chat(chat_id):
             await put_queue_index(
                 chat_id,

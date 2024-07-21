@@ -1,9 +1,10 @@
+import logging
 import os
 import re
 
 import yt_dlp
 from pykeyboard import InlineKeyboard
-from pyrogram import enums, filters
+from pyrogram import enums, filters, Client
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -17,15 +18,15 @@ from CineWinx import YouTube, app
 from CineWinx.utils.decorators.language import language, language_cb
 from CineWinx.utils.formatters import convert_bytes
 from CineWinx.utils.inline.song import song_markup
-from config import BANNED_USERS, SONG_DOWNLOAD_DURATION, SONG_DOWNLOAD_DURATION_LIMIT
+from config import BANNED_USERS, SONG_DOWNLOAD_DURATION, SONG_DOWNLOAD_DURATION_LIMIT, PREFIXES
 from strings import get_command
 
 SONG_COMMAND = get_command("SONG_COMMAND")
 
 
-@app.on_message(filters.command(SONG_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(SONG_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
-async def song_commad_group(_client: app, message: Message, _):
+async def song_commad_group(_client: Client, message: Message, _):
     upl = InlineKeyboardMarkup(
         [
             [
@@ -36,27 +37,21 @@ async def song_commad_group(_client: app, message: Message, _):
             ]
         ]
     )
-
     await message.reply_text(_["song_1"], reply_markup=upl)
 
 
 # Song Module
 
-
-@app.on_message(filters.command(SONG_COMMAND) & filters.private & ~BANNED_USERS)
+@app.on_message(filters.command(SONG_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS)
 @language
-async def song_commad_private(_client: app, message: Message, _):
+async def song_commad_private(_client: Client, message: Message, _):
     await message.delete()
 
     url = await YouTube.url(message)
-
     if url:
-
         if not await YouTube.exists(url):
             return await message.reply_text(_["song_5"])
-
         mystic = await message.reply_text(_["play_1"])
-
         (
             title,
             duration_min,
@@ -74,26 +69,19 @@ async def song_commad_private(_client: app, message: Message, _):
             )
 
         buttons = song_markup(_, vidid)
-
         await mystic.delete()
-
         return await message.reply_photo(
             thumbnail,
             caption=_["song_4"].format(title),
             reply_markup=InlineKeyboardMarkup(buttons),
         )
-
     else:
-
         if len(message.command) < 2:
             return await message.reply_text(_["song_2"])
-
     mystic = await message.reply_text(_["play_1"])
-
     query = message.text.split(None, 1)[1]
 
     try:
-
         (
             title,
             duration_min,
@@ -101,9 +89,8 @@ async def song_commad_private(_client: app, message: Message, _):
             thumbnail,
             vidid,
         ) = await YouTube.details(query)
-
-    except:
-
+    except Exception as e:
+        logging.exception(e)
         return await mystic.edit_text(_["play_3"])
 
     if str(duration_min) == "None":
@@ -115,7 +102,6 @@ async def song_commad_private(_client: app, message: Message, _):
         )
 
     buttons = song_markup(_, vidid)
-
     await mystic.delete()
 
     return await message.reply_photo(
@@ -131,7 +117,6 @@ async def songs_back_helper(_client: app, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
 
     callback_request = callback_data.split(None, 1)[1]
-
     stype, vidid = callback_request.split("|")
 
     buttons = song_markup(_, vidid)
@@ -149,12 +134,14 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
     stype, vidid = callback_request.split("|")
     try:
         await callback_query.answer(_["song_6"], show_alert=True)
-    except:
+    except Exception as e:
+        logging.exception(e)
         pass
     if stype == "audio":
         try:
             formats_available, link = await YouTube.formats(vidid, True)
-        except:
+        except Exception as e:
+            logging.exception(e)
             return await callback_query.edit_message_text(_["song_7"])
         keyboard = InlineKeyboard()
         done = []
@@ -172,7 +159,7 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
                 fom = x["format_id"]
                 keyboard.row(
                     InlineKeyboardButton(
-                        text=f"{form} Qualidade do audio = {sz}",
+                        text=f"🎵 𝗤𝘂𝗮𝗹𝗶𝗱𝗮𝗱𝗲 𝗱𝗼 𝗮𝘂𝗱𝗶𝗼 = {sz}",
                         callback_data=f"song_download {stype}|{fom}|{vidid}",
                     ),
                 )
@@ -196,23 +183,16 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
         keyboard = InlineKeyboard()
 
         # AVC Formats Only [ Alexa MUSIC BOT ]
-
         done = [160, 133, 134, 135, 136, 137, 298, 299, 264, 304, 266]
-
         for x in formats_available:
-
             check = x["format"]
-
             if x["filesize"] is None:
                 continue
 
             if int(x["format_id"]) not in done:
                 continue
-
             sz = convert_bytes(x["filesize"])
-
             ap = check.split("-")[1]
-
             to = f"{ap} = {sz}"
 
             keyboard.row(
@@ -240,8 +220,9 @@ async def song_helper_cb(_client: app, callback_query: CallbackQuery, _):
 @language_cb
 async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
     try:
-        await callback_query.answer("Baixando...")
-    except:
+        await callback_query.answer("⬇️ 𝗕𝗮𝗶𝘅𝗮𝗻𝗱𝗼...")
+    except Exception as e:
+        logging.exception(e)
         pass
 
     callback_data = callback_query.data.strip()

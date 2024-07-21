@@ -40,9 +40,7 @@ def get_duration(playing: list):
         return "Inline"
 
 
-@app.on_message(
-    filters.command(QUEUE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
-)
+@app.on_message(filters.command(QUEUE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language
 async def ping_com(_client: app, message: Message, _):
     if message.command[0][0] == "c":
@@ -183,28 +181,36 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
     for x in got:
         j += 1
         if j == 1:
-            msg += f'Tocando agora:\n\n🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'🎵 <b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝗴𝗼𝗿𝗮:</b>\n\n🎵 <b>𝗧í𝘁𝘂𝗹𝗼:</b> {x["title"]}\n⏱ <b>𝗗𝘂𝗿𝗮çã𝗼:</b> {x["dur"]}\n🎤 <b>𝗣𝗼𝗿:</b> {x["by"]}\n\n'
         elif j == 2:
-            msg += f'Na fila:\n\n🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'📋 <b>𝗡𝗮 𝗳𝗶𝗹𝗮:</b>\n\n🎵 <b>𝗧í𝘁𝘂𝗹𝗼:</b> {x["title"]}\n⏱ <b>𝗗𝘂𝗿𝗮çã𝗼:</b> {x["dur"]}\n🎤 <b>𝗣𝗼𝗿:</b> {x["by"]}\n\n'
         else:
-            msg += f'🏷 Título: {x["title"]}\nDuração: {x["dur"]}\nPor: {x["by"]}\n\n'
+            msg += f'🎶 <b>𝗧í𝘁𝘂𝗹𝗼:</b> {x["title"]}\n⏱ <b>𝗗𝘂𝗿𝗮çã𝗼:</b> {x["dur"]}\n🎤 <b>𝗣𝗼𝗿:</b> {x["by"]}\n\n'
     if "Queued" in msg:
         if len(msg) < 700:
             await asyncio.sleep(1)
             return await callback_query.edit_message_text(msg, reply_markup=buttons)
 
-        if "🏷" in msg:
-            msg = msg.replace("🏷", "")
-        if "Atualmente tocando" in msg:
-            msg = msg.replace("Tocando agora", "Tocando Agora")
-        if "Título" in msg:
-            msg = msg.replace("Título", "Título")
-        if "Duração" in msg:
-            msg = msg.replace("Duração", "Duração")
-        if "Por" in msg:
-            msg = msg.replace("Por", "Por")
-        if "Na fila" in msg:
-            msg = msg.replace("Na fila", "Na Fila")
+        if "🎵" in msg:
+            msg = msg.replace("🎵", "")
+        if "<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝗴𝗼𝗿𝗮:</b>" in msg:
+            msg = msg.replace("<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝗴𝗼𝗿𝗮:</b>", "<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗔𝗴𝗼𝗿𝗮:</b>")
+        if "<b>𝗧í𝘁𝘂𝗹𝗼:</b>" in msg:
+            msg = msg.replace("<b>𝗧í𝘁𝘂𝗹𝗼:</b>", "<b>𝗧í𝘁𝘂𝗹𝗼:</b>")
+        if "<b>𝗗𝘂𝗿𝗮çã𝗼:</b>" in msg:
+            msg = msg.replace("<b>𝗗𝘂𝗿𝗮çã𝗼:</b>", "<b>𝗗𝘂𝗿𝗮çã𝗼:</b>")
+        if "<b>𝗣𝗼𝗿:</b>" in msg:
+            msg = msg.replace("<b>𝗣𝗼𝗿:</b>", "<b>𝗣𝗼𝗿:</b>")
+        if "<b>𝗡𝗮 𝗳𝗶𝗹𝗮:</b>" in msg:
+            msg = msg.replace("<b>𝗡𝗮 𝗳𝗶𝗹𝗮:</b>", "<b>𝗡𝗮 𝗙𝗶𝗹𝗮:</b>")
+        if "⏱" in msg:
+            msg = msg.replace("⏱", "")
+        if "🎤" in msg:
+            msg = msg.replace("🎤", "")
+        if "📋" in msg:
+            msg = msg.replace("📋", "")
+        if "🎶" in msg:
+            msg = msg.replace("🎶", "")
 
         link = await winx_bin(msg)
         await callback_query.edit_message_text(
@@ -212,18 +218,26 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
         )
     else:
         if len(msg) > 700:
-            if "🏷" in msg:
-                msg = msg.replace("🏷", "")
-            if "Atualmente tocando" in msg:
-                msg = msg.replace("Tocando agora", "Tocando Agora")
-            if "Título" in msg:
-                msg = msg.replace("Título", "Título")
-            if "Duração" in msg:
-                msg = msg.replace("Duração", "Duração")
-            if "Por" in msg:
-                msg = msg.replace("Por", "Por")
-            if "Na fila" in msg:
-                msg = msg.replace("Na fila", "Na Fila")
+            if "🎵" in msg:
+                msg = msg.replace("🎵", "")
+            if "<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝗴𝗼𝗿𝗮:</b>" in msg:
+                msg = msg.replace("<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝗴𝗼𝗿𝗮:</b>", "<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼 𝗔𝗴𝗼𝗿𝗮:</b>")
+            if "<b>𝗧í𝘁𝘂𝗹𝗼:</b>" in msg:
+                msg = msg.replace("<b>𝗧í𝘁𝘂𝗹𝗼:</b>", "<b>𝗧í𝘁𝘂𝗹𝗼:</b>")
+            if "<b>𝗗𝘂𝗿𝗮çã𝗼:</b>" in msg:
+                msg = msg.replace("<b>𝗗𝘂𝗿𝗮çã𝗼:</b>", "<b>𝗗𝘂𝗿𝗮çã𝗼:</b>")
+            if "<b>𝗣𝗼𝗿:</b>" in msg:
+                msg = msg.replace("<b>𝗣𝗼𝗿:</b>", "<b>𝗣𝗼𝗿:</b>")
+            if "<b>𝗡𝗮 𝗳𝗶𝗹𝗮:</b>" in msg:
+                msg = msg.replace("<b>𝗡𝗮 𝗳𝗶𝗹𝗮:</b>", "<b>𝗡𝗮 𝗙𝗶𝗹𝗮:</b>")
+            if "⏱" in msg:
+                msg = msg.replace("⏱", "")
+            if "🎤" in msg:
+                msg = msg.replace("🎤", "")
+            if "📋" in msg:
+                msg = msg.replace("📋", "")
+            if "🎶" in msg:
+                msg = msg.replace("🎶", "")
 
             link = await winx_bin(msg)
             await asyncio.sleep(1)
@@ -275,19 +289,18 @@ async def queue_back(_client: app, callback_query: CallbackQuery, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "<b>⌛️Duração:</b> duração indeterminada.\n\n"
-        "Clique no botão abaixo para ver a lista completa da "
-        "fila."
+        "<b>⌛️ 𝗗𝘂𝗿𝗮çã𝗼:</b> 𝗱𝘂𝗿𝗮çã𝗼 𝗶𝗻𝗱𝗲𝘁𝗲𝗿𝗺𝗶𝗻𝗮𝗱𝗮.\n\n"
+        "📃 𝗖𝗹𝗶𝗾𝘂𝗲 𝗻𝗼 𝗯𝗼𝘁ã𝗼 𝗮𝗯𝗮𝗶𝘅𝗼 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿 𝗮 𝗹𝗶𝘀𝘁𝗮 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗮 𝗱𝗮 𝗳𝗶𝗹𝗮."
         if DUR == "Unknown"
-        else "\nClique no botão abaixo para ver a lista completa da fila."
+        else "\n📃 𝗖𝗹𝗶𝗾𝘂𝗲 𝗻𝗼 𝗯𝗼𝘁ã𝗼 𝗮𝗯𝗮𝗶𝘅𝗼 𝗽𝗮𝗿𝗮 𝘃𝗲𝗿 𝗮 𝗹𝗶𝘀𝘁𝗮 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗮 𝗱𝗮 𝗳𝗶𝗹𝗮."
     )
-    cap = f"""<b>{app.mention} Player</b>
+    cap = f"""<b>{app.mention} 𝗣𝗹𝗮𝘆𝗲𝗿</b>
 
-🎥<b>Tocando:</b> {title}
+🎥<b>𝗧𝗼𝗰𝗮𝗻𝗱𝗼:</b> {title}
 
-🔗<b>Tipo de stream:</b> {typo}
-🙍‍♂️<b>Adicionado por:</b> {user}
-{send}"""
+🔗<b>𝗧𝗶𝗽𝗼 𝗱𝗲 𝘀𝘁𝗿𝗲𝗮𝗺:</b> {typo}
+🙍‍♂️<b>𝗔𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗼 𝗽𝗼𝗿:</b> {user}
+    {send}"""
     upl = (
         queue_markup(_, DUR, cplay, videoid)
         if DUR == "Unknown"

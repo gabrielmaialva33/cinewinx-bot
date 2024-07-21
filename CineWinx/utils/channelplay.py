@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram.types import CallbackQuery
 
 from CineWinx import app
@@ -10,15 +12,18 @@ async def get_channeplay_cb(_, command: str, callback_query: CallbackQuery):
         if chat_id is None:
             try:
                 return await callback_query.answer(_["setting_12"], show_alert=True)
-            except:
+            except Exception as e:
+                logging.exception(e)
                 return
         try:
             chat = await app.get_chat(chat_id)
             channel = chat.title
-        except:
+        except Exception as e:
+            logging.exception(e)
             try:
                 return await callback_query.answer(_["cplay_4"], show_alert=True)
-            except:
+            except Exception as e:
+                logging.exception(e)
                 return
     else:
         chat_id = callback_query.message.chat.id

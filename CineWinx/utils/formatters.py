@@ -2,7 +2,7 @@ def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
     time_list = []
-    time_suffix_list = ["s", "m", "h", "days"]
+    time_suffix_list = ["𝘀", "𝗺", "𝗵", "𝗱𝗮𝘆𝘀"]
     while count < 4:
         count += 1
         if count < 3:
@@ -56,7 +56,7 @@ async def alpha_to_int(user_id_alphabet: str) -> int:
 
 def time_to_seconds(time):
     stringt = str(time)
-    return sum(int(x) * 60**i for i, x in enumerate(reversed(stringt.split(":"))))
+    return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
 def seconds_to_min(seconds):

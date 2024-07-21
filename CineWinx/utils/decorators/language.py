@@ -1,3 +1,5 @@
+import logging
+
 from pyrogram.types import CallbackQuery, Message
 
 from CineWinx.misc import SUDOERS
@@ -10,17 +12,19 @@ def language(mystic: callable):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
-                    "Bot está em manutenção por algum tempo, por favor, visite o chat de suporte para saber o motivo."
+                    "🔧 𝗕𝗼𝘁 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼 𝗽𝗼𝗿 𝗮𝗹𝗴𝘂𝗺 𝘁𝗲𝗺𝗽𝗼, 𝗽𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝘃𝗶𝘀𝗶𝘁𝗲 𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘀𝘂𝗽𝗼𝗿𝘁𝗲 𝗽𝗮𝗿𝗮 𝘀𝗮𝗯𝗲𝗿 𝗼 𝗺𝗼𝘁𝗶𝘃𝗼."
                 )
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
-            except:
+            except Exception as e:
+                logging.exception(e)
                 pass
         try:
             language = await get_lang(message.chat.id)
             language = get_string(language)
-        except:
+        except Exception as e:
+            logging.exception(e)
             language = get_string("pt")
         return await mystic(_, message, language)
 
@@ -32,13 +36,14 @@ def language_cb(mystic: callable):
         if await is_maintenance() is False:
             if callback_query.from_user.id not in SUDOERS:
                 return await callback_query.answer(
-                    "Bot está em manutenção por algum tempo, por favor, visite o chat de suporte para saber o motivo.",
+                    "🔧 𝗕𝗼𝘁 𝗲𝘀𝘁á 𝗲𝗺 𝗺𝗮𝗻𝘂𝘁𝗲𝗻çã𝗼 𝗽𝗼𝗿 𝗮𝗹𝗴𝘂𝗺 𝘁𝗲𝗺𝗽𝗼, 𝗽𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝘃𝗶𝘀𝗶𝘁𝗲 𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘀𝘂𝗽𝗼𝗿𝘁𝗲 𝗽𝗮𝗿𝗮 𝘀𝗮𝗯𝗲𝗿 𝗼 𝗺𝗼𝘁𝗶𝘃𝗼.",
                     show_alert=True,
                 )
         try:
             language = await get_lang(callback_query.message.chat.id)
             language = get_string(language)
-        except:
+        except Exception as e:
+            logging.exception(e)
             language = get_string("pt")
         return await mystic(_, callback_query, language)
 
