@@ -64,7 +64,6 @@ async def gbanuser(_client: app, message: Message, _):
             await asyncio.sleep(int(e.value))
         except Exception as e:
             logging.error(e)
-            pass
     await add_banned_user(user_id)
     await message.reply_text(_["gban_6"].format(mention, number_of_chats))
     await mystic.delete()

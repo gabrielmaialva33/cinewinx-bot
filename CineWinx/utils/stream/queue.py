@@ -8,16 +8,16 @@ from config.config import time_to_seconds
 
 
 async def put_queue(
-        chat_id: int,
-        original_chat_id: int,
-        file: Union[Video, Audio],
-        title: str,
-        duration: str,
-        user: str,
-        vidid: str,
-        user_id: int,
-        stream: str,
-        forceplay: Union[bool, str] = None,
+    chat_id: int,
+    original_chat_id: int,
+    file: Union[Video, Audio],
+    title: str,
+    duration: str,
+    user: str,
+    vidid: str,
+    user_id: int,
+    stream: str,
+    forceplay: Union[bool, str] = None,
 ):
     title = title.title()
     try:
@@ -56,15 +56,15 @@ async def put_queue(
 
 
 async def put_queue_index(
-        chat_id: int,
-        original_chat_id: int,
-        file: Union[Video, Audio],
-        title: str,
-        duration: str,
-        user: str,
-        vidid: str,
-        stream: str,
-        forceplay: Union[bool, str] = None,
+    chat_id: int,
+    original_chat_id: int,
+    file: Union[Video, Audio],
+    title: str,
+    duration: str,
+    user: str,
+    vidid: str,
+    stream: str,
+    forceplay: Union[bool, str] = None,
 ):
     put = {
         "title": title,

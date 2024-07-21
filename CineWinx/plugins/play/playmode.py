@@ -11,7 +11,9 @@ from strings import get_command
 PLAYMODE_COMMAND = get_command("PLAYMODE_COMMAND")
 
 
-@app.on_message(filters.command(PLAYMODE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(PLAYMODE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language
 async def playmode_(_client: app, message: Message, _):
     playmode = await get_playmode(message.chat.id)

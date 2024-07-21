@@ -42,14 +42,12 @@ async def assis_change(_client: app, message: Message, _):
             await a.leave_chat(message.chat.id)
         except Exception as e:
             logging.error(e)
-            pass
     b = await set_assistant(message.chat.id)
     details += f"𝗽𝗮𝗿𝗮 <a href='https://t.me/{b.username}'>{b.name}</a>"
     try:
         await b.join_chat(message.chat.id)
     except Exception as e:
         logging.error(e)
-        pass
     await message.reply_text(details, disable_web_page_preview=True)
 
 
@@ -73,14 +71,12 @@ async def assis_set(_client: app, message: Message, _):
         await a.leave_chat(message.chat.id)
     except Exception as e:
         logging.error(e)
-        pass
     await save_assistant(message.chat.id, query)
     b = await get_assistant(message.chat.id)
     try:
         await b.join_chat(message.chat.id)
     except Exception as e:
         logging.error(e)
-        pass
     await message.reply_text(
         f"ℹ️ <b>𝗗𝗲𝘁𝗮𝗹𝗵𝗲𝘀 𝗱𝗼 𝗻𝗼𝘃𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗱𝗼 𝘀𝗲𝘂 𝗰𝗵𝗮𝘁:</b>\n"
         f"👤 𝗔𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲: {b.name}\n"
@@ -90,7 +86,9 @@ async def assis_set(_client: app, message: Message, _):
     )
 
 
-@app.on_message(filters.command(CHANGE_ASSISTANT, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(CHANGE_ASSISTANT, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @admin_actual
 async def check_ass(_client: app, message: Message, _):
     a = await get_assistant(message.chat.id)

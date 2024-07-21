@@ -50,7 +50,6 @@ async def get_topz_playlists(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer()
     except Exception as e:
         logging.exception(e)
-        pass
     buttons = top_play_markup(_)
     return await callback_query.edit_message_reply_markup(
         reply_markup=InlineKeyboardMarkup(buttons)
@@ -115,7 +114,9 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
                         f"❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗰𝗼𝗻𝘃𝗶𝗱𝗮𝗿 𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗽𝗮𝗿𝗮 {callback_query.message.chat.title}.\n\n<b>🛑𝗠𝗼𝘁𝗶𝘃𝗼:</b> `{ex}`"
                     )
         if invite_link.startswith("https://t.me/+"):
-            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
+            invite_link = invite_link.replace(
+                "https://t.me/+", "https://t.me/joinchat/"
+            )
         try:
             await userbot.join_chat(invite_link)
             await asyncio.sleep(2)
@@ -155,7 +156,6 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
             await userbot.resolve_peer(invite_link)
         except Exception as ex:
             logging.exception(ex)
-            pass
 
     chat_id = callback_query.message.chat.id
     user_name = callback_query.from_user.first_name
@@ -163,7 +163,6 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
         await callback_query.answer()
     except Exception as e:
         logging.exception(e)
-        pass
     callback_data = callback_query.data.strip()
     what = callback_data.split(None, 1)[1]
     mystic = await callback_query.edit_message_text(

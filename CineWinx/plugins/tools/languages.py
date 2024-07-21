@@ -37,7 +37,9 @@ def lanuages_keyboard(_):
 LANGUAGE_COMMAND = get_command("LANGUAGE_COMMAND")
 
 
-@app.on_message(filters.command(LANGUAGE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(LANGUAGE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language
 async def langs_command(_client: app, message: Message, _):
     keyboard = lanuages_keyboard(_)
@@ -54,7 +56,6 @@ async def lanuagecb(_client: app, callback_query: CallbackQuery, _):
         await callback_query.answer()
     except Exception as e:
         logging.error(e)
-        pass
     keyboard = lanuages_keyboard(_)
     return await callback_query.edit_message_reply_markup(reply_markup=keyboard)
 

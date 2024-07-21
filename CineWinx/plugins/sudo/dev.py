@@ -170,7 +170,9 @@ async def shellrunner(_, message: Message):
                     stderr=subprocess.PIPE,
                 )
             except Exception as err:
-                await edit_or_reply(message, text=f"❌ <b>𝗘𝗥𝗥𝗢𝗥 :</b>\n<pre>{err}</pre>")
+                await edit_or_reply(
+                    message, text=f"❌ <b>𝗘𝗥𝗥𝗢𝗥 :</b>\n<pre>{err}</pre>"
+                )
             output += f"<b>{code}</b>\n"
             output += process.stdout.read()[:-1].decode("utf-8")
             output += "\n"
