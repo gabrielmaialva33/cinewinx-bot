@@ -49,7 +49,7 @@ async def song_commad_group(_client: Client, message: Message, _):
 
 
 @app.on_message(
-    filters.command(SONG_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS
+    filters.command(SONG_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
 @language
 async def song_commad_private(_client: Client, message: Message, _):
