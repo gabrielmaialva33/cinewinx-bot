@@ -239,7 +239,6 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
         x = ytdl.extract_info(yturl, download=False)
     title = (x["title"]).title()
     title = re.sub(r"\W+", " ", title)
-    title = f"<b>{title}</b>"
     thumb_image_path = await callback_query.message.download()
     duration = x["duration"]
 
@@ -263,7 +262,7 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
             width=width,
             height=height,
             thumb=thumb_image_path,
-            caption=title,
+            caption=f"<b>{title}</b>",
             supports_streaming=True,
         )
 
@@ -294,7 +293,7 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
 
         med = InputMediaAudio(
             media=filename,
-            caption=title,
+            caption=f"<b>{title}</b>",
             thumb=thumb_image_path,
             title=title,
             performer=x["uploader"],
