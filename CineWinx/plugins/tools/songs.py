@@ -239,6 +239,7 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
         x = ytdl.extract_info(yturl, download=False)
     title = (x["title"]).title()
     title = re.sub(r"\W+", " ", title)
+    title = f"<b>{title}</b>"
     thumb_image_path = await callback_query.message.download()
     duration = x["duration"]
 
@@ -279,7 +280,6 @@ async def song_download_cb(_client: app, callback_query: CallbackQuery, _):
             print(e)
             return await mystic.edit_text(_["song_10"])
         os.remove(file_path)
-
     elif stype == "audio":
         try:
             filename = await YouTube.download(
