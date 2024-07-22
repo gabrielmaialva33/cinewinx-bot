@@ -7,11 +7,11 @@ from CineWinx.utils.decorators import admin_rights_check
 from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
-PLAYER_COMMAND = get_command("PLAYER_COMMAND")
+PAUSE_COMMAND = get_command("PAUSE_COMMAND")
 
 
 @app.on_message(
-    filters.command(PLAYER_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+    filters.command(PAUSE_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
 @admin_rights_check
 async def pause_admin(_client: app, message: Message, _, chat_id):

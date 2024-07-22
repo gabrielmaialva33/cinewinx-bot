@@ -616,7 +616,7 @@ class Call(PyTgCalls):
         @self.three.on_update(filters.stream_end)
         @self.four.on_update(filters.stream_end)
         @self.five.on_update(filters.stream_end)
-        async def stream_end_handler(client, update: Update):
+        async def stream_end_handler(client: app, update: Update):
             if not isinstance(update, StreamAudioEnded):
                 return
             await self.play(client, update.chat_id)
@@ -636,7 +636,7 @@ class Call(PyTgCalls):
         @self.five.on_update(
             filters.call_participant(GroupCallParticipant.Action.UPDATED)
         )
-        async def participants_change_handler(client, update: Update):
+        async def participants_change_handler(client: app, update: Update):
             if not isinstance(
                 update, GroupCallParticipant.Action.JOINED
             ) and not isinstance(update, GroupCallParticipant.Action.LEFT):

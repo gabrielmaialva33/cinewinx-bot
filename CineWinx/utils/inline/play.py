@@ -44,14 +44,14 @@ def stream_markup_timer(_, videoid: str, chat_id: int, played: str, dur: str):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [
-            InlineKeyboardButton(
-                text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
-            ),
-        ],
+        # [
+        #     InlineKeyboardButton(
+        #         text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
+        #     ),
+        #     InlineKeyboardButton(
+        #         text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
+        #     ),
+        # ],
         [InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")],
     ]
     return buttons
@@ -70,14 +70,14 @@ def stream_markup(_, videoid: str, chat_id: int):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [
-            InlineKeyboardButton(
-                text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
-            ),
-        ],
+        # [
+        #     InlineKeyboardButton(
+        #         text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
+        #     ),
+        #     InlineKeyboardButton(
+        #         text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
+        #     ),
+        # ],
         [InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")],
     ]
     return buttons
@@ -117,14 +117,14 @@ def telegram_markup_timer(_, chat_id: int, played: str, dur: str):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [
-            InlineKeyboardButton(
-                text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
-            ),
-        ],
+        # [
+        #     InlineKeyboardButton(
+        #         text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
+        #     ),
+        #     InlineKeyboardButton(
+        #         text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
+        #     ),
+        # ],
         [
             InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close"),
         ],
@@ -140,14 +140,14 @@ def telegram_markup(_, chat_id):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [
-            InlineKeyboardButton(
-                text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
-            ),
-        ],
+        # [
+        #     InlineKeyboardButton(
+        #         text=_["P_B_5"], callback_data=f"ADMIN Mute|{chat_id}"
+        #     ),
+        #     InlineKeyboardButton(
+        #         text=_["P_B_6"], callback_data=f"ADMIN Unmute|{chat_id}"
+        #     ),
+        # ],
         [
             InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close"),
         ],
@@ -271,6 +271,6 @@ def queue_markup(_, _videoid: str, chat_id: int):
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
-        [InlineKeyboardButton(text="Fechar", callback_data="close")],
+        [InlineKeyboardButton(text="❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close")],
     ]
     return buttons
