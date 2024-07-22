@@ -42,12 +42,13 @@ async def get_link_group(_client: Client, message: Message):
             )
             os.remove(local_path)
         except Exception as e:
-            await text.edit_text(f"❌ | 𝗙𝗮𝗹𝗵𝗮 𝗻𝗼 𝘂𝗽𝗹𝗼𝗮𝗱 𝗱𝗼 𝗮𝗿𝗾𝘂𝗶𝘃𝗼 \n\n𝗥𝗮𝘇𝗮̃𝗼: <i>{e}</i>")
+            await text.edit_text(
+                f"❌ | 𝗙𝗮𝗹𝗵𝗮 𝗻𝗼 𝘂𝗽𝗹𝗼𝗮𝗱 𝗱𝗼 𝗮𝗿𝗾𝘂𝗶𝘃𝗼 \n\n𝗥𝗮𝘇𝗮̃𝗼: <i>{e}</i>"
+            )
             os.remove(local_path)
             return
     except Exception as e:
         logging.warning(str(e))
-        pass
 
 
 __MODULE__ = "🌐 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗽𝗵"
