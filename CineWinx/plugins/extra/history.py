@@ -14,7 +14,6 @@ from config import BANNED_USERS
 
 @app.on_message(filters.command(["sg", "history"]) & filters.group & ~BANNED_USERS)
 async def sg(client: Client, message: Message):
-
     if len(message.text.split()) < 2 and not message.reply_to_message:
         return await message.reply("📢 𝘀𝗴 𝘂𝘀𝗲𝗿𝗻𝗮𝗺𝗲 / 𝗶𝗱 / 𝗿𝗲𝗽𝗹𝘆")
     if message.reply_to_message:
@@ -32,7 +31,8 @@ async def sg(client: Client, message: Message):
             user = await client.get_users(f"{args}")
         except Exception as e:
             logging.error(e)
-            return await lol.edit("<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>")
+            return await lol.edit(
+                "<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>")
 
     sg_bot = ["sangmata_bot", "sangmata_beta_bot"]
     sg = random.choice(sg_bot)
