@@ -56,7 +56,8 @@ async def remove(_client: Client, message: Message):
                         len_deleted_list = len(deleted_list)
                         if len_deleted_list == 0:
                             await message.reply(
-                                "👤 𝗡𝗮̃𝗼 𝗵𝗮́ 𝗰𝗼𝗻𝘁𝗮𝘀 𝗲𝘅𝗰𝗹𝘂𝗶́𝗱𝗮𝘀 𝗻𝗲𝘀𝘁𝗲 𝗰𝗵𝗮𝘁. 🚫")
+                                "👤 𝗡𝗮̃𝗼 𝗵𝗮́ 𝗰𝗼𝗻𝘁𝗮𝘀 𝗲𝘅𝗰𝗹𝘂𝗶́𝗱𝗮𝘀 𝗻𝗲𝘀𝘁𝗲 𝗰𝗵𝗮𝘁. 🚫"
+                            )
                             chat_queue.remove(message.chat.id)
                         else:
                             k = 0
@@ -79,7 +80,6 @@ async def remove(_client: Client, message: Message):
                                     await asyncio.sleep(e.value)
                                 except Exception as e:
                                     logging.error(str(e))
-                                    pass
                                 k += 1
                             if k == len_deleted_list:
                                 await message.reply(
@@ -106,7 +106,7 @@ async def admins(_client: Client, message: Message):
         admin_list = []
         owner_list = []
         async for admin in app.get_chat_members(
-                message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
+            message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
         ):
             if not admin.privileges.is_anonymous:
                 if admin.user.is_bot:
@@ -154,7 +154,7 @@ async def bots(_client: Client, message: Message):
     try:
         bot_list = []
         async for bot in app.get_chat_members(
-                message.chat.id, filter=enums.ChatMembersFilter.BOTS
+            message.chat.id, filter=enums.ChatMembersFilter.BOTS
         ):
             bot_list.append(bot.user)
         len_bot_list = len(bot_list)
