@@ -131,7 +131,8 @@ class Call(PyTgCalls):
         try:
             await _clear_(chat_id)
             await assistant.leave_call(chat_id)
-        except:
+        except Exception as e:
+            logging.error(e)
             pass
 
     async def set_volume(self, chat_id: int, volume: int):

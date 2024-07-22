@@ -140,7 +140,7 @@ async def ping_com(_client: app, message: Message, _):
                 else:
                     break
         except Exception as e:
-            logging.error(str(e))
+            logging.warning(str(e))
             return
 
 
