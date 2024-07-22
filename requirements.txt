@@ -28,3 +28,4 @@ git+https://github.com/joetats/youtube_search@master
 
 gpytranslate
 telegraph
+aiohttp
