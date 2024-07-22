@@ -133,7 +133,6 @@ class Call(PyTgCalls):
             await assistant.leave_call(chat_id)
         except Exception as e:
             logging.error(e)
-            pass
 
     async def set_volume(self, chat_id: int, volume: int):
         assistant = await group_assistant(self, chat_id)
