@@ -13,7 +13,8 @@ async def translate(_, message: Message) -> None:
     reply_msg = message.reply_to_message
     if not reply_msg:
         await message.reply_text(
-            "𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗿𝗲𝘀𝗽𝗼𝗻𝗱𝗮 𝗮 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗽𝗮𝗿𝗮 𝘁𝗿𝗮𝗱𝘂𝘇𝗶-𝗹𝗮! 🌐")
+            "𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗿𝗲𝘀𝗽𝗼𝗻𝗱𝗮 𝗮 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗽𝗮𝗿𝗮 𝘁𝗿𝗮𝗱𝘂𝘇𝗶-𝗹𝗮! 🌐"
+        )
         return
     if reply_msg.caption:
         to_translate = reply_msg.caption

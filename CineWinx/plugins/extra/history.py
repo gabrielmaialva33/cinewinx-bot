@@ -32,7 +32,9 @@ async def sg(client: Client, message: Message):
             user = await client.get_users(f"{args}")
         except Exception as e:
             logging.error(e)
-            return await lol.edit("<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>")
+            return await lol.edit(
+                "<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>"
+            )
 
     sg_bot = ["sangmata_bot", "sangmata_beta_bot"]
     sg = random.choice(sg_bot)
@@ -60,7 +62,6 @@ async def sg(client: Client, message: Message):
         await ubot.send(DeleteHistory(peer=user_info, max_id=0, revoke=True))
     except Exception as e:
         logging.warning(e)
-        pass
 
     await lol.delete()
 
