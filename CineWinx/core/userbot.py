@@ -566,46 +566,55 @@ class Userbot(Client):
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.one.stop()
                 LOGGER(__name__).info(f"Assistant One Stopped")
+
             if config.STRING2:
                 text = _["assistant_2"].format(self.two.mention)
                 await self.two.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.two.stop()
                 LOGGER(__name__).info(f"Assistant Two Stopped")
+
             if config.STRING3:
                 text = _["assistant_2"].format(self.three.mention)
                 await self.three.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.three.stop()
                 LOGGER(__name__).info(f"Assistant Three Stopped")
+
             if config.STRING4:
                 text = _["assistant_2"].format(self.four.mention)
                 await self.four.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.four.stop()
                 LOGGER(__name__).info(f"Assistant Four Stopped")
+
             if config.STRING5:
                 text = _["assistant_2"].format(self.five.mention)
                 await self.five.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.five.stop()
                 LOGGER(__name__).info(f"Assistant Five Stopped")
+
             if config.STRING6:
                 text = _["assistant_2"].format(self.six.mention)
                 await self.six.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.six.stop()
                 LOGGER(__name__).info(f"Assistant Six Stopped")
+
             if config.STRING7:
                 text = _["assistant_2"].format(self.seven.mention)
                 await self.seven.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.seven.stop()
                 LOGGER(__name__).info(f"Assistant Seven Stopped")
+
             if config.STRING8:
                 text = _["assistant_2"].format(self.eight.mention)
                 await self.eight.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.eight.stop()
                 LOGGER(__name__).info(f"Assistant Eight Stopped")
+
             if config.STRING9:
                 text = _["assistant_2"].format(self.nine.mention)
                 await self.nine.send_message(chat_id=config.LOG_GROUP_ID, text=text)
                 await self.nine.stop()
                 LOGGER(__name__).info(f"Assistant Nine Stopped")
+
             if config.STRING10:
                 text = _["assistant_2"].format(self.ten.mention)
                 await self.ten.send_message(chat_id=config.LOG_GROUP_ID, text=text)

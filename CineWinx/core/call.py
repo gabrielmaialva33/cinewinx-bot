@@ -656,6 +656,16 @@ class Call(PyTgCalls):
             pings.append(self.four.ping)
         if config.STRING5:
             pings.append(self.five.ping)
+        if config.STRING6:
+            pings.append(self.six.ping)
+        if config.STRING7:
+            pings.append(self.seven.ping)
+        if config.STRING8:
+            pings.append(self.eight.ping)
+        if config.STRING9:
+            pings.append(self.nine.ping)
+        if config.STRING10:
+            pings.append(self.ten.ping)
         return str(round(sum(pings) / len(pings), 3))
 
     async def start(self):
@@ -670,6 +680,16 @@ class Call(PyTgCalls):
             await self.four.start()
         if config.STRING5:
             await self.five.start()
+        if config.STRING6:
+            await self.six.start()
+        if config.STRING7:
+            await self.seven.start()
+        if config.STRING8:
+            await self.eight.start()
+        if config.STRING9:
+            await self.nine.start()
+        if config.STRING10:
+            await self.ten.start()
 
     async def decorators(self):
         @self.one.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
