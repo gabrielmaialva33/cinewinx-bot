@@ -107,19 +107,3 @@ class WinxBot(Client):
 
         LOGGER(__name__).info(f"{self.name} has stopped.")
         os.kill(os.getpid(), 9)
-
-    async def get_history(self, chat_id: int, limit: int = 1):
-        """
-        Get the history of a chat.
-        """
-        try:
-            return await self.get_history(chat_id, limit=limit)
-        except errors.FloodWait as e:
-            LOGGER(__name__).error(f"FloodWait: {e}")
-            return []
-        except errors.RPCError as e:
-            LOGGER(__name__).error(f"RPCError: {e}")
-            return []
-        except Exception as e:
-            LOGGER(__name__).error(f"An error occurred: {e}")
-            return []

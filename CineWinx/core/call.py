@@ -59,6 +59,7 @@ async def _clear_(chat_id):
 
 class Call(PyTgCalls):
     def __init__(self):
+        # Userbot 1
         self.userbot1 = Client(
             name="WinxString1",
             api_id=config.API_ID,
@@ -69,6 +70,8 @@ class Call(PyTgCalls):
             self.userbot1,
             cache_duration=100,
         )
+
+        # Userbot 2
         self.userbot2 = Client(
             name="WinxString2",
             api_id=config.API_ID,
@@ -79,6 +82,8 @@ class Call(PyTgCalls):
             self.userbot2,
             cache_duration=100,
         )
+
+        # Userbot 3
         self.userbot3 = Client(
             name="WinxString3",
             api_id=config.API_ID,
@@ -89,6 +94,8 @@ class Call(PyTgCalls):
             self.userbot3,
             cache_duration=100,
         )
+
+        # Userbot 4
         self.userbot4 = Client(
             name="WinxString4",
             api_id=config.API_ID,
@@ -99,6 +106,8 @@ class Call(PyTgCalls):
             self.userbot4,
             cache_duration=100,
         )
+
+        # Userbot 5
         self.userbot5 = Client(
             name="WinxString5",
             api_id=config.API_ID,
@@ -107,6 +116,66 @@ class Call(PyTgCalls):
         )
         self.five = PyTgCalls(
             self.userbot5,
+            cache_duration=100,
+        )
+
+        # Userbot 6
+        self.userbot6 = Client(
+            name="WinxString6",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING6),
+        )
+        self.six = PyTgCalls(
+            self.userbot6,
+            cache_duration=100,
+        )
+
+        # Userbot 7
+        self.userbot7 = Client(
+            name="WinxString7",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING7),
+        )
+        self.seven = PyTgCalls(
+            self.userbot7,
+            cache_duration=100,
+        )
+
+        # Userbot 8
+        self.userbot8 = Client(
+            name="WinxString8",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING8),
+        )
+        self.eight = PyTgCalls(
+            self.userbot8,
+            cache_duration=100,
+        )
+
+        # Userbot 9
+        self.userbot9 = Client(
+            name="WinxString9",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING9),
+        )
+        self.nine = PyTgCalls(
+            self.userbot9,
+            cache_duration=100,
+        )
+
+        # Userbot 10
+        self.userbot10 = Client(
+            name="WinxString10",
+            api_id=config.API_ID,
+            api_hash=config.API_HASH,
+            session_string=str(config.STRING10),
+        )
+        self.ten = PyTgCalls(
+            self.userbot10,
             cache_duration=100,
         )
 
@@ -608,6 +677,11 @@ class Call(PyTgCalls):
         @self.three.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
         @self.four.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
         @self.five.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
+        @self.six.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
+        @self.seven.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
+        @self.eight.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
+        @self.nine.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
+        @self.ten.on_update(filters.chat_update(ChatUpdate.Status.LEFT_CALL))
         async def stream_services_handler(_, chat_id: int):
             await self.stop_stream(chat_id)
 
@@ -616,6 +690,11 @@ class Call(PyTgCalls):
         @self.three.on_update(filters.stream_end)
         @self.four.on_update(filters.stream_end)
         @self.five.on_update(filters.stream_end)
+        @self.six.on_update(filters.stream_end)
+        @self.seven.on_update(filters.stream_end)
+        @self.eight.on_update(filters.stream_end)
+        @self.nine.on_update(filters.stream_end)
+        @self.ten.on_update(filters.stream_end)
         async def stream_end_handler(client: app, update: Update):
             if not isinstance(update, StreamAudioEnded):
                 return
@@ -634,6 +713,21 @@ class Call(PyTgCalls):
             filters.call_participant(GroupCallParticipant.Action.UPDATED)
         )
         @self.five.on_update(
+            filters.call_participant(GroupCallParticipant.Action.UPDATED)
+        )
+        @self.six.on_update(
+            filters.call_participant(GroupCallParticipant.Action.UPDATED)
+        )
+        @self.seven.on_update(
+            filters.call_participant(GroupCallParticipant.Action.UPDATED)
+        )
+        @self.eight.on_update(
+            filters.call_participant(GroupCallParticipant.Action.UPDATED)
+        )
+        @self.nine.on_update(
+            filters.call_participant(GroupCallParticipant.Action.UPDATED)
+        )
+        @self.ten.on_update(
             filters.call_participant(GroupCallParticipant.Action.UPDATED)
         )
         async def participants_change_handler(client: app, update: Update):

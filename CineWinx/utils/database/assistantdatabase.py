@@ -9,16 +9,19 @@ assistant_dict = {}
 
 
 async def get_client(assistant: int) -> userbot:
-    if int(assistant) == 1:
-        return userbot.one
-    elif int(assistant) == 2:
-        return userbot.two
-    elif int(assistant) == 3:
-        return userbot.three
-    elif int(assistant) == 4:
-        return userbot.four
-    elif int(assistant) == 5:
-        return userbot.five
+    assistant_clients = {
+        1: userbot.one,
+        2: userbot.two,
+        3: userbot.three,
+        4: userbot.four,
+        5: userbot.five,
+        6: userbot.six,
+        7: userbot.seven,
+        8: userbot.eight,
+        9: userbot.nine,
+        10: userbot.ten,
+    }
+    return assistant_clients[int(assistant)]
 
 
 async def save_assistant(chat_id, number):
@@ -104,13 +107,16 @@ async def group_assistant(self, chat_id: int) -> int:
             assis = assistant
         else:
             assis = await set_calls_assistant(chat_id)
-    if int(assis) == 1:
-        return self.one
-    elif int(assis) == 2:
-        return self.two
-    elif int(assis) == 3:
-        return self.three
-    elif int(assis) == 4:
-        return self.four
-    elif int(assis) == 5:
-        return self.five
+    self_clients = {
+        1: self.one,
+        2: self.two,
+        3: self.three,
+        4: self.four,
+        5: self.five,
+        6: self.six,
+        7: self.seven,
+        8: self.eight,
+        9: self.nine,
+        10: self.ten,
+    }
+    return self_clients[int(assis)]
