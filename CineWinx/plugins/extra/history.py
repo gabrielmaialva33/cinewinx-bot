@@ -32,7 +32,8 @@ async def sg(client: Client, message: Message):
         except Exception as e:
             logging.error(e)
             return await lol.edit(
-                "<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>")
+                "<code>❗️ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼!</code>"
+            )
 
     sg_bot = ["sangmata_bot", "sangmata_beta_bot"]
     sg = random.choice(sg_bot)
