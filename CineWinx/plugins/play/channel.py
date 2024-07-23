@@ -23,7 +23,7 @@ async def playmode_(_client: app, message: Message, _):
     query = message.text.split(None, 2)[1].lower().strip()
     if (str(query)).lower() == "disable":
         await set_cmode(message.chat.id, None)
-        return await message.reply_text("Channel Play Disabled")
+        return await message.reply_text("🚫 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝘁𝗼𝗿 𝗱𝗼 𝗰𝗮𝗻𝗮𝗹 𝗱𝗲𝘀𝗮𝘁𝗶𝘃𝗮𝗱𝗼")
     elif str(query) == "linked":
         chat = await app.get_chat(message.chat.id)
         if chat.linked_chat:
@@ -49,11 +49,11 @@ async def playmode_(_client: app, message: Message, _):
             return await message.reply_text(_["cplay_4"])
         async for users in admins:
             if users.status == ChatMemberStatus.OWNER:
-                creatorusername = users.user.username
-                creatorid = users.user.id
-        if creatorid != message.from_user.id:
+                creator_username = users.user.username
+                creator_id = users.user.id
+        if creator_id != message.from_user.id:
             return await message.reply_text(
-                _["cplay_6"].format(chat.title, creatorusername)
+                _["cplay_6"].format(chat.title, creator_username)
             )
         await set_cmode(message.chat.id, chat.id)
         return await message.reply_text(_["cplay_3"].format(chat.title, chat.id))

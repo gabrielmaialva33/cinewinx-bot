@@ -8,9 +8,13 @@ from config import BANNED_USERS
 @app.on_message(filters.command("id") & ~BANNED_USERS)
 async def get_id(_client: Client, message: Message):
     try:
+        chat = await app.get_chat(message.chat.id)
+        linked_chat_id = chat.linked_chat.id if chat.linked_chat else None
         if not message.reply_to_message and message.chat:
             await message.reply(
-                f"🆔 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼 <b>{message.from_user.first_name}</b>'𝘀 𝗜𝗗 𝗲́ <code>{message.from_user.id}</code>.\n𝗘𝘀𝘁𝗲 𝗰𝗵𝗮𝘁'𝘀 𝗜𝗗 𝗲́: <code>{message.chat.id}</code>."
+                f"🆔 𝗜𝗗 𝗱𝗼 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 <b>{message.from_user.first_name}</b> <code>{message.from_user.id}</code>\n\n"
+                f"📝 𝗜𝗗 𝗱𝗼 𝗰𝗵𝗮𝘁: <code>{message.chat.id}</code>\n"
+                f"{'🔗 𝗖𝗵𝗮𝘁 𝗹𝗶𝗻𝗸𝗲𝗱: <code>' + str(linked_chat_id) + '</code>' if linked_chat_id else ''}"
             )
         elif not message.reply_to_message.sticker or message.reply_to_message is None:
             if message.reply_to_message.forward_from_chat:

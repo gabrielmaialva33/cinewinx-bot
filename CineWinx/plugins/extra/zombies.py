@@ -165,7 +165,7 @@ async def bots(_client: Client, message: Message):
         else:
             bot = bot_list.pop(0)
             text3 += f"└ @{bot.username}\n\n"
-            text3 += f"✅ | <b>𝗧𝗼𝘁𝗮𝗹 𝗱𝗲 𝗕𝗼𝘁𝘀</b>: {len_bot_list}**"
+            text3 += f"✅ | <b>𝗧𝗼𝘁𝗮𝗹 𝗱𝗲 𝗕𝗼𝘁𝘀</b>: {len_bot_list}"
             await app.send_message(message.chat.id, text3)
     except FloodWait as e:
         await asyncio.sleep(e.value)

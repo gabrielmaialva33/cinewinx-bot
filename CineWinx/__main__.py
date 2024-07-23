@@ -13,11 +13,11 @@ from config import BANNED_USERS
 
 async def init():
     if (
-        not config.STRING1
-        and not config.STRING2
-        and not config.STRING3
-        and not config.STRING4
-        and not config.STRING5
+            not config.STRING1
+            and not config.STRING2
+            and not config.STRING3
+            and not config.STRING4
+            and not config.STRING5
     ):
         LOGGER("CineWinx").error(
             "No Assistant Clients Vars Defined!.. Exiting Process."
@@ -50,10 +50,13 @@ async def init():
                     )
 
     LOGGER("CineWinx.plugins").info("Successfully Imported All Modules ")
+
     await userbot.start()
     await CineWinx.start()
     await CineWinx.decorators()
+
     LOGGER("CineWinx").info("CineWinx Started Successfully")
+
     await idle()
 
     await userbot.stop()

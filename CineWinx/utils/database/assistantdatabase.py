@@ -8,7 +8,7 @@ db = mongodb.assistants
 assistant_dict = {}
 
 
-async def get_client(assistant: int):
+async def get_client(assistant: int) -> userbot:
     if int(assistant) == 1:
         return userbot.one
     elif int(assistant) == 2:
