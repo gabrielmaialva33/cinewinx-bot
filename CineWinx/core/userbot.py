@@ -360,9 +360,7 @@ class Userbot(Client):
             await self.six.start()
 
             self.six.id = self.six.me.id
-            self.six.name = (
-                self.six.me.first_name + " " + (self.six.me.last_name or "")
-            )
+            self.six.name = self.six.me.first_name + " " + (self.six.me.last_name or "")
             self.six.username = self.six.me.username
             self.six.mention = self.six.me.mention
 
@@ -417,7 +415,10 @@ class Userbot(Client):
 
             try:
                 text = _["assistant_1"].format(
-                    self.seven.mention, self.seven.id, self.seven.name, self.seven.username
+                    self.seven.mention,
+                    self.seven.id,
+                    self.seven.name,
+                    self.seven.username,
                 )
                 await self.seven.send_message(chat_id=config.LOG_GROUP_ID, text=text)
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -457,7 +458,10 @@ class Userbot(Client):
 
             try:
                 text = _["assistant_1"].format(
-                    self.eight.mention, self.eight.id, self.eight.name, self.eight.username
+                    self.eight.mention,
+                    self.eight.id,
+                    self.eight.name,
+                    self.eight.username,
                 )
                 await self.eight.send_message(chat_id=config.LOG_GROUP_ID, text=text)
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -520,9 +524,7 @@ class Userbot(Client):
             await self.ten.start()
 
             self.ten.id = self.ten.me.id
-            self.ten.name = (
-                self.ten.me.first_name + " " + (self.ten.me.last_name or "")
-            )
+            self.ten.name = self.ten.me.first_name + " " + (self.ten.me.last_name or "")
             self.ten.username = self.ten.me.username
             self.ten.mention = self.ten.me.mention
 
@@ -555,7 +557,6 @@ class Userbot(Client):
             LOGGER(__name__).info(
                 f"{self.ten.name} assistant {assistants[-1]} has started."
             )
-
 
     async def stop(self, *args):
         LOGGER(__name__).info("Stopping assistants.")
