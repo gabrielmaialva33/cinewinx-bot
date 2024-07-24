@@ -32,11 +32,11 @@ def dt():
 
 def dt_tom():
     a = (
-            str(int(dt()[0].split("/")[0]) + 1)
-            + "/"
-            + dt()[0].split("/")[1]
-            + "/"
-            + dt()[0].split("/")[2]
+        str(int(dt()[0].split("/")[0]) + 1)
+        + "/"
+        + dt()[0].split("/")[1]
+        + "/"
+        + dt()[0].split("/")[2]
     )
     return a
 
@@ -88,11 +88,11 @@ async def ctest(_, message):
             img1 = img1.resize((380, 388))
             img2 = img2.resize((380, 388))
 
-            mask = Image.new('L', img1.size, 0)
+            mask = Image.new("L", img1.size, 0)
             draw = ImageDraw.Draw(mask)
             draw.ellipse((0, 0) + img1.size, fill=255)
 
-            mask1 = Image.new('L', img2.size, 0)
+            mask1 = Image.new("L", img2.size, 0)
             draw = ImageDraw.Draw(mask1)
             draw.ellipse((0, 0) + img2.size, fill=255)
 
@@ -114,8 +114,11 @@ async def ctest(_, message):
 📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !!</b>
 """
 
-            await message.reply_photo(f"cache/test_{cid}.png", caption=txt, reply_markup=InlineKeyboardMarkup(POLICE),
-                                  )
+            await message.reply_photo(
+                f"cache/test_{cid}.png",
+                caption=txt,
+                reply_markup=InlineKeyboardMarkup(POLICE),
+            )
             await msg.delete()
             a = upload_file(f"cache/test_{cid}.png")
             for x in a:
@@ -143,7 +146,9 @@ async def ctest(_, message):
 📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !!</b>
 """
 
-            await message.reply_photo(b, caption=txt, reply_markup=InlineKeyboardMarkup(POLICE))
+            await message.reply_photo(
+                b, caption=txt, reply_markup=InlineKeyboardMarkup(POLICE)
+            )
             await msg.delete()
 
     except Exception as e:
