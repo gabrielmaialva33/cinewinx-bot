@@ -2,7 +2,7 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 
 from CineWinx import app
-from CineWinx.utils.database.memorydatabase import get_loop, set_loop
+from CineWinx.utils.database.memory_db import get_loop, set_loop
 from CineWinx.utils.decorators import admin_rights_check
 from config import BANNED_USERS, PREFIXES
 from strings import get_command

@@ -5,7 +5,7 @@ from pyrogram.types import Message
 
 from CineWinx import app
 from CineWinx.misc import SUDOERS
-from CineWinx.utils.database.memorydatabase import (
+from CineWinx.utils.database.memory_db import (
     get_active_chats,
     get_active_video_chats,
 )

@@ -267,7 +267,7 @@ async def testbot(client: Client, message: Message, _):
 
 @app.on_message(filters.new_chat_members, group=-1)
 async def welcome(_client: app, message: Message):
-    chat_id = -1000000000000 + message.chat.id
+    chat_id = message.chat.id
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(message.chat.id):
             await message.reply_text(

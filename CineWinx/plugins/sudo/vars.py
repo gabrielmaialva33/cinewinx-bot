@@ -5,7 +5,7 @@ from pyrogram import filters
 import config
 from CineWinx import app
 from CineWinx.misc import SUDOERS
-from CineWinx.utils.database.memorydatabase import get_video_limit
+from CineWinx.utils.database.memory_db import get_video_limit
 from CineWinx.utils.formatters import convert_bytes
 from config import PREFIXES
 from strings import get_command
