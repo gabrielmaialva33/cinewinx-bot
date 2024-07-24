@@ -71,6 +71,7 @@ async def google_img_search(_client: Client, message: Message):
         await msg.delete()
         return await message.reply(f"⚠️ 𝗘𝗿𝗿𝗼 𝗮𝗼 𝗲𝗻𝘃𝗶𝗮𝗿 𝗮𝘀 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {e} ❗")
 
+
 __MODULE__ = "🖼️ 𝗜𝗺𝗮𝗴𝗲𝗻𝘀"
 __HELP__ = """
 <b>🖼️ 𝗕𝘂𝘀𝗰𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗻𝘀:</b>

@@ -36,6 +36,7 @@ async def password(_client: Client, message: Message):
         text=txt, reply_markup=btn, parse_mode=enums.ParseMode.HTML
     )
 
+
 __MODULE__ = "🔐 𝗦𝗲𝗻𝗵𝗮𝘀"
 __HELP__ = """
 <b>🔐 𝗚𝗲𝗿𝗮𝗱𝗼𝗿 𝗱𝗲 𝗦𝗲𝗻𝗵𝗮𝘀:</b>
