@@ -30,7 +30,7 @@ async def _carbon(_client: Client, message: Message):
         )
     text = await message.reply("📋 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼...")
     carbon = await make_carbon(replied.text or replied.caption)
-    await text.edit("**📤 𝗙𝗮𝘇𝗲𝗻𝗱𝗼 𝘂𝗽𝗹𝗼𝗮𝗱...**")
+    await text.edit("📤 𝗙𝗮𝘇𝗲𝗻𝗱𝗼 𝘂𝗽𝗹𝗼𝗮𝗱...")
     await message.reply_photo(carbon)
     await text.delete()
     carbon.close()
