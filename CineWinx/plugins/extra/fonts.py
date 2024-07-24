@@ -12,7 +12,7 @@ from CineWinx import app
 @app.on_message(filters.command(["font", "fonts"]))
 async def style_buttons(_client: Client, message: Message, cb=False):
     try:
-        text = message.text.split(' ', 1)[1]
+        text = message.text.split(" ", 1)[1]
     except IndexError:
         await message.reply_text("📝 𝗘𝘀𝗰𝗿𝗲𝘃𝗮 𝗼 𝘁𝗲𝘅𝘁𝗼 𝗾𝘂𝗲 𝗱𝗲𝘀𝗲𝗷𝗮 𝗲𝘀𝘁𝗶𝗹𝗶𝘇𝗮𝗿. /font texto")
         return
@@ -52,11 +52,11 @@ async def style_buttons(_client: Client, message: Message, cb=False):
             InlineKeyboardButton("H̆̈ă̈p̆̈p̆̈y̆̈", callback_data="style+happy"),
             InlineKeyboardButton("S̑̈ȃ̈d̑̈", callback_data="style+sad"),
         ],
+        [InlineKeyboardButton("𝗖𝗶𝗻𝗲𝗪𝗶𝗻𝘅", callback_data="style+cine")],
         [
-            InlineKeyboardButton("𝗖𝗶𝗻𝗲𝗪𝗶𝗻𝘅", callback_data="style+cine")
+            InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close_reply"),
+            InlineKeyboardButton("➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data="nxt"),
         ],
-        [InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close_reply"),
-         InlineKeyboardButton("➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data="nxt")],
     ]
     if not cb:
         await message.reply_text(
@@ -74,9 +74,7 @@ async def nxt(c, m):
             [
                 InlineKeyboardButton("🇸 🇵 🇪 🇨 🇮 🇦 🇱 ", callback_data="style+special"),
                 InlineKeyboardButton("🅂🅀🅄🄰🅁🄴🅂", callback_data="style+squares"),
-                InlineKeyboardButton(
-                    "🆂︎🆀︎🆄︎🅰︎🆁︎🅴︎🆂︎", callback_data="style+squares_bold"
-                ),
+                InlineKeyboardButton("🆂︎🆀︎🆄︎🅰︎🆁︎🅴︎🆂︎", callback_data="style+squares_bold"),
             ],
             [
                 InlineKeyboardButton("ꪖꪀᦔꪖꪶꪊᥴ𝓲ꪖ", callback_data="style+andalucia"),
@@ -84,12 +82,8 @@ async def nxt(c, m):
                 InlineKeyboardButton("S̾t̾i̾n̾k̾y̾", callback_data="style+stinky"),
             ],
             [
-                InlineKeyboardButton(
-                    "B̥ͦu̥ͦb̥ͦb̥ͦl̥ͦe̥ͦs̥ͦ", callback_data="style+bubbles"
-                ),
-                InlineKeyboardButton(
-                    "U͟n͟d͟e͟r͟l͟i͟n͟e͟", callback_data="style+underline"
-                ),
+                InlineKeyboardButton("B̥ͦu̥ͦb̥ͦb̥ͦl̥ͦe̥ͦs̥ͦ", callback_data="style+bubbles"),
+                InlineKeyboardButton("U͟n͟d͟e͟r͟l͟i͟n͟e͟", callback_data="style+underline"),
                 InlineKeyboardButton("꒒ꍏꀷꌩꌃꀎꁅ", callback_data="style+ladybug"),
             ],
             [
@@ -99,9 +93,7 @@ async def nxt(c, m):
             ],
             [
                 InlineKeyboardButton("s⃠t⃠o⃠p⃠", callback_data="style+stop"),
-                InlineKeyboardButton(
-                    "S̺͆k̺͆y̺͆l̺͆i̺͆n̺͆e̺͆", callback_data="style+skyline"
-                ),
+                InlineKeyboardButton("S̺͆k̺͆y̺͆l̺͆i̺͆n̺͆e̺͆", callback_data="style+skyline"),
                 InlineKeyboardButton("A͎r͎r͎o͎w͎s͎", callback_data="style+arrows"),
             ],
             [
@@ -109,8 +101,10 @@ async def nxt(c, m):
                 InlineKeyboardButton("S̶t̶r̶i̶k̶e̶", callback_data="style+strike"),
                 InlineKeyboardButton("F༙r༙o༙z༙e༙n༙", callback_data="style+frozen"),
             ],
-            [InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close_reply"),
-             InlineKeyboardButton("🔙 𝗩𝗼𝗹𝘁𝗮𝗿", callback_data="nxt+0")],
+            [
+                InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="close_reply"),
+                InlineKeyboardButton("🔙 𝗩𝗼𝗹𝘁𝗮𝗿", callback_data="nxt+0"),
+            ],
         ]
         await m.answer()
         try:
@@ -120,7 +114,6 @@ async def nxt(c, m):
             await m.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
         except Exception as e:
             logging.warning(e)
-            pass
     else:
         await style_buttons(c, m, cb=True)
 
@@ -128,7 +121,7 @@ async def nxt(c, m):
 @app.on_callback_query(filters.regex("^style"))
 async def style(_client: Client, message: Message):
     await message.answer()
-    cmd, style = message.data.split('+')
+    cmd, style = message.data.split("+")
     if style == "typewriter":
         cls = Fonts.typewriter
     if style == "outline":
@@ -211,10 +204,12 @@ async def style(_client: Client, message: Message):
         cls = Fonts.cine
     new_text = cls(message.message.reply_to_message.text.split(" ", 1)[1])
     try:
-        await message.message.edit_text(new_text, reply_markup=message.message.reply_markup)
+        await message.message.edit_text(
+            new_text, reply_markup=message.message.reply_markup
+        )
     except Exception as e:
         logging.warning(e)
-        pass
+
 
 __MODULE__ = "🔠 𝗙𝗼𝗻𝘁𝗲𝘀"
 __HELP__ = """
