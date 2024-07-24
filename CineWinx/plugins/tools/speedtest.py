@@ -37,11 +37,11 @@ async def speedtest_function(_client: app, message: Message):
 
 <b><u>👤 𝗖𝗹𝗶𝗲𝗻𝘁𝗲:</u></b>
 <b>🏢 𝗜𝗦𝗣:</b> {result['client']['isp']}
-<b>🌍 𝗣𝗮í𝘀:</b> {result['client']['country']}
+<b>🌍 𝗣𝗮𝗶́𝘀:</b> {result['client']['country']}
 
 <b><u>🌐 𝗦𝗲𝗿𝘃𝗶𝗱𝗼𝗿:</u></b>
 <b>📌 𝗡𝗼𝗺𝗲:</b> {result['server']['name']}
-<b>🌍 𝗣𝗮í𝘀:</b> {result['server']['country']}, {result['server']['cc']}
+<b>🌍 𝗣𝗮𝗶́𝘀:</b> {result['server']['country']}, {result['server']['cc']}
 <b>🤝 𝗣𝗮𝘁𝗿𝗼𝗰𝗶𝗻𝗮𝗱𝗼𝗿:</b> {result['server']['sponsor']}
 <b>⚡ 𝗟𝗮𝘁ê𝗻𝗰𝗶𝗮:</b> {result['server']['latency']} ms
 <b>🏓 𝗣𝗶𝗻𝗴:</b> {result['ping']} ms"""

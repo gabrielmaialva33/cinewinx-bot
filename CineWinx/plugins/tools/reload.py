@@ -103,10 +103,10 @@ async def stop_download(client: Client, callback_query: CallbackQuery, _):
     message_id = callback_query.message.id
     task = lyrical.get(message_id)
     if not task:
-        return await callback_query.answer("✅ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗷á 𝗰𝗼𝗻𝗰𝗹𝘂í𝗱𝗼.", show_alert=True)
+        return await callback_query.answer("✅ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗷á 𝗰𝗼𝗻𝗰𝗹𝘂𝗶́𝗱𝗼.", show_alert=True)
     if task.done() or task.cancelled():
         return await callback_query.answer(
-            "✅ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗷á 𝗰𝗼𝗻𝗰𝗹𝘂í𝗱𝗼 𝗼𝘂 𝗰𝗮𝗻𝗰𝗲𝗹𝗮𝗱𝗼.",
+            "✅ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗷á 𝗰𝗼𝗻𝗰𝗹𝘂𝗶́𝗱𝗼 𝗼𝘂 𝗰𝗮𝗻𝗰𝗲𝗹𝗮𝗱𝗼.",
             show_alert=True,
         )
     if not task.done():
@@ -127,5 +127,5 @@ async def stop_download(client: Client, callback_query: CallbackQuery, _):
             )
 
     await callback_query.answer(
-        "❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗿𝗲𝗰𝗼𝗻𝗵𝗲𝗰𝗲𝗿 𝗮 𝘁𝗮𝗿𝗲𝗳𝗮 𝗲𝗺 𝗲𝘅𝗲𝗰𝘂çã𝗼", show_alert=True
+        "❌ 𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗿𝗲𝗰𝗼𝗻𝗵𝗲𝗰𝗲𝗿 𝗮 𝘁𝗮𝗿𝗲𝗳𝗮 𝗲𝗺 𝗲𝘅𝗲𝗰𝘂𝗰̧𝗮̃𝗼", show_alert=True
     )

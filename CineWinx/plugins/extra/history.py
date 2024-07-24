@@ -82,7 +82,7 @@ __HELP__ = """
 - 𝗔𝗰𝗲𝘀𝘀𝗶́𝘃𝗲𝗹 𝗮𝗽𝗲𝗻𝗮𝘀 𝗽𝗲𝗹𝗼𝘀 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲𝘀 𝗱𝗼 𝗯𝗼𝘁.
 
 <b>💡 𝗘𝘅𝗲𝗺𝗽𝗹𝗼𝘀:</b>
-- <code>/sg nome_de_usuário</code>
-- <code>/sg user_id</code>
-- <code>/sg [responder a uma mensagem]</code>
+• <code>/sg nome_de_usuário</code>
+• <code>/sg user_id</code>
+• <code>/sg [responder a uma mensagem]</code>
 """
