@@ -21,21 +21,21 @@ async def address(_, message: Message):
         user_data = data["results"][0]
 
         name = f"{user_data['name']['title']} {user_data['name']['first']} {user_data['name']['last']}"
-        age = user_data['dob']['age']
-        birthdate = user_data['dob']['date']
+        age = user_data["dob"]["age"]
+        birthdate = user_data["dob"]["date"]
         address = f"{user_data['location']['street']['number']} {user_data['location']['street']['name']}"
-        city = user_data['location']['city']
-        state = user_data['location']['state']
-        country = user_data['location']['country']
-        postal = user_data['location']['postcode']
-        email = user_data['email']
-        username = user_data['login']['username']
-        password = user_data['login']['password']
-        phone = user_data['phone']
-        cell_phone = user_data['cell']
-        id_name = user_data['id']['name']
-        id_value = user_data['id']['value']
-        picture_url = user_data['picture']['large']
+        city = user_data["location"]["city"]
+        state = user_data["location"]["state"]
+        country = user_data["location"]["country"]
+        postal = user_data["location"]["postcode"]
+        email = user_data["email"]
+        username = user_data["login"]["username"]
+        password = user_data["login"]["password"]
+        phone = user_data["phone"]
+        cell_phone = user_data["cell"]
+        id_name = user_data["id"]["name"]
+        id_value = user_data["id"]["value"]
+        picture_url = user_data["picture"]["large"]
 
         caption = f"""
 📛 <b>𝗡𝗼𝗺𝗲</b>: {name}
@@ -56,6 +56,7 @@ async def address(_, message: Message):
         await message.reply_photo(photo=picture_url, caption=caption)
     else:
         await message.reply_text("⚠️ 𝗢𝗼𝗽𝘀, 𝗻𝗮̃𝗼 𝗳𝗼𝗶 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗼 𝗻𝗲𝗻𝗵𝘂𝗺 𝗲𝗻𝗱𝗲𝗿𝗲𝗰̧𝗼. ❗")
+
 
 __MODULE__ = "👤 𝗣𝗲𝗿𝘀𝗼𝗻𝗮𝗴𝗲𝗺 𝗙𝗮𝗸𝗲"
 __HELP__ = """
