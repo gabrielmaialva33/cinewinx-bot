@@ -7,9 +7,13 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from CineWinx.utils.winx_font import Fonts
 from CineWinx import app
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
+
+FONT_COMMAND = get_command("FONT_COMMAND")
 
 
-@app.on_message(filters.command(["font", "fonts"]))
+@app.on_message(filters.command(FONT_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def style_buttons(_client: Client, message: Message, cb=False):
     try:
         text = message.text.split(" ", 1)[1]

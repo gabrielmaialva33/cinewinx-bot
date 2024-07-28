@@ -4,12 +4,13 @@ from datetime import datetime
 
 from CineWinx.utils import save_couple, get_couple
 from CineWinx.utils.database.couples_db import _get_image
+from config import BANNED_USERS
+from strings import get_command
 from telegraph import upload_file
 from PIL import Image, ImageDraw
 from pyrogram import *
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.enums import *
-
 
 from CineWinx import app as app
 
@@ -32,11 +33,11 @@ def dt():
 
 def dt_tom():
     a = (
-        str(int(dt()[0].split("/")[0]) + 1)
-        + "/"
-        + dt()[0].split("/")[1]
-        + "/"
-        + dt()[0].split("/")[2]
+            str(int(dt()[0].split("/")[0]) + 1)
+            + "/"
+            + dt()[0].split("/")[1]
+            + "/"
+            + dt()[0].split("/")[2]
     )
     return a
 
@@ -44,8 +45,10 @@ def dt_tom():
 tomorrow = str(dt_tom())
 today = str(dt()[0])
 
+COUPLE_COMMAND = get_command("COUPLE_COMMAND")
 
-@app.on_message(filters.command("couples"))
+
+@app.on_message(filters.command("couples") & ~BANNED_USERS)
 async def ctest(_, message):
     cid = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
@@ -160,6 +163,7 @@ async def ctest(_, message):
         os.remove(f"cache/test_{cid}.png")
     except Exception:
         pass
+
 
 __MODULE__ = "💑 𝗖𝗮𝘀𝗮𝗹"
 __HELP__ = """

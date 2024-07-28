@@ -5,10 +5,15 @@ from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from CineWinx import app
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
 from telegraph import upload_file
 
 
-@app.on_message(filters.command(["tgm", "tgt", "telegraph", "tl"]))
+TELEGRAPH_COMMAND = get_command("TELEGRAPH_COMMAND")
+
+
+@app.on_message(filters.command(TELEGRAPH_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def get_link_group(_client: Client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text(

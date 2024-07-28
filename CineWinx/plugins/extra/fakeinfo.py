@@ -6,8 +6,13 @@ from pyrogram.types import Message
 from CineWinx import app
 from pyrogram import filters
 
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
 
-@app.on_message(filters.command("fake"))
+FAKE_COMMAND = get_command("FAKE_COMMAND")
+
+
+@app.on_message(filters.command(FAKE_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def address(_, message: Message):
     try:
         query = message.text.split(maxsplit=1)[1].strip()

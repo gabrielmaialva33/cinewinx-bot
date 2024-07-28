@@ -5,11 +5,14 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 
 from CineWinx import app
-from config import LOG_GROUP_ID
+from config import LOG_GROUP_ID, PREFIXES, BANNED_USERS
+from strings import get_command
+
+IG_COMMAND = get_command("IG_COMMAND")
 
 
-@app.on_message(filters.command(["ig", "instagram", "reel"]))
-async def download_instagram_video(client: Client, message: Message):
+@app.on_message(filters.command(IG_COMMAND, PREFIXES) & ~BANNED_USERS)
+async def download_instagram_video(_client: Client, message: Message):
     if len(message.command) < 2:
         await message.reply_text(
             "📎 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗽𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝗨𝗥𝗟 𝗱𝗼 𝗥𝗲𝗲𝗹 𝗱𝗼 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 𝗮𝗽𝗼́𝘀 𝗼 𝗰𝗼𝗺𝗮𝗻𝗱𝗼."
@@ -17,7 +20,7 @@ async def download_instagram_video(client: Client, message: Message):
         return
     url = message.text.split()[1]
     if not re.match(
-        re.compile(r"^(https?://)?(www\.)?(instagram\.com|instagr\.am)/.*$"), url
+            re.compile(r"^(https?://)?(www\.)?(instagram\.com|instagr\.am)/.*$"), url
     ):
         return await message.reply_text(
             "⚠️ 𝗔 𝗨𝗥𝗟 𝗽𝗿𝗼𝘃𝗶𝗱𝗮 𝗻𝗮̃𝗼 𝗲́ 𝘂𝗺𝗮 𝗨𝗥𝗟 𝘃𝗮́𝗹𝗶𝗱𝗮 𝗱𝗼 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺. 😅"

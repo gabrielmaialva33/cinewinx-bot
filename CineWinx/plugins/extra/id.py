@@ -2,10 +2,13 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 
 from CineWinx import app
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
+from strings import get_command
+
+ID_COMMAND = get_command("ID_COMMAND")
 
 
-@app.on_message(filters.command("id") & ~BANNED_USERS)
+@app.on_message(filters.command(ID_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def get_id(_client: Client, message: Message):
     try:
         chat = await app.get_chat(message.chat.id)

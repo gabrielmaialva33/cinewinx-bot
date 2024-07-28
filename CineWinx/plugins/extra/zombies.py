@@ -8,14 +8,17 @@ from pyrogram.types import Message
 
 from CineWinx import app
 from CineWinx.utils.permissions import admins_only
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
+from strings import get_command
 
 chat_queue = []
 
 stop_process = False
 
+ZOMBIES_COMMAND = get_command("ZOMBIES_COMMAND")
 
-@app.on_message(filters.command(["zombies"]) & filters.group & ~BANNED_USERS)
+
+@app.on_message(filters.command(ZOMBIES_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @admins_only("can_restrict_members")
 async def remove(_client: Client, message: Message):
     global stop_process
@@ -106,7 +109,7 @@ async def admins(_client: Client, message: Message):
         admin_list = []
         owner_list = []
         async for admin in app.get_chat_members(
-            message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
+                message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
         ):
             if not admin.privileges.is_anonymous:
                 if admin.user.is_bot:
@@ -154,7 +157,7 @@ async def bots(_client: Client, message: Message):
     try:
         bot_list = []
         async for bot in app.get_chat_members(
-            message.chat.id, filter=enums.ChatMembersFilter.BOTS
+                message.chat.id, filter=enums.ChatMembersFilter.BOTS
         ):
             bot_list.append(bot.user)
         len_bot_list = len(bot_list)

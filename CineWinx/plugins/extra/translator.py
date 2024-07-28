@@ -4,12 +4,16 @@ from pyrogram.types import Message
 
 import config
 from CineWinx import app
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
+from strings import get_command
 
 trans = Translator()
 
+TR_COMMAND = get_command("TR_COMMAND")
+LANGCODES_COMMAND = get_command("LANGCODES_COMMAND")
 
-@app.on_message(filters.command("tr") & ~BANNED_USERS)
+
+@app.on_message(filters.command(TR_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def translate(_, message: Message) -> None:
     reply_msg = message.reply_to_message
     if not reply_msg:
@@ -37,7 +41,7 @@ async def translate(_, message: Message) -> None:
     await message.reply_text(reply)
 
 
-@app.on_message(filters.command("langcodes") & ~BANNED_USERS)
+@app.on_message(filters.command(LANGCODES_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def language_codes(_, message):
     languages = """
     🗣️ 𝗖𝗼́𝗱𝗶𝗴𝗼𝘀 𝗱𝗲 𝗜𝗱𝗶𝗼𝗺𝗮:

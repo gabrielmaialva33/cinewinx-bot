@@ -4,9 +4,13 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 from CineWinx import app
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
+
+PASS_COMMAND = get_command("PASS_COMMAND")
 
 
-@app.on_message(filters.command(["genpassword", "genpw"]))
+@app.on_message(filters.command(PASS_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def password(_client: Client, message: Message):
     reply_message = await message.reply_text(text="⏳ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼..")
     password = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+".lower()

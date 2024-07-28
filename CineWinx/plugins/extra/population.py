@@ -4,9 +4,13 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 import requests
 from CineWinx import app
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
+
+POPULATION_COMMAND = get_command("POPULATION_COMMAND")
 
 
-@app.on_message(filters.command("population"))
+@app.on_message(filters.command(POPULATION_COMMAND, PREFIXES) & ~BANNED_USERS)
 def country_command_handler(_client: Client, message: Message):
     try:
         country_code = message.text.split(maxsplit=1)[1].strip()

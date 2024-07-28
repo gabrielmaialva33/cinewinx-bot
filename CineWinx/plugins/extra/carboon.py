@@ -5,6 +5,8 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 
 from CineWinx import app
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
 
 
 async def make_carbon(code):
@@ -16,7 +18,10 @@ async def make_carbon(code):
     return image
 
 
-@app.on_message(filters.command("carbon"))
+CARBON_COMMAND = get_command("CARBON_COMMAND")
+
+
+@app.on_message(filters.command(CARBON_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def _carbon(_client: Client, message: Message):
     replied = message.reply_to_message
     if not replied:
