@@ -20,7 +20,7 @@ async def download_instagram_video(_client: Client, message: Message):
         return
     url = message.text.split()[1]
     if not re.match(
-            re.compile(r"^(https?://)?(www\.)?(instagram\.com|instagr\.am)/.*$"), url
+        re.compile(r"^(https?://)?(www\.)?(instagram\.com|instagr\.am)/.*$"), url
     ):
         return await message.reply_text(
             "⚠️ 𝗔 𝗨𝗥𝗟 𝗽𝗿𝗼𝘃𝗶𝗱𝗮 𝗻𝗮̃𝗼 𝗲́ 𝘂𝗺𝗮 𝗨𝗥𝗟 𝘃𝗮́𝗹𝗶𝗱𝗮 𝗱𝗼 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺. 😅"
