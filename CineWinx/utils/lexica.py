@@ -228,6 +228,7 @@ async def list_models():
 #     "code": 2
 # }
 
+
 async def get_chats_model():
     response = await list_models()
     return response["models"]["chat"]
