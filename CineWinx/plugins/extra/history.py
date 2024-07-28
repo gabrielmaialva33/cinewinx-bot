@@ -15,7 +15,9 @@ from strings import get_command
 HISTORY_COMMAND = get_command("HISTORY_COMMAND")
 
 
-@app.on_message(filters.command(HISTORY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(HISTORY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 async def sg(client: Client, message: Message):
     if len(message.text.split()) < 2 and not message.reply_to_message:
         return await message.reply("📢 𝘀𝗴 𝘂𝘀𝗲𝗿𝗻𝗮𝗺𝗲 / 𝗶𝗱 / 𝗿𝗲𝗽𝗹𝘆")

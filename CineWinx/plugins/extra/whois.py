@@ -10,6 +10,7 @@ from strings import get_command
 
 WHOIS_COMMAND = get_command("WHOIS_COMMAND")
 
+
 def reply_check(message: Message):
     reply_id = None
 
@@ -55,7 +56,9 @@ def full_name(user: User):
     return user.first_name + " " + user.last_name if user.last_name else user.first_name
 
 
-@app.on_message(filters.command(WHOIS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(WHOIS_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 async def whois(client: Client, message: Message):
     cmd = message.command
     if not message.reply_to_message and len(cmd) == 1:
