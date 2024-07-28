@@ -4,7 +4,7 @@ from datetime import datetime
 
 from CineWinx.utils import save_couple, get_couple
 from CineWinx.utils.database.couples_db import _get_image
-from config import BANNED_USERS
+from config import BANNED_USERS, PREFIXES
 from strings import get_command
 from telegraph import upload_file
 from PIL import Image, ImageDraw
@@ -48,7 +48,7 @@ today = str(dt()[0])
 COUPLE_COMMAND = get_command("COUPLE_COMMAND")
 
 
-@app.on_message(filters.command("couples") & ~BANNED_USERS)
+@app.on_message(filters.command(COUPLE_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def ctest(_, message):
     cid = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
