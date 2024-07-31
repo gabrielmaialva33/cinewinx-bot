@@ -126,3 +126,6 @@ TR_COMMAND: [ "tr", "translate", "traduzir" , "traducao" , "traducoes" ]
 LANGCODES_COMMAND: [ "langcodes", "langcode" , "langcodeslist" , "langcodelist" ]
 WHOIS_COMMAND: [ "whois", "who" , "whos" , "quem" , "quems" ]
 ZOMBIES_COMMAND: [ "zombies", "zumbis" , "zumbi" , "zumbis" , "cleanzombies" , "cleanzumbis" ]
+
+# Lexica
+LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma"]
