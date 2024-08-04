@@ -216,13 +216,14 @@ class Call(PyTgCalls):
         try:
             check = db.get(chat_id)
             check.pop(0)
-        except:
+        except IndexError:
             pass
         await remove_active_video_chat(chat_id)
         await remove_active_chat(chat_id)
         try:
             await assistant.leave_call(chat_id)
-        except:
+        except Exception as e:
+            logging.warning(e)
             pass
 
     async def skip_stream(
