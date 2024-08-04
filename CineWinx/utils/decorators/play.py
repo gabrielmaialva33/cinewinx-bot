@@ -135,8 +135,8 @@ def play_wrapper(command: callable):
                 except ChatAdminRequired:
                     return await message.reply_text(_["call_1"])
                 if (
-                        get.status == ChatMemberStatus.BANNED
-                        or get.status == ChatMemberStatus.RESTRICTED
+                    get.status == ChatMemberStatus.BANNED
+                    or get.status == ChatMemberStatus.RESTRICTED
                 ):
                     return await message.reply_text(
                         text=_["call_2"].format(userbot.username, userbot.id),
