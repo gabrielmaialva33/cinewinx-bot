@@ -1,8 +1,9 @@
 import logging
 
+import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
-import requests
+
 from CineWinx import app
 from config import PREFIXES, BANNED_USERS
 from strings import get_command

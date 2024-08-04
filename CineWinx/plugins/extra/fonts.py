@@ -1,12 +1,12 @@
+import asyncio
 import logging
 
-import asyncio
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from CineWinx.utils.winx_font import Fonts
 from CineWinx import app
+from CineWinx.utils.winx_font import Fonts
 from config import PREFIXES, BANNED_USERS
 from strings import get_command
 

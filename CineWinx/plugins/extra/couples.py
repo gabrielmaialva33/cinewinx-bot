@@ -2,17 +2,17 @@ import os
 import random
 from datetime import datetime
 
+from PIL import Image, ImageDraw
+from pyrogram import *
+from pyrogram.enums import *
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from CineWinx import app as app
 from CineWinx.utils import save_couple, get_couple
 from CineWinx.utils.database.couples_db import _get_image
 from config import BANNED_USERS, PREFIXES
 from strings import get_command
 from telegraph import upload_file
-from PIL import Image, ImageDraw
-from pyrogram import *
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.enums import *
-
-from CineWinx import app as app
 
 POLICE = [
     [
@@ -33,11 +33,11 @@ def dt():
 
 def dt_tom():
     a = (
-        str(int(dt()[0].split("/")[0]) + 1)
-        + "/"
-        + dt()[0].split("/")[1]
-        + "/"
-        + dt()[0].split("/")[2]
+            str(int(dt()[0].split("/")[0]) + 1)
+            + "/"
+            + dt()[0].split("/")[1]
+            + "/"
+            + dt()[0].split("/")[2]
     )
     return a
 

@@ -1,7 +1,4 @@
-import asyncio
-from pyrogram.types import InlineKeyboardButton
-
-from lexica import AsyncClient, languageModels
+from lexica import AsyncClient
 
 
 async def list_models() -> dict:
@@ -103,7 +100,6 @@ async def list_models() -> dict:
 
 async def get_chats_model():
     response = await list_models()
-
 
     return response["models"]["chat"]
 

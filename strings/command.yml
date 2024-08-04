@@ -128,4 +128,4 @@ WHOIS_COMMAND: [ "whois", "who" , "whos" , "quem" , "quems" ]
 ZOMBIES_COMMAND: [ "zombies", "zumbis" , "zumbi" , "zumbis" , "cleanzombies" , "cleanzumbis" ]
 
 # Lexica
-LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma"]
+LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma" ]

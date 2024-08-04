@@ -9,7 +9,6 @@ from config import PREFIXES, BANNED_USERS
 from strings import get_command
 from telegraph import upload_file
 
-
 TELEGRAPH_COMMAND = get_command("TELEGRAPH_COMMAND")
 
 
