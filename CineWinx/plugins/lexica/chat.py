@@ -13,9 +13,7 @@ prompt_db = {}
 MODELS = {}
 
 
-@app.on_message(
-    filters.command(LLM_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
-)
+@app.on_message(filters.command(LLM_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 async def llm(_client: Client, message: Message):
     models = await get_chats_model()
 
@@ -37,7 +35,7 @@ def chat_markup(models: list, page: int):
                     text=model["name"],
                     callback_data=f"llm_{model['id']}",
                 )
-                for model in models[page * 4: page * 4 + 4]
+                for model in models[page * 4 : page * 4 + 4]
             ],
             [
                 InlineKeyboardButton(
