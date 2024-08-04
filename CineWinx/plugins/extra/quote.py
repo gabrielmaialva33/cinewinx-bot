@@ -17,7 +17,7 @@ fetch = AsyncClient(
     headers={
         "Accept-Language": "id-ID",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                      "Chrome/107.0.0.0 Safari/537.36 Edge/107.0.1418.42",
+        "Chrome/107.0.0.0 Safari/537.36 Edge/107.0.1418.42",
     },
     timeout=Timeout(20),
 )
@@ -80,9 +80,9 @@ async def get_custom_emoji(ctx: Message):
         return (
             ""
             if ctx.forward_sender_name
-               or not ctx.forward_from
-               and ctx.forward_from_chat
-               or not ctx.forward_from
+            or not ctx.forward_from
+            and ctx.forward_from_chat
+            or not ctx.forward_from
             else ctx.forward_from.emoji_status.custom_emoji_id
         )
 
@@ -93,18 +93,18 @@ async def get_custom_emoji(ctx: Message):
 async def get_message_sender_username(ctx: Message):
     if ctx.forward_date:
         if (
-                not ctx.forward_sender_name
-                and not ctx.forward_from
-                and ctx.forward_from_chat
-                and ctx.forward_from_chat.username
+            not ctx.forward_sender_name
+            and not ctx.forward_from
+            and ctx.forward_from_chat
+            and ctx.forward_from_chat.username
         ):
             return ctx.forward_from_chat.username
         elif (
-                not ctx.forward_sender_name
-                and not ctx.forward_from
-                and ctx.forward_from_chat
-                or ctx.forward_sender_name
-                or not ctx.forward_from
+            not ctx.forward_sender_name
+            and not ctx.forward_from
+            and ctx.forward_from_chat
+            or ctx.forward_sender_name
+            or not ctx.forward_from
         ):
             return ""
         else:
@@ -112,10 +112,10 @@ async def get_message_sender_username(ctx: Message):
     elif ctx.from_user and ctx.from_user.username:
         return ctx.from_user.username
     elif (
-            ctx.from_user
-            or ctx.sender_chat
-            and not ctx.sender_chat.username
-            or not ctx.sender_chat
+        ctx.from_user
+        or ctx.sender_chat
+        and not ctx.sender_chat.username
+        or not ctx.sender_chat
     ):
         return ""
     else:
@@ -126,10 +126,10 @@ async def get_message_sender_username(ctx: Message):
 async def get_message_sender_photo(ctx: Message):
     if ctx.forward_date:
         if (
-                not ctx.forward_sender_name
-                and not ctx.forward_from
-                and ctx.forward_from_chat
-                and ctx.forward_from_chat.photo
+            not ctx.forward_sender_name
+            and not ctx.forward_from
+            and ctx.forward_from_chat
+            and ctx.forward_from_chat.photo
         ):
             return {
                 "small_file_id": ctx.forward_from_chat.photo.small_file_id,
@@ -138,11 +138,11 @@ async def get_message_sender_photo(ctx: Message):
                 "big_photo_unique_id": ctx.forward_from_chat.photo.big_photo_unique_id,
             }
         elif (
-                not ctx.forward_sender_name
-                and not ctx.forward_from
-                and ctx.forward_from_chat
-                or ctx.forward_sender_name
-                or not ctx.forward_from
+            not ctx.forward_sender_name
+            and not ctx.forward_from
+            and ctx.forward_from_chat
+            or ctx.forward_sender_name
+            or not ctx.forward_from
         ):
             return ""
         else:
@@ -165,10 +165,10 @@ async def get_message_sender_photo(ctx: Message):
             "big_photo_unique_id": ctx.from_user.photo.big_photo_unique_id,
         }
     elif (
-            ctx.from_user
-            or ctx.sender_chat
-            and not ctx.sender_chat.photo
-            or not ctx.sender_chat
+        ctx.from_user
+        or ctx.sender_chat
+        and not ctx.sender_chat.photo
+        or not ctx.sender_chat
     ):
         return ""
     else:
