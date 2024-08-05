@@ -610,40 +610,59 @@ video = load_data(VIDEO_FILE)
 
 
 async def save_audio_bitrate(chat_id: int, bitrate: str):
-    audio[str(chat_id)] = bitrate
-    save_data(AUDIO_FILE, audio)
+    if config.PRIVATE_BOT_MODE != str(True):
+        audio[str(chat_id)] = "MEDIUM"
+        save_data(AUDIO_FILE, audio)
+    else:
+        audio[str(chat_id)] = bitrate
+        save_data(AUDIO_FILE, audio)
 
 
 async def save_video_bitrate(chat_id: int, bitrate: str):
-    video[str(chat_id)] = bitrate
-    save_data(VIDEO_FILE, video)
+    if config.PRIVATE_BOT_MODE != str(True):
+        video[str(chat_id)] = "SD_480p"
+    else:
+        video[str(chat_id)] = bitrate
+        save_data(VIDEO_FILE, video)
 
 
 async def get_aud_bit_name(chat_id: int) -> str:
-    return audio.get(str(chat_id), "HIGH")
+    if config.PRIVATE_BOT_MODE != str(True):
+        return "MEDIUM"
+    else:
+        return audio.get(str(chat_id), "HIGH")
 
 
 async def get_vid_bit_name(chat_id: int) -> str:
-    return video.get(str(chat_id), "HD_720p")
+    if config.PRIVATE_BOT_MODE != str(True):
+        return "SD_480p"
+    else:
+        return video.get(str(chat_id), "HD_720p")
 
 
 async def get_audio_bitrate(chat_id: int) -> AudioQuality:
-    mode = audio.get(str(chat_id), "HIGH")
-    return {
-        "STUDIO": AudioQuality.STUDIO,
-        "HIGH": AudioQuality.HIGH,
-        "MEDIUM": AudioQuality.MEDIUM,
-        "LOW": AudioQuality.LOW,
-    }.get(mode, AudioQuality.HIGH)
+    if config.PRIVATE_BOT_MODE != str(True):
+        return AudioQuality.MEDIUM
+    else:
+        mode = audio.get(str(chat_id), "HIGH")
+        return {
+            "STUDIO": AudioQuality.STUDIO,
+            "HIGH": AudioQuality.HIGH,
+            "MEDIUM": AudioQuality.MEDIUM,
+            "LOW": AudioQuality.LOW,
+        }.get(mode, AudioQuality.HIGH)
 
 
 async def get_video_bitrate(chat_id: int) -> VideoQuality:
-    mode = video.get(str(chat_id), "FHD_1080p")
-    return {
-        "UHD_4K": VideoQuality.UHD_4K,
-        "QHD_2K": VideoQuality.QHD_2K,
-        "FHD_1080p": VideoQuality.FHD_1080p,
-        "HD_720p": VideoQuality.HD_720p,
-        "SD_480p": VideoQuality.SD_480p,
-        "SD_360p": VideoQuality.SD_360p,
-    }.get(mode, VideoQuality.FHD_1080p)
+    if config.PRIVATE_BOT_MODE != str(True):
+        return VideoQuality.SD_480p
+    else:
+        mode = video.get(str(chat_id), "FHD_1080p")
+        return {
+            "UHD_4K": VideoQuality.UHD_4K,
+            "QHD_2K": VideoQuality.QHD_2K,
+            "FHD_1080p": VideoQuality.FHD_1080p,
+            "HD_720p": VideoQuality.HD_720p,
+            "SD_480p": VideoQuality.SD_480p,
+            "SD_360p": VideoQuality.SD_360p,
+        }.get(mode, VideoQuality.FHD_1080p)

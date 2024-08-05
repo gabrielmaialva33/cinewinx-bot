@@ -1,14 +1,13 @@
 from typing import Union, Dict
 
 from httpx import AsyncClient
-
 from lexica.constants import BASE_URL, SESSION_HEADERS
 from lexica.utils import clean_dict
 
 
 class LexicaAsyncClient:
     def __init__(
-        self: "LexicaAsyncClient",
+            self: "LexicaAsyncClient",
     ):
         """
         Initialize the class

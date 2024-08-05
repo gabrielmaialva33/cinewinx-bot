@@ -2,7 +2,6 @@ import logging
 from typing import Union, Dict
 
 import httpx
-
 from lexica.constants import BASE_URL, SESSION_HEADERS
 from lexica.utils import clean_dict
 

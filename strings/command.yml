@@ -129,4 +129,7 @@ ZOMBIES_COMMAND: [ "zombies", "zumbis" , "zumbi" , "zumbis" , "cleanzombies" , "
 
 # Lexica
 LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma" ]
+DRAW_COMMAND: [ "draw", "drawgen" , "drawgenerate" , "drawa" , "desenhar" , "gerardesenho" , "gerar_desenho" , "desenho" , "imgen" , "imgenerate" , "imga" ]
+
+# Misc
 RESUME_TEXT_COMMAND: [ "resumetext", "resuma", "resumetexto", "resuma_essa_merda" , "muito_texto" , "mucho_texto" ]
