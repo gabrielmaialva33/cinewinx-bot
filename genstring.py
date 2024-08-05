@@ -20,7 +20,6 @@ async def main():
         await i.send_message("me", xx)
     except BaseException as e:
         logging.warning(e)
-        pass
 
 
 asyncio.run(main())
