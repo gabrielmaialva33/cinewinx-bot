@@ -157,9 +157,9 @@ async def select_model(_, callback_query: CallbackQuery):
 
     await callback_query.message.delete()
     await callback_query.message.reply_to_message.reply_text(
-        f"📝 𝗣𝗿𝗼𝗺𝗽𝘁: {prompt_db[user_id]['prompt']}"
-        f"\n🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {prompt_db[user_id]['model_name']}"
-        f"\n📬 𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮: \n\n"
+        f"📝 <u>𝗣𝗿𝗼𝗺𝗽𝘁:</u> {prompt_db[user_id]['prompt']}"
+        f"\n🦙 <u>𝗠𝗼𝗱𝗲𝗹𝗼:</u> {prompt_db[user_id]['model_name']}"
+        f"\n📬 <u>𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮:</u> \n\n"
         f"<i>{response['content']}</i>",
         reply_to_message_id=prompt_db[user_id]["reply_to_id"],
     )
