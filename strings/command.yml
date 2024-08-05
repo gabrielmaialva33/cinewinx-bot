@@ -128,7 +128,7 @@ WHOIS_COMMAND: [ "whois", "who" , "whos" , "quem" , "quems" ]
 ZOMBIES_COMMAND: [ "zombies", "zumbis" , "zumbi" , "zumbis" , "cleanzombies" , "cleanzumbis" ]
 
 # Lexica
-LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma" ]
+LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma" , "liminha", "lim" ]
 DRAW_COMMAND: [ "draw", "drawgen" , "drawgenerate" , "drawa" , "desenhar" , "gerardesenho" , "gerar_desenho" , "desenho" , "imgen" , "imgenerate" , "imga" ]
 
 # Misc
