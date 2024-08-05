@@ -56,7 +56,7 @@ async def llm(_client: Client, message: Message):
     markup = chat_markup(message.from_user.id, models, page)
 
     await message.reply_text(
-        f"📝 𝗦𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗲 𝘂𝗺 𝗺𝗼𝗱𝗲𝗹𝗼 𝗽𝗮𝗿𝗮 𝗶𝗻𝗶𝗰𝗶𝗮𝗿 𝗮 𝗰𝗼𝗻𝘃𝗲𝗿𝘀𝗮 👇",
+        f"🦙 𝗦𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗲 𝘂𝗺 𝗺𝗼𝗱𝗲𝗹𝗼 𝗟𝗟𝗠 👇",
         reply_markup=markup,
     )
 
@@ -156,9 +156,8 @@ async def select_model(_, callback_query: CallbackQuery):
 
     await callback_query.message.delete()
     await callback_query.message.reply_to_message.reply_text(
-        f"👤 𝗨𝘀𝘂𝗮́𝗿𝗶𝗼: {prompt_db[user_id]['user_name']}"
-        f"\n📝 𝗣𝗿𝗼𝗺𝗽𝘁: {prompt_db[user_id]['prompt']}"
-        f"\n📄 𝗠𝗼𝗱𝗲𝗹𝗼: {prompt_db[user_id]['model_name']}"
+        f"📝 𝗣𝗿𝗼𝗺𝗽𝘁: {prompt_db[user_id]['prompt']}"
+        f"\n🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {prompt_db[user_id]['model_name']}"
         f"\n📬 𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮: \n\n"
         f"<i>{response['content']}</i>",
         reply_to_message_id=prompt_db[user_id]["reply_to_id"],
