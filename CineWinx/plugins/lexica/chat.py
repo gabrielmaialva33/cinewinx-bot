@@ -1,9 +1,13 @@
-import logging
 import re
 import unicodedata
 
 from pyrogram import filters, Client
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import (
+    Message,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    CallbackQuery,
+)
 
 from CineWinx import app
 from CineWinx.utils import LexicaClient
@@ -16,16 +20,22 @@ prompt_db: dict = {}
 
 client = LexicaClient()
 
-main_prompt = ("Você é a AI do CineWinx. Ao responder, por favor, chame o usuário pelo nome. {0}\n\n"
-               "A seguir está o prompt que um usuário enviou para você:\n\n{1}")
+main_prompt = (
+    "Você é a AI do CineWinx. Ao responder, por favor, chame o usuário pelo nome. {0}\n\n"
+    "A seguir está o prompt que um usuário enviou para você:\n\n{1}"
+)
 
 
 @app.on_message(filters.command(LLM_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def llm(_client: Client, message: Message):
-    prompt = message.text.split(None, 1)[1].strip() if len(message.text.split()) > 1 else (
-        message.reply_to_message.text if message.reply_to_message else None
+    prompt = (
+        message.text.split(None, 1)[1].strip()
+        if len(message.text.split()) > 1
+        else (message.reply_to_message.text if message.reply_to_message else None)
     )
-    reply_to_id = message.reply_to_message.id if message.reply_to_message else message.id
+    reply_to_id = (
+        message.reply_to_message.id if message.reply_to_message else message.id
+    )
 
     user_name = message.from_user.first_name
     user_name = normalize_username(user_name)
@@ -51,7 +61,9 @@ async def llm(_client: Client, message: Message):
     )
 
 
-def chat_markup(user_id: int, models: list | dict, page: int = 0) -> InlineKeyboardMarkup:
+def chat_markup(
+    user_id: int, models: list | dict, page: int = 0
+) -> InlineKeyboardMarkup:
     # number of models per page
     models_per_page = 4
     start_index = page * models_per_page
@@ -65,29 +77,23 @@ def chat_markup(user_id: int, models: list | dict, page: int = 0) -> InlineKeybo
     for model in current_models:
         buttons.append(
             InlineKeyboardButton(
-                text=model['name'],
-                callback_data=f"llm_{user_id}_{model['id']}_{model['name']}"
+                text=model["name"],
+                callback_data=f"llm_{user_id}_{model['id']}_{model['name']}",
             )
         )
 
     # organize buttons in 2x2 grid
-    keyboard = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+    keyboard = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
 
     # add navigation buttons
     navigation_buttons = []
     if start_index > 0:
         navigation_buttons.append(
-            InlineKeyboardButton(
-                text="⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿",
-                callback_data=f"llm_prev_{page}"
-            )
+            InlineKeyboardButton(text="⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"llm_prev_{page}")
         )
     if end_index < len(models):
         navigation_buttons.append(
-            InlineKeyboardButton(
-                text="➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼",
-                callback_data=f"llm_next_{page}"
-            )
+            InlineKeyboardButton(text="➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data=f"llm_next_{page}")
         )
 
     if navigation_buttons:
@@ -127,23 +133,26 @@ async def select_model(_, callback_query: CallbackQuery):
     prompt_db[user_id]["model_id"] = model_id
     prompt_db[user_id]["model_name"] = model_name
 
-    prompt = main_prompt.format(prompt_db[user_id]['user_name'], prompt_db[user_id]['prompt'])
+    prompt = main_prompt.format(
+        prompt_db[user_id]["user_name"], prompt_db[user_id]["prompt"]
+    )
     params = {
         "prompt": prompt,
-        "model_id": prompt_db[user_id]['model_id'],
+        "model_id": prompt_db[user_id]["model_id"],
     }
 
     response = client.fetch(
-        url=f'{client.url}/models',
-        method='POST',
+        url=f"{client.url}/models",
+        method="POST",
         params=params,
         json={},
-        headers={"content-type": "application/json"}
+        headers={"content-type": "application/json"},
     )
 
-    if response['code'] != 2:
+    if response["code"] != 2:
         return await callback_query.edit_message_text(
-            "❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲.")
+            "❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
+        )
 
     await callback_query.message.delete()
     await callback_query.message.reply_to_message.reply_text(
@@ -157,8 +166,8 @@ async def select_model(_, callback_query: CallbackQuery):
 
 
 def normalize_username(username: str) -> str:
-    normalized = unicodedata.normalize('NFKC', username)
-    normalized = re.sub(r'\W+', '', normalized)
+    normalized = unicodedata.normalize("NFKC", username)
+    normalized = re.sub(r"\W+", "", normalized)
     return normalized
 
 
