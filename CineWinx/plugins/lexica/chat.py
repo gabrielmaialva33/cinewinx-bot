@@ -151,7 +151,8 @@ async def select_model(_, callback_query: CallbackQuery):
 
     if response["code"] != 2:
         return await callback_query.edit_message_text(
-            "❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
+            f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {prompt_db[user_id]['model_name']}\n"
+            f"❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
         )
 
     await callback_query.message.delete()
