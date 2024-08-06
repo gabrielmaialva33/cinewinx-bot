@@ -13,3 +13,4 @@ __pycache__/
 tempdb
 .cinewinx.env
 .dev.env
+resource.txt
