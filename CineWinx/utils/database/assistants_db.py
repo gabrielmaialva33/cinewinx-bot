@@ -87,7 +87,7 @@ async def set_calls_assistant(chat_id) -> int:
     return ran_assistant
 
 
-async def group_assistant(self, chat_id: int) -> int:
+async def group_assistant(self, chat_id: int) -> userbot:
     from CineWinx.core.userbot import assistants
 
     assistant = assistant_dict.get(chat_id)
