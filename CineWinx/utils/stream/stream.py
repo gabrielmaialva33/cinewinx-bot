@@ -23,17 +23,17 @@ from CineWinx.utils.thumbnails import gen_qthumb, gen_thumb
 
 
 async def stream(
-        _,
-        mystic: app,
-        user_id: int,
-        result: Union[dict, list],
-        chat_id: int,
-        user_name: str,
-        original_chat_id: int,
-        video: Union[bool, str] = None,
-        streamtype: Union[bool, str] = None,
-        spotify: Union[bool, str] = None,
-        forceplay: Union[bool, str] = None,
+    _,
+    mystic: app,
+    user_id: int,
+    result: Union[dict, list],
+    chat_id: int,
+    user_name: str,
+    original_chat_id: int,
+    video: Union[bool, str] = None,
+    streamtype: Union[bool, str] = None,
+    spotify: Union[bool, str] = None,
+    forceplay: Union[bool, str] = None,
 ):
     if not result:
         return

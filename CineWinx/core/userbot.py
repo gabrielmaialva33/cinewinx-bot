@@ -238,7 +238,7 @@ class Userbot(Client):
 
             self.three.id = self.three.me.id
             self.three.name = (
-                    self.three.me.first_name + " " + (self.three.me.last_name or "")
+                self.three.me.first_name + " " + (self.three.me.last_name or "")
             )
             self.three.username = self.three.me.username
             self.three.mention = self.three.me.mention
@@ -281,7 +281,7 @@ class Userbot(Client):
 
             self.four.id = self.four.me.id
             self.four.name = (
-                    self.four.me.first_name + " " + (self.four.me.last_name or "")
+                self.four.me.first_name + " " + (self.four.me.last_name or "")
             )
             self.four.username = self.four.me.username
             self.four.mention = self.four.me.mention
@@ -321,7 +321,7 @@ class Userbot(Client):
 
             self.five.id = self.five.me.id
             self.five.name = (
-                    self.five.me.first_name + " " + (self.five.me.last_name or "")
+                self.five.me.first_name + " " + (self.five.me.last_name or "")
             )
             self.five.username = self.five.me.username
             self.five.mention = self.five.me.mention
@@ -399,7 +399,7 @@ class Userbot(Client):
 
             self.seven.id = self.seven.me.id
             self.seven.name = (
-                    self.seven.me.first_name + " " + (self.seven.me.last_name or "")
+                self.seven.me.first_name + " " + (self.seven.me.last_name or "")
             )
             self.seven.username = self.seven.me.username
             self.seven.mention = self.seven.me.mention
@@ -442,7 +442,7 @@ class Userbot(Client):
 
             self.eight.id = self.eight.me.id
             self.eight.name = (
-                    self.eight.me.first_name + " " + (self.eight.me.last_name or "")
+                self.eight.me.first_name + " " + (self.eight.me.last_name or "")
             )
             self.eight.username = self.eight.me.username
             self.eight.mention = self.eight.me.mention
@@ -485,7 +485,7 @@ class Userbot(Client):
 
             self.nine.id = self.nine.me.id
             self.nine.name = (
-                    self.nine.me.first_name + " " + (self.nine.me.last_name or "")
+                self.nine.me.first_name + " " + (self.nine.me.last_name or "")
             )
             self.nine.username = self.nine.me.username
             self.nine.mention = self.nine.me.mention
