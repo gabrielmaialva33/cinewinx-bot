@@ -5,7 +5,6 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from CineWinx import app
-from CineWinx.utils import session
 from config import PREFIXES, BANNED_USERS
 from strings import get_command
 
@@ -63,7 +62,6 @@ async def get_ip_info(ip_address: str) -> str or None:
         print(f"❌ 𝗘𝗿𝗿𝗼 𝗮𝗼 𝗯𝘂𝘀𝗰𝗮𝗿 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗼 𝗜𝗣: {e}")
     finally:
         await client.close()
-
 
 
 __MODULE__ = "🌐 𝗜𝗣"
