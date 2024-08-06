@@ -60,7 +60,7 @@ async def llm(_client: Client, message: Message):
 
 
 def chat_models_markup(
-        user_id: int, models: list | dict, page: int = 1
+    user_id: int, models: list | dict, page: int = 1
 ) -> InlineKeyboardMarkup:
     models = sorted(
         [
@@ -88,7 +88,7 @@ def chat_models_markup(
     modulo_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * column_size : column_size * (modulo_page + 1)] + [
             (
                 InlineKeyboardButton(
                     "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"llm_prev_{modulo_page}"
@@ -101,11 +101,7 @@ def chat_models_markup(
         ]
     else:
         pairs += [
-            [
-                InlineKeyboardButton(
-                    "❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"llm_cancel_{user_id}"
-                )
-            ]
+            [InlineKeyboardButton("❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"llm_cancel_{user_id}")]
         ]
 
     return InlineKeyboardMarkup(pairs)
@@ -233,8 +229,10 @@ def normalize_username(username: str) -> str:
 
 
 def get_prompt(message: Message) -> str:
-    return message.text.split(None, 1)[1].strip() if len(message.text.split()) > 1 else (
-        message.reply_to_message.text if message.reply_to_message else None
+    return (
+        message.text.split(None, 1)[1].strip()
+        if len(message.text.split()) > 1
+        else (message.reply_to_message.text if message.reply_to_message else None)
     )
 
 
