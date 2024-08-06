@@ -7,17 +7,18 @@ import config
 from CineWinx import HELPABLE, LOGGER, app, userbot
 from CineWinx.core.call import CineWinx
 from CineWinx.plugins import ALL_MODULES
+from CineWinx.utils import SessionAsyncClient
 from CineWinx.utils.database import get_banned_users, get_gbanned
-from config import BANNED_USERS
+from config import BANNED_USERS, LX_IMG_MODELS, LX_CHT_MODELS
 
 
 async def init():
     if (
-        not config.STRING1
-        and not config.STRING2
-        and not config.STRING3
-        and not config.STRING4
-        and not config.STRING5
+            not config.STRING1
+            and not config.STRING2
+            and not config.STRING3
+            and not config.STRING4
+            and not config.STRING5
     ):
         LOGGER("CineWinx").error(
             "No Assistant Clients Vars Defined!.. Exiting Process."
@@ -56,6 +57,16 @@ async def init():
     await CineWinx.decorators()
 
     LOGGER("CineWinx").info("CineWinx Started Successfully")
+
+    async with SessionAsyncClient() as lexica_async:
+        image_models = await lexica_async.get_image_models()
+        chat_models = await lexica_async.get_chat_models()
+
+        for model in image_models:
+            LX_IMG_MODELS.append(model)
+
+        for model in chat_models:
+            LX_CHT_MODELS.append(model)
 
     await idle()
 

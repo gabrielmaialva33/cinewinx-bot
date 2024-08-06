@@ -28,7 +28,8 @@ async def google_img_search(_client: Client, message: Message):
                     "🖼️ 𝗣𝗿𝗲𝗰𝗶𝘀𝗼 𝗱𝗲 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗯𝘂𝘀𝗰𝗮𝗿 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺! 🔍"
                 )
         except AttributeError:
-            return await message.reply("🖼️ 𝗣𝗿𝗲𝗰𝗶𝘀𝗼 𝗱𝗲 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗯𝘂𝘀𝗰𝗮𝗿 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺! 🔍")
+            return await message.reply(
+                "🖼️ 𝗣𝗿𝗲𝗰𝗶𝘀𝗼 𝗱𝗲 𝘂𝗺 𝘁𝗲𝘅𝘁𝗼 𝗽𝗮𝗿𝗮 𝗯𝘂𝘀𝗰𝗮𝗿 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺! 🔍")
 
     lim = findall(r"lim=\d+", query)
     try:
@@ -52,15 +53,15 @@ async def google_img_search(_client: Client, message: Message):
         if not os.listdir(images_dir):
             raise Exception("🚫 𝗡𝗲𝗻𝗵𝘂𝗺𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 𝗳𝗼𝗶 𝗯𝗮𝗶𝘅𝗮𝗱𝗮.")
         lst = [os.path.join(images_dir, img) for img in os.listdir(images_dir)][
-            :lim
-        ]  # ensure we only take the number of images specified by lim
+              :lim
+              ]  # ensure we only take the number of images specified by lim
     except Exception as e:
         return await message.reply(f"⚠️ 𝗘𝗿𝗿𝗼 𝗮𝗼 𝗯𝗮𝗶𝘅𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {e} ❗")
 
     msg = await message.reply("🔄 𝗖𝗼𝗹𝗲𝘁𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗻𝘀...")
 
     count = 0
-    for img in lst:
+    for _ in lst:
         count += 1
         await msg.edit(f"🎉 𝗖𝗼𝗹𝗲𝘁𝗲𝗶 𝗮𝘀 𝗶𝗺𝗮𝗴𝗲𝗻𝘀 <b>{count}!</b> 📸")
 

@@ -13,7 +13,8 @@ from config import LOG_GROUP_ID
 async def force_stop_stream(_, message: Message):
     try:
         if message.left_chat_member and not message.left_chat_member is None:
-            if message.left_chat_member.id == (await get_assistant(message.chat.id)).id:
+            assistant = await get_assistant(message.chat.id)
+            if message.left_chat_member.id == assistant.id:
                 return await CineWinx.force_stop_stream(message.chat.id)
         await CineWinx.force_stop_stream(message.chat.id)
     except Exception as e:

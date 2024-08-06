@@ -7,7 +7,7 @@ from lexica.utils import clean_dict
 
 class LexicaAsyncClient:
     def __init__(
-        self: "LexicaAsyncClient",
+            self: "LexicaAsyncClient",
     ):
         """
         Initialize the class
@@ -16,11 +16,13 @@ class LexicaAsyncClient:
         self.session = AsyncClient(
             http2=True,
             verify=False,
+            timeout=60,
+            headers=SESSION_HEADERS,
         )
         self.headers = SESSION_HEADERS
         self.timeout = 60
 
-    async def _request(self: "LexicaAsyncClient", **kwargs) -> Union[Dict, bytes]:
+    async def fetch(self: "LexicaAsyncClient", **kwargs) -> Union[Dict, bytes]:
         self.headers.update(kwargs.get("headers", {}))
         contents = {"json": {}, "data": {}, "files": {}}
         for i in list(contents):
@@ -38,7 +40,7 @@ class LexicaAsyncClient:
             timeout=self.timeout,
         )
         if response.status_code != 200:
-            raise Exception(f"API error {response.text}")
+            raise Exception(f"api error {response.text}")
         if response.headers.get("content-type") in [
             "image/png",
             "image/jpeg",
@@ -47,12 +49,8 @@ class LexicaAsyncClient:
             return response.content
         rdata = response.json()
         if rdata["code"] == 0:
-            raise Exception(f"API error {response.text}")
+            raise Exception(f"api error {response.text}")
         return rdata
-
-    async def get_models(self) -> dict:
-        resp = await self._request(url=f"{self.url}/models")
-        return resp
 
     async def __aenter__(self):
         return self
@@ -61,6 +59,26 @@ class LexicaAsyncClient:
         """Close async session"""
         return await self.session.aclose()
 
-    def get_chats_model(self) -> dict:
-        response = self.get_models()
-        return response["chats"]
+    async def get_models(self) -> dict:
+        resp = await self.fetch(url=f"{self.url}/models")
+        return resp
+
+    async def get_chat_models(self) -> dict:
+        response = await self.get_models()
+        return response["models"]["chat"]
+
+    async def get_image_models(self) -> dict:
+        response = await self.get_models()
+        return response["models"]["image"]
+
+    async def get_nsfw_model(self) -> dict:
+        response = await self.get_models()
+        return response["models"]["AntiNSFW"]
+
+    async def get_custom_gpt_model(self) -> dict:
+        response = await self.get_models()
+        return response["models"]["customGPTs"]
+
+    async def get_upscale_model(self) -> dict:
+        response = await self.get_models()
+        return response["models"]["upscale"]

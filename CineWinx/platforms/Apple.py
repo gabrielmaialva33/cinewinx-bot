@@ -1,10 +1,9 @@
-from youtubesearchpython.__future__ import VideosSearch
-
 import re
 from typing import Union
 
 import aiohttp
 from bs4 import BeautifulSoup
+from youtubesearchpython.__future__ import VideosSearch
 
 
 class AppleAPI:

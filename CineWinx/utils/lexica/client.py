@@ -49,11 +49,11 @@ class LexicaClient:
         response = self.fetch(url=f"{self.url}/models")
         return response
 
-    def get_chats_model(self) -> dict:
+    def get_chat_models(self) -> dict:
         response = self.get_models()
         return response["models"]["chat"]
 
-    def get_image_model(self) -> dict:
+    def get_image_models(self) -> dict:
         response = self.get_models()
         return response["models"]["image"]
 

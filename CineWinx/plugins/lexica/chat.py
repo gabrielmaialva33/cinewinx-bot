@@ -50,7 +50,7 @@ async def llm(_client: Client, message: Message):
         "model_name": None,
     }
 
-    models = client.get_chats_model()
+    models = client.get_chat_models()
 
     page = 0
     markup = chat_markup(message.from_user.id, models, page)
@@ -62,7 +62,7 @@ async def llm(_client: Client, message: Message):
 
 
 def chat_markup(
-    user_id: int, models: list | dict, page: int = 0
+        user_id: int, models: list | dict, page: int = 0
 ) -> InlineKeyboardMarkup:
     # number of models per page
     models_per_page = 4
@@ -83,7 +83,7 @@ def chat_markup(
         )
 
     # organize buttons in 2x2 grid
-    keyboard = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
+    keyboard = [buttons[i: i + 2] for i in range(0, len(buttons), 2)]
 
     # add navigation buttons
     navigation_buttons = []
@@ -104,7 +104,7 @@ def chat_markup(
 
 @app.on_callback_query(filters.regex(pattern=r"^llm_(prev|next)_\d+"))
 async def paginate_models(_, callback_query: CallbackQuery):
-    models = client.get_chats_model()
+    models = client.get_chat_models()
     data = callback_query.data.split("_")
     page = int(data[2])
 
@@ -119,9 +119,7 @@ async def paginate_models(_, callback_query: CallbackQuery):
 
 
 @app.on_callback_query(filters.regex(pattern=r"^llm_\d+_\d+_\w+") & ~BANNED_USERS)
-async def select_model(_, callback_query: CallbackQuery):
-    chat_id = callback_query.message.chat.id
-
+async def select_model(_: Client, callback_query: CallbackQuery):
     user_id = int(callback_query.data.split("_")[1])
     model_id = int(callback_query.data.split("_")[2])
     model_name = callback_query.data.split("_")[3]
