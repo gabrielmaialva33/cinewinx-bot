@@ -5,7 +5,11 @@ from math import ceil
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import (
-    Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto,
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    CallbackQuery,
+    InputMediaPhoto,
 )
 
 from CineWinx import app
@@ -38,11 +42,18 @@ async def draw(_client: Client, message: Message):
     )
 
 
-def image_models_markup(user_id: int, models: list | dict, page: int = 0) -> InlineKeyboardMarkup:
+def image_models_markup(
+    user_id: int, models: list | dict, page: int = 0
+) -> InlineKeyboardMarkup:
     models = sorted(
-        [InlineKeyboardButton(model["name"], callback_data=f"select_{user_id}_{model['id']}_{model['name']}") for model
-         in models],
-        key=lambda x: x.text
+        [
+            InlineKeyboardButton(
+                model["name"],
+                callback_data=f"select_{user_id}_{model['id']}_{model['name']}",
+            )
+            for model in models
+        ],
+        key=lambda x: x.text,
     )
 
     pairs = list(zip(models[::2], models[1::2]))
@@ -60,15 +71,25 @@ def image_models_markup(user_id: int, models: list | dict, page: int = 0) -> Inl
     modulo_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * column_size : column_size * (modulo_page + 1)] + [
             (
-                InlineKeyboardButton("⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"draw_prev_{modulo_page}"),
+                InlineKeyboardButton(
+                    "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"draw_prev_{modulo_page}"
+                ),
                 InlineKeyboardButton("❌", callback_data=f"draw_cancel_{user_id}"),
-                InlineKeyboardButton("➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data=f"draw_next_{modulo_page}"),
+                InlineKeyboardButton(
+                    "➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data=f"draw_next_{modulo_page}"
+                ),
             )
         ]
     else:
-        pairs += [[InlineKeyboardButton("❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"draw_cancel_{user_id}")]]
+        pairs += [
+            [
+                InlineKeyboardButton(
+                    "❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"draw_cancel_{user_id}"
+                )
+            ]
+        ]
 
     return InlineKeyboardMarkup(pairs)
 
@@ -92,7 +113,6 @@ async def paginate_models(_: Client, callback_query: CallbackQuery):
         await asyncio.sleep(e.value)
     except Exception as e:
         logging.warning(e)
-        pass
 
 
 @app.on_callback_query(filters.regex(pattern=r"^select_\d+_\d+_\w+") & ~BANNED_USERS)
@@ -114,7 +134,9 @@ async def select_model(_: Client, callback_query: CallbackQuery):
         )
     except Exception as e:
         logging.warning(e)
-        await callback_query.answer("❌ Ocorreu um erro. Tente novamente.", show_alert=True)
+        await callback_query.answer(
+            "❌ Ocorreu um erro. Tente novamente.", show_alert=True
+        )
         await callback_query.message.delete()
 
 
@@ -137,8 +159,8 @@ async def select_num_images(_: Client, callback_query: CallbackQuery):
 
     query = await callback_query.message.edit(
         text=f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
-             f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
-             f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
+        f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
+        f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
         reply_markup=None,
     )
 
@@ -184,7 +206,7 @@ async def select_num_images(_: Client, callback_query: CallbackQuery):
                 )
 
                 print(response)
-                if response.get('message') == 'finished':
+                if response.get("message") == "finished":
                     img_urls = response["img_urls"]
                     images = response["images"]
                     await client_async.close()
@@ -226,12 +248,13 @@ async def cancel_draw(_: Client, callback_query: CallbackQuery):
         await callback_query.message.reply_to_message.delete()
     except Exception as e:
         logging.warning(e)
-        pass
 
 
 def get_prompt(message: Message, prefixes: list[str]) -> None | tuple[str, str] | str:
-    text = message.text if len(message.text.split()) > 1 else (
-        message.reply_to_message.text if message.reply_to_message else None
+    text = (
+        message.text
+        if len(message.text.split()) > 1
+        else (message.reply_to_message.text if message.reply_to_message else None)
     )
 
     if not text:

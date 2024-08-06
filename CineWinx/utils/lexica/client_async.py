@@ -7,7 +7,7 @@ from lexica.utils import clean_dict
 
 class LexicaAsyncClient:
     def __init__(
-            self: "LexicaAsyncClient",
+        self: "LexicaAsyncClient",
     ):
         """
         Initialize the class

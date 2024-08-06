@@ -1,8 +1,8 @@
 from typing import Union, Dict
 import aiohttp
-import asyncio
 from lexica.constants import BASE_URL, SESSION_HEADERS
 from lexica.utils import clean_dict
+
 
 class SessionAsyncClient:
     def __init__(self):
@@ -29,7 +29,7 @@ class SessionAsyncClient:
             "url": kwargs.get("url"),
             "headers": self.headers,
             "params": kwargs.get("params"),
-            "timeout": self.timeout
+            "timeout": self.timeout,
         }
 
         if contents["data"] is not None:
@@ -43,7 +43,7 @@ class SessionAsyncClient:
             if response.headers.get("content-type") in [
                 "image/png",
                 "image/jpeg",
-                "image/jpg"
+                "image/jpg",
             ]:
                 return await response.read()
             rdata = await response.json()

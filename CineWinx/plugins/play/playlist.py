@@ -314,8 +314,8 @@ async def play_playlist_command(client: app, message: Message, _):
         if get.status == ChatMemberStatus.BANNED:
             return await msg.edit_text(
                 text=f"🚫 𝗔 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 {userbot.mention} 𝗲𝘀𝘁𝗮́ 𝗯𝗮𝗻𝗶𝗱𝗮 𝗲𝗺 {message.chat.title}\n\n🆔 𝗜𝗗: `{userbot.id}`\n"
-                     f"👤 𝗡𝗼𝗺𝗲: {userbot.mention}\n📧 𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼: @{userbot.username}\n\n🛑 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, "
-                     f"𝗿𝗲𝗺𝗼𝘃𝗮 𝗼 𝗯𝗮𝗻𝗶𝗺𝗲𝗻𝘁𝗼 𝗱𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗲 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲..."
+                f"👤 𝗡𝗼𝗺𝗲: {userbot.mention}\n📧 𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼: @{userbot.username}\n\n🛑 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, "
+                f"𝗿𝗲𝗺𝗼𝘃𝗮 𝗼 𝗯𝗮𝗻𝗶𝗺𝗲𝗻𝘁𝗼 𝗱𝗼 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗲 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲..."
             )
     except UserNotParticipant:
         if message.chat.username:
@@ -607,7 +607,7 @@ async def add_playlist(_client: app, message: Message, _):
         await adding.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-                 "alguma música, clique no botão abaixo.</b>",
+            "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     if "youtube.com/@" in query:
@@ -661,7 +661,7 @@ async def add_playlist(_client: app, message: Message, _):
         await addin.delete()
         return await message.reply_text(
             text="<b>Todas as músicas da sua playlist do YouTube foram adicionadas com sucesso!</b>\n\n<b>Para remover "
-                 "alguma música, clique no botão abaixo.</b>",
+            "alguma música, clique no botão abaixo.</b>",
             reply_markup=keyboardes,
         )
     # Check if the provided input is a YouTube video link
@@ -817,7 +817,7 @@ async def del_plist(_client: app, callback_query: CallbackQuery, _):
     )
     return await callback_query.edit_message_text(
         text="<b>Sua música foi removida da sua playlist do bot</b>\n\n<b>"
-             "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
+        "Para recuperar sua música na playlist, clique no botão abaixo.</b>",
         reply_markup=keyboards,
     )
 

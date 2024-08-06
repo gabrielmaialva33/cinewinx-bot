@@ -239,7 +239,7 @@ async def update_(_client: app, message: Message, _):
         return await response.edit("✅ <b>𝗕𝗼𝘁 𝗶𝘀 𝘂𝗽-𝘁𝗼-𝗱𝗮𝘁𝗲.</b>")
     ordinal = lambda format: "%d%s" % (
         format,
-        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10:: 4],
+        "tsnrhtdd"[(format // 10 % 10 != 1) * (format % 10 < 4) * format % 10 :: 4],
     )
     updates = "".join(
         f"<b>#{info.count()}: <a href={REPO_}/commit/{info}>{info.summary}</a> por -> {info.author}</b>\n\t\t\t\t<b>"
@@ -317,7 +317,7 @@ async def restart_(_, message: Message):
             await app.send_message(
                 chat_id=int(x),
                 text=f"🔄 {app.mention} 𝗲𝘀𝘁𝗮́ 𝗿𝗲𝗶𝗻𝗶𝗰𝗶𝗮𝗻𝗱𝗼...\n\n𝗩𝗼𝗰𝗲̂ 𝗽𝗼𝗱𝗲𝗿𝗮́ "
-                     f"𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗲𝗺 𝟭𝟱-𝟮𝟬 𝘀𝗲𝗴𝘂𝗻𝗱𝗼𝘀.",
+                f"𝗿𝗲𝗽𝗿𝗼𝗱𝘂𝘇𝗶𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗲𝗺 𝟭𝟱-𝟮𝟬 𝘀𝗲𝗴𝘂𝗻𝗱𝗼𝘀.",
             )
             await remove_active_chat(x)
             await remove_active_video_chat(x)
