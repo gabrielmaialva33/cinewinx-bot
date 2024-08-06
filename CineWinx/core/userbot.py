@@ -3,6 +3,7 @@ import logging
 from pyrogram import Client, errors
 
 import config
+from config import WINX_ECOSYSTEM_IDS, IN_DEV_MODE
 from strings import get_string
 from ..logging import LOGGER
 
@@ -180,21 +181,21 @@ class Userbot(Client):
                 )
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                # if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                #     me = await self.one.get_me()
-                #     pic = (
-                #         await self.one.download_media(me.photo.big_file_id)
-                #         if me.photo
-                #         else None
-                #     )
-                #
-                #     for chat in WINX_ECOSYSTEM_IDS:
-                #         await self.one.join_chat(chat)
-                #
-                #         if pic:
-                #             await self.one.send_photo(
-                #                 chat_id=chat, photo=pic, caption=text
-                #             )
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
 
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
@@ -234,6 +235,22 @@ class Userbot(Client):
                     self.two.mention, self.two.id, self.two.name, self.two.username
                 )
                 await self.two.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -277,6 +294,22 @@ class Userbot(Client):
                     self.three.username,
                 )
                 await self.three.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -317,6 +350,22 @@ class Userbot(Client):
                     self.four.mention, self.four.id, self.four.name, self.four.username
                 )
                 await self.four.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -357,6 +406,22 @@ class Userbot(Client):
                     self.five.mention, self.five.id, self.five.name, self.five.username
                 )
                 await self.five.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -395,6 +460,22 @@ class Userbot(Client):
                     self.six.mention, self.six.id, self.six.name, self.six.username
                 )
                 await self.six.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -438,6 +519,22 @@ class Userbot(Client):
                     self.seven.username,
                 )
                 await self.seven.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -481,6 +578,22 @@ class Userbot(Client):
                     self.eight.username,
                 )
                 await self.eight.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -521,6 +634,22 @@ class Userbot(Client):
                     self.nine.mention, self.nine.id, self.nine.name, self.nine.username
                 )
                 await self.nine.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
@@ -559,6 +688,22 @@ class Userbot(Client):
                     self.ten.mention, self.ten.id, self.ten.name, self.ten.username
                 )
                 await self.ten.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                    me = await self.one.get_me()
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:
