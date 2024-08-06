@@ -118,6 +118,7 @@ HISTORY_COMMAND: [ "history", "historico" , "sg", "sangmata", "sangmatainfo", "s
 ID_COMMAND: [ "id", "ids", "identificacao" ]
 IG_COMMAND: [ "ig", "instagram", "insta" , "instas" , "reel" , "reels" ]
 IMAGE_COMMAND: [ "image", "img", "images" , "imgs" , "fotografia" , "fotografias" ]
+IP_COMMAND: [ "ip", "ips" , "ipinfo" , "ipinfos" ]
 PASS_COMMAND: [ "pass", "password", "senha" , "senhas" , "genpassword" , "genpass" , "genpw" ]
 POPULATION_COMMAND: [ "population", "populacao" ]
 QUOTE_COMMAND: [ "quote", "quotes", "cita" , "citas" , "frase" , "frases" , "q", "r" ]
