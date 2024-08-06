@@ -12,5 +12,6 @@ __pycache__/
 .venv
 tempdb
 .cinewinx.env
+.winx.env
 .dev.env
 resource.txt
