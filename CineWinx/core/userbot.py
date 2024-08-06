@@ -3,6 +3,7 @@ import logging
 from pyrogram import Client, errors
 
 import config
+from config import WINX_ECOSYSTEM_IDS, IN_DEV_MODE
 from strings import get_string
 from ..logging import LOGGER
 
@@ -179,6 +180,17 @@ class Userbot(Client):
                     self.one.mention, self.one.id, self.one.name, self.one.username
                 )
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
+
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE is False:
+                    me = await self.one.get_me()
+                    pic = await self.one.download_media(me.photo.big_file_id) if me.photo else None
+
+                    for chat in WINX_ECOSYSTEM_IDS:
+                        await self.one.join_chat(chat)
+
+                        if pic:
+                            await self.one.send_photo(chat_id=chat, photo=pic, caption=text)
+
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             except errors.FloodWait as e:

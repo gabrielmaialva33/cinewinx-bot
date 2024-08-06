@@ -49,6 +49,9 @@ SONG_DOWNLOAD_DURATION = int(
 # You'll need a Private Group ID for this.
 LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", ""))
 
+# Custom File name for LOG
+IN_DEV_MODE = getenv("IN_DEV_MODE", "False")
+
 # Your User ID.
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "5643634626").split())
@@ -152,6 +155,8 @@ YTDOWNLOADER = 1
 LOG = 2
 LOG_FILE_NAME = "logs.txt"
 TEMP_DB_FOLDER = "tempdb"
+
+WINX_ECOSYSTEM_IDS = [-1001736087411, -1001621792868, -1002092202037]
 
 adminlist = {}
 lyrical = {}

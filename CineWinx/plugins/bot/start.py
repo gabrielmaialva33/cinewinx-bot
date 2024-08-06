@@ -26,14 +26,16 @@ from CineWinx.utils.formatters import get_readable_time
 from CineWinx.utils.functions import MARKDOWN, WELCOMEHELP
 from CineWinx.utils.inline import alive_panel, private_panel, start_pannel
 from config import BANNED_USERS, START_IMG_URL
-from config.config import OWNER_ID
-from strings import get_string
+from config.config import OWNER_ID, PREFIXES
+from strings import get_string, get_command
 from .help import help_parser
+
+START_COMMAND = get_command("START_COMMAND")
 
 loop = asyncio.get_running_loop()
 
 
-@app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
+@app.on_message(filters.command(START_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS)
 @language_start
 async def start_comm(client: app, message: Message, _):
     chat_id = message.chat.id
@@ -244,7 +246,7 @@ async def start_comm(client: app, message: Message, _):
             )
 
 
-@app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
+@app.on_message(filters.command(START_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @language_start
 async def testbot(client: Client, message: Message, _):
     out = alive_panel(_)
