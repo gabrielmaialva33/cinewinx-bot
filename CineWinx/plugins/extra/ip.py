@@ -18,7 +18,8 @@ loop = asyncio.get_event_loop()
 async def ip_info(_: Client, message: Message):
     if len(message.command) != 2:
         await message.reply_text(
-            "📄 𝗙𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝗲𝗻𝗱𝗲𝗿𝗲𝗰̧𝗼 𝗜𝗣. 𝗘𝘅𝗲𝗺𝗽𝗹𝗼: <code>/ip 8.8.8.8</code>")
+            "📄 𝗙𝗼𝗿𝗻𝗲𝗰̧𝗮 𝘂𝗺 𝗲𝗻𝗱𝗲𝗿𝗲𝗰̧𝗼 𝗜𝗣. 𝗘𝘅𝗲𝗺𝗽𝗹𝗼: <code>/ip 8.8.8.8</code>"
+        )
         return
 
     ip_address = message.command[1]
@@ -28,7 +29,8 @@ async def ip_info(_: Client, message: Message):
         await message.reply_text(info)
     else:
         await message.reply_text(
-            "❌ 𝗡𝗮̃𝗼 𝗳𝗼𝗶 𝗽𝗼𝘀𝘀𝗶́𝘃𝗲𝗹 𝗼𝗯𝘁𝗲𝗿 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝘀𝗼𝗯𝗿𝗲 𝗼 𝗲𝗻𝗱𝗲𝗿𝗲𝗰̧𝗼 𝗜𝗣 𝗳𝗼𝗿𝗻𝗲𝗰𝗶𝗱𝗼.")
+            "❌ 𝗡𝗮̃𝗼 𝗳𝗼𝗶 𝗽𝗼𝘀𝘀𝗶́𝘃𝗲𝗹 𝗼𝗯𝘁𝗲𝗿 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝘀𝗼𝗯𝗿𝗲 𝗼 𝗲𝗻𝗱𝗲𝗿𝗲𝗰̧𝗼 𝗜𝗣 𝗳𝗼𝗿𝗻𝗲𝗰𝗶𝗱𝗼."
+        )
 
 
 async def get_ip_info(ip_address: str) -> str or None:
@@ -61,6 +63,7 @@ async def get_ip_info(ip_address: str) -> str or None:
         print(f"❌ 𝗘𝗿𝗿𝗼 𝗮𝗼 𝗯𝘂𝘀𝗰𝗮𝗿 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗼 𝗜𝗣: {e}")
     finally:
         await client.close()
+
 
 
 __MODULE__ = "🌐 𝗜𝗣"
