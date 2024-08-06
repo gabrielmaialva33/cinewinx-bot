@@ -181,7 +181,7 @@ class Userbot(Client):
                 )
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE is False:
+                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
                     me = await self.one.get_me()
                     pic = await self.one.download_media(me.photo.big_file_id) if me.photo else None
 
