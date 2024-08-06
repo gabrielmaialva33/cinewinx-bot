@@ -183,13 +183,19 @@ class Userbot(Client):
 
                 if WINX_ECOSYSTEM_IDS:
                     me = await self.one.get_me()
-                    pic = await self.one.download_media(me.photo.big_file_id) if me.photo else None
+                    pic = (
+                        await self.one.download_media(me.photo.big_file_id)
+                        if me.photo
+                        else None
+                    )
 
                     for chat in WINX_ECOSYSTEM_IDS:
                         await self.one.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(chat_id=chat, photo=pic, caption=text)
+                            await self.one.send_photo(
+                                chat_id=chat, photo=pic, caption=text
+                            )
 
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
                 LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")

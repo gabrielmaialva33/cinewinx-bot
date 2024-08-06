@@ -35,7 +35,9 @@ START_COMMAND = get_command("START_COMMAND")
 loop = asyncio.get_running_loop()
 
 
-@app.on_message(filters.command(START_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS)
+@app.on_message(
+    filters.command(START_COMMAND, PREFIXES) & filters.private & ~BANNED_USERS
+)
 @language_start
 async def start_comm(client: app, message: Message, _):
     chat_id = message.chat.id
@@ -246,7 +248,9 @@ async def start_comm(client: app, message: Message, _):
             )
 
 
-@app.on_message(filters.command(START_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(START_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 @language_start
 async def testbot(client: Client, message: Message, _):
     out = alive_panel(_)
