@@ -23,9 +23,9 @@ context_db: dict = {}
 
 
 @app.on_message(filters.command(DRAW_COMMAND, PREFIXES) & ~BANNED_USERS)
-async def draw(_client: Client, message: Message):
+async def draw_command(_client: Client, message: Message):
     prompt, negative_prompt = get_prompt(message, PREFIXES)
-    if prompt is None:
+    if prompt is None or prompt == "":
         return await message.reply_text("🖍️ 𝘃𝗼𝗰𝗲̂ 𝗻𝗮̃𝗼 𝗺𝗲 𝗱𝗲𝘂 𝘂𝗺 𝗽𝗿𝗼𝗺𝗽𝘁 𝗽𝗮𝗿𝗮 𝗱𝗲𝘀𝗲𝗻𝗵𝗮𝗿!")
 
     markup = image_models_markup(message.from_user.id, LX_IMG_MODELS)
@@ -43,7 +43,7 @@ async def draw(_client: Client, message: Message):
 
 
 def image_models_markup(
-    user_id: int, models: list | dict, page: int = 0
+        user_id: int, models: list | dict, page: int = 0
 ) -> InlineKeyboardMarkup:
     models = sorted(
         [
@@ -71,7 +71,7 @@ def image_models_markup(
     modulo_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[modulo_page * column_size : column_size * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
             (
                 InlineKeyboardButton(
                     "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"draw_prev_{modulo_page}"
@@ -159,8 +159,8 @@ async def select_num_images(_: Client, callback_query: CallbackQuery):
 
     query = await callback_query.message.edit(
         text=f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
-        f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
-        f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
+             f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
+             f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
         reply_markup=None,
     )
 
@@ -233,6 +233,8 @@ async def select_num_images(_: Client, callback_query: CallbackQuery):
     except Exception as e:
         logging.warning(f"Exception: {e}")
         await query.edit_text("❌ 𝗢𝗰𝗼𝗿𝗿𝗲𝘂 𝗼𝗰𝗼𝗿𝗿𝗲𝘂 𝗮𝗼 𝗽𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗿 𝗮 𝘀𝗼𝗹𝗶𝗰𝗶𝘁𝗮çã𝗼.")
+    finally:
+        await client_async.close()
 
 
 @app.on_callback_query(filters.regex(pattern=r"^draw_cancel_\d+") & ~BANNED_USERS)
@@ -250,7 +252,7 @@ async def cancel_draw(_: Client, callback_query: CallbackQuery):
         logging.warning(e)
 
 
-def get_prompt(message: Message, prefixes: list[str]) -> None | tuple[str, str] | str:
+def get_prompt(message: Message, prefixes: list[str]) -> tuple[str, str]:
     text = (
         message.text
         if len(message.text.split()) > 1
@@ -258,7 +260,7 @@ def get_prompt(message: Message, prefixes: list[str]) -> None | tuple[str, str] 
     )
 
     if not text:
-        return None
+        return "", ""
 
     if text.startswith(tuple(prefixes)):
         text = text.split(maxsplit=1)[1]
@@ -281,3 +283,27 @@ class EqInlineKeyboardButton(InlineKeyboardButton):
 
     def __gt__(self, other: InlineKeyboardButton):
         return self.text > other.text
+
+
+__MODULE__ = "🏞️ 𝗗𝗿𝗮𝘄"
+__HELP__ = """
+🛠️ 𝗠𝗼́𝗱𝘂𝗹𝗼 𝗱𝗲 𝗚𝗲𝗿𝗮𝗿 𝗜𝗺𝗮𝗴𝗲𝗻𝘀 🏞️
+
+<b>📝 𝗗𝗲𝘀𝗰𝗿𝗶𝗰̧𝗮̃𝗼:</b>
+
+𝗘𝗻𝘃𝗶𝗲 𝘂𝗺𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 𝗰𝗼𝗺 𝘂𝗺 𝗽𝗿𝗼𝗺𝗽𝘁 𝗽𝗮𝗿𝗮 𝘀𝗲𝗿 𝗱𝗲𝘀𝗲𝗻𝗵𝗮𝗱𝗼 𝗽𝗼𝗿 𝘂𝗺 𝗺𝗼𝗱𝗲𝗹𝗼 𝗱𝗲 𝗜𝗔.
+
+<b>🔖 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀:</b>
+
+• <code>/draw</code> 𝗽𝗿𝗼𝗺𝗽𝘁 | 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼 : 𝗖𝗼𝗺𝗲𝗰𝗲 𝗮 𝗰𝗿𝗶𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗺 𝗰𝗼𝗺 𝗼 𝗽𝗿𝗼𝗺𝗽𝘁 𝗲 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼.
+
+• <code>/desenhar</code> 𝗽𝗿𝗼𝗺𝗽𝘁 | 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼 : 𝗖𝗼𝗺𝗲𝗰𝗲 𝗮 𝗰𝗿𝗶𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗺 𝗰𝗼𝗺 𝗼 𝗽𝗿𝗼𝗺𝗽𝘁 𝗲 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼.
+
+• <code>/imgen</code> 𝗽𝗿𝗼𝗺𝗽𝘁 | 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼 : 𝗖𝗼𝗺𝗲𝗰𝗲 𝗮 𝗰𝗿𝗶𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗺 𝗰𝗼𝗺 𝗼 𝗽𝗿𝗼𝗺𝗽𝘁 𝗲 𝗻𝗲𝗴𝗮𝘁𝗶𝘃𝗼.
+
+<b>💡 𝗘𝘅𝗲𝗺𝗽𝗹𝗼𝘀:</b>
+
+• <code>/draw Uma linda paisagem | Uma paisagem com um lindo pôr do sol.</code>
+
+• <code>/draw Um gato fofo | Um gato com uma expressão triste.</code>
+"""

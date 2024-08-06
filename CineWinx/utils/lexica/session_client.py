@@ -1,3 +1,4 @@
+import base64
 from typing import Union, Dict
 import aiohttp
 from lexica.constants import BASE_URL, SESSION_HEADERS
@@ -75,14 +76,34 @@ class SessionAsyncClient:
         response = await self.get_models()
         return response["models"]["image"]
 
-    async def get_nsfw_model(self) -> dict:
+    async def get_nsfw_models(self) -> dict:
         response = await self.get_models()
         return response["models"]["AntiNSFW"]
 
-    async def get_custom_gpt_model(self) -> dict:
+    async def get_custom_gpt_models(self) -> dict:
         response = await self.get_models()
         return response["models"]["customGPTs"]
 
-    async def get_upscale_model(self) -> dict:
+    async def get_upscale_models(self) -> dict:
         response = await self.get_models()
         return response["models"]["upscale"]
+
+    async def upscale(self,  model_id: int = 37, image: bytes = None, image_url: str = None, f: str = "binary") -> bytes:
+        payload = {"format": f, "model_id": model_id}
+
+        if image is None and image_url is None:
+            raise ValueError("Either image or image_url must be provided")
+        if image and not image_url:
+            payload.setdefault('image_data', base64.b64encode(image).decode('utf-8'))
+        elif not image and not image_url:
+            raise Exception("No image or image_url provided")
+        else:
+            payload.setdefault('image_url', image_url)
+
+        response = await self.fetch(
+            url=f"{self.url}/upscale",
+            method="POST",
+            json=payload
+        )
+
+        return response

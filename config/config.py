@@ -145,6 +145,7 @@ INDEX_CHANNEL_ID = int(getenv("INDEX_CHANNEL_ID", "-1001774402469"))
 
 LX_IMG_MODELS: list = []
 LX_CHT_MODELS: list = []
+LX_UPS_MODELS: list = []
 
 BANNED_USERS = filters.user()
 YTDOWNLOADER = 1
