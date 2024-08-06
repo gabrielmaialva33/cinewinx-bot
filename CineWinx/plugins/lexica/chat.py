@@ -62,7 +62,7 @@ async def llm(_client: Client, message: Message):
 
 
 def chat_markup(
-    user_id: int, models: list | dict, page: int = 0
+        user_id: int, models: list | dict, page: int = 0
 ) -> InlineKeyboardMarkup:
     # number of models per page
     models_per_page = 4
@@ -83,7 +83,7 @@ def chat_markup(
         )
 
     # organize buttons in 2x2 grid
-    keyboard = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
+    keyboard = [buttons[i: i + 2] for i in range(0, len(buttons), 2)]
 
     # add navigation buttons
     navigation_buttons = []

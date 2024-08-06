@@ -185,7 +185,7 @@ def track_markup(_, videoid: str, user_id: int, channel: str, fplay: str):
 
 
 def playlist_markup(
-    _, videoid: str, user_id: int, ptype: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, ptype: str, channel: str, fplay: str
 ):
     buttons = [
         [
@@ -211,7 +211,7 @@ def playlist_markup(
 
 
 def livestream_markup(
-    _, videoid: str, user_id: int, mode: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, mode: str, channel: str, fplay: str
 ):
     buttons = [
         [
@@ -232,7 +232,7 @@ def livestream_markup(
 
 
 def slider_markup(
-    _, videoid: str, user_id: int, query_type: str, query: str, channel: str, fplay: str
+        _, videoid: str, user_id: int, query_type: str, query: str, channel: str, fplay: str
 ):
     query = f"{query[:20]}"
     buttons = [
