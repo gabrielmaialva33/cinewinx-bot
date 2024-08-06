@@ -5,7 +5,12 @@ import os
 import asyncio
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.types import (
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    CallbackQuery,
+)
 from telegraph.aio import Telegraph
 
 from CineWinx import app
@@ -13,7 +18,6 @@ from CineWinx.utils import SessionAsyncClient
 from config import PREFIXES, BANNED_USERS, LX_UPS_MODELS
 from strings import get_command
 
-import telegraph
 
 UPSCALE_COMMAND = get_command("UPSCALE_COMMAND")
 
@@ -43,7 +47,9 @@ async def upscale_command(_: Client, message: Message):
     )
 
 
-def upscale_models_markup(user_id: int, models: list | dict, page: int = 0) -> InlineKeyboardMarkup:
+def upscale_models_markup(
+    user_id: int, models: list | dict, page: int = 0
+) -> InlineKeyboardMarkup:
     models = sorted(
         [
             InlineKeyboardButton(
@@ -70,7 +76,7 @@ def upscale_models_markup(user_id: int, models: list | dict, page: int = 0) -> I
     modulo_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * column_size : column_size * (modulo_page + 1)] + [
             (
                 InlineKeyboardButton(
                     "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"draw_prev_{modulo_page}"
@@ -83,11 +89,7 @@ def upscale_models_markup(user_id: int, models: list | dict, page: int = 0) -> I
         ]
     else:
         pairs += [
-            [
-                InlineKeyboardButton(
-                    "❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"ups_cancel_{user_id}"
-                )
-            ]
+            [InlineKeyboardButton("❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"ups_cancel_{user_id}")]
         ]
 
     return InlineKeyboardMarkup(pairs)
@@ -125,7 +127,9 @@ async def select_model(_: Client, callback_query: CallbackQuery):
 
     file = context_db[user_id]["file"]
 
-    call = await callback_query.message.edit("⏳ 𝗮𝗺𝗽𝗹𝗶𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 ... ✨", reply_markup=None)
+    call = await callback_query.message.edit(
+        "⏳ 𝗮𝗺𝗽𝗹𝗶𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 ... ✨", reply_markup=None
+    )
     try:
         with open(file, "rb") as image_file:
             image_bytes = image_file.read()
@@ -154,7 +158,9 @@ async def select_model(_: Client, callback_query: CallbackQuery):
         await call.delete()
     except Exception as e:
         logging.error(str(e))
-        await call.edit_text(f"🖼️ 𝗠𝗼𝗱𝗲𝗹𝗼: {model_name}\n❌ 𝗲𝗿𝗿𝗼 𝗮𝗼 𝗮𝗺𝗽𝗹𝗶𝗮𝗿 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 😕", reply_markup=None)
+        await call.edit_text(
+            f"🖼️ 𝗠𝗼𝗱𝗲𝗹𝗼: {model_name}\n❌ 𝗲𝗿𝗿𝗼 𝗮𝗼 𝗮𝗺𝗽𝗹𝗶𝗮𝗿 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 😕", reply_markup=None
+        )
 
 
 @app.on_callback_query(filters.regex(pattern=r"^ups_cancel_\d+") & ~BANNED_USERS)
@@ -173,15 +179,15 @@ async def get_file(message):
     if not message.reply_to_message:
         return None
     if (
-            message.reply_to_message.document is False
-            or message.reply_to_message.photo is False
+        message.reply_to_message.document is False
+        or message.reply_to_message.photo is False
     ):
         return None
     if (
-            message.reply_to_message.document
-            and message.reply_to_message.document.mime_type
-            in ["image/png", "image/jpg", "image/jpeg"]
-            or message.reply_to_message.photo
+        message.reply_to_message.document
+        and message.reply_to_message.document.mime_type
+        in ["image/png", "image/jpg", "image/jpeg"]
+        or message.reply_to_message.photo
     ):
         image = await message.reply_to_message.download()
         return image
