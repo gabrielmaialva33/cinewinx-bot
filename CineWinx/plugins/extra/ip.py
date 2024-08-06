@@ -1,3 +1,6 @@
+import asyncio
+
+from aiohttp import ClientSession
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
@@ -7,6 +10,8 @@ from config import PREFIXES, BANNED_USERS
 from strings import get_command
 
 IP_COMMAND = get_command("IP_COMMAND")
+
+loop = asyncio.get_event_loop()
 
 
 @app.on_message(filters.command(IP_COMMAND, PREFIXES) & ~BANNED_USERS)
@@ -28,8 +33,9 @@ async def ip_info(_: Client, message: Message):
 
 async def get_ip_info(ip_address: str) -> str or None:
     api_url = f"http://ip-api.com/json/{ip_address}"
+
     try:
-        async with session as client:
+        async with ClientSession(loop=loop) as client:
             response = await client.get(api_url)
             data = await response.json()
             if data["status"] == "success":
@@ -53,6 +59,9 @@ async def get_ip_info(ip_address: str) -> str or None:
 
     except Exception as e:
         print(f"❌ 𝗘𝗿𝗿𝗼 𝗮𝗼 𝗯𝘂𝘀𝗰𝗮𝗿 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗼 𝗜𝗣: {e}")
+    finally:
+        await client.close()
+
 
 __MODULE__ = "🌐 𝗜𝗣"
 __HELP__ = """
