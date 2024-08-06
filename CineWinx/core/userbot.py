@@ -3,7 +3,6 @@ import logging
 from pyrogram import Client, errors
 
 import config
-from config import WINX_ECOSYSTEM_IDS, IN_DEV_MODE
 from strings import get_string
 from ..logging import LOGGER
 
