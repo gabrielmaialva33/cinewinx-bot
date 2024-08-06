@@ -1,7 +1,11 @@
+import logging
 import re
 import unicodedata
+from math import ceil
 
+import asyncio
 from pyrogram import filters, Client
+from pyrogram.errors import FloodWait
 from pyrogram.types import (
     Message,
     InlineKeyboardButton,
@@ -10,29 +14,26 @@ from pyrogram.types import (
 )
 
 from CineWinx import app
-from CineWinx.utils import LexicaClient
-from config import PREFIXES, BANNED_USERS
+from CineWinx.utils import SessionAsyncClient
+from config import PREFIXES, BANNED_USERS, LX_CHT_MODELS
 from strings import get_command
 
 LLM_COMMAND = get_command("LLM_COMMAND")
 
-prompt_db: dict = {}
-
-client = LexicaClient()
+context_db: dict = {}
 
 main_prompt = (
     "Você é a AI do CineWinx. Ao responder, por favor, chame o usuário pelo nome. {0}\n\n"
-    "A seguir está o prompt que um usuário enviou para você:\n\n{1}"
+    "A seguir está o prompt:\n\n{1}"
 )
 
 
 @app.on_message(filters.command(LLM_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def llm(_client: Client, message: Message):
-    prompt = (
-        message.text.split(None, 1)[1].strip()
-        if len(message.text.split()) > 1
-        else (message.reply_to_message.text if message.reply_to_message else None)
-    )
+    prompt = get_prompt(message)
+    if prompt is None:
+        return await message.reply_text("🦙 𝘃𝗼𝗰𝗲̂ 𝗻𝗮̃𝗼 𝗺𝗲 𝗱𝗲𝘂 𝘂𝗺 𝗽𝗿𝗼𝗺𝗽𝘁!")
+
     reply_to_id = (
         message.reply_to_message.id if message.reply_to_message else message.id
     )
@@ -40,9 +41,9 @@ async def llm(_client: Client, message: Message):
     user_name = message.from_user.first_name
     user_name = normalize_username(user_name)
     if user_name == "":
-        user_name = "User"
+        user_name = "Usuário"
 
-    prompt_db[message.from_user.id] = {
+    context_db[message.from_user.id] = {
         "prompt": prompt,
         "reply_to_id": reply_to_id,
         "user_name": user_name,
@@ -50,10 +51,7 @@ async def llm(_client: Client, message: Message):
         "model_name": None,
     }
 
-    models = client.get_chat_models()
-
-    page = 0
-    markup = chat_markup(message.from_user.id, models, page)
+    markup = chat_models_markup(message.from_user.id, LX_CHT_MODELS)
 
     await message.reply_text(
         f"🦙 𝗦𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗲 𝘂𝗺 𝗺𝗼𝗱𝗲𝗹𝗼 𝗟𝗟𝗠 👇",
@@ -61,61 +59,77 @@ async def llm(_client: Client, message: Message):
     )
 
 
-def chat_markup(
-    user_id: int, models: list | dict, page: int = 0
+def chat_models_markup(
+        user_id: int, models: list | dict, page: int = 1
 ) -> InlineKeyboardMarkup:
-    # number of models per page
-    models_per_page = 4
-    start_index = page * models_per_page
-    end_index = start_index + models_per_page
-
-    # select models for the current page
-    current_models = models[start_index:end_index]
-
-    # create buttons for models
-    buttons = []
-    for model in current_models:
-        buttons.append(
+    models = sorted(
+        [
             InlineKeyboardButton(
-                text=model["name"],
+                model["name"],
                 callback_data=f"llm_{user_id}_{model['id']}_{model['name']}",
             )
-        )
+            for model in models
+        ],
+        key=lambda x: x.text,
+    )
 
-    # organize buttons in 2x2 grid
-    keyboard = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
+    pairs = list(zip(models[::2], models[1::2]))
+    i = 0
+    for m in pairs:
+        for _ in m:
+            i += 1
+    if len(models) - i == 1:
+        pairs.append((models[-1],))
+    elif len(models) - i == 2:
+        pairs.append((models[-2], models[-1]))
 
-    # add navigation buttons
-    navigation_buttons = []
-    if start_index > 0:
-        navigation_buttons.append(
-            InlineKeyboardButton(text="⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"llm_prev_{page}")
-        )
-    if end_index < len(models):
-        navigation_buttons.append(
-            InlineKeyboardButton(text="➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data=f"llm_next_{page}")
-        )
+    column_size = 3
+    max_num_pages = ceil(len(pairs) / column_size)
+    modulo_page = page % max_num_pages
 
-    if navigation_buttons:
-        keyboard.append(navigation_buttons)
+    if len(pairs) > column_size:
+        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
+            (
+                InlineKeyboardButton(
+                    "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"llm_prev_{modulo_page}"
+                ),
+                InlineKeyboardButton("❌", callback_data=f"llm_cancel_{user_id}"),
+                InlineKeyboardButton(
+                    "➡️ 𝗣𝗿𝗼́𝘅𝗶𝗺𝗼", callback_data=f"llm_next_{modulo_page}"
+                ),
+            )
+        ]
+    else:
+        pairs += [
+            [
+                InlineKeyboardButton(
+                    "❌ 𝗖𝗮𝗻𝗰𝗲𝗹𝗮𝗿", callback_data=f"llm_cancel_{user_id}"
+                )
+            ]
+        ]
 
-    return InlineKeyboardMarkup(keyboard)
+    return InlineKeyboardMarkup(pairs)
 
 
 @app.on_callback_query(filters.regex(pattern=r"^llm_(prev|next)_\d+"))
-async def paginate_models(_, callback_query: CallbackQuery):
-    models = client.get_chat_models()
-    data = callback_query.data.split("_")
-    page = int(data[2])
+async def paginate_models(_: Client, callback_query: CallbackQuery):
+    try:
+        data = callback_query.data.split("_")
+        page = int(data[2])
 
-    if data[1] == "prev":
-        page -= 1
-    elif data[1] == "next":
-        page += 1
+        if data[1] == "prev":
+            page -= 1
+        elif data[1] == "next":
+            page += 1
 
-    markup = chat_markup(callback_query.from_user.id, models, page)
+        markup = chat_models_markup(callback_query.from_user.id, LX_CHT_MODELS, page)
 
-    await callback_query.edit_message_reply_markup(markup)
+        await callback_query.edit_message_reply_markup(markup)
+    except FloodWait as e:
+        logging.warning(e)
+        await asyncio.sleep(e.value)
+    except Exception as e:
+        logging.warning(e)
 
 
 @app.on_callback_query(filters.regex(pattern=r"^llm_\d+_\d+_\w+") & ~BANNED_USERS)
@@ -128,45 +142,100 @@ async def select_model(_: Client, callback_query: CallbackQuery):
     if callback_query.from_user.id != user_id:
         return await callback_query.answer("❌ 𝗡ã𝗼 𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗱𝗼.", show_alert=True)
 
-    prompt_db[user_id]["model_id"] = model_id
-    prompt_db[user_id]["model_name"] = model_name
+    context_db[user_id]["model_id"] = model_id
+    context_db[user_id]["model_name"] = model_name
 
     prompt = main_prompt.format(
-        prompt_db[user_id]["user_name"], prompt_db[user_id]["prompt"]
+        context_db[user_id]["user_name"], context_db[user_id]["prompt"]
     )
+
     params = {
         "prompt": prompt,
-        "model_id": prompt_db[user_id]["model_id"],
+        "model_id": context_db[user_id]["model_id"],
     }
 
-    response = client.fetch(
-        url=f"{client.url}/models",
-        method="POST",
-        params=params,
-        json={},
-        headers={"content-type": "application/json"},
-    )
+    query = await callback_query.message.edit(text="🔄 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 ...", reply_markup=None)
 
-    if response["code"] != 2:
-        return await callback_query.edit_message_text(
-            f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {prompt_db[user_id]['model_name']}\n"
+    try:
+        async with SessionAsyncClient() as client_async:
+            response = await client_async.fetch(
+                url=f"{client_async.url}/models",
+                method="POST",
+                params=params,
+                json={},
+                headers={"content-type": "application/json"},
+            )
+            if response["code"] != 2:
+                return await query.edit_text(
+                    f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
+                    f"❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
+                )
+
+            await query.edit_text(
+                f"📝 <u>𝗣𝗿𝗼𝗺𝗽𝘁</u>: {context_db[user_id]['prompt']}"
+                f"\n🦙 <u>𝗠𝗼𝗱𝗲𝗹𝗼</u>: {context_db[user_id]['model_name']}"
+                f"\n📬 <u>𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮</u>: \n\n"
+                f"<i>{response['content']}</i>",
+            )
+    except ValueError as e:
+        logging.warning(e)
+        return await query.edit_text(
+            f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
+            f"❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
+        )
+    except Exception as e:
+        logging.warning(e)
+        return await query.edit_text(
+            f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
             f"❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
         )
 
-    await callback_query.message.delete()
-    await callback_query.message.reply_to_message.reply_text(
-        f"📝 <u>𝗣𝗿𝗼𝗺𝗽𝘁</u>: {prompt_db[user_id]['prompt']}"
-        f"\n🦙 <u>𝗠𝗼𝗱𝗲𝗹𝗼</u>: {prompt_db[user_id]['model_name']}"
-        f"\n📬 <u>𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮</u>: \n\n"
-        f"<i>{response['content']}</i>",
-        reply_to_message_id=prompt_db[user_id]["reply_to_id"],
-    )
+    # response = client.fetch(
+    #     url=f"{client.url}/models",
+    #     method="POST",
+    #     params=params,
+    #     json={},
+    #     headers={"content-type": "application/json"},
+    # )
+    #
+    # if response["code"] != 2:
+    #     return await callback_query.edit_message_text(
+    #         f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
+    #         f"❌ 𝗔𝗹𝗴𝗼 𝗱𝗲𝘂 𝗲𝗿𝗿𝗼, 𝘁𝗲𝗻𝘁𝗲 𝗻𝗼𝘃𝗮𝗺𝗲𝗻𝘁𝗲 𝗺𝗮𝗶𝘀 𝘁𝗮𝗿𝗱𝗲."
+    #     )
+    #
+    # await callback_query.message.delete()
+    # await callback_query.message.reply_to_message.reply_text(
+    #     f"📝 <u>𝗣𝗿𝗼𝗺𝗽𝘁</u>: {context_db[user_id]['prompt']}"
+    #     f"\n🦙 <u>𝗠𝗼𝗱𝗲𝗹𝗼</u>: {context_db[user_id]['model_name']}"
+    #     f"\n📬 <u>𝗥𝗲𝘀𝗽𝗼𝘀𝘁𝗮</u>: \n\n"
+    #     f"<i>{response['content']}</i>",
+    #     reply_to_message_id=context_db[user_id]["reply_to_id"],
+    # )
+
+
+@app.on_callback_query(filters.regex(pattern=r"^llm_cancel_\d+") & ~BANNED_USERS)
+async def cancel(_: Client, callback_query: CallbackQuery):
+    user_id = int(callback_query.data.split("_")[2])
+
+    if callback_query.from_user.id != user_id:
+        return await callback_query.answer("❌ 𝗡ã𝗼 𝗮𝘂𝘁𝗼𝗿𝗶𝘇𝗮𝗱𝗼.", show_alert=True)
+
+    del context_db[user_id]
+
+    await callback_query.edit_message_text("🦙 𝗠𝗼𝗱𝗲𝗹𝗼 𝗰𝗮𝗻𝗰𝗲𝗹𝗮𝗱𝗼.")
 
 
 def normalize_username(username: str) -> str:
     normalized = unicodedata.normalize("NFKC", username)
     normalized = re.sub(r"\W+", "", normalized)
     return normalized
+
+
+def get_prompt(message: Message) -> str:
+    return message.text.split(None, 1)[1].strip() if len(message.text.split()) > 1 else (
+        message.reply_to_message.text if message.reply_to_message else None
+    )
 
 
 __MODULE__ = "🦙 𝗟𝗟𝗠"

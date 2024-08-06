@@ -19,7 +19,7 @@ from strings import get_command
 
 DRAW_COMMAND = get_command("DRAW_COMMAND")
 
-context_db = {}
+context_db: dict = {}
 
 
 @app.on_message(filters.command(DRAW_COMMAND, PREFIXES) & ~BANNED_USERS)
