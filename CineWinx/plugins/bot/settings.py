@@ -67,7 +67,7 @@ async def settings_mar(client: Client, message: Message, _):
 
 @app.on_callback_query(filters.regex("settings_helper") & ~BANNED_USERS)
 @language_cb
-async def settings_cb(_client: app, callback_query: CallbackQuery, _):
+async def settings_cb(_client: Client, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer(_["set_cb_8"])
     except Exception as e:
@@ -85,7 +85,7 @@ async def settings_cb(_client: app, callback_query: CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
 @language_cb
-async def settings_back_markup(_client: app, callback_query: CallbackQuery, _):
+async def settings_back_markup(_client: Client, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
     except Exception as e:
@@ -116,7 +116,7 @@ async def settings_back_markup(_client: app, callback_query: CallbackQuery, _):
 
 
 ## Audio and Video Quality
-async def gen_buttons_aud(_, aud):
+async def gen_buttons_aud(_, aud: str):
     if aud == "STUDIO":
         buttons = audio_quality_markup(_, STUDIO=True)
     elif aud == "HIGH":
@@ -128,7 +128,7 @@ async def gen_buttons_aud(_, aud):
     return buttons
 
 
-async def gen_buttons_vid(_, aud):
+async def gen_buttons_vid(_, aud: str):
     if aud == "UHD_4K":
         buttons = video_quality_markup(_, UHD_4K=True)
     elif aud == "QHD_2K":
@@ -313,39 +313,39 @@ async def aud_vid_cb(_client: app, callback_query: CallbackQuery, _):
     filters.regex(pattern=r"^(CLEANMODE|COMMANDELMODE)$") & ~BANNED_USERS
 )
 @actual_admin_cb
-async def cleanmode_mark(client, CallbackQuery, _):
-    command = CallbackQuery.matches[0].group(1)
+async def cleanmode_mark(_client: Client, callback_query: CallbackQuery, _):
+    command = callback_query.matches[0].group(1)
     try:
-        await CallbackQuery.answer(_["set_cb_6"], show_alert=True)
+        await callback_query.answer(_["set_cb_6"], show_alert=True)
     except:
         pass
     if command == "CLEANMODE":
         sta = None
-        if await is_commanddelete_on(CallbackQuery.message.chat.id):
+        if await is_commanddelete_on(callback_query.message.chat.id):
             sta = True
         cle = None
-        if await is_cleanmode_on(CallbackQuery.message.chat.id):
-            await cleanmode_off(CallbackQuery.message.chat.id)
+        if await is_cleanmode_on(callback_query.message.chat.id):
+            await cleanmode_off(callback_query.message.chat.id)
         else:
-            await cleanmode_on(CallbackQuery.message.chat.id)
+            await cleanmode_on(callback_query.message.chat.id)
             cle = True
         buttons = cleanmode_settings_markup(_, status=cle, dels=sta)
-        return await CallbackQuery.edit_message_reply_markup(
+        return await callback_query.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
         )
     if command == "COMMANDELMODE":
         cle = None
         sta = None
-        if await is_cleanmode_on(CallbackQuery.message.chat.id):
+        if await is_cleanmode_on(callback_query.message.chat.id):
             cle = True
-        if await is_commanddelete_on(CallbackQuery.message.chat.id):
-            await commanddelete_off(CallbackQuery.message.chat.id)
+        if await is_commanddelete_on(callback_query.message.chat.id):
+            await commanddelete_off(callback_query.message.chat.id)
         else:
-            await commanddelete_on(CallbackQuery.message.chat.id)
+            await commanddelete_on(callback_query.message.chat.id)
             sta = True
         buttons = cleanmode_settings_markup(_, status=cle, dels=sta)
     try:
-        return await CallbackQuery.edit_message_reply_markup(
+        return await callback_query.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)
         )
     except MessageNotModified:
@@ -503,8 +503,11 @@ async def authusers_mar(client: app, callback_query: CallbackQuery, _):
         return
 
 
-__MODULE__ = "Configurações"
-__HELP__ = """✅<u>𝗖𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗼 𝗚𝗿𝘂𝗽𝗼:</u>
+__MODULE__ = "𝗖𝗼𝗻𝗳𝗶𝗴 ⚙️"
+__HELP__ = """
+
+✅<u>𝗖𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗼̃𝗲𝘀 𝗱𝗼 𝗚𝗿𝘂𝗽𝗼:</u>
+
 ⚙️ /settings - 𝗢𝗯𝘁𝗲𝗻𝗵𝗮 𝗮𝘀 𝗰𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗼̃𝗲𝘀 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗮𝘀 𝗱𝗼 𝗴𝗿𝘂𝗽𝗼 𝗰𝗼𝗺 𝗯𝗼𝘁𝗼̃𝗲𝘀 𝗶𝗻𝗹𝗶𝗻𝗲
 
 🔗 <u>𝗢𝗽𝗰̧𝗼̃𝗲𝘀 𝗻𝗮𝘀 𝗖𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝗰̧𝗼̃𝗲𝘀:</u>

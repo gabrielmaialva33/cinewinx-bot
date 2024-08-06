@@ -152,6 +152,7 @@ YTDOWNLOADER = 1
 LOG = 2
 LOG_FILE_NAME = "logs.txt"
 TEMP_DB_FOLDER = "tempdb"
+
 adminlist = {}
 lyrical = {}
 chatstats = {}
@@ -161,7 +162,6 @@ clean = {}
 autoclean = []
 
 # Images
-
 START_IMG_URL = getenv(
     "START_IMG_URL",
     "https://telegra.ph/file/a212c2cabe21e87edb1d2.png",

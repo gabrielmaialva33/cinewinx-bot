@@ -687,9 +687,12 @@ async def slider_queries(client, callback_query: CallbackQuery, _):
         )
 
 
-__MODULE__ = "Play"
-__HELP__ = """✅ <u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼:</u>\n
+__MODULE__ = "𝗣𝗹𝗮𝘆 ▶️"
+__HELP__ = """
+✅ <u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼:</u>\n
+
 🎵 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗗𝗶𝘀𝗽𝗼𝗻𝗶́𝘃𝗲𝗶𝘀 = <code>play</code>, <code>vplay</code>, <code>cplay</code>
+
 🔥 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 𝗙𝗼𝗿𝗰̧𝗮𝗱𝗮 = <code>playforce</code>, <code>vplayforce</code>, <code>cplayforce</code>
 
 🔄 c significa tocar no canal.
