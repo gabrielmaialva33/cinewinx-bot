@@ -43,7 +43,7 @@ async def draw_command(_client: Client, message: Message):
 
 
 def image_models_markup(
-        user_id: int, models: list | dict, page: int = 0
+    user_id: int, models: list | dict, page: int = 0
 ) -> InlineKeyboardMarkup:
     models = sorted(
         [
@@ -71,7 +71,7 @@ def image_models_markup(
     modulo_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[modulo_page * column_size: column_size * (modulo_page + 1)] + [
+        pairs = pairs[modulo_page * column_size : column_size * (modulo_page + 1)] + [
             (
                 InlineKeyboardButton(
                     "⬅️ 𝗔𝗻𝘁𝗲𝗿𝗶𝗼𝗿", callback_data=f"draw_prev_{modulo_page}"
@@ -159,8 +159,8 @@ async def select_num_images(_: Client, callback_query: CallbackQuery):
 
     query = await callback_query.message.edit(
         text=f"🦙 𝗠𝗼𝗱𝗲𝗹𝗼: {context_db[user_id]['model_name']}\n"
-             f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
-             f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
+        f"🔢 𝗡𝘂𝗺𝗲𝗿𝗼 𝗱𝗲 𝗶𝗺𝗮𝗴𝗲𝗻𝘀: {num_images}\n"
+        f"🏞️ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮 𝗶𝗺𝗮𝗴𝗲𝗺...",
         reply_markup=None,
     )
 
