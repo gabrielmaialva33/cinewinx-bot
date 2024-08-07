@@ -184,7 +184,7 @@ class Userbot(Client):
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
                     me = await self.one.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.two.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
@@ -237,15 +237,15 @@ class Userbot(Client):
                 await self.two.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.two.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.two.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.two.join_chat(chat)
 
                         if pic:
                             await self.one.send_photo(
@@ -296,18 +296,18 @@ class Userbot(Client):
                 await self.three.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.three.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.three.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.three.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.three.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -352,18 +352,18 @@ class Userbot(Client):
                 await self.four.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.four.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.four.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.four.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.four.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -408,18 +408,18 @@ class Userbot(Client):
                 await self.five.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.five.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.five.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.five.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.five.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -462,18 +462,18 @@ class Userbot(Client):
                 await self.six.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.six.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.six.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.six.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.six.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -521,18 +521,18 @@ class Userbot(Client):
                 await self.seven.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.seven.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.seven.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.seven.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.seven.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -580,18 +580,18 @@ class Userbot(Client):
                 await self.eight.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.eight.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.eight.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.eight.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.eight.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -636,18 +636,18 @@ class Userbot(Client):
                 await self.nine.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.nine.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.nine.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.nine.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.nine.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
@@ -690,18 +690,18 @@ class Userbot(Client):
                 await self.ten.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
-                    me = await self.one.get_me()
+                    me = await self.ten.get_me()
                     pic = (
-                        await self.one.download_media(me.photo.big_file_id)
+                        await self.ten.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
 
                     for chat in WINX_ECOSYSTEM_IDS:
-                        await self.one.join_chat(chat)
+                        await self.ten.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.ten.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
