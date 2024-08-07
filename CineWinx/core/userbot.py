@@ -184,7 +184,7 @@ class Userbot(Client):
                 if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
                     me = await self.one.get_me()
                     pic = (
-                        await self.two.download_media(me.photo.big_file_id)
+                        await self.one.download_media(me.photo.big_file_id)
                         if me.photo
                         else None
                     )
@@ -248,7 +248,7 @@ class Userbot(Client):
                         await self.two.join_chat(chat)
 
                         if pic:
-                            await self.one.send_photo(
+                            await self.two.send_photo(
                                 chat_id=chat, photo=pic, caption=text
                             )
             except (errors.ChannelInvalid, errors.PeerIdInvalid):
