@@ -27,7 +27,7 @@ psutil
 speedtest-cli
 # YouTube and video
 pytube
-py-tgcalls==2.0.3b1
+py-tgcalls
 ntgcalls
 # Environment and configuration
 python-dotenv

@@ -132,6 +132,7 @@ ZOMBIES_COMMAND: [ "zombies", "zumbis" , "zumbi" , "zumbis" , "cleanzombies" , "
 LLM_COMMAND: [ "llm", "llmgen" , "llmgenerate" , "llmgenerate", "llma" , "liminha", "lim" ]
 DRAW_COMMAND: [ "draw", "drawgen" , "drawgenerate" , "drawa" , "desenhar" , "gerardesenho" , "gerar_desenho" , "desenho" , "imgen" , "imgenerate" , "imga" ]
 UPSCALE_COMMAND: [ "upscale" , "ups" , "aumentar" , "aumentar_imagem" , "aumentar_imagem" , "aumentar_imagem" , "aumentar_imagem" ]
+REVERSE_COMMAND: [ "reverse", "reversesearch", "reverseimg", "reverseimgsearch" , "reverseimgsearch" , "pesquisar_imagem" , "pesquisar_img" , "research" , "researchimg" , "reverse_img" ]
 
 # Misc
 RESUME_TEXT_COMMAND: [ "resumetext", "resuma", "resumetexto", "resuma_essa_merda" , "muito_texto" , "mucho_texto" ]
