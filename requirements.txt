@@ -32,6 +32,7 @@ ntgcalls
 # Environment and configuration
 python-dotenv
 pyyaml
+pykeyboard
 # Translation and image downloading
 gpytranslate
 bing_image_downloader
