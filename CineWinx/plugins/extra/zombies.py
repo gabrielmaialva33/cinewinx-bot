@@ -111,7 +111,7 @@ async def admins(_client: Client, message: Message):
         admin_list = []
         owner_list = []
         async for admin in app.get_chat_members(
-                message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
+            message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
         ):
             if not admin.privileges.is_anonymous:
                 if admin.user.is_bot:
@@ -159,7 +159,7 @@ async def bots(_client: Client, message: Message):
     try:
         bot_list = []
         async for bot in app.get_chat_members(
-                message.chat.id, filter=enums.ChatMembersFilter.BOTS
+            message.chat.id, filter=enums.ChatMembersFilter.BOTS
         ):
             bot_list.append(bot.user)
         len_bot_list = len(bot_list)

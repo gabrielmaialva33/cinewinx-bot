@@ -11,7 +11,7 @@ from telegraph.aio import Telegraph
 
 from CineWinx import app
 from CineWinx.utils import save_couple, get_lovers_date
-from CineWinx.utils.database.couples_db import get_image, save_pin, get_pin, get_lovers
+from CineWinx.utils.database.couples_db import get_image, save_pin, get_pin
 from config import BANNED_USERS, PREFIXES
 from strings import get_command
 
@@ -61,20 +61,36 @@ async def couples_command(client: Client, message: Message):
 
             c1_id, c2_id = random.sample(list_of_users, 2)
 
-            photo1, photo2 = (await app.get_chat(c1_id)).photo, (await app.get_chat(c2_id)).photo
-            n1, n2 = (await app.get_users(c1_id)).mention, (await app.get_users(c2_id)).mention
+            photo1, photo2 = (await app.get_chat(c1_id)).photo, (
+                await app.get_chat(c2_id)
+            ).photo
+            n1, n2 = (await app.get_users(c1_id)).mention, (
+                await app.get_users(c2_id)
+            ).mention
 
-            p1 = await app.download_media(photo1.big_file_id, file_name="pfp1.png") if photo1 else "assets/u_pic.png"
-            p2 = await app.download_media(photo2.big_file_id, file_name="pfp2.png") if photo2 else "assets/u_pic.png"
+            p1 = (
+                await app.download_media(photo1.big_file_id, file_name="pfp1.png")
+                if photo1
+                else "assets/u_pic.png"
+            )
+            p2 = (
+                await app.download_media(photo2.big_file_id, file_name="pfp2.png")
+                if photo2
+                else "assets/u_pic.png"
+            )
 
             create_couple_image(p1, p2, chat_id)
 
             t_graph = Telegraph()
             upload_path = await t_graph.upload_file(f"cache/couple_{chat_id}.png")
-            image_url = "https://graph.org" + upload_path[0]['src']
+            image_url = "https://graph.org" + upload_path[0]["src"]
 
-            pin_id = await send_couple_image(client, message, chat_id, n1, n2, today, tomorrow, msg)
-            await save_couple(chat_id, today, {"c1_id": c1_id, "c2_id": c2_id}, image_url, pin_id)
+            pin_id = await send_couple_image(
+                client, message, chat_id, n1, n2, today, tomorrow, msg
+            )
+            await save_couple(
+                chat_id, today, {"c1_id": c1_id, "c2_id": c2_id}, image_url, pin_id
+            )
         else:
             await send_existing_couple_image(client, message, chat_id, today, tomorrow)
     except Exception as e:
@@ -104,8 +120,16 @@ def create_couple_image(p1: str, p2: str, chat_id: int):
     img.save(f"cache/couple_{chat_id}.png")
 
 
-async def send_couple_image(client: Client, message: Message, chat_id: int, n1: str, n2: str, today: str, tomorrow: str,
-                            msg: Message):
+async def send_couple_image(
+    client: Client,
+    message: Message,
+    chat_id: int,
+    n1: str,
+    n2: str,
+    today: str,
+    tomorrow: str,
+    msg: Message,
+):
     txt = f"""
 💑 <b>𝗖𝗮𝘀𝗮𝗹 𝗱𝗼 𝗗𝗶𝗮 𝗱𝗲 𝗛𝗼𝗷𝗲:</b>
 
@@ -128,18 +152,15 @@ async def send_couple_image(client: Client, message: Message, chat_id: int, n1: 
             await client.unpin_chat_message(chat_id, old_pin)
         except Exception as e:
             logging.error(str(e))
-            pass
 
     await client.pin_chat_message(chat_id, pin.id)
     await save_pin(chat_id, pin.id)
     return pin.id
 
 
-async def send_existing_couple_image(_client: Client,
-                                     message: Message,
-                                     chat_id: int,
-                                     today: str,
-                                     tomorrow: str):
+async def send_existing_couple_image(
+    _client: Client, message: Message, chat_id: int, today: str, tomorrow: str
+):
     msg = await message.reply_text("🖼️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗼 𝗰𝗮𝘀𝗮𝗹 ...")
     image_url = await get_image(chat_id)
     couple_data = await get_lovers_date(chat_id, today)
@@ -170,7 +191,6 @@ def cleanup_files(chat_id):
             os.remove(f"cache/couple_{chat_id}.png")
     except Exception as e:
         logging.warning(str(e))
-        pass
 
 
 __MODULE__ = "💑 𝗖𝗮𝘀𝗮𝗹"

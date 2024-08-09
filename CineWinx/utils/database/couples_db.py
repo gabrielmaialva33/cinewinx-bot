@@ -40,7 +40,9 @@ async def get_couple(chat_id: int) -> dict[str, Any] or None:
     return couple
 
 
-async def save_couple(chat_id: int, date: str, couple: dict[str, Any], image_url: str, pin_id: int) -> None:
+async def save_couple(
+    chat_id: int, date: str, couple: dict[str, Any], image_url: str, pin_id: int
+) -> None:
     lovers = await get_lovers(chat_id)
     lovers[date] = couple
     await couple_db.update_one(
