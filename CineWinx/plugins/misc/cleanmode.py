@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 from pyrogram.raw import types
@@ -37,14 +37,14 @@ cleanmode_group = 15
 
 
 @app.on_raw_update(group=cleanmode_group)
-async def clean_mode(_client: app, update, users, chats):
+async def clean_mode(_client: Client, update, users, chats):
     global IS_BROADCASTING
     if IS_BROADCASTING:
         return
     try:
         if not isinstance(update, types.UpdateReadChannelOutbox):
             return
-    except:
+    except AttributeError:
         return
     if users:
         return

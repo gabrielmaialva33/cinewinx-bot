@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import requests
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.types import Message
 
 from CineWinx import app
@@ -12,7 +12,7 @@ FAKE_COMMAND = get_command("FAKE_COMMAND")
 
 
 @app.on_message(filters.command(FAKE_COMMAND, PREFIXES) & ~BANNED_USERS)
-async def address(_, message: Message):
+async def address(_: Client, message: Message):
     try:
         query = message.text.split(maxsplit=1)[1].strip()
     except IndexError:

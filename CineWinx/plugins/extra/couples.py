@@ -1,173 +1,182 @@
+import logging
 import os
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from PIL import Image, ImageDraw
-from pyrogram import *
-from pyrogram.enums import *
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters
+from pyrogram.enums import ChatType
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from telegraph.aio import Telegraph
 
-from CineWinx import app as app
-from CineWinx.utils import save_couple, get_couple
-from CineWinx.utils.database.couples_db import _get_image
+from CineWinx import app
+from CineWinx.utils import save_couple, get_lovers_date
+from CineWinx.utils.database.couples_db import get_image, save_pin, get_pin, get_lovers
 from config import BANNED_USERS, PREFIXES
 from strings import get_command
-from telegraph import upload_file
 
 POLICE = [
     [
         InlineKeyboardButton(
-            text="𓊈𒆜彡[𝐂𝐈𝐍𝐄𝐖𝐈𝐍𝐗™]彡𒆜𓊉",
-            url=f"https://t.me/cinewinx",
+            text="𝐂𝐈𝐍𝐄𝐖𝐈𝐍𝐗™",
+            url="https://t.me/cinewinx",
         ),
     ],
 ]
 
 
-def dt():
+def get_current_date():
     now = datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M")
-    dt_list = dt_string.split(" ")
-    return dt_list
+    return now.strftime("%d/%m/%Y %H:%M").split(" ")
 
 
-def dt_tom():
-    a = (
-        str(int(dt()[0].split("/")[0]) + 1)
-        + "/"
-        + dt()[0].split("/")[1]
-        + "/"
-        + dt()[0].split("/")[2]
-    )
-    return a
+def get_tomorrow_date():
+    today = get_current_date()[0]
+    day, month, year = map(int, today.split("/"))
+    tomorrow = datetime(year, month, day) + timedelta(days=1)
+    return tomorrow.strftime("%d/%m/%Y")
 
-
-tomorrow = str(dt_tom())
-today = str(dt()[0])
 
 COUPLE_COMMAND = get_command("COUPLE_COMMAND")
 
 
 @app.on_message(filters.command(COUPLE_COMMAND, PREFIXES) & ~BANNED_USERS)
-async def ctest(_, message):
-    cid = message.chat.id
+async def couples_command(client: Client, message: Message):
     if message.chat.type == ChatType.PRIVATE:
         return await message.reply_text("🚫 𝗘𝘀𝘁𝗲 𝗰𝗼𝗺𝗮𝗻𝗱𝗼 𝘀𝗼́ 𝗳𝘂𝗻𝗰𝗶𝗼𝗻𝗮 𝗲𝗺 𝗴𝗿𝘂𝗽𝗼𝘀.")
+
+    chat_id = message.chat.id
+    today = get_current_date()[0]
+    tomorrow = get_tomorrow_date()
+
     try:
-        is_selected = await get_couple(cid, today)
+        is_selected = await get_lovers_date(chat_id, today)
         if not is_selected:
-            msg = await message.reply_text("🖼️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗼 𝗰𝗮𝘀𝗮𝗹...")
+            msg = await message.reply_text("🖼️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗼 𝗰𝗮𝘀𝗮𝗹 ...")
             list_of_users = []
 
             async for i in app.get_chat_members(message.chat.id, limit=50):
                 if not i.user.is_bot:
                     list_of_users.append(i.user.id)
 
-            c1_id = random.choice(list_of_users)
-            c2_id = random.choice(list_of_users)
-            while c1_id == c2_id:
-                c1_id = random.choice(list_of_users)
+            c1_id, c2_id = random.sample(list_of_users, 2)
 
-            photo1 = (await app.get_chat(c1_id)).photo
-            photo2 = (await app.get_chat(c2_id)).photo
+            photo1, photo2 = (await app.get_chat(c1_id)).photo, (await app.get_chat(c2_id)).photo
+            n1, n2 = (await app.get_users(c1_id)).mention, (await app.get_users(c2_id)).mention
 
-            n1 = (await app.get_users(c1_id)).mention
-            n2 = (await app.get_users(c2_id)).mention
+            p1 = await app.download_media(photo1.big_file_id, file_name="pfp1.png") if photo1 else "assets/u_pic.png"
+            p2 = await app.download_media(photo2.big_file_id, file_name="pfp2.png") if photo2 else "assets/u_pic.png"
 
-            try:
-                p1 = await app.download_media(photo1.big_file_id, file_name="pfp.png")
-            except Exception:
-                p1 = "assets/upic.png"
-            try:
-                p2 = await app.download_media(photo2.big_file_id, file_name="pfp1.png")
-            except Exception:
-                p2 = "assets/upic.png"
+            create_couple_image(p1, p2, chat_id)
 
-            img1 = Image.open(f"{p1}")
-            img2 = Image.open(f"{p2}")
+            t_graph = Telegraph()
+            upload_path = await t_graph.upload_file(f"cache/couple_{chat_id}.png")
+            image_url = "https://graph.org" + upload_path[0]['src']
 
-            img = Image.open("assets/cppic.png")
+            pin_id = await send_couple_image(client, message, chat_id, n1, n2, today, tomorrow, msg)
+            await save_couple(chat_id, today, {"c1_id": c1_id, "c2_id": c2_id}, image_url, pin_id)
+        else:
+            await send_existing_couple_image(client, message, chat_id, today, tomorrow)
+    except Exception as e:
+        logging.error(str(e))
+    finally:
+        cleanup_files(chat_id)
 
-            img1 = img1.resize((380, 388))
-            img2 = img2.resize((380, 388))
 
-            mask = Image.new("L", img1.size, 0)
-            draw = ImageDraw.Draw(mask)
-            draw.ellipse((0, 0) + img1.size, fill=255)
+def create_couple_image(p1: str, p2: str, chat_id: int):
+    img1, img2 = Image.open(p1), Image.open(p2)
+    img1, img2 = img1.resize((380, 388)), img2.resize((380, 388))
 
-            mask1 = Image.new("L", img2.size, 0)
-            draw = ImageDraw.Draw(mask1)
-            draw.ellipse((0, 0) + img2.size, fill=255)
+    mask = Image.new("L", img1.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0) + img1.size, fill=255)
+    img1.putalpha(mask)
 
-            img1.putalpha(mask)
-            img2.putalpha(mask1)
+    mask = Image.new("L", img2.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0) + img2.size, fill=255)
+    img2.putalpha(mask)
 
-            draw = ImageDraw.Draw(img)
+    img = Image.open("assets/cppic.png")
+    img.paste(img1, (120, 195), img1)
+    img.paste(img2, (510, 195), img2)
 
-            img.paste(img1, (120, 195), img1)
-            img.paste(img2, (510, 195), img2)
+    img.save(f"cache/couple_{chat_id}.png")
 
-            img.save(f"cache/test_{cid}.png")
 
-            txt = f"""
+async def send_couple_image(client: Client, message: Message, chat_id: int, n1: str, n2: str, today: str, tomorrow: str,
+                            msg: Message):
+    txt = f"""
 💑 <b>𝗖𝗮𝘀𝗮𝗹 𝗱𝗼 𝗗𝗶𝗮 𝗱𝗲 𝗛𝗼𝗷𝗲:</b>
 
 {n1} + {n2} = 💚💘
 
-📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !!</b>
+📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !</b>
 """
+    await message.delete()
+    await msg.delete()
 
-            await message.reply_photo(
-                f"cache/test_{cid}.png",
-                caption=txt,
-                reply_markup=InlineKeyboardMarkup(POLICE),
-            )
-            await msg.delete()
-            a = upload_file(f"cache/test_{cid}.png")
-            for x in a:
-                img = "https://graph.org/" + x
-                couple = {"c1_id": c1_id, "c2_id": c2_id}
-            await save_couple(cid, today, couple, img)
-        elif is_selected:
-            msg = await message.reply_text("🖼️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗼 𝗰𝗮𝘀𝗮𝗹...")
-            b = await _get_image(cid)
-            # is_selected {'c1_id': 861801443, 'c2_id': 6762147109}
-            c1_id = is_selected["c1_id"]
-            c2_id = is_selected["c2_id"]
+    pin = await client.send_photo(
+        chat_id=chat_id,
+        photo=f"cache/couple_{chat_id}.png",
+        caption=txt,
+        reply_markup=InlineKeyboardMarkup(POLICE),
+    )
+    old_pin = await get_pin(chat_id)
+    if old_pin is not None:
+        try:
+            await client.unpin_chat_message(chat_id, old_pin)
+        except Exception as e:
+            logging.error(str(e))
+            pass
 
-            user_1 = await app.get_users(c1_id)
-            user_2 = await app.get_users(c2_id)
+    await client.pin_chat_message(chat_id, pin.id)
+    await save_pin(chat_id, pin.id)
+    return pin.id
 
-            c1 = user_1.mention
-            c2 = user_2.mention
 
-            txt = f"""
-💑 <b>𝗖𝗮𝘀𝗮𝗹 𝗱𝗲 𝗛𝗼𝗷𝗲:</b>
+async def send_existing_couple_image(_client: Client,
+                                     message: Message,
+                                     chat_id: int,
+                                     today: str,
+                                     tomorrow: str):
+    msg = await message.reply_text("🖼️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗼 𝗰𝗮𝘀𝗮𝗹 ...")
+    image_url = await get_image(chat_id)
+    couple_data = await get_lovers_date(chat_id, today)
+    c1_id, c2_id = couple_data["c1_id"], couple_data["c2_id"]
+    user_1, user_2 = await app.get_users(c1_id), await app.get_users(c2_id)
+    n1, n2 = user_1.mention, user_2.mention
 
-{c1} + {c2} = 💚💘
+    txt = f"""
+💑 <b>𝗖𝗮𝘀𝗮𝗹 𝗱𝗼 𝗗𝗶𝗮 𝗱𝗲 𝗛𝗼𝗷𝗲:</b>
 
-📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !!</b>
+{n1} + {n2} = 💚💘
+
+📅 <b>𝗢𝘀 𝗽𝗿𝗼́𝘅𝗶𝗺𝗼𝘀 𝗰𝗮𝘀𝗮𝗶𝘀 𝘀𝗲𝗿𝗮̃𝗼 𝘀𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗮𝗱𝗼𝘀 𝗲𝗺 {tomorrow} !</b>
 """
+    await message.reply_photo(
+        image_url, caption=txt, reply_markup=InlineKeyboardMarkup(POLICE)
+    )
+    await msg.delete()
 
-            await message.reply_photo(
-                b, caption=txt, reply_markup=InlineKeyboardMarkup(POLICE)
-            )
-            await msg.delete()
 
-    except Exception as e:
-        print(str(e))
-
+def cleanup_files(chat_id):
     try:
-        os.remove(f"./downloads/pfp1.png")
-        os.remove(f"./downloads/pfp2.png")
-        os.remove(f"cache/test_{cid}.png")
-    except Exception:
+        if os.path.exists("./downloads/pfp1.png"):
+            os.remove("./downloads/pfp1.png")
+        if os.path.exists("./downloads/pfp2.png"):
+            os.remove("./downloads/pfp2.png")
+        if os.path.exists(f"cache/couple_{chat_id}.png"):
+            os.remove(f"cache/couple_{chat_id}.png")
+    except Exception as e:
+        logging.warning(str(e))
         pass
 
 
 __MODULE__ = "💑 𝗖𝗮𝘀𝗮𝗹"
-__HELP__ = """
-📌 𝗘𝘀𝘁𝗲 𝗰𝗼𝗺𝗮𝗻𝗱𝗼 𝗽𝗲𝗿𝗺𝗶𝘁𝗲 𝗮𝗼𝘀 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗰𝗿𝗶𝗮𝗿 𝘂𝗺𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗲 𝗰𝗮𝘀𝗮𝗹 𝗱𝗲 𝗵𝗼𝗷𝗲 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗲 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗱𝗲 𝘁𝗲𝘅𝘁𝗼. 𝗖𝗮𝘀𝗮𝗹 𝗱𝗲 𝗵𝗼𝗷𝗲 𝗲́ 𝘂𝗺𝗮 𝗳𝗲𝗿𝗿𝗮𝗺𝗲𝗻𝘁𝗮 𝗽𝗮𝗿𝗮 𝗰𝗿𝗶𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗻𝘀 𝗯𝗲𝗹𝗮𝘀 𝗱𝗲 𝗰𝗼́𝗱𝗶𝗴𝗼 𝗳𝗼𝗻𝘁𝗲.
+__HELP__ = """📌 𝗘𝘀𝘁𝗲 𝗰𝗼𝗺𝗮𝗻𝗱𝗼 𝗽𝗲𝗿𝗺𝗶𝘁𝗲 𝗮𝗼𝘀 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼𝘀 𝗰𝗿𝗶𝗮𝗿 𝘂𝗺𝗮 𝗶𝗺𝗮𝗴𝗲𝗺 𝗱𝗲 
+𝗰𝗮𝘀𝗮𝗹 𝗱𝗲 𝗵𝗼𝗷𝗲 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗲 𝘂𝗺𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺 𝗱𝗲 𝘁𝗲𝘅𝘁𝗼. 𝗖𝗮𝘀𝗮𝗹 𝗱𝗲 𝗵𝗼𝗷𝗲 𝗲́ 
+𝘂𝗺𝗮 𝗳𝗲𝗿𝗿𝗮𝗺𝗲𝗻𝘁𝗮 𝗽𝗮𝗿𝗮 𝗰𝗿𝗶𝗮𝗿 𝗶𝗺𝗮𝗴𝗲𝗻𝘀 𝗯𝗲𝗹𝗮𝘀 𝗱𝗲 𝗰𝗼́𝗱𝗶𝗴𝗼 𝗳𝗼𝗻𝘁𝗲.
 
 • /couples: 𝗥𝗲𝘀𝗽𝗼𝗻𝗱𝗮 𝗮 𝘂𝗺𝗮 𝗰𝗮𝘀𝗮𝗹 𝗱𝗲 𝗵𝗼𝗷𝗲 𝗮𝗼 𝗴𝗿𝘂𝗽𝗼 𝗱𝗲 𝗰𝗵𝗮𝘁 𝗲 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗼 𝗰𝗼𝗻𝘁𝗲𝘂́𝗱𝗼 𝗱𝗮 𝗺𝗲𝗻𝘀𝗮𝗴𝗲𝗺.
 """

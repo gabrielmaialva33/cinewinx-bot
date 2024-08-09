@@ -3,12 +3,11 @@ import os
 
 from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from telegraph import Telegraph
 
 from CineWinx import app
 from config import PREFIXES, BANNED_USERS
 from strings import get_command
-
+from telegraph import Telegraph
 
 TELEGRAPH_COMMAND = get_command("TELEGRAPH_COMMAND")
 

@@ -58,14 +58,14 @@ class AppleAPI:
                     return False
                 html = await response.text()
         soup = BeautifulSoup(html, "html.parser")
-        applelinks = soup.find_all("meta", attrs={"property": "music:song"})
+        apple_links = soup.find_all("meta", attrs={"property": "music:song"})
         results = []
-        for item in applelinks:
+        for item in apple_links:
             try:
                 xx = (((item["content"]).split("album/")[1]).split("/")[0]).replace(
                     "-", " "
                 )
-            except:
+            except IndexError:
                 xx = ((item["content"]).split("album/")[1]).split("/")[0]
             results.append(xx)
         return results, playlist_id

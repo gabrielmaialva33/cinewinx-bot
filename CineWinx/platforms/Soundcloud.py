@@ -1,3 +1,4 @@
+import logging
 from os import path
 
 from yt_dlp import YoutubeDL
@@ -25,7 +26,8 @@ class SoundAPI:
         d = YoutubeDL(self.opts)
         try:
             info = d.extract_info(url)
-        except:
+        except Exception as e:
+            logging.error(e)
             return False
         xyz = path.join("downloads", f"{info['id']}.{info['ext']}")
         duration_min = seconds_to_min(info["duration"])
