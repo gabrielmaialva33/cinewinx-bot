@@ -1,4 +1,4 @@
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup
 
 answer = []
 
@@ -57,6 +57,44 @@ answer.extend(
             description="🔁 𝗥𝗲𝗽𝗲𝘁𝗶𝗿 𝗮 𝗺ú𝘀𝗶𝗰𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁á 𝘁𝗼𝗰𝗮𝗻𝗱𝗼 𝗮𝘁𝘂𝗮𝗹𝗺𝗲𝗻𝘁𝗲. 𝗨𝘀𝗼: /loop [enable|disable]",
             thumb_url="https://telegra.ph/file/cd9f87e0955c453201a5b.png",
             input_message_content=InputTextMessageContent("/loop 3"),
+        ),
+    ]
+)
+
+sources = []
+
+sources.extend(
+    [
+        InlineQueryResultArticle(
+            title="🎬 𝗙𝗶𝗹𝗺𝗲",
+            description="🎬 𝗖𝗹𝗶𝗾𝘂𝗲 𝗽𝗮𝗿𝗮 𝗮𝗰𝗲𝘀𝘀𝗮𝗿 𝗼𝘀 𝗳𝗶𝗹𝗺𝗲𝘀 𝗱𝗶𝘀𝗽𝗼𝗻í𝘃𝗲𝗶𝘀.",
+            thumb_url="https://telegra.ph/file/d4656c3cc2ecb54382b88.png",
+            input_message_content=InputTextMessageContent("/filmes"),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "🎬 𝗙𝗶𝗹𝗺𝗲", switch_inline_query_current_chat="filmes"
+                        )
+                    ]
+                ]
+            ),
+
+        ),
+        InlineQueryResultArticle(
+            title="🎞️ 𝗔𝗻𝗶𝗺𝗲",
+            description="🎞️ 𝗖𝗹𝗶𝗾𝘂𝗲 𝗽𝗮𝗿𝗮 𝗮𝗰𝗲𝘀𝘀𝗮𝗿 𝗼𝘀 𝗮𝗻𝗶𝗺𝗲𝘀 𝗱𝗶𝘀𝗽𝗼𝗻í𝘃𝗲𝗶𝘀.",
+            thumb_url="https://telegra.ph/file/6499087185de63e879c43.png",
+            input_message_content=InputTextMessageContent("/animes"),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "🎞️ 𝗔𝗻𝗶𝗺𝗲", switch_inline_query_current_chat="animes"
+                        )
+                    ]
+                ]
+            ),
         ),
     ]
 )

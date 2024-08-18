@@ -1,12 +1,13 @@
+from youtubesearchpython.__future__ import VideosSearch
+
 import asyncio
 import os
 import re
-from typing import Union
+from typing import Union, Tuple
 
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from CineWinx.utils.database import is_on_off
@@ -66,7 +67,7 @@ class YouTubeAPI:
                         return entity.url
         if offset in (None,):
             return None
-        return text[offset : offset + length]
+        return text[offset: offset + length]
 
     async def details(self, link: str, videoid: Union[bool, str] = None):
         title = None
@@ -160,6 +161,7 @@ class YouTubeAPI:
         return result
 
     async def track(self, link: str, videoid: Union[bool, str] = None):
+        print("YoutubeAPI.track", link, videoid)
         if videoid:
             link = self.base + link
         if "&" in link:
@@ -178,6 +180,8 @@ class YouTubeAPI:
             "duration_min": duration_min,
             "thumb": thumbnail,
         }
+
+        print("YoutubeAPI.track", track_details, vidid)
         return track_details, vidid
 
     async def formats(self, link: str, videoid: Union[bool, str] = None):
@@ -217,10 +221,10 @@ class YouTubeAPI:
         return formats_available, link
 
     async def slider(
-        self,
-        link: str,
-        query_type: int,
-        videoid: Union[bool, str] = None,
+            self,
+            link: str,
+            query_type: int,
+            videoid: Union[bool, str] = None,
     ):
         if videoid:
             link = self.base + link
@@ -235,16 +239,16 @@ class YouTubeAPI:
         return title, duration_min, thumbnail, vidid
 
     async def download(
-        self,
-        link: str,
-        mystic,
-        video: Union[bool, str] = None,
-        videoid: Union[bool, str] = None,
-        songaudio: Union[bool, str] = None,
-        songvideo: Union[bool, str] = None,
-        format_id: Union[bool, str] = None,
-        title: Union[bool, str] = None,
-    ) -> str:
+            self,
+            link: str,
+            mystic,
+            video: Union[bool, str] = None,
+            videoid: Union[bool, str] = None,
+            songaudio: Union[bool, str] = None,
+            songvideo: Union[bool, str] = None,
+            format_id: Union[bool, str] = None,
+            title: Union[bool, str] = None,
+    ) -> str | None | tuple[str, bool | None]:
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()

@@ -1,10 +1,13 @@
+import logging
+
+from youtubesearchpython.__future__ import VideosSearch
+
 import asyncio
 import time
 
 from pyrogram import filters, Client
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from CineWinx import Telegram, YouTube, app
@@ -214,18 +217,22 @@ async def start_comm(client: app, message: Message, _):
     else:
         try:
             await app.resolve_peer(OWNER_ID[0])
-            OWNER = OWNER_ID[0]
-        except:
-            OWNER = None
-        out = private_panel(_, app.username, OWNER)
+            owner = OWNER_ID[0]
+        except Exception as e:
+            logging.warning(str(e))
+            owner = None
+        out = private_panel(_, app.username, owner)
         if config.START_IMG_URL:
+            me = await client.get_me()
+            img = await client.download_media(me.photo.big_file_id)
             try:
                 await message.reply_photo(
-                    photo=config.START_IMG_URL,
+                    photo=img,
                     caption=_["start_1"].format(app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
-            except:
+            except Exception as e:
+                logging.warning(str(e))
                 await message.reply_text(
                     text=_["start_1"].format(app.mention),
                     reply_markup=InlineKeyboardMarkup(out),

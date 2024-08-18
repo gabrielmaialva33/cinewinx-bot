@@ -85,7 +85,7 @@ async def settings_cb(_client: Client, callback_query: CallbackQuery, _):
 
 @app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
 @language_cb
-async def settings_back_markup(_client: Client, callback_query: CallbackQuery, _):
+async def settings_back_markup(client: Client, callback_query: CallbackQuery, _):
     try:
         await callback_query.answer()
     except Exception as e:
@@ -99,6 +99,8 @@ async def settings_back_markup(_client: Client, callback_query: CallbackQuery, _
             owner = None
         buttons = private_panel(_, app.username, owner)
         try:
+            me = await client.get_me()
+            pic = await client.download_media(me.photo.big_file_id) if me.photo else None
             await callback_query.edit_message_text(
                 _["start_1"].format(app.mention),
                 reply_markup=InlineKeyboardMarkup(buttons),

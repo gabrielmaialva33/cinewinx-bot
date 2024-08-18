@@ -2,7 +2,7 @@
 
 # Bot Commands
 PING_COMMAND: [ "ping" , "pong" , "alive" ]
-START_COMMAND: [ "start" ]
+START_COMMAND: [ "start" , "menu" , "inicio" , "ajuda" , "ajuda" , "menu"]
 HELP_COMMAND: [ "help" ]
 SETTINGS_COMMAND: [ "settings", "setting" , "config" , "configs" , "configuration" ]
 RELOAD_COMMAND: [ "admincache", "reload" ]
@@ -136,3 +136,7 @@ REVERSE_COMMAND: [ "reverse", "reversesearch", "reverseimg", "reverseimgsearch" 
 
 # Misc
 RESUME_TEXT_COMMAND: [ "resumetext", "resuma", "resumetexto", "resuma_essa_merda" , "muito_texto" , "mucho_texto" ]
+
+# AnimiZeY
+MOVIES_COMMAND: [ "movies", "movie" , "filmes" , "filme" ]
+ANIME_COMMAND: [ "anime", "animes" ]

@@ -1,13 +1,15 @@
+import logging
+
+from youtubesearchpython.__future__ import VideosSearch
+
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultPhoto,
     CallbackQuery,
 )
-from youtubesearchpython.__future__ import VideosSearch
-
 from CineWinx import app
-from CineWinx.utils.inlinequery import answer
+from CineWinx.utils.inlinequery import answer, sources
 from config import BANNED_USERS
 
 
@@ -17,10 +19,18 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
     answers = []
     if text.strip() == "":
         try:
-            await client.answer_inline_query(callback.id, results=answer, cache_time=10)
-        except:
+            print("text.strip()", text)
+            inline = await client.answer_inline_query(callback.id, results=sources, cache_time=10)
+            response = await answer(callback)
+            if response:
+                return response
+            return inline
+
+        except Exception as e:
+            logging.error(str(e))
             return
     else:
+        print("VideosSearch", text)
         a = VideosSearch(text, limit=20)
         result = (await a.next()).get("result")
         for x in range(15):
@@ -67,5 +77,6 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
             )
         try:
             return await client.answer_inline_query(callback.id, results=answers)
-        except:
+        except Exception as e:
+            logging.error(str(e))
             return
