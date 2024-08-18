@@ -2,7 +2,12 @@ import string
 from math import ceil
 
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from pyrogram.types import (
+    Message,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    CallbackQuery,
+)
 
 from CineWinx import app, AnimiZeY
 from config import BANNED_USERS, PREFIXES
@@ -15,9 +20,11 @@ context_db = {}
 
 @app.on_message(filters.command(MOVIES_COMMAND, PREFIXES) & ~BANNED_USERS)
 async def movies(client: Client, message: Message):
-    input = (message.text.split(None, 1)[1].strip()
-             if len(message.text.split()) > 1
-             else (message.reply_to_message.text if message.reply_to_message else None))
+    input = (
+        message.text.split(None, 1)[1].strip()
+        if len(message.text.split()) > 1
+        else (message.reply_to_message.text if message.reply_to_message else None)
+    )
 
     context_db[message.from_user.id] = {
         "query": input,
@@ -28,12 +35,15 @@ async def movies(client: Client, message: Message):
     if not input:
         await message.reply_text(
             "🎬 𝗘𝗻𝗰𝗼𝗻𝘁𝗿𝗲 𝗼 𝗳𝗼𝗿𝗺𝗮𝘁𝗼 𝗱𝗲 𝗯𝘂𝘀𝗰𝗮𝗿 𝗽𝗼𝗿 𝗹𝗲𝘁𝗿𝗮 𝗼𝘂 𝗻𝘂𝗺é𝗿𝗼:",
-            reply_markup=alpha_markup(
-            ))
+            reply_markup=alpha_markup(),
+        )
 
 
 def alpha_markup(page: int = 0) -> InlineKeyboardMarkup:
-    buttons = [InlineKeyboardButton(letter, callback_data=f"alpha_{letter}") for letter in string.ascii_uppercase]
+    buttons = [
+        InlineKeyboardButton(letter, callback_data=f"alpha_{letter}")
+        for letter in string.ascii_uppercase
+    ]
     pairs = list(zip(buttons[::2], buttons[1::2]))
 
     if len(buttons) % 2 != 0:
@@ -44,7 +54,7 @@ def alpha_markup(page: int = 0) -> InlineKeyboardMarkup:
     m_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[m_page * column_size: column_size * (m_page + 1)] + [
+        pairs = pairs[m_page * column_size : column_size * (m_page + 1)] + [
             (
                 InlineKeyboardButton("⬅️", callback_data=f"alpha_prev_{m_page}"),
                 InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="alpha_cancel"),

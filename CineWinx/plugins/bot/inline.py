@@ -20,7 +20,9 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
     if text.strip() == "":
         try:
             print("text.strip()", text)
-            inline = await client.answer_inline_query(callback.id, results=sources, cache_time=10)
+            inline = await client.answer_inline_query(
+                callback.id, results=sources, cache_time=10
+            )
             response = await answer(callback)
             if response:
                 return response

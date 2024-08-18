@@ -100,7 +100,9 @@ async def settings_back_markup(client: Client, callback_query: CallbackQuery, _)
         buttons = private_panel(_, app.username, owner)
         try:
             me = await client.get_me()
-            pic = await client.download_media(me.photo.big_file_id) if me.photo else None
+            pic = (
+                await client.download_media(me.photo.big_file_id) if me.photo else None
+            )
             await callback_query.edit_message_text(
                 _["start_1"].format(app.mention),
                 reply_markup=InlineKeyboardMarkup(buttons),
