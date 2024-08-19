@@ -1,7 +1,6 @@
-import logging
-
 from youtubesearchpython.__future__ import VideosSearch
 
+import logging
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
