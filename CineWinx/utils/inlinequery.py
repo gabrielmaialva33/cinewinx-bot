@@ -1,4 +1,9 @@
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import (
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+)
 
 answer = []
 
@@ -79,7 +84,6 @@ sources.extend(
                     ]
                 ]
             ),
-
         ),
         InlineQueryResultArticle(
             title="🎞️ 𝗔𝗻𝗶𝗺𝗲",
