@@ -85,7 +85,8 @@ class WinxBot(Client):
                         ),
                     ]
                 )
-            except:
+            except Exception as e:
+                LOGGER(__name__).warning(f"An error occurred: {e}")
                 pass
         else:
             pass

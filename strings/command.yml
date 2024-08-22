@@ -15,6 +15,7 @@ PLAY_COMMAND: [ "play", "vplay", "cplay", "cute", "cvplay", "playforce", "vplayf
 PLAYMODE_COMMAND: [ "playmode" ]
 CHANNELPLAY_COMMAND: [ "channelplay" ]
 STREAM_COMMAND: [ "stream", "cstream", "streamforce" ]
+RADIO_COMMAND: [ "radio", "cradio" ]
 
 # Playlists Command
 PLAYLIST_COMMAND: [ "playlist" ]

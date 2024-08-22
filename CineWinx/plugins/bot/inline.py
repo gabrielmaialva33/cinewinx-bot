@@ -1,13 +1,13 @@
 import logging
 
-from youtubesearchpython.__future__ import VideosSearch
-
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultPhoto,
     CallbackQuery,
 )
+from youtubesearchpython.__future__ import VideosSearch
+
 from CineWinx import app
 from CineWinx.utils.inlinequery import answer, sources
 from config import BANNED_USERS

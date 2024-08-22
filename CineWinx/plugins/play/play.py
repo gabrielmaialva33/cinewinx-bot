@@ -2,8 +2,9 @@ import asyncio
 import logging
 import random
 import string
+from datetime import datetime
 
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message, CallbackQuery
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -11,7 +12,8 @@ from pytgcalls.exceptions import NoActiveGroupCall
 import config
 from CineWinx import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from CineWinx.core.call import CineWinx
-from CineWinx.utils import seconds_to_min, time_to_seconds
+from CineWinx.core.userbot import assistants
+from CineWinx.utils import seconds_to_min, time_to_seconds, get_client
 from CineWinx.utils.channelplay import get_channeplay_cb
 from CineWinx.utils.database import is_video_allowed
 from CineWinx.utils.decorators.language import language_cb
@@ -27,9 +29,12 @@ from CineWinx.utils.inline.playlist import botplaylist_markup
 from CineWinx.utils.logger import play_logs
 from CineWinx.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical, PREFIXES
-from strings import get_command
+from strings import get_command, get_string
 
 PLAY_COMMAND = get_command("PLAY_COMMAND")
+RADIO_COMMAND = get_command("RADIO_COMMAND")
+
+_ = get_string(config.LANGUAGE)
 
 
 @app.on_message(filters.command(PLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
@@ -68,7 +73,7 @@ async def play_command(
         if audio_telegram.file_size > config.TG_AUDIO_FILESIZE_LIMIT:
             return await mystic.edit_text(_["play_5"])
         duration_min = seconds_to_min(audio_telegram.duration)
-        if (audio_telegram.duration) > config.DURATION_LIMIT:
+        if audio_telegram.duration > config.DURATION_LIMIT:
             return await mystic.edit_text(
                 _["play_6"].format(config.DURATION_LIMIT_MIN, duration_min)
             )
@@ -456,7 +461,7 @@ async def play_command(
 
 @app.on_callback_query(filters.regex("MusicStream") & ~BANNED_USERS)
 @language_cb
-async def play_music(_client: app, callback_query: CallbackQuery, _):
+async def play_music(_client: Client, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     vidid, user_id, mode, cplay, fplay = callback_request.split("|")
@@ -525,7 +530,7 @@ async def play_music(_client: app, callback_query: CallbackQuery, _):
 
 
 @app.on_callback_query(filters.regex("AnonymousAdmin") & ~BANNED_USERS)
-async def anonymous_check(_client: app, callback_query: CallbackQuery):
+async def anonymous_check(_client: Client, callback_query: CallbackQuery):
     try:
         await callback_query.answer(
             "Você é um administrador anônimo.\n\nVolte para sua conta de usuário para me usar.",
@@ -537,7 +542,7 @@ async def anonymous_check(_client: app, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("WinxPlaylists") & ~BANNED_USERS)
 @language_cb
-async def play_playlists_command(_client: app, callback_query: CallbackQuery, _):
+async def play_playlists_command(_client: Client, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     (
@@ -625,7 +630,7 @@ async def play_playlists_command(_client: app, callback_query: CallbackQuery, _)
 
 @app.on_callback_query(filters.regex("slider") & ~BANNED_USERS)
 @language_cb
-async def slider_queries(client, callback_query: CallbackQuery, _):
+async def slider_queries(_client: Client, callback_query: CallbackQuery, _):
     callback_data = callback_query.data.strip()
     callback_request = callback_data.split(None, 1)[1]
     (
@@ -687,6 +692,91 @@ async def slider_queries(client, callback_query: CallbackQuery, _):
         )
 
 
+@app.on_message(
+    filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
+async def radio(client: Client, message: Message):
+    print("radio command")
+    chat_id = message.chat.id
+
+    music_list = await get_music_list_from_group(client, chat_id)
+
+    if not music_list:
+        await message.reply_text("ooooops!")
+        return
+
+    winx = random.choice(assistants)
+    ubot = await get_client(winx)
+
+    # Obter o arquivo de áudio da primeira música da lista
+    for music in music_list:
+        print("downloading music:", music["title"])
+        file_id = music["file_id"]
+        ubot.download_media(file_id)
+
+    return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
+
+
+async def get_music_list_from_group(client: Client, chat_id: int):
+    mystic = await client.send_message(chat_id, "🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁...")
+    music_list = []
+
+    winx = random.choice(assistants)
+    ubot = await get_client(winx)
+
+    today = datetime.now()
+    async for message in ubot.get_chat_history(chat_id=chat_id, offset_date=today):
+        if message.audio:
+            print("music found:", message)
+            user_id = message.from_user.id
+            user_name = message.from_user.first_name
+            audio_telegram = message.audio
+            duration_min = seconds_to_min(audio_telegram.duration)
+            file_path = await Telegram.get_filepath(audio=audio_telegram)
+            print("downloading music:", audio_telegram.title)
+            if await Telegram.download(_, message, mystic, file_path):
+                message_link = await Telegram.get_link_2(message)
+                file_name = await Telegram.get_filename(audio_telegram, audio=True)
+                dur = await Telegram.get_duration(audio_telegram)
+                details = {
+                    "title": file_name,
+                    "link": message_link,
+                    "path": file_path,
+                    "dur": dur,
+                }
+
+                try:
+                    await stream(
+                        _,
+                        mystic,
+                        user_id,
+                        details,
+                        chat_id,
+                        user_name,
+                        message.chat.id,
+                        streamtype="telegram",
+                        forceplay=False,
+                    )
+                except Exception as e:
+                    logging.error(e)
+                    ex_type = type(e).__name__
+                    err = (
+                        e
+                        if ex_type == "AssistantErr"
+                        else _["general_3"].format(ex_type)
+                    )
+                    return await mystic.edit_text(err)
+                return await mystic.delete()
+
+            print("music found:", message.audio.title)
+
+            music_list.append(
+                {"title": message.audio.title, "file_id": message.audio.file_id}
+            )
+
+    return music_list
+
+
 __MODULE__ = "𝗣𝗹𝗮𝘆 ▶️"
 __HELP__ = """
 ✅ <u>𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗱𝗲 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼:</u>\n
@@ -700,8 +790,6 @@ __HELP__ = """
 🚀 force significa reprodução forçada.
 
 ▶️ <code>/play</code> ou <code>/vplay</code> ou <code>/cplay</code> - 𝗢 𝗯𝗼𝘁 𝗰𝗼𝗺𝗲𝗰̧𝗮𝗿𝗮́ 𝗮 𝘁𝗼𝗰𝗮𝗿 𝘀𝘂𝗮 𝗰𝗼𝗻𝘀𝘂𝗹𝘁𝗮 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗼𝘂 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗶𝗿𝗮́ 𝗹𝗶𝗻𝗸𝘀 𝗮𝗼 𝘃𝗶𝘃𝗼 𝗻𝗼𝘀 𝗰𝗵𝗮𝘁𝘀 𝗱𝗲 𝘃𝗼𝘇.
-
 🔊 <code>/playforce</code> ou <code>/vplayforce</code> ou <code>/cplayforce</code> - 𝗔 𝗥𝗲𝗽𝗿𝗼𝗱𝘂𝗰̧𝗮̃𝗼 𝗙𝗼𝗿𝗰𝗮𝗱𝗮 𝗶𝗻𝘁𝗲𝗿𝗿𝗼𝗺𝗽𝗲 𝗮 𝗳𝗮𝗶𝘅𝗮 𝗾𝘂𝗲 𝗲𝘀𝘁𝗮́ 𝘁𝗼𝗰𝗮𝗻𝗱𝗼 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗲 𝗰𝗼𝗺𝗲𝗰̧𝗮 𝗮 𝘁𝗼𝗰𝗮𝗿 𝗮 𝗳𝗮𝗶𝘅𝗮 𝗽𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗱𝗮 𝗶𝗻𝘀𝘁𝗮𝗻𝘁𝗮𝗻𝗲𝗮𝗺𝗲𝗻𝘁𝗲, 𝘀𝗲𝗺 𝗽𝗲𝗿𝘁𝘂𝗿𝗯𝗮𝗿/𝗹𝗶𝗺𝗽𝗮𝗿 𝗮 𝗳𝗶𝗹𝗮.
-
 🔗 <code>/channelplay</code> [𝗡𝗼𝗺𝗲 𝗱𝗲 𝘂𝘀𝘂𝗮́𝗿𝗶𝗼 𝗼𝘂 𝗜𝗗 𝗱𝗼 𝗰𝗵𝗮𝘁] ou [𝗗𝗲𝘀𝗮𝘁𝗶𝘃𝗮𝗿] - 𝗖𝗼𝗻𝗲𝗰𝘁𝗲 𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝘂𝗺 𝗴𝗿𝘂𝗽𝗼 𝗲 𝘁𝗿𝗮𝗻𝘀𝗺𝗶𝘁𝗮 𝗺𝘂́𝘀𝗶𝗰𝗮 𝗻𝗼 𝗰𝗵𝗮𝘁 𝗱𝗲 𝘃𝗼𝘇 𝗱𝗼 𝗰𝗮𝗻𝗮𝗹 𝗮 𝗽𝗮𝗿𝘁𝗶𝗿 𝗱𝗼 𝘀𝗲𝘂 𝗴𝗿𝘂𝗽𝗼.
 """

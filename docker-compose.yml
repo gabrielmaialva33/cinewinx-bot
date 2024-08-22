@@ -1,0 +1,67 @@
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinewinx
+    restart: always
+    env_file:
+      - .env
+    environment:
+      API_ID: ${API_ID}
+      API_HASH: ${API_HASH}
+      BOT_TOKEN: ${BOT_TOKEN}
+      MONGO_DB_URI: ${MONGO_DB_URI}
+      DURATION_LIMIT: ${DURATION_LIMIT}
+      LOG_GROUP_ID: ${LOG_GROUP_ID}
+      OWNER_ID: ${OWNER_ID}
+      QUEUE_LIMIT: ${QUEUE_LIMIT}
+      LEAVE_TIME: ${LEAVE_TIME}
+      SET_CMDS: ${SET_CMDS}
+      AUTO_LEAVING_ASSISTANT: ${AUTO_LEAVING_ASSISTANT}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
+      PLAYLIST_FETCH_LIMIT: ${PLAYLIST_FETCH_LIMIT}
+      TG_AUDIO_FILESIZE_LIMIT: ${TG_AUDIO_FILESIZE_LIMIT}
+      TG_VIDEO_FILESIZE_LIMIT: ${TG_VIDEO_FILESIZE_LIMIT}
+      PRIVATE_BOT_MODE: ${PRIVATE_BOT_MODE}
+      SUPPORT_CHANNEL: ${SUPPORT_CHANNEL}
+      SUPPORT_GROUP: ${SUPPORT_GROUP}
+
+      OPEN_AI_API_KEY: ${OPEN_AI_API_KEY}
+      MIDJOURNEY_KEY: ${MIDJOURNEY_KEY}
+      REPLICATE_API_TOKEN: ${REPLICATE_API_TOKEN}
+
+      STRING_SESSION: ${STRING_SESSION}
+      STRING_SESSION2: ${STRING_SESSION2}
+      STRING_SESSION3: ${STRING_SESSION3}
+      STRING_SESSION4: ${STRING_SESSION4}
+      STRING_SESSION5: ${STRING_SESSION5}
+      STRING_SESSION6: ${STRING_SESSION6}
+      STRING_SESSION7: ${STRING_SESSION7}
+      STRING_SESSION8: ${STRING_SESSION8}
+      STRING_SESSION9: ${STRING_SESSION9}
+      STRING_SESSION10: ${STRING_SESSION10}
+    network_mode: "service:warp"
+    depends_on:
+      - warp
+
+  warp:
+    image: caomingjun/warp
+    container_name: warp
+    restart: unless-stopped
+    ports:
+      - '1080:1080'
+    environment:
+      - WARP_SLEEP=2
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv4.conf.all.src_valid_mark=1
+    volumes:
+      - ./data:/var/lib/cloudflare-warp
+
+networks:
+  lavalink-net:
+    driver: bridge

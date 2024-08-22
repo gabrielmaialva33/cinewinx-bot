@@ -1,5 +1,3 @@
-from youtubesearchpython.__future__ import VideosSearch
-
 import asyncio
 import os
 import re
@@ -8,6 +6,7 @@ from typing import Union
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
+from youtubesearchpython.__future__ import VideosSearch
 
 import config
 from CineWinx.utils.database import is_on_off
@@ -161,7 +160,6 @@ class YouTubeAPI:
         return result
 
     async def track(self, link: str, videoid: Union[bool, str] = None):
-        print("YoutubeAPI.track", link, videoid)
         if videoid:
             link = self.base + link
         if "&" in link:
@@ -180,8 +178,6 @@ class YouTubeAPI:
             "duration_min": duration_min,
             "thumb": thumbnail,
         }
-
-        print("YoutubeAPI.track", track_details, vidid)
         return track_details, vidid
 
     async def formats(self, link: str, videoid: Union[bool, str] = None):
