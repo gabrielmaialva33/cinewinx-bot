@@ -59,17 +59,7 @@ class AnimiZeYAPI:
                 async with session.request(
                     method, self.url + endpoint, headers=self.session_headers, json=data
                 ) as response:
-                    content_type = response.headers.get(
-                        "Content-Type", "application/json"
-                    )
-                    print("content_type", content_type)
-                    if "application/json" in content_type:
-                        return await response.json()
-                    else:
-                        text = await response.text()
-                        print(f"Unexpected content type: {content_type}")
-                        print(f"Response text: {text}")
-                        return None
+                    return await response.json()
             except Exception as e:
                 print(e)
                 return None
