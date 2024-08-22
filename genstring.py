@@ -7,6 +7,7 @@ API_HASH = input("🔒 Enter Your API_HASH:\n > ")
 
 i = c("cinewinx_string", in_memory=True, api_id=API_ID, api_hash=API_HASH)
 
+
 async def main():
     await i.start()
     ss = await i.export_session_string()
@@ -19,5 +20,6 @@ async def main():
         print("📩 String session successfully sent to your 'Saved Messages'.")
     except BaseException as e:
         logging.warning(f"⚠️ Error occurred: {e}")
+
 
 asyncio.run(main())

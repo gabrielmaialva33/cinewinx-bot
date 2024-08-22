@@ -87,7 +87,7 @@ def folder_markup(folders: list, page: int = 0) -> InlineKeyboardMarkup:
     m_page = page % max_num_pages
 
     if len(buttons) > column_size:
-        pairs = pairs[m_page * column_size: column_size * (m_page + 1)] + [
+        pairs = pairs[m_page * column_size : column_size * (m_page + 1)] + [
             (
                 InlineKeyboardButton("⬅️", callback_data=f"folder_prev_{m_page}"),
                 InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="folder_cancel"),
@@ -118,7 +118,7 @@ def alpha_markup(page: int = 0) -> InlineKeyboardMarkup:
     m_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[m_page * column_size: column_size * (m_page + 1)] + [
+        pairs = pairs[m_page * column_size : column_size * (m_page + 1)] + [
             (
                 InlineKeyboardButton("⬅️", callback_data=f"alpha_prev_{m_page}"),
                 InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="alpha_cancel"),
@@ -149,7 +149,7 @@ def years_markup(page: int = 27) -> InlineKeyboardMarkup:
     m_page = page % max_num_pages
 
     if len(pairs) > column_size:
-        pairs = pairs[m_page * column_size: column_size * (m_page + 1)] + [
+        pairs = pairs[m_page * column_size : column_size * (m_page + 1)] + [
             (
                 InlineKeyboardButton("⬅️", callback_data=f"year_prev_{m_page}"),
                 InlineKeyboardButton("❌ 𝗙𝗲𝗰𝗵𝗮𝗿", callback_data="year_cancel"),

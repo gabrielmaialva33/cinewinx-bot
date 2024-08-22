@@ -38,7 +38,7 @@ class AnimiZeYAPI:
         self.timeout: int = 60
 
     async def request(
-            self, endpoint: str, method: str, data: Optional[Dict[str, Any]] = None
+        self, endpoint: str, method: str, data: Optional[Dict[str, Any]] = None
     ) -> Union[Dict[str, Any], str, None]:
         async with aiohttp.ClientSession() as session:
             try:
@@ -59,14 +59,14 @@ class AnimiZeYAPI:
                 return None
 
     async def search_anime(
-            self, query: str, page_token: Optional[str] = None
+        self, query: str, page_token: Optional[str] = None
     ) -> Union[Dict[str, Any], str, None]:
         return await self.request(
             "/0:search", "POST", {"q": query, "page_token": page_token, "page_index": 0}
         )
 
     async def search_movie(
-            self, query: str, page_token: Optional[str] = None
+        self, query: str, page_token: Optional[str] = None
     ) -> Optional[SearchMovieResponse]:
         response: Optional[SearchMovieResponse] = await self.request(
             "/1:search",
@@ -84,7 +84,7 @@ class AnimiZeYAPI:
         file_path: str = f"movies/{sanitized_file_name}"
         async with aiohttp.ClientSession() as session:
             async with session.get(
-                    f"{self.base_url}{link}", headers=self.session_headers
+                f"{self.base_url}{link}", headers=self.session_headers
             ) as response:
                 with open(file_path, "wb") as f:
                     f.write(await response.read())
