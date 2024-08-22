@@ -36,6 +36,7 @@ RADIO_COMMAND = get_command("RADIO_COMMAND")
 
 _ = get_string(config.LANGUAGE)
 
+
 @app.on_message(filters.command(PLAY_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 @play_wrapper
 async def play_command(
@@ -691,12 +692,14 @@ async def slider_queries(_client: Client, callback_query: CallbackQuery, _):
         )
 
 
-@app.on_message(filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
+)
 async def radio(client: Client, message: Message):
     print("radio command")
     chat_id = message.chat.id
 
-    music_list = await get_music_list_from_group(client,chat_id)
+    music_list = await get_music_list_from_group(client, chat_id)
 
     if not music_list:
         await message.reply_text("ooooops!")
@@ -711,9 +714,7 @@ async def radio(client: Client, message: Message):
         file_id = music["file_id"]
         ubot.download_media(file_id)
 
-
     return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
-
 
 
 async def get_music_list_from_group(client: Client, chat_id: int):
@@ -754,23 +755,27 @@ async def get_music_list_from_group(client: Client, chat_id: int):
                         user_name,
                         message.chat.id,
                         streamtype="telegram",
-                        forceplay=False
+                        forceplay=False,
                     )
                 except Exception as e:
                     logging.error(e)
                     ex_type = type(e).__name__
-                    err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
+                    err = (
+                        e
+                        if ex_type == "AssistantErr"
+                        else _["general_3"].format(ex_type)
+                    )
                     return await mystic.edit_text(err)
                 return await mystic.delete()
 
             print("music found:", message.audio.title)
 
-            music_list.append({
-                "title": message.audio.title,
-                "file_id": message.audio.file_id
-            })
+            music_list.append(
+                {"title": message.audio.title, "file_id": message.audio.file_id}
+            )
 
     return music_list
+
 
 __MODULE__ = "𝗣𝗹𝗮𝘆 ▶️"
 __HELP__ = """
