@@ -814,8 +814,6 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
                     logging.error(e)
                     return []
 
-
-
     return music_list
 
 
