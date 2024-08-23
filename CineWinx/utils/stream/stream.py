@@ -3,7 +3,7 @@ import os
 from random import randint
 from typing import Union
 
-from pyrogram.types import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
 from CineWinx import Carbon, YouTube, app
@@ -24,7 +24,7 @@ from CineWinx.utils.thumbnails import gen_qthumb, gen_thumb
 
 async def stream(
     _,
-    mystic: app,
+    mystic: Message,
     user_id: int,
     result: Union[dict, list],
     chat_id: int,
