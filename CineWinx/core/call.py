@@ -698,7 +698,8 @@ class Call(PyTgCalls):
             check = db.get(chat_id)
             if check:
                 check.pop(0)
-            await _clear_(chat_id)
+            else:
+                pass
         except IndexError:
             pass
         await remove_active_video_chat(chat_id)

@@ -750,9 +750,10 @@ async def radio(client: Client, message: Message):
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
-            return await mystic.delete()
 
-    return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
+            await mystic.delete()
+    await message.delete()
+    #return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
 
 
 async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: int):
