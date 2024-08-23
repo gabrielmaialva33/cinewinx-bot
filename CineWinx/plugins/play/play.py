@@ -3,7 +3,6 @@ import logging
 import random
 import string
 from datetime import datetime
-from itertools import count
 
 import math
 from pyrogram import filters, Client
@@ -128,7 +127,7 @@ async def play_command(
             return await mystic.edit_text(_["play_9"])
         file_path = await Telegram.get_filepath(video=video_telegram)
         if await Telegram.download(_, message, mystic, file_path):
-            #message_link = await Telegram.get_link(message)
+            # message_link = await Telegram.get_link(message)
             message_link = "https://t.me/c/1265093941/2"
             file_name = await Telegram.get_filename(video_telegram)
             dur = await Telegram.get_duration(video_telegram)
@@ -721,8 +720,12 @@ async def radio(client: Client, message: Message):
         file_path = music["file_path"]
         # ubot.download_media(file_id)
 
-        music_message = await client.get_messages(chat_id, message_ids=[music["message_id"]])
-        if await Telegram.download(_, message=music_message[0], mystic=mystic, filename=file_path):
+        music_message = await client.get_messages(
+            chat_id, message_ids=[music["message_id"]]
+        )
+        if await Telegram.download(
+            _, message=music_message[0], mystic=mystic, filename=file_path
+        ):
             message_link = f"https://t.me/{message.chat.username}/{message.id}"
             file_name = await Telegram.get_filename(file_id, audio=True)
             dur = await Telegram.get_duration(file_id)
@@ -779,7 +782,12 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
             file_path = await Telegram.get_filepath(audio=audio_telegram)
 
             # audio/x-flac , audio/mpeg, audio/mp4, audio/flac
-            if audio_telegram.mime_type in ["audio/x-flac", "audio/mpeg", "audio/mp4", "audio/flac"]:
+            if audio_telegram.mime_type in [
+                "audio/x-flac",
+                "audio/mpeg",
+                "audio/mp4",
+                "audio/flac",
+            ]:
                 limit_count += 1
 
                 music = {
@@ -796,7 +804,8 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
                 }
 
                 music_list.append(music)
-                await mystic.edit_text(f"<u>🎶 𝗠𝘂́𝘀𝗶𝗰𝗮</b> 𝗻𝗼 𝗰𝗵𝗮𝘁... {limit_count}"
+                await mystic.edit_text(
+                    f"<u>🎶 𝗠𝘂́𝘀𝗶𝗰𝗮</b> 𝗻𝗼 𝗰𝗵𝗮𝘁... {limit_count}"
                     f"\n\n🎵 𝗧𝗶́𝘁𝘂𝗹𝗼: {music['title']}"
                     f"\n🎤 𝗔𝗿𝘁𝗶𝘀𝘁𝗮: {music['performer']}"
                     f"\n⏱ 𝗗𝘂𝗿𝗮𝗰̧𝗮̃𝗼: {duration_min}"
@@ -808,6 +817,7 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
                     break
 
     return music_list
+
 
 __MODULE__ = "𝗣𝗹𝗮𝘆 ▶️"
 __HELP__ = """
