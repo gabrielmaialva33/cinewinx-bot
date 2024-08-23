@@ -172,7 +172,7 @@ class TeleAPI:
                 )
                 downloader.pop(message.id)
             except FloodWait as f:
-               await asyncio.sleep(f.value)
+                await asyncio.sleep(f.value)
             except Exception as ex:
                 logging.error(str(ex))
                 await mystic.edit_text(_["tg_2"])
