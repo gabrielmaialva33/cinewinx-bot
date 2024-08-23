@@ -128,8 +128,7 @@ async def play_command(
             return await mystic.edit_text(_["play_9"])
         file_path = await Telegram.get_filepath(video=video_telegram)
         if await Telegram.download(_, message, mystic, file_path):
-            #message_link = await Telegram.get_link(message)
-            message_link = "https://t.me/c/1265093941/2"
+            message_link = await Telegram.get_link(message)
             file_name = await Telegram.get_filename(video_telegram)
             dur = await Telegram.get_duration(video_telegram)
             details = {
@@ -698,7 +697,6 @@ async def slider_queries(_client: Client, callback_query: CallbackQuery, _):
 @app.on_message(
     filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
-@play_wrapper
 async def radio(client: Client, message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
@@ -724,33 +722,43 @@ async def radio(client: Client, message: Message):
         music_message = await client.get_messages(chat_id, message_ids=[music["message_id"]])
         if await Telegram.download(_, message=music_message[0], mystic=mystic, filename=file_path):
             message_link = f"https://t.me/{message.chat.username}/{message.id}"
-            file_name = await Telegram.get_filename(file_id, audio=True)
-            dur = await Telegram.get_duration(file_id)
             details = {
-                "title": file_name,
+                "title": music["title"],
                 "link": message_link,
-                "path": file_path,
-                "dur": dur,
+                "path": music["file_path"],
+                "dur": music["duration"],
             }
 
-            try:
-                await stream(
-                    _,
-                    mystic,
-                    user_id,
-                    details,
-                    chat_id,
-                    user_name,
-                    message.chat.id,
-                    streamtype="telegram",
-                    forceplay=True,
-                )
-            except Exception as e:
-                logging.error(e)
-                ex_type = type(e).__name__
-                err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
-                return await mystic.edit_text(err)
-            return await mystic.delete()
+            await stream(
+                _,
+                mystic,
+                user_id,
+                details,
+                chat_id,
+                user_name,
+                message.chat.id,
+                streamtype="telegram",
+                forceplay=True,
+            )
+
+            # try:
+            #     await stream(
+            #         _,
+            #         mystic,
+            #         user_id,
+            #         details,
+            #         chat_id,
+            #         user_name,
+            #         message.chat.id,
+            #         streamtype="telegram",
+            #         forceplay=True,
+            #     )
+            # except Exception as e:
+            #     logging.error(e)
+            #     ex_type = type(e).__name__
+            #     err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
+            #     return await mystic.edit_text(err)
+            # return await mystic.delete()
 
     return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
 
@@ -775,7 +783,6 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
 
             duration_min = seconds_to_min(audio_telegram.duration)
 
-            print("audio duration:", duration_min)
             file_path = await Telegram.get_filepath(audio=audio_telegram)
 
             # audio/x-flac , audio/mpeg, audio/mp4, audio/flac

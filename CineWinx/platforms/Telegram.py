@@ -162,7 +162,7 @@ class TeleAPI:
 
             try:
                 await app.download_media(
-                    message.reply_to_message or message,
+                    message or message.reply_to_message,
                     file_name=filename,
                     progress=progress,
                 )
@@ -199,7 +199,3 @@ class TeleAPI:
             return False
         lyrical.pop(mystic.id)
         return True
-
-    async def download_audio(self, message: Message, mystic: Message):
-        filename = await self.get_filepath(audio=message.audio)
-        return await self.download(self, message, mystic, filename)
