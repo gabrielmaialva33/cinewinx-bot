@@ -50,7 +50,7 @@ SONG_DOWNLOAD_DURATION = int(
 LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", ""))
 
 # Custom File name for LOG
-IN_DEV_MODE = getenv("IN_DEV_MODE", "False")
+IN_DEV_MODE = getenv("IN_DEV_MODE", "True")
 
 # Your User ID.
 OWNER_ID = list(

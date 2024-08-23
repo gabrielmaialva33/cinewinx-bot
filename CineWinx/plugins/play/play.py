@@ -3,7 +3,9 @@ import logging
 import random
 import string
 from datetime import datetime
+from itertools import count
 
+import math
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message, CallbackQuery
@@ -126,7 +128,8 @@ async def play_command(
             return await mystic.edit_text(_["play_9"])
         file_path = await Telegram.get_filepath(video=video_telegram)
         if await Telegram.download(_, message, mystic, file_path):
-            message_link = await Telegram.get_link(message)
+            #message_link = await Telegram.get_link(message)
+            message_link = "https://t.me/c/1265093941/2"
             file_name = await Telegram.get_filename(video_telegram)
             dur = await Telegram.get_duration(video_telegram)
             details = {
@@ -695,87 +698,116 @@ async def slider_queries(_client: Client, callback_query: CallbackQuery, _):
 @app.on_message(
     filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
+@play_wrapper
 async def radio(client: Client, message: Message):
-    print("radio command")
     chat_id = message.chat.id
+    user_id = message.from_user.id
 
-    music_list = await get_music_list_from_group(client, chat_id)
+    user_name = message.from_user.first_name
+
+    mystic = await message.reply_text("🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁...")
+
+    music_list = await get_music_list_from_group(client, mystic, chat_id)
 
     if not music_list:
-        await message.reply_text("ooooops!")
+        await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗮̃𝗼 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗲𝗻𝗵𝘂𝗺 𝗮𝗿𝗾𝘂𝗶𝘃𝗼!")
         return
 
-    winx = random.choice(assistants)
-    ubot = await get_client(winx)
+    # winx = random.choice(assistants)
+    # ubot = await get_client(winx)
 
-    # Obter o arquivo de áudio da primeira música da lista
     for music in music_list:
-        print("downloading music:", music["title"])
         file_id = music["file_id"]
-        ubot.download_media(file_id)
+        file_path = music["file_path"]
+        # ubot.download_media(file_id)
+
+        music_message = await client.get_messages(chat_id, message_ids=[music["message_id"]])
+        if await Telegram.download(_, message=music_message[0], mystic=mystic, filename=file_path):
+            message_link = f"https://t.me/{message.chat.username}/{message.id}"
+            file_name = await Telegram.get_filename(file_id, audio=True)
+            dur = await Telegram.get_duration(file_id)
+            details = {
+                "title": file_name,
+                "link": message_link,
+                "path": file_path,
+                "dur": dur,
+            }
+
+            try:
+                await stream(
+                    _,
+                    mystic,
+                    user_id,
+                    details,
+                    chat_id,
+                    user_name,
+                    message.chat.id,
+                    streamtype="telegram",
+                    forceplay=True,
+                )
+            except Exception as e:
+                logging.error(e)
+                ex_type = type(e).__name__
+                err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
+                return await mystic.edit_text(err)
+            return await mystic.delete()
 
     return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
 
 
-async def get_music_list_from_group(client: Client, chat_id: int):
-    mystic = await client.send_message(chat_id, "🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁...")
+async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: int):
     music_list = []
 
     winx = random.choice(assistants)
     ubot = await get_client(winx)
 
     today = datetime.now()
+    limit_count = 0
     async for message in ubot.get_chat_history(chat_id=chat_id, offset_date=today):
         if message.audio:
-            print("music found:", message)
             user_id = message.from_user.id
             user_name = message.from_user.first_name
+
             audio_telegram = message.audio
+            # thumbs = message.audio.thumbs
+            # print("audio thumbs:", thumbs)
+            # pic = await client.download_media(thumbs[0].file_id)
+
             duration_min = seconds_to_min(audio_telegram.duration)
+
+            print("audio duration:", duration_min)
             file_path = await Telegram.get_filepath(audio=audio_telegram)
-            print("downloading music:", audio_telegram.title)
-            if await Telegram.download(_, message, mystic, file_path):
-                message_link = await Telegram.get_link_2(message)
-                file_name = await Telegram.get_filename(audio_telegram, audio=True)
-                dur = await Telegram.get_duration(audio_telegram)
-                details = {
-                    "title": file_name,
-                    "link": message_link,
-                    "path": file_path,
-                    "dur": dur,
+
+            # audio/x-flac , audio/mpeg, audio/mp4, audio/flac
+            if audio_telegram.mime_type in ["audio/x-flac", "audio/mpeg", "audio/mp4", "audio/flac"]:
+                limit_count += 1
+
+                music = {
+                    "file_id": message.audio.file_id,
+                    "duration": message.audio.duration,
+                    "duration_min": duration_min,
+                    "title": message.audio.title,
+                    "file_name": message.audio.file_name,
+                    "file_size": message.audio.file_size,
+                    "performer": message.audio.performer,
+                    "date": message.audio.date,
+                    "file_path": file_path,
+                    "message_id": message.id,
                 }
 
-                try:
-                    await stream(
-                        _,
-                        mystic,
-                        user_id,
-                        details,
-                        chat_id,
-                        user_name,
-                        message.chat.id,
-                        streamtype="telegram",
-                        forceplay=False,
-                    )
-                except Exception as e:
-                    logging.error(e)
-                    ex_type = type(e).__name__
-                    err = (
-                        e
-                        if ex_type == "AssistantErr"
-                        else _["general_3"].format(ex_type)
-                    )
-                    return await mystic.edit_text(err)
-                return await mystic.delete()
+                music_list.append(music)
+                await mystic.edit_text(f"<u>🎶 𝗠𝘂́𝘀𝗶𝗰𝗮</b> 𝗻𝗼 𝗰𝗵𝗮𝘁... {limit_count}"
+                    f"\n\n🎵 𝗧𝗶́𝘁𝘂𝗹𝗼: {music['title']}"
+                    f"\n🎤 𝗔𝗿𝘁𝗶𝘀𝘁𝗮: {music['performer']}"
+                    f"\n⏱ 𝗗𝘂𝗿𝗮𝗰̧𝗮̃𝗼: {duration_min}"
+                    f"\n📅 𝗗𝗮𝘁𝗮: {music['date']}"
+                    f"\n📏 𝗧𝗮𝗺𝗮𝗻𝗵𝗼: {math.ceil(music['file_size'] / 1024 / 1024)} MB"
+                )
 
-            print("music found:", message.audio.title)
-
-            music_list.append(
-                {"title": message.audio.title, "file_id": message.audio.file_id}
-            )
+                if limit_count == 10:
+                    break
 
     return music_list
-
 
 __MODULE__ = "𝗣𝗹𝗮𝘆 ▶️"
 __HELP__ = """

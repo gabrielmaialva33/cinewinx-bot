@@ -162,7 +162,7 @@ class TeleAPI:
 
             try:
                 await app.download_media(
-                    message.reply_to_message,
+                    message.reply_to_message or message,
                     file_name=filename,
                     progress=progress,
                 )
@@ -170,8 +170,8 @@ class TeleAPI:
                     "✅ <i>𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗰𝗼𝗻𝗰𝗹𝘂𝗶́𝗱𝗼 𝗰𝗼𝗺 𝘀𝘂𝗰𝗲𝘀𝘀𝗼...</i>\n𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮𝗿𝗾𝘂𝗶𝘃𝗼 𝗮𝗴𝗼𝗿𝗮"
                 )
                 downloader.pop(message.id)
-            except Exception as e:
-                logging.error(str(e))
+            except Exception as err:
+                logging.error(str(err))
                 await mystic.edit_text(_["tg_2"])
 
         if len(downloader) > 10:
@@ -199,3 +199,7 @@ class TeleAPI:
             return False
         lyrical.pop(mystic.id)
         return True
+
+    async def download_audio(self, message: Message, mystic: Message):
+        filename = await self.get_filepath(audio=message.audio)
+        return await self.download(self, message, mystic, filename)
