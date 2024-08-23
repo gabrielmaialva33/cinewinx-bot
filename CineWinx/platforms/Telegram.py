@@ -163,7 +163,7 @@ class TeleAPI:
 
             try:
                 await app.download_media(
-                    message or message.reply_to_message,
+                    message.reply_to_message,
                     file_name=filename,
                     progress=progress,
                 )
@@ -171,14 +171,11 @@ class TeleAPI:
                     "✅ <i>𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗰𝗼𝗻𝗰𝗹𝘂𝗶́𝗱𝗼 𝗰𝗼𝗺 𝘀𝘂𝗰𝗲𝘀𝘀𝗼...</i>\n𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗮𝗻𝗱𝗼 𝗮𝗿𝗾𝘂𝗶𝘃𝗼 𝗮𝗴𝗼𝗿𝗮"
                 )
                 downloader.pop(message.id)
-            except Exception as err:
-                logging.error(str(err))
-                try:
-                    await mystic.edit_text(_["tg_2"])
-                except FloodWait as ex:
-                    await asyncio.sleep(ex.value)
-                except Exception as exx:
-                    logging.error(str(exx))
+            except FloodWait as f:
+               await asyncio.sleep(f.value)
+            except Exception as ex:
+                logging.error(str(ex))
+                await mystic.edit_text(_["tg_2"])
 
         if len(downloader) > 10:
             timers = []
