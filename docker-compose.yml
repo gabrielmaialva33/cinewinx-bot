@@ -61,7 +61,3 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     volumes:
       - ./data:/var/lib/cloudflare-warp
-
-networks:
-  lavalink-net:
-    driver: bridge
