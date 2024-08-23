@@ -180,7 +180,6 @@ class TeleAPI:
                 except Exception as exx:
                     logging.error(str(exx))
 
-
         if len(downloader) > 10:
             timers = []
             for x in downloader:
