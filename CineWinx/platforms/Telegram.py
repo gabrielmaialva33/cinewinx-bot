@@ -5,6 +5,7 @@ import time
 from datetime import datetime, timedelta
 from typing import Union
 
+from pyrogram.errors import FloodWait
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -172,7 +173,12 @@ class TeleAPI:
                 downloader.pop(message.id)
             except Exception as err:
                 logging.error(str(err))
-                await mystic.edit_text(_["tg_2"])
+                try:
+                    await mystic.edit_text(_["tg_2"])
+                except FloodWait as ex:
+                    await asyncio.sleep(ex.value)
+                except Exception as exx:
+                    logging.error(str(exx))
 
         if len(downloader) > 10:
             timers = []

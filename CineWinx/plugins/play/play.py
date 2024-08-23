@@ -713,6 +713,7 @@ async def radio(client: Client, message: Message):
     # winx = random.choice(assistants)
     # ubot = await get_client(winx)
 
+    details = {}
     for music in music_list:
         file_path = music["file_path"]
         # ubot.download_media(file_id)
@@ -734,6 +735,7 @@ async def radio(client: Client, message: Message):
             }
 
             try:
+                print("add music to queue", details)
                 await stream(
                     _,
                     mystic,
@@ -745,15 +747,16 @@ async def radio(client: Client, message: Message):
                     streamtype="telegram",
                     forceplay=False,
                 )
+                print("music added to queue")
             except Exception as e:
                 logging.error(e)
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_3"].format(ex_type)
                 return await mystic.edit_text(err)
 
-            await mystic.delete()
-    await message.delete()
-    #return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
+            # await mystic.delete()
+    # await message.delete()
+    # return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
 
 
 async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: int):
