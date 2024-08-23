@@ -696,7 +696,9 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, chat_id)
         try:
             check = db.get(chat_id)
-            check.pop(0)
+            if check:
+                check.pop(0)
+            await _clear_(chat_id)
         except IndexError:
             pass
         await remove_active_video_chat(chat_id)

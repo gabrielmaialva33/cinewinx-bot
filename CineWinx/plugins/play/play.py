@@ -696,7 +696,6 @@ async def slider_queries(_client: Client, callback_query: CallbackQuery, _):
 @app.on_message(
     filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
 )
-@play_wrapper
 async def radio(client: Client, message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
