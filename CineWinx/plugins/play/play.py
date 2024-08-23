@@ -753,7 +753,7 @@ async def radio(client: Client, message: Message):
 
             await mystic.delete()
     await message.delete()
-    #return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
+    # return await message.reply_text("🎶 𝗠𝘂́𝘀𝗶𝗰𝗮𝘀 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗱𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁!")
 
 
 async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: int):
