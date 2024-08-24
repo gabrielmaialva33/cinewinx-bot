@@ -163,7 +163,7 @@ class TeleAPI:
 
             try:
                 await app.download_media(
-                    message.reply_to_message,
+                    message.reply_to_message or message,
                     file_name=filename,
                     progress=progress,
                 )

@@ -31,18 +31,18 @@ async def stream(
     user_name: str,
     original_chat_id: int,
     video: Union[bool, str] = None,
-    streamtype: Union[bool, str] = None,
+    stream_type: Union[bool, str] = None,
     spotify: Union[bool, str] = None,
-    forceplay: Union[bool, str] = None,
+    force_play: Union[bool, str] = None,
 ):
     if not result:
         return
     if video:
         if not await is_video_allowed(chat_id):
             raise AssistantErr(_["play_7"])
-    if forceplay:
+    if force_play:
         await CineWinx.force_stop_stream(chat_id)
-    if streamtype == "playlist":
+    if stream_type == "playlist":
         msg = f"{_['playlist_16']}\n\n"
         count = 0
         for search in result:
@@ -80,7 +80,7 @@ async def stream(
                 msg += f"{count}- {title[:70]}\n"
                 msg += f"{_['playlist_17']} {position}\n\n"
             else:
-                if not forceplay:
+                if not force_play:
                     db[chat_id] = []
                 status = True if video else None
                 try:
@@ -103,7 +103,7 @@ async def stream(
                     vidid,
                     user_id,
                     "video" if video else "audio",
-                    forceplay=forceplay,
+                    force_play=force_play,
                 )
                 img = await gen_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
@@ -137,7 +137,7 @@ async def stream(
                 caption=_["playlist_18"].format(link, position),
                 reply_markup=upl,
             )
-    elif streamtype == "youtube":
+    elif stream_type == "youtube":
         link = result["link"]
         vidid = result["vidid"]
         title = (result["title"]).title()
@@ -174,7 +174,7 @@ async def stream(
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
-            if not forceplay:
+            if not force_play:
                 db[chat_id] = []
             await CineWinx.join_call(
                 chat_id, original_chat_id, file_path, video=status, image=thumbnail
@@ -189,7 +189,7 @@ async def stream(
                 vidid,
                 user_id,
                 "video" if video else "audio",
-                forceplay=forceplay,
+                force_play=force_play,
             )
             img = await gen_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
@@ -209,7 +209,7 @@ async def stream(
                 db[chat_id][0]["markup"] = "stream"
             except Exception as ex:
                 print(ex)
-    elif streamtype == "soundcloud":
+    elif stream_type == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
         duration_min = result["duration_min"]
@@ -221,7 +221,7 @@ async def stream(
                 title,
                 duration_min,
                 user_name,
-                streamtype,
+                stream_type,
                 user_id,
                 "audio",
             )
@@ -231,7 +231,7 @@ async def stream(
                 _["queue_4"].format(position, title[:30], duration_min, user_name),
             )
         else:
-            if not forceplay:
+            if not force_play:
                 db[chat_id] = []
             await CineWinx.join_call(chat_id, original_chat_id, file_path, video=None)
             await put_queue(
@@ -241,10 +241,10 @@ async def stream(
                 title,
                 duration_min,
                 user_name,
-                streamtype,
+                stream_type,
                 user_id,
                 "audio",
-                forceplay=forceplay,
+                force_play=force_play,
             )
             button = telegram_markup(_, chat_id)
             run = await app.send_photo(
@@ -257,7 +257,7 @@ async def stream(
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
-    elif streamtype == "telegram":
+    elif stream_type == "telegram":
         file_path = result["path"]
         link = result["link"]
         title = (result["title"]).title()
@@ -271,7 +271,7 @@ async def stream(
                 title,
                 duration_min,
                 user_name,
-                streamtype,
+                stream_type,
                 user_id,
                 "video" if video else "audio",
             )
@@ -281,7 +281,7 @@ async def stream(
                 _["queue_4"].format(position, title[:30], duration_min, user_name),
             )
         else:
-            if not forceplay:
+            if not force_play:
                 db[chat_id] = []
             await CineWinx.join_call(chat_id, original_chat_id, file_path, video=status)
             await put_queue(
@@ -291,10 +291,10 @@ async def stream(
                 title,
                 duration_min,
                 user_name,
-                streamtype,
+                stream_type,
                 user_id,
                 "video" if video else "audio",
-                forceplay=forceplay,
+                force_play=force_play,
             )
             if video:
                 await add_active_video_chat(chat_id)
@@ -307,7 +307,7 @@ async def stream(
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
-    elif streamtype == "live":
+    elif stream_type == "live":
         link = result["link"]
         vidid = result["vidid"]
         title = (result["title"]).title()
@@ -332,7 +332,7 @@ async def stream(
                 _["queue_4"].format(position, title[:30], duration_min, user_name),
             )
         else:
-            if not forceplay:
+            if not force_play:
                 db[chat_id] = []
             n, file_path = await YouTube.video(link)
             if n == 0:
@@ -354,7 +354,7 @@ async def stream(
                 vidid,
                 user_id,
                 "video" if video else "audio",
-                forceplay=forceplay,
+                force_play=force_play,
             )
             img = await gen_thumb(vidid)
             button = telegram_markup(_, chat_id)
@@ -371,7 +371,7 @@ async def stream(
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
-    elif streamtype == "index":
+    elif stream_type == "index":
         link = result
         title = "𝗜𝗻𝗱𝗲𝘅 𝗼𝗿 𝗠3𝘂8 𝗟𝗶𝗻𝗸"
         duration_min = "𝗨𝗥𝗟 𝘀𝘁𝗿𝗲𝗮𝗺"
@@ -391,7 +391,7 @@ async def stream(
                 _["queue_4"].format(position, title[:30], duration_min, user_name)
             )
         else:
-            if not forceplay:
+            if not force_play:
                 db[chat_id] = []
             await CineWinx.join_call(
                 chat_id,
@@ -408,7 +408,7 @@ async def stream(
                 user_name,
                 link,
                 "video" if video else "audio",
-                forceplay=forceplay,
+                forceplay=force_play,
             )
             button = telegram_markup(_, chat_id)
             run = await app.send_photo(

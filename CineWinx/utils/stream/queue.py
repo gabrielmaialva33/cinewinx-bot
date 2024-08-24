@@ -17,7 +17,7 @@ async def put_queue(
     vidid: str,
     user_id: int,
     stream: str,
-    forceplay: Union[bool, str] = None,
+    force_play: Union[bool, str] = None,
 ):
     title = title.title()
     try:
@@ -35,7 +35,7 @@ async def put_queue(
         "seconds": duration_in_seconds,
         "played": 0,
     }
-    if forceplay:
+    if force_play:
         if check := db.get(chat_id):
             check.insert(0, put)
         else:

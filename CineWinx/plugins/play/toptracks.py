@@ -223,7 +223,7 @@ async def server_to_play(client: app, callback_query: CallbackQuery, _):
             user_name,
             callback_query.message.chat.id,
             video=False,
-            streamtype="playlist",
+            stream_type="playlist",
         )
     except Exception as e:
         ex_type = type(e).__name__

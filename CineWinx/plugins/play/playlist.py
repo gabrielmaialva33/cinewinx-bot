@@ -286,7 +286,7 @@ async def play_playlist(client: app, callback_query: CallbackQuery, _):
             user_name,
             callback_query.message.chat.id,
             video,
-            streamtype="playlist",
+            stream_type="playlist",
         )
     except Exception as e:
         ex_type = type(e).__name__
@@ -429,7 +429,7 @@ async def play_playlist_command(client: app, message: Message, _):
             user_name,
             message.chat.id,
             video,
-            streamtype="playlist",
+            stream_type="playlist",
         )
     except Exception as e:
         ex_type = type(e).__name__
@@ -477,7 +477,7 @@ async def play_playlist(_client: app, callback_query: CallbackQuery, _):
             user_name,
             callback_query.message.chat.id,
             video,
-            streamtype="playlist",
+            stream_type="playlist",
         )
     except Exception as e:
         ex_type = type(e).__name__
@@ -529,7 +529,7 @@ async def play_playlist_command(_client: app, message: Message, _):
             user_name,
             message.chat.id,
             video,
-            streamtype="playlist",
+            stream_type="playlist",
         )
     except Exception as e:
         ex_type = type(e).__name__
