@@ -2,9 +2,7 @@ import asyncio
 import logging
 import random
 import string
-from datetime import datetime
 
-import math
 from pyrogram import filters, Client
 from pyrogram.errors import FloodWait
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message, CallbackQuery
@@ -13,8 +11,7 @@ from pytgcalls.exceptions import NoActiveGroupCall
 import config
 from CineWinx import Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app
 from CineWinx.core.call import CineWinx
-from CineWinx.core.userbot import assistants
-from CineWinx.utils import seconds_to_min, time_to_seconds, get_client
+from CineWinx.utils import seconds_to_min, time_to_seconds
 from CineWinx.utils.channelplay import get_channeplay_cb
 from CineWinx.utils.database import is_video_allowed
 from CineWinx.utils.decorators.language import language_cb

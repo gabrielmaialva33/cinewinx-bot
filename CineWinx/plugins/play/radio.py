@@ -1,17 +1,20 @@
-import asyncio
 import random
 from datetime import datetime, timedelta
 
-import math
 from pyrogram import filters, Client
-from pyrogram.errors import FloodWait
 from pyrogram.types import Message, InlineKeyboardMarkup
 
-from CineWinx import app, Telegram, LOGGER
+from CineWinx import app, Telegram
 from CineWinx.core.call import CineWinx
 from CineWinx.core.userbot import assistants
 from CineWinx.misc import db
-from CineWinx.utils import get_client, seconds_to_min, get_lang, is_active_chat, telegram_markup
+from CineWinx.utils import (
+    get_client,
+    seconds_to_min,
+    get_lang,
+    is_active_chat,
+    telegram_markup,
+)
 from CineWinx.utils.stream.queue import put_queue
 from config import PREFIXES, BANNED_USERS, TELEGRAM_AUDIO_URL
 from strings import get_command, get_string
@@ -21,6 +24,7 @@ RADIO_COMMAND = get_command("RADIO_COMMAND")
 # Variáveis globais para rastrear progresso
 last_played_date = None
 last_played_message_id = None
+
 
 @app.on_message(
     filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
@@ -41,7 +45,9 @@ async def radio(client: Client, message: Message):
         last_played_date = datetime.now()
 
     while True:
-        music_list = await get_music_list_from_group(client, mystic, chat_id, last_played_date, last_played_message_id)
+        music_list = await get_music_list_from_group(
+            client, mystic, chat_id, last_played_date, last_played_message_id
+        )
 
         if not music_list:
             # Se não encontrou músicas no dia atual, vá para o próximo dia
@@ -53,12 +59,10 @@ async def radio(client: Client, message: Message):
             file_path = music["file_path"]
             message_id = music["message_id"]
 
-            music_message = await client.get_messages(
-                chat_id, message_ids=[message_id]
-            )
+            music_message = await client.get_messages(chat_id, message_ids=[message_id])
 
             if await Telegram.download(
-                    _, message=music_message[0], mystic=mystic, filename=file_path
+                _, message=music_message[0], mystic=mystic, filename=file_path
             ):
                 message_link = f"https://t.me/{message.chat.username}/{message.id}"
                 details = {
@@ -85,7 +89,9 @@ async def radio(client: Client, message: Message):
                     print("join call", details)
                     db[chat_id] = []
 
-                    await CineWinx.join_call(chat_id, chat_id, details["path"], None, None)
+                    await CineWinx.join_call(
+                        chat_id, chat_id, details["path"], None, None
+                    )
 
                     await put_queue(
                         chat_id,
@@ -103,7 +109,9 @@ async def radio(client: Client, message: Message):
                     run = await app.send_photo(
                         chat_id,
                         photo=TELEGRAM_AUDIO_URL,
-                        caption=_["stream_1"].format(details["title"], details["link"], details["dur"], user_name),
+                        caption=_["stream_1"].format(
+                            details["title"], details["link"], details["dur"], user_name
+                        ),
                         reply_markup=InlineKeyboardMarkup(button),
                     )
 
@@ -118,7 +126,10 @@ async def radio(client: Client, message: Message):
             last_played_date -= timedelta(days=1)
             last_played_message_id = None
 
-async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: int, date: datetime, last_id: int):
+
+async def get_music_list_from_group(
+    _client: Client, mystic: Message, chat_id: int, date: datetime, last_id: int
+):
     music_list = []
 
     winx = random.choice(assistants)
@@ -128,7 +139,9 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
 
     # Verifica se o last_id é None e ajusta a chamada ao get_chat_history
     if last_id is not None:
-        async for message in ubot.get_chat_history(chat_id=chat_id, offset_date=date, offset_id=last_id):
+        async for message in ubot.get_chat_history(
+            chat_id=chat_id, offset_date=date, offset_id=last_id
+        ):
             if message.audio:
                 # Processa a mensagem de áudio
                 music = await process_audio_message(message)
@@ -147,6 +160,7 @@ async def get_music_list_from_group(_client: Client, mystic: Message, chat_id: i
                     break
 
     return music_list
+
 
 async def process_audio_message(message):
     audio_telegram = message.audio
