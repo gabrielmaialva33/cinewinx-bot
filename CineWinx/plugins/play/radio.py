@@ -21,7 +21,6 @@ from strings import get_command, get_string
 
 RADIO_COMMAND = get_command("RADIO_COMMAND")
 
-# Variáveis globais para rastrear progresso
 last_played_date = None
 last_played_message_id = None
 
@@ -40,7 +39,6 @@ async def radio(client: Client, message: Message):
 
     mystic = await message.reply_text("🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁...")
 
-    # Inicializa a data para hoje se não houver uma data anterior
     if last_played_date is None:
         last_played_date = datetime.now()
 
@@ -118,10 +116,8 @@ async def radio(client: Client, message: Message):
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
 
-            # Atualiza a variável global após tocar uma música
             last_played_message_id = message_id
 
-        # Verifica se ainda há músicas no dia atual; caso contrário, avance para o próximo dia
         if len(music_list) < 10:
             last_played_date -= timedelta(days=1)
             last_played_message_id = None
@@ -137,7 +133,6 @@ async def get_music_list_from_group(
 
     limit_count = 0
 
-    # Verifica se o last_id é None e ajusta a chamada ao get_chat_history
     if last_id is not None:
         async for message in ubot.get_chat_history(
             chat_id=chat_id, offset_date=date, offset_id=last_id
@@ -152,7 +147,6 @@ async def get_music_list_from_group(
     else:
         async for message in ubot.get_chat_history(chat_id=chat_id, offset_date=date):
             if message.audio:
-                # Processa a mensagem de áudio
                 music = await process_audio_message(message)
                 music_list.append(music)
                 limit_count += 1
