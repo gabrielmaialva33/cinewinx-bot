@@ -51,7 +51,7 @@ services:
     container_name: cinewinx-warp
     restart: unless-stopped
     ports:
-      - '1080:1080'
+      - '1081:1081'
     environment:
       - WARP_SLEEP=2
     cap_add:
