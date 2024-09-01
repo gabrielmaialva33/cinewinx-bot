@@ -387,6 +387,19 @@ async def play_command(
                 spotify=spotify,
                 force_play=fplay,
             )
+        except FloodWait as f:
+            await asyncio.sleep(f.value)
+            return await play_command(
+                _client,
+                message,
+                _,
+                chat_id,
+                video,
+                channel,
+                playmode,
+                url,
+                fplay,
+            )
         except Exception as e:
             logging.error(e)
             ex_type = type(e).__name__
