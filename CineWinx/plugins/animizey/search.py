@@ -86,12 +86,15 @@ async def search_movies(_client: Client, message: Message):
 
         print("folders", folders)
 
-
         context_manager.update_context(
-            query=query, page_token=result["data"]["nextPageToken"], page_index=0, files=result["data"]["files"]
+            query=query,
+            page_token=result["data"]["nextPageToken"],
+            page_index=0,
+            files=result["data"]["files"],
         )
 
         await send_results_page(message, message.from_user.id)
+
 
 def folder_markup(folders: list, page: int = 0) -> InlineKeyboardMarkup:
     """
