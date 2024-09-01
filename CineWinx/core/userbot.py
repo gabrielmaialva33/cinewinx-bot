@@ -3,7 +3,7 @@ import logging
 from pyrogram import Client, errors
 
 import config
-from config import WINX_ECOSYSTEM_IDS, IN_DEV_MODE
+from config import WINX_ECOSYSTEM_IDS, DEV_MODE
 from strings import get_string
 from ..logging import LOGGER
 
@@ -181,7 +181,7 @@ class Userbot(Client):
                 )
                 await self.one.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.one.get_me()
                     pic = (
                         await self.one.download_media(me.photo.big_file_id)
@@ -236,7 +236,7 @@ class Userbot(Client):
                 )
                 await self.two.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.two.get_me()
                     pic = (
                         await self.two.download_media(me.photo.big_file_id)
@@ -295,7 +295,7 @@ class Userbot(Client):
                 )
                 await self.three.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.three.get_me()
                     pic = (
                         await self.three.download_media(me.photo.big_file_id)
@@ -351,7 +351,7 @@ class Userbot(Client):
                 )
                 await self.four.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.four.get_me()
                     pic = (
                         await self.four.download_media(me.photo.big_file_id)
@@ -407,7 +407,7 @@ class Userbot(Client):
                 )
                 await self.five.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.five.get_me()
                     pic = (
                         await self.five.download_media(me.photo.big_file_id)
@@ -461,7 +461,7 @@ class Userbot(Client):
                 )
                 await self.six.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.six.get_me()
                     pic = (
                         await self.six.download_media(me.photo.big_file_id)
@@ -520,7 +520,7 @@ class Userbot(Client):
                 )
                 await self.seven.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.seven.get_me()
                     pic = (
                         await self.seven.download_media(me.photo.big_file_id)
@@ -579,7 +579,7 @@ class Userbot(Client):
                 )
                 await self.eight.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.eight.get_me()
                     pic = (
                         await self.eight.download_media(me.photo.big_file_id)
@@ -635,7 +635,7 @@ class Userbot(Client):
                 )
                 await self.nine.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.nine.get_me()
                     pic = (
                         await self.nine.download_media(me.photo.big_file_id)
@@ -689,7 +689,7 @@ class Userbot(Client):
                 )
                 await self.ten.send_message(chat_id=config.LOG_GROUP_ID, text=text)
 
-                if WINX_ECOSYSTEM_IDS and IN_DEV_MODE == str(False):
+                if WINX_ECOSYSTEM_IDS and DEV_MODE == str(False):
                     me = await self.ten.get_me()
                     pic = (
                         await self.ten.download_media(me.photo.big_file_id)

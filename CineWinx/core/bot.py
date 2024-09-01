@@ -60,7 +60,7 @@ class WinxBot(Client):
             LOGGER(__name__).error(f"An error occurred: {e}")
             await self.stop()
 
-        if config.SET_CMDS == str(True):
+        if config.SET_CMDS == str(True) and config.DEV_MODE == str(False):
             try:
                 await self.set_bot_commands(
                     [
@@ -88,6 +88,7 @@ class WinxBot(Client):
             except Exception as e:
                 LOGGER(__name__).warning(f"An error occurred: {e}")
         else:
+            await self.set_bot_commands([])
             pass
         try:
             member = await self.get_chat_member(config.LOG_GROUP_ID, self.id)

@@ -39,13 +39,15 @@ class ContextManager:
         context_db.pop(self.user_id, None)
 
 
-@app.on_message(filters.command(MOVIES_COMMAND, PREFIXES) & ~BANNED_USERS)
+@app.on_message(filters.command("test", PREFIXES) & ~BANNED_USERS)
 async def search_movies(_client: Client, message: Message):
     query = (
         message.text.split(None, 1)[1].strip()
         if len(message.text.split()) > 1
         else (message.reply_to_message.text if message.reply_to_message else None)
     )
+
+    print("query:", query)
 
     context_manager = ContextManager(message.from_user.id)
     context_manager.update_context(query=query, page_token=None, page_index=0)
@@ -56,6 +58,7 @@ async def search_movies(_client: Client, message: Message):
         #     reply_markup=years_markup(),
         # )
         result = await AnimiZeY.movie_foder()
+
         print("result.data.files", result["data"]["files"])
         # result.data.files [{'kind': 'drive#file', 'name': '2023', 'modifiedTime': '2024-03-19T00:47:47.260Z', 'id': '1a9rD/kY+aJG5AQLzXGT57PhSPopwzpsWBr1gyLaIxhnIJQv3yhKTm/MQ0GRSPzg', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': '2024', 'modifiedTime': '2024-03-18T23:19:50.903Z', 'id': 'o8/xKVxKdp4fTOshjeHdpOW0ZAmneBFF8jKPpTONhPnBaBfVyCkFm6jiRbq/7Ls/', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes (5519)', 'modifiedTime': '2023-09-15T23:19:47.145Z', 'id': 'nrVmhX+bhjFC6S3nko8tDN816WtcieSOagbzdC693ic1Gk07YsefJ9gR0/VQvx3n', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes 4k (227)', 'modifiedTime': '2023-09-15T23:19:51.773Z', 'id': 'YPD/B7EgqagjGLrZheKatOK3Uo280ChWxoeZhno7JFQO32NSPWqh9rIwrtNA6x08', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes Animação (1019)', 'modifiedTime': '2023-09-15T23:19:55.468Z', 'id': 'V4Fa2bGvjprsnRVei+4yuLmBCr5UkwvQOepBRmMls2F9CZ9B+k02uhBD28F0ybp4', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes Antigos (4054)', 'modifiedTime': '2023-09-15T23:19:57.941Z', 'id': 'D2tpz2aHSJneHeXtzupZs7QUpstUEfkkD6Kh+XgdUH/llNsiRIZaEDRr+8HWIubD', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes Decênio (2735)', 'modifiedTime': '2023-09-15T23:20:00.437Z', 'id': 'KKVw5qLcqd0al3qb4O01CBdhsYJO6X1YBQNE+LZ/WFXpFTiCpsaF9PmuJPqDBAoZ', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes orezraey', 'modifiedTime': '2024-02-27T03:01:25.209Z', 'id': '6o+WxdaGN4MWQ9gGYaWhJiSls2swFGuDe2x11Jn4sdn3xHMo50u4tsPzQ5KLGMRt', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}, {'kind': 'drive#file', 'name': 'Filmes recentes (2599)', 'modifiedTime': '2023-09-15T23:20:14.517Z', 'id': 'x7180AWUl+I5/cEig1eAyoD4leCyXvUp66xi0uwYH/nkkAMVVXMtsdZR+0J0DkQF', 'driveId': 'ZqmmsCRkY8O3DfKFgBZzXuWNTtM6aBVpjCWGRoUri2g=', 'mimeType': 'application/vnd.google-apps.folder', 'link': None}]
 
@@ -64,10 +67,31 @@ async def search_movies(_client: Client, message: Message):
             for file in result["data"]["files"]
             if file["mimeType"] == "application/vnd.google-apps.folder"
         ]
+
+        print("folders", folders)
+
         markup = folder_markup(folders)
 
         await message.reply_text("🎬 𝗘𝗻𝗰𝗼𝗻𝘁𝗿𝗲 𝗽𝗼𝗿 𝗳𝗼𝗹𝗱𝗲𝗿:", reply_markup=markup)
+    else:
+        result = await AnimiZeY.search_movie(query, None)
 
+        print("result.data.files", result["data"]["files"])
+
+        folders = [
+            file
+            for file in result["data"]["files"]
+            if file["mimeType"] == "application/vnd.google-apps.folder"
+        ]
+
+        print("folders", folders)
+
+
+        context_manager.update_context(
+            query=query, page_token=result["data"]["nextPageToken"], page_index=0, files=result["data"]["files"]
+        )
+
+        await send_results_page(message, message.from_user.id)
 
 def folder_markup(folders: list, page: int = 0) -> InlineKeyboardMarkup:
     """
