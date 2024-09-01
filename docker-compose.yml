@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cinewinx
+    container_name: cinewinx-bot
     restart: always
     env_file:
       - .env
@@ -48,7 +48,7 @@ services:
 
   warp:
     image: caomingjun/warp
-    container_name: warp
+    container_name: cinewinx-warp
     restart: unless-stopped
     ports:
       - '1080:1080'
