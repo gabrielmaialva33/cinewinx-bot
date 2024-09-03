@@ -25,7 +25,7 @@ RADIO_STATION = {
     # "Capital FM": "http://media-ice.musicradio.com/CapitalMP3?.mp3&listening-from-radio-garden=1616312105154",
     # "English": "https://hls-01-regions.emgsound.ru/11_msk/playlist.m3u8",
     # "Mirchi": "http://peridot.streamguys.com:7150/Mirchi",
-    "galaxie": "http://stream.zenolive.com/fp2nmjjwojuv",
+    "galaxie": "http://stream.zenolive.com/ifp2nmjjwojuv",
     "Hits Of Kishore Kumar": "http://stream.zenolive.com/0ghtfp8ztm0uv",
     "Jovem Pan FM": "http://stream.zenolive.com/c45wbq2us3buv",
     "Dance Wave!": "http://stream.zenolive.com/867h0na557zuv",
