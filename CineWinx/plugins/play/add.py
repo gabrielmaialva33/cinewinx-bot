@@ -77,8 +77,11 @@ async def add_command(client: Client, message: Message):
                 _, message=music_message[0], mystic=mystic, filename=file_path
             ):
                 message_link = f"https://t.me/{message.chat.username}/{message.id}"
+                title = music["title"].title()
+                if not title:
+                    title = "🎵 𝗠𝘂́𝘀𝗶𝗰𝗮 𝗻𝗮̃𝗼 𝗶𝗱𝗲𝗻𝘁𝗶𝗳𝗶𝗰𝗮𝗱𝗮"
                 details = {
-                    "title": music["title"].title(),
+                    "title": title,
                     "link": message_link,
                     "path": file_path,
                     "dur": music["duration_min"],
