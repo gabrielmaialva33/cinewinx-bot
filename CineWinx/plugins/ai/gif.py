@@ -9,6 +9,8 @@ from pyrogram.types import Message
 from CineWinx import app
 from config import PREFIXES, BANNED_USERS
 
+SPACE_URL = "https://guardiancc-flux-gif-animations-2.hf.space/call/infer"
+
 @app.on_message(filters.command(["gif"], PREFIXES) & ~BANNED_USERS)
 async def hf_gif(_client: Client, message: Message):
     try:
@@ -21,13 +23,13 @@ async def hf_gif(_client: Client, message: Message):
     async with aiohttp.ClientSession() as session:
         mystic = await message.reply_text("🎞️ 𝗚𝗲𝗿𝗮𝗻𝗱𝗼 𝗚𝗜𝗙, 𝗽𝗼𝗿 𝗳𝗮𝘃𝗼𝗿 𝗮𝗴𝘂𝗮𝗿𝗱𝗲...")
         async with session.post(
-            "https://guardiancc-flux-gif-animations-2.hf.space/call/infer",
+            SPACE_URL,
             json={
                 "data": [
                     text,
                     645956939,
                     True,
-                    28
+                    30,
                 ]
             },
             headers={"Content-Type": "application/json"},
@@ -37,7 +39,7 @@ async def hf_gif(_client: Client, message: Message):
             logging.info(f"event ID: {event_id}")
 
             async with session.get(
-                    f"https://guardiancc-flux-gif-animations-2.hf.space/call/infer/{event_id}"
+                    f"{SPACE_URL}/{event_id}"
             ) as event_resp:
                 if event_resp.content_type == "text/event-stream":
                     async for line in event_resp.content:
