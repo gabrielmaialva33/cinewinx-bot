@@ -3,20 +3,29 @@ import logging
 import asyncio
 from pyrogram import filters, Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import ChatAdminRequired, UserNotParticipant, InviteRequestSent, UserAlreadyParticipant
+from pyrogram.errors import (
+    ChatAdminRequired,
+    UserNotParticipant,
+    InviteRequestSent,
+    UserAlreadyParticipant,
+)
 from pyrogram.types import Message
 
 from CineWinx import app
-from CineWinx.misc import db, SUDOERS
+from CineWinx.misc import SUDOERS
 from CineWinx.utils import (
-    get_lang, get_assistant, get_playmode, get_playtype, get_cmode, play_logs,
+    get_lang,
+    get_assistant,
+    get_playmode,
+    get_playtype,
+    get_cmode,
+    play_logs,
 )
 from CineWinx.utils.stream.stream import stream
 from config import PREFIXES, BANNED_USERS, adminlist
 from strings import get_command, get_string
 
 RADIO_COMMAND = get_command("RADIO_COMMAND")
-
 
 
 RADIO_STATION = {
@@ -34,7 +43,10 @@ RADIO_STATION = {
     "Chill Radio 24/7": "https://www.youtube.com/watch?v=Ndx2zSuAaRQ",
 }
 
-valid_stations = "\n".join([f"<code>{name}</code>" for name in sorted(RADIO_STATION.keys())])
+valid_stations = "\n".join(
+    [f"<code>{name}</code>" for name in sorted(RADIO_STATION.keys())]
+)
+
 
 @app.on_message(
     filters.command(RADIO_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS
@@ -86,7 +98,9 @@ async def radio(client: Client, message: Message):
                         f"𝗙𝗮𝗹𝗵𝗮 𝗮𝗼 𝗶𝗻𝘃𝗶𝘁𝗮𝗿 {userbot.mention} 𝗮𝘀𝘀𝗶𝘀𝘁𝗲𝗻𝘁𝗲 𝗽𝗮𝗿𝗮 {message.chat.title}.\n\n𝗠𝗼𝘁𝗶𝘃𝗼: {ex} ⚠️"
                     )
         if invite_link.startswith("https://t.me/+"):
-            invite_link = invite_link.replace("https://t.me/+", "https://t.me/joinchat/")
+            invite_link = invite_link.replace(
+                "https://t.me/+", "https://t.me/joinchat/"
+            )
         anon = await msg.edit_text(
             f"⏳ 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗮𝗴𝘂𝗮𝗿𝗱𝗲...\n\n𝗜𝗻𝘃𝗶𝘁𝗮𝗻𝗱𝗼 {userbot.mention} 𝗽𝗮𝗿𝗮 {message.chat.title}."
         )
@@ -120,7 +134,6 @@ async def radio(client: Client, message: Message):
             await userbot.resolve_peer(invite_link)
         except BaseException as e:
             logging.exception(e)
-            pass
     await msg.delete()
     station_name = " ".join(message.command[1:])
     RADIO_URL = RADIO_STATION.get(station_name)

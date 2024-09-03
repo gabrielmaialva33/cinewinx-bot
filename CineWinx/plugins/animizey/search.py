@@ -58,7 +58,7 @@ async def search_movies(_client: Client, message: Message):
         result = await AnimiZeY.search_movie(query, None)
         print("result", result)
 
-        #print("result.data.files", result["data"]["files"])
+        # print("result.data.files", result["data"]["files"])
 
         folders = [
             file

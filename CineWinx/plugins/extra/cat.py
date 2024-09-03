@@ -66,6 +66,5 @@ async def refresh_cat(_client: Client, m: CallbackQuery):
                 )
             except Exception as e:
                 logging.error(e)
-                pass
     else:
         await m.edit_message_text("𝗡𝗮̃𝗼 𝗳𝗼𝗶 𝗽𝗼𝘀𝘀𝗶́𝘃𝗲𝗹 𝗯𝘂𝘀𝗰𝗮𝗿 𝘂𝗺𝗮 𝗳𝗼𝘁𝗼 𝗱𝗲 𝗴𝗮𝘁𝗶𝗻𝗵𝗼 🙀")
