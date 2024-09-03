@@ -4,7 +4,6 @@ from pyrogram.types import Message
 from CineWinx import app, LOGGER
 from CineWinx.core.call import CineWinx
 from CineWinx.utils import get_assistant
-from config import LOG_GROUP_ID
 
 
 @app.on_message(filters.video_chat_started, group=20)

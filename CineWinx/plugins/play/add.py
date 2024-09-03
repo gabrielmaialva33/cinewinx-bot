@@ -24,6 +24,7 @@ ADD_COMMAND = get_command("ADD_COMMAND")
 last_played_date = None
 last_played_message_id = None
 
+
 @app.on_message(filters.command(ADD_COMMAND, PREFIXES) & filters.group & ~BANNED_USERS)
 async def add_command(client: Client, message: Message):
     global last_played_date, last_played_message_id
@@ -37,10 +38,14 @@ async def add_command(client: Client, message: Message):
     try:
         num_songs = int(message.command[1])
     except (IndexError, ValueError):
-        await message.reply_text("🎶 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝗻𝘂́𝗺𝗲𝗿𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼 𝗱𝗲 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿. 🎵")
+        await message.reply_text(
+            "🎶 𝗣𝗼𝗿 𝗳𝗮𝘃𝗼𝗿, 𝗲𝘀𝗽𝗲𝗰𝗶𝗳𝗶𝗾𝘂𝗲 𝘂𝗺 𝗻𝘂́𝗺𝗲𝗿𝗼 𝘃𝗮́𝗹𝗶𝗱𝗼 𝗱𝗲 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗽𝗮𝗿𝗮 𝗮𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗿. 🎵"
+        )
         return
 
-    mystic = await message.reply_text(f"🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗮𝘀 𝘂𝗹𝘁𝗶𝗺𝗮𝘀 {num_songs} 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁 ...")
+    mystic = await message.reply_text(
+        f"🔍 𝗣𝗲𝘀𝗾𝘂𝗶𝘀𝗮𝗻𝗱𝗼 𝗮𝘀 𝘂𝗹𝘁𝗶𝗺𝗮𝘀 {num_songs} 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼 𝗰𝗵𝗮𝘁 ..."
+    )
 
     if last_played_date is None:
         last_played_date = datetime.now()
@@ -69,7 +74,7 @@ async def add_command(client: Client, message: Message):
             music_message = await client.get_messages(chat_id, message_ids=[message_id])
 
             if await Telegram.download(
-                    _, message=music_message[0], mystic=mystic, filename=file_path
+                _, message=music_message[0], mystic=mystic, filename=file_path
             ):
                 message_link = f"https://t.me/{message.chat.username}/{message.id}"
                 details = {
@@ -138,11 +143,12 @@ async def add_command(client: Client, message: Message):
 
     if added_songs == 0:
         try:
-            await mystic.edit_text("❌ 𝗡𝗮̃𝗼 𝗳𝗼𝗶 𝗽𝗼𝘀𝘀𝗶́𝘃𝗲𝗹 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼𝘀 𝘂́𝗹𝘁𝗶𝗺𝗼𝘀 𝟱 𝗱𝗶𝗮𝘀.")
+            await mystic.edit_text(
+                "❌ 𝗡𝗮̃𝗼 𝗳𝗼𝗶 𝗽𝗼𝘀𝘀𝗶́𝘃𝗲𝗹 𝗲𝗻𝗰𝗼𝗻𝘁𝗿𝗮𝗿 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗻𝗼𝘀 𝘂́𝗹𝘁𝗶𝗺𝗼𝘀 𝟱 𝗱𝗶𝗮𝘀."
+            )
         except FloodWait as f:
             await asyncio.sleep(f.value)
         except Exception as e:
             logging.error(str(e))
-            pass
     else:
         await mystic.edit_text(f"🎶 𝗔𝗱𝗶𝗰𝗶𝗼𝗻𝗮𝗱𝗼 {added_songs} 𝗺𝘂́𝘀𝗶𝗰𝗮𝘀 𝗮̀ 𝘀𝘁𝗿𝗲𝗮𝗺.")

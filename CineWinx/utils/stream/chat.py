@@ -10,7 +10,11 @@ from CineWinx.utils import get_client, seconds_to_min
 
 
 async def get_music_list_from_group(
-    _client: Client, mystic: Message, chat_id: int, date: datetime, last_id: int | None = None
+    _client: Client,
+    mystic: Message,
+    chat_id: int,
+    date: datetime,
+    last_id: int | None = None,
 ):
     music_list = []
 

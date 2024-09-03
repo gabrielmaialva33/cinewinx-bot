@@ -255,7 +255,6 @@ async def queued_tracks(_client: app, callback_query: CallbackQuery, _):
             return await callback_query.edit_message_text(msg, reply_markup=buttons)
         except Exception as e:
             logging.error(str(e))
-            pass
 
 
 @app.on_callback_query(filters.regex("queue_back_timer") & ~BANNED_USERS)
