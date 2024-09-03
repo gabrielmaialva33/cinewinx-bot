@@ -98,9 +98,9 @@ TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "5"))
 GITHUB_REPO = getenv("GITHUB_REPO", "https://github.com/gabrielmaialva33/cinewinx-bot")
 
 # Spotify Client.. Get it from https://developer.spotify.com/dashboard
-SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "530a978df3084f8b916e3f512a8c8bb1")
+SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "fed42460adc148fab5beb47474b6cb8e")
 SPOTIFY_CLIENT_SECRET = getenv(
-    "SPOTIFY_CLIENT_SECRET", "8a82bc47253a43beac406e0618297132"
+    "SPOTIFY_CLIENT_SECRET", "d1cd09bfff114580b41d3ef845e314b6"
 )
 
 # Maximum number of video calls allowed on bot. You can later set it via /set_video_limit on telegram

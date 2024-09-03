@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from CineWinx import app
+from CineWinx import app, LOGGER
 from CineWinx.core.call import CineWinx
 from CineWinx.utils import get_assistant
 from config import LOG_GROUP_ID
@@ -18,4 +18,4 @@ async def force_stop_stream(_, message: Message):
                 return await CineWinx.force_stop_stream(message.chat.id)
         await CineWinx.force_stop_stream(message.chat.id)
     except Exception as e:
-        await app.send_message(LOG_GROUP_ID, f"error in wathcher.py error is {e}")
+        LOGGER(__file__).error(e)
