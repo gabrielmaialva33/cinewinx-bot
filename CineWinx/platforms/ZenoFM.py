@@ -177,12 +177,14 @@ import aiohttp
 #     }
 # ]
 
+
 class ListStation(TypedDict):
     url: str
     name: str
     logo: str
     featured: bool
     sponsored: bool
+
 
 class ZenoFMAPI:
     def __init__(self):
@@ -233,5 +235,3 @@ class ZenoFMAPI:
         )
 
         return response
-
-
