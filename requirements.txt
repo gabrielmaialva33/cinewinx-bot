@@ -28,6 +28,7 @@ bing_image_downloader
 tgcrypto
 telegraph
 lexica-api
+gradio_client
 
 git+https://github.com/KurimuzonAkuma/pyrogram@dev
 git+https://github.com/yt-dlp/yt-dlp

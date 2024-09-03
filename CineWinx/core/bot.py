@@ -45,8 +45,11 @@ class WinxBot(Client):
 
         try:
             text = _["bot_1"].format(self.mention, self.id, self.name, self.username)
-            img = await self.download_media(get_me.photo.big_file_id)
-            await self.send_photo(chat_id=config.LOG_GROUP_ID, photo=img, caption=text)
+            if get_me.photo:
+                img = await self.download_media(get_me.photo.big_file_id)
+                await self.send_photo(chat_id=config.LOG_GROUP_ID, photo=img, caption=text)
+            else:
+                await self.send_message(chat_id=config.LOG_GROUP_ID, text=text)
         except (errors.ChannelInvalid, errors.PeerIdInvalid):
             LOGGER(__name__).error("LOGGER_GROUP_ID is invalid.")
             await self.stop()

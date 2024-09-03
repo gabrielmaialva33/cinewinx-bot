@@ -158,6 +158,8 @@ TEMP_DB_FOLDER = "tempdb"
 
 WINX_ECOSYSTEM_IDS = [-1001736087411, -1001621792868, -1002092202037]
 
+HF_TOKEN = getenv("HF_TOKEN", None)
+
 adminlist = {}
 lyrical = {}
 chatstats = {}
