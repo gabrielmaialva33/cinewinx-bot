@@ -1,6 +1,5 @@
 import random
 
-from pyrogram import Client
 from pytgcalls import PyTgCalls
 
 from CineWinx import userbot

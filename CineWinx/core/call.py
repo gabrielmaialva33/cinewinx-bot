@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import Union
 
-from ntgcalls import TelegramServerError, MediaDescription, AudioDescription, InputMode
+from ntgcalls import TelegramServerError
 from pyrogram import Client
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -18,7 +18,7 @@ from pytgcalls.types import (
     MediaStream,
     Update,
     ChatUpdate,
-    GroupCallParticipant, CallConfig,
+    GroupCallParticipant,
 )
 from pytgcalls.types.stream import StreamAudioEnded
 
@@ -852,5 +852,3 @@ class Call(PyTgCalls):
 
 
 CineWinx = Call()
-
-
