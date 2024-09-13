@@ -58,11 +58,17 @@ async def settings_mar(client: Client, message: Message, _):
     pic = await client.download_media(me.photo.big_file_id) if me.photo else None
     buttons = setting_markup(_)
     chat_id = message.chat.id
-    await message.reply_photo(
-        photo=pic,
-        caption=_["setting_1"].format(message.chat.title, chat_id),
-        reply_markup=InlineKeyboardMarkup(buttons),
-    )
+    if pic:
+        await message.reply_photo(
+            photo=pic,
+            caption=_["setting_1"].format(message.chat.title, chat_id),
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
+    else:
+        await message.reply_text(
+            _["setting_1"].format(message.chat.title, chat_id),
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
 
 
 @app.on_callback_query(filters.regex("settings_helper") & ~BANNED_USERS)

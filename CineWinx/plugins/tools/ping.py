@@ -19,10 +19,15 @@ PING_COMMAND = get_command("PING_COMMAND")
 async def ping_com(client: Client, message: Message, _):
     me = await client.get_me()
     pic = await client.download_media(me.photo.big_file_id) if me.photo else None
-    response = await message.reply_photo(
-        photo=pic,
-        caption=_["ping_1"].format(app.mention),
-    )
+    if pic:
+        response = await message.reply_photo(
+            photo=pic,
+            caption=_["ping_1"].format(app.mention),
+        )
+    else:
+        response = await message.reply_text(
+            _["ping_1"].format(app.mention),
+        )
     start = datetime.now()
     pytg_ping = await CineWinx.ping()
     up, cpu, ram, disk = await bot_sys_stats()
