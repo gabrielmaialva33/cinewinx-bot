@@ -9,21 +9,14 @@ from pyrogram.errors import (
     InviteRequestSent,
     UserAlreadyParticipant,
 )
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import Message
 
 from CineWinx import app, ZenoFM
-from CineWinx.misc import SUDOERS
 from CineWinx.utils import (
-    get_lang,
     get_assistant,
-    get_playmode,
-    get_playtype,
-    get_cmode,
-    play_logs,
 )
-from CineWinx.utils.stream.stream import stream
-from config import PREFIXES, BANNED_USERS, adminlist
-from strings import get_command, get_string
+from config import PREFIXES, BANNED_USERS
+from strings import get_command
 
 RADIO_COMMAND = get_command("RADIO_COMMAND")
 
@@ -139,10 +132,7 @@ async def radio_command(client: Client, message: Message):
 
     RADIO_STATION = await ZenoFM.get_radio_stations()
 
-    await message.reply(
-        f"📻 𝗦𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗲 𝘂𝗺𝗮 𝗿𝗮́𝗱𝗶𝗼",
-        reply_markup=RADIO_STATION
-    )
+    await message.reply(f"📻 𝗦𝗲𝗹𝗲𝗰𝗶𝗼𝗻𝗲 𝘂𝗺𝗮 𝗿𝗮́𝗱𝗶𝗼", reply_markup=RADIO_STATION)
 
     # station_name = " ".join(message.command[1:])
     # RADIO_URL = RADIO_STATION.get(station_name)
@@ -370,6 +360,7 @@ async def radio_command(client: Client, message: Message):
 #         "sponsored": false
 #     }
 # ]
+
 
 def radio_station_markup(user_id: int, stations: list, page: int = 0):
     pass
