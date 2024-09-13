@@ -18,7 +18,7 @@ motor
 psutil
 speedtest-cli
 pytube
-py-tgcalls==2.0.3b2
+py-tgcalls
 ntgcalls
 python-dotenv
 pyyaml

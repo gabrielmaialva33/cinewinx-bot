@@ -1,5 +1,8 @@
 import random
 
+from pyrogram import Client
+from pytgcalls import PyTgCalls
+
 from CineWinx import userbot
 from CineWinx.core.mongo import mongodb
 
@@ -87,7 +90,7 @@ async def set_calls_assistant(chat_id) -> int:
     return ran_assistant
 
 
-async def group_assistant(self, chat_id: int) -> userbot:
+async def group_assistant(self, chat_id: int) -> PyTgCalls:
     from CineWinx.core.userbot import assistants
 
     assistant = assistant_dict.get(chat_id)

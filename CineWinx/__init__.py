@@ -35,5 +35,6 @@ Resso = RessoAPI()
 SoundCloud = SoundAPI()
 Telegram = TeleAPI()
 AnimiZeY = AnimiZeYAPI()
+ZenoFM = ZenoFMAPI()
 
 HELPABLE = {}

@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import Union
 
-from ntgcalls import TelegramServerError
+from ntgcalls import TelegramServerError, MediaDescription, AudioDescription, InputMode
 from pyrogram import Client
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -18,7 +18,7 @@ from pytgcalls.types import (
     MediaStream,
     Update,
     ChatUpdate,
-    GroupCallParticipant,
+    GroupCallParticipant, CallConfig,
 )
 from pytgcalls.types.stream import StreamAudioEnded
 
@@ -58,7 +58,7 @@ async def _clear_(chat_id):
 
 
 class Call(PyTgCalls):
-    def __init__(self):
+    def __init__(self: "Call"):
         # Userbot 1
         self.userbot1 = Client(
             name="WinxString1",
@@ -330,6 +330,7 @@ class Call(PyTgCalls):
                 else MediaStream(link, audio_parameters=audio_stream_quality)
             )
         try:
+            await assistant.change_volume_call(chat_id, 20)
             await assistant.play(
                 chat_id,
                 stream,
@@ -385,7 +386,7 @@ class Call(PyTgCalls):
             if users == 1:
                 autoend[chat_id] = datetime.now() + timedelta(minutes=AUTO_END_TIME)
 
-    async def play(self, client: Client, chat_id: int):
+    async def play(self, client: PyTgCalls, chat_id: int):
         check = db.get(chat_id)
         popped = None
         loop = await get_loop(chat_id)
@@ -400,11 +401,12 @@ class Call(PyTgCalls):
             if not check:
                 await _clear_(chat_id)
                 return await client.leave_call(chat_id)
-        except:
+        except IndexError:
             try:
                 await _clear_(chat_id)
                 return await client.leave_call(chat_id)
-            except:
+            except Exception as e:
+                logging.error(e)
                 return
         else:
             queued = check[0]["file"]
@@ -605,6 +607,9 @@ class Call(PyTgCalls):
                             audio_parameters=audio_stream_quality,
                         )
                 try:
+                    print("----------------- Playing Stream -----------------")
+                    print(f"Stream: {stream}")
+                    print("----------------- Playing Stream -----------------")
                     await client.play(chat_id, stream)
                 except Exception as e:
                     logging.error(e)
@@ -847,3 +852,5 @@ class Call(PyTgCalls):
 
 
 CineWinx = Call()
+
+
