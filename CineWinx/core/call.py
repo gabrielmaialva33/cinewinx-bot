@@ -330,7 +330,6 @@ class Call(PyTgCalls):
                 else MediaStream(link, audio_parameters=audio_stream_quality)
             )
         try:
-            await assistant.change_volume_call(chat_id, 20)
             await assistant.play(
                 chat_id,
                 stream,
