@@ -19,7 +19,6 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
     answers = []
     if text.strip() == "":
         try:
-            print("text.strip()", text)
             inline = await client.answer_inline_query(
                 callback.id, results=sources, cache_time=10
             )
@@ -32,7 +31,6 @@ async def inline_query_handler(client: app, callback: CallbackQuery):
             logging.error(str(e))
             return
     else:
-        print("VideosSearch", text)
         a = VideosSearch(text, limit=20)
         result = (await a.next()).get("result")
         for x in range(15):
