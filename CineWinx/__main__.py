@@ -15,7 +15,9 @@ from config import BANNED_USERS, LX_IMG_MODELS, LX_CHT_MODELS, LX_UPS_MODELS
 
 async def init():
     if sys.version_info < (3, 9):
-        LOGGER("CineWinx").error("You MUST have a python version of at least 3.9! Multiple features depend on this. Kindly update your Python.")
+        LOGGER("CineWinx").error(
+            "You MUST have a python version of at least 3.9! Multiple features depend on this. Kindly update your Python."
+        )
         sys.exit(1)
 
     if (

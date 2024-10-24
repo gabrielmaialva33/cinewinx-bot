@@ -4,7 +4,7 @@ import glob
 import os
 import random
 import re
-from typing import Union, Tuple
+from typing import Union
 
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
@@ -24,20 +24,33 @@ def cookies():
     return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
 
 
-def get_ytdl_options(ytdl_opts: Union[str, dict, list], commandline: bool = True) -> Union[str, dict, list]:
+def get_ytdl_options(
+    ytdl_opts: Union[str, dict, list], commandline: bool = True
+) -> Union[str, dict, list]:
     token_data = os.getenv("TOKEN_DATA")
 
     if isinstance(ytdl_opts, list):
         if token_data:
-            ytdl_opts += ["--username" if commandline else "username", "oauth2", "--password" if commandline else "password", "''"]
+            ytdl_opts += [
+                "--username" if commandline else "username",
+                "oauth2",
+                "--password" if commandline else "password",
+                "''",
+            ]
         else:
             ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
 
     elif isinstance(ytdl_opts, str):
         if token_data:
-            ytdl_opts += "--username oauth2 --password '' " if commandline else "username oauth2 password '' "
+            ytdl_opts += (
+                "--username oauth2 --password '' "
+                if commandline
+                else "username oauth2 password '' "
+            )
         else:
-            ytdl_opts += f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            ytdl_opts += (
+                f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+            )
 
     elif isinstance(ytdl_opts, dict):
         if token_data:
